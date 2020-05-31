@@ -18,6 +18,7 @@ pipeline {
     stage('Deploy') {
       steps {
         sh 'aws s3 sync build s3://operationally'
+        sh 'aws cloudfront create-invalidation --distribution-id= E38N06MFN9SWY8 --paths="/*"'
       }
     }
 
