@@ -137,6 +137,11 @@ const operationallyTheme = {
     "margin": {
       "bottom": "small"
     }
+  },
+  "carousel": {
+    "icons": {
+      "color": "white"
+    }
   }
 }
 
