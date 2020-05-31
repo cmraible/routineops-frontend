@@ -23,4 +23,9 @@ pipeline {
     }
 
   }
+  environment {
+    PUBLIC_URL = 'https://www.operationally.io'
+    REACT_APP_ENVIRONMENT = 'production'
+    REACT_APP_API_HOST = 'https://api.operationally.io'
+  }
 }
