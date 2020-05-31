@@ -1,6 +1,6 @@
 const operationallyTheme = {
   "name": "operationally",
-  "rounding": 4,
+  "rounding": 1,
   "spacing": 24,
   "defaultMode": "light",
   "global": {
