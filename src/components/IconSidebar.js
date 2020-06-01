@@ -10,14 +10,14 @@ const IconSidebar = () => {
   return (
       <Sidebar align="start" background="brand" fill="vertical" gap="large" justify="between">
         <Box align="center" justify="center" gap="medium">
-          <Link to="/organization">Logo</Link>
+          <Button as={Link} plain="true" color="white" to="/organization">Logo</Button>
           <Link to="/profile">
           <Avatar background="white" round="full">
 
               <User color="brand"/>
           </Avatar>
           </Link>
-          
+
         </Box>
         <Box align="center" flex="true" justify="center" gap="small">
           <Button icon={<Add />} as={NavLink} to="/add" />
