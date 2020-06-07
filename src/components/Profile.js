@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Footer, Form, FormField, Heading, Main, Select, Text, TextInput } from 'grommet';
+import { Box, Button, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
 
 
 const Profile = () => {

@@ -7,10 +7,6 @@ import { logout } from '../api.js';
 
 const IconSidebar = () => {
 
-  const toggleThemeMode = () => {
-
-  }
-
   return (
       <Sidebar align="start" background="brand" fill="vertical" gap="large" justify="between">
         <Box align="center" justify="center" gap="medium">

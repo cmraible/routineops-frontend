@@ -5,6 +5,7 @@ import Kamishibai from './Kamishibai.js';
 import TaskList from './TaskList.js';
 import IconSidebar from './IconSidebar.js';
 import Login from './Login.js';
+import Signup from './Signup.js';
 import Dashboard from './Dashboard.js';
 import AddTask from './AddTask.js';
 import Profile from './Profile.js';
@@ -16,7 +17,7 @@ const App = () => {
   if (window.localStorage.getItem('operationally.token') !== null) {
     return (
       <Switch>
-        <Box align="start" direction="row" fill="true" overflow="auto">
+        <Box align="start" direction="row" fill overflow="auto">
           <IconSidebar />
             <Route path="/add">
               <AddTask />
@@ -30,9 +31,6 @@ const App = () => {
             <Route path="/list">
               <TaskList />
             </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
             <Route path="/organization">
               <Organization />
             </Route>
@@ -45,13 +43,16 @@ const App = () => {
   } else {
     return (
       <Switch>
-        <Box align="start" direction="row" fill="true" overflow="auto">
+        <Box align="start" direction="row" fill overflow="auto">
           <Main align="stretch">
             <Route exact path="/">
               <LandingPage />
             </Route>
             <Route path="/login">
               <Login />
+            </Route>
+            <Route path="/signup">
+              <Signup />
             </Route>
           </Main>
         </Box>
