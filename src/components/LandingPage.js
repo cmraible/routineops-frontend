@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Carousel, Header, Heading, Nav, Text } from 'grommet';
+import { Box, Button, Carousel, Header, Heading, Nav } from 'grommet';
 import { Link } from 'react-router-dom';
 
 

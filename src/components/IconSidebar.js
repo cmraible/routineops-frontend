@@ -7,6 +7,10 @@ import { logout } from '../api.js';
 
 const IconSidebar = () => {
 
+  const toggleThemeMode = () => {
+
+  }
+
   return (
       <Sidebar align="start" background="brand" fill="vertical" gap="large" justify="between">
         <Box align="center" justify="center" gap="medium">
@@ -26,7 +30,7 @@ const IconSidebar = () => {
           <Button icon={<List />} as={NavLink} to="/list" />
         </Box>
         <Box align="center" flex="true" justify="end">
-            <Button icon={<Logout />} onClick={() => logout()} />
+          <Button icon={<Logout />} onClick={() => logout()} />
         </Box>
       </Sidebar>
   )
