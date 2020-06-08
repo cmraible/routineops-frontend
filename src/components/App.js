@@ -13,15 +13,15 @@ import LandingPage from './LandingPage.js';
 import Organization from './Organization.js';
 
 
-const App = (props) => {
+const App = ({ isLoggedIn, theme, darkMode, sidebar, login }) => {
 
 
-  if (props.isLoggedIn) {
+  if (isLoggedIn) {
     return (
-        <Grommet theme={props.theme} full themeMode={ props.darkMode ? "dark" : "light" }>
+        <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
           <Switch>
             <Box align="start" direction="row" fill overflow="auto">
-              { props.sidebar }
+              { sidebar }
                 <Route path="/add">
                   <AddTask />
                 </Route>
@@ -46,7 +46,7 @@ const App = (props) => {
     )
   } else {
     return (
-      <Grommet theme={props.theme} full themeMode={ props.darkMode ? "dark" : "light" }>
+      <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
         <Switch>
           <Box align="start" direction="row" fill overflow="auto">
             <Main align="stretch">
@@ -54,7 +54,7 @@ const App = (props) => {
                 <LandingPage />
               </Route>
               <Route path="/login">
-                <Login loginFunction={props.login}/>
+                <Login loginFunction={login}/>
               </Route>
               <Route path="/signup">
                 <Signup />

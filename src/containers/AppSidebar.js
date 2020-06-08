@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { toggleDarkMode } from '../actions'
+import { toggleDarkMode, logout } from '../actions'
 import IconSidebar from '../components/IconSidebar'
 
 const mapStateToProps = state => {
@@ -12,6 +12,9 @@ const mapDispatchToProps = dispatch => {
   return {
     toggleDarkMode: () => {
       dispatch(toggleDarkMode())
+    },
+    logout: () => {
+      dispatch(logout())
     }
   }
 }

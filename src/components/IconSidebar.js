@@ -2,9 +2,8 @@ import React from 'react';
 import { Avatar, Box, Button, Sidebar } from 'grommet';
 import { Link, NavLink } from 'react-router-dom';
 import { Actions, Add, Dashboard, Grid, List, Logout, User } from 'grommet-icons';
-import { logout } from '../api.js';
 
-const IconSidebar = (props) => {
+const IconSidebar = ({ logout, toggleDarkMode }) => {
 
 
   return (
@@ -25,7 +24,7 @@ const IconSidebar = (props) => {
           <Button icon={<List />} as={NavLink} to="/list" />
         </Box>
         <Box align="center" flex justify="end">
-          <Button icon={<Actions />} onClick={() => props.toggleDarkMode()} />
+          <Button icon={<Actions />} onClick={() => toggleDarkMode()} />
           <Button icon={<Logout />} onClick={() => logout()} />
         </Box>
       </Sidebar>
