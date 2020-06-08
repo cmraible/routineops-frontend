@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Box , Main } from 'grommet';
+import { Grommet } from 'grommet';
 import Kamishibai from './Kamishibai.js';
 import TaskList from './TaskList.js';
-import IconSidebar from './IconSidebar.js';
 import Login from './Login.js';
 import Signup from './Signup.js';
 import Dashboard from './Dashboard.js';
@@ -13,50 +13,56 @@ import LandingPage from './LandingPage.js';
 import Organization from './Organization.js';
 
 
-const App = () => {
-  if (window.localStorage.getItem('operationally.token') !== null) {
+const App = (props) => {
+
+
+  if (props.isLoggedIn) {
     return (
-      <Switch>
-        <Box align="start" direction="row" fill overflow="auto">
-          <IconSidebar />
-            <Route path="/add">
-              <AddTask />
-            </Route>
-            <Route path="/dash">
-              <Dashboard />
-            </Route>
-            <Route path="/grid">
-              <Kamishibai />
-            </Route>
-            <Route path="/list">
-              <TaskList />
-            </Route>
-            <Route path="/organization">
-              <Organization />
-            </Route>
-            <Route path="/profile">
-              <Profile />
-            </Route>
-        </Box>
-      </Switch>
+        <Grommet theme={props.theme} full themeMode={ props.darkMode ? "dark" : "light" }>
+          <Switch>
+            <Box align="start" direction="row" fill overflow="auto">
+              { props.sidebar }
+                <Route path="/add">
+                  <AddTask />
+                </Route>
+                <Route path="/dash">
+                  <Dashboard />
+                </Route>
+                <Route path="/grid">
+                  <Kamishibai />
+                </Route>
+                <Route path="/list">
+                  <TaskList />
+                </Route>
+                <Route path="/organization">
+                  <Organization />
+                </Route>
+                <Route path="/profile">
+                  <Profile />
+                </Route>
+            </Box>
+          </Switch>
+        </Grommet>
     )
   } else {
     return (
-      <Switch>
-        <Box align="start" direction="row" fill overflow="auto">
-          <Main align="stretch">
-            <Route exact path="/">
-              <LandingPage />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-          </Main>
-        </Box>
-      </Switch>
+      <Grommet theme={props.theme} full themeMode={ props.darkMode ? "dark" : "light" }>
+        <Switch>
+          <Box align="start" direction="row" fill overflow="auto">
+            <Main align="stretch">
+              <Route exact path="/">
+                <LandingPage />
+              </Route>
+              <Route path="/login">
+                <Login loginFunction={props.login}/>
+              </Route>
+              <Route path="/signup">
+                <Signup />
+              </Route>
+            </Main>
+          </Box>
+        </Switch>
+      </Grommet>
     )
   }
 

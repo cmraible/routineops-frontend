@@ -6,8 +6,8 @@ const operationallyTheme = {
   "global": {
     "colors": {
       "brand": {
-        "dark": "#7da8d4",
-        "light": "#4381C1"
+        "dark": "#000000",
+        "light": "#000000"
       },
       "background": {
         "dark": "#111111",
@@ -27,7 +27,7 @@ const operationallyTheme = {
       },
       "text": {
         "dark": "#EEEEEE",
-        "light": "#333333"
+        "light": "#000000"
       },
       "text-strong": {
         "dark": "#FFFFFF",
@@ -45,7 +45,7 @@ const operationallyTheme = {
         "dark": "#444444",
         "light": "#CCCCCC"
       },
-      "focus": "brand",
+      "focus": "background",
       "control": "brand",
       "active-background": "background-contrast",
       "active-text": "text-strong",

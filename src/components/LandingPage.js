@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Carousel, Header, Heading, Nav } from 'grommet';
+import { Box, Button, Header, Heading, Nav } from 'grommet';
 
 
 const LandingPage = () => {

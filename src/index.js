@@ -1,20 +1,33 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Grommet } from 'grommet';
+import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './components/App';
+import AppWrapper from './containers/AppWrapper';
 import { BrowserRouter as Router } from 'react-router-dom';
-import operationallyTheme from './operationallyTheme.js';
-import store from './store.js';
+import configureStore from './configureStore.js';
+import { toggleDarkMode } from './actions';
 
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Grommet theme={operationallyTheme} full={true}>
-      <Router>
-        <App />
-      </Router>
-    </Grommet>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const store = configureStore()
+
+
+if (process.env.NODE_ENV !== 'production' && module.hot) {
+  module.hot.accept('./components/App', renderApp)
+}
+
+const renderApp = () =>
+  render(
+    <React.StrictMode>
+      <Provider store={store}>
+          <Router>
+            <AppWrapper />
+          </Router>
+      </Provider>
+    </React.StrictMode>,
+    document.getElementById('root')
+  )
+
+if (process.env.NODE_ENV !== 'production' && module.hot) {
+  module.hot.accept('./components/App', renderApp)
+}
+
+renderApp()

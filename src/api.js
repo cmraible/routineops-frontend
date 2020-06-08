@@ -12,7 +12,6 @@ if (window.localStorage.getItem('operationally.token') !== null) {
   headers['Authorization'] = "Token " + window.localStorage.getItem('operationally.token')
 }
 
-// Create axios client with baseUrl and auth headers above
 const client = axios.create({
   baseURL: baseUrl,
   timeout: 1000,
@@ -29,11 +28,6 @@ export const authenticate = (username, password) => {
   )
   .then((response) => {
     console.log(response)
-    window.localStorage.setItem('operationally.token', response.data.token)
-    window.location = "/"
-  })
-  .catch((error) => {
-    console.log(error)
   })
 }
 
