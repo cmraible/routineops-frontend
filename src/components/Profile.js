@@ -11,22 +11,22 @@ const Profile = () => {
       <Form>
         <Box direction="row">
           <FormField label="First Name">
-            <TextInput name="first_name" placeholder="John" />
+            <TextInput name="first_name" />
           </FormField>
           <FormField label="Last Name">
-            <TextInput name="last_name" placeholder="Doe"/>
+            <TextInput name="last_name"/>
+            
           </FormField>
         </Box>
         <Box direction="row">
           <FormField label="Email Address">
-            <TextInput name="email" placeholder="jdoe@example.com"/>
+            <TextInput name="email"/>
           </FormField>
         </Box>
         <Box direction="row">
           <FormField label="Role">
             <Select
               options={["Technician", "Mechanic", "Supervisor", "Manager"]}
-              placeholder="Supervisor"
             />
           </FormField>
         </Box>

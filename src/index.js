@@ -7,8 +7,15 @@ import configureStore from './configureStore.js';
 import { toggleDarkMode } from './actions';
 
 
-const store = configureStore()
+const persistedState = localStorage.getItem('operationallyState')
+                       ? JSON.parse(localStorage.getItem('operationallyState'))
+                       : {}
 
+const store = configureStore(persistedState);
+
+store.subscribe(()=>{
+  localStorage.setItem('operationallyState', JSON.stringify(store.getState()))
+})
 
 if (process.env.NODE_ENV !== 'production' && module.hot) {
   module.hot.accept('./components/App', renderApp)

@@ -10,23 +10,23 @@ const Organization = () => {
       <Heading level={3}>Basic Information</Heading>
       <Form>
         <FormField label="Organization Name">
-          <TextInput name="name" placeholder="Operationally, LLC" />
+          <TextInput name="name" />
         </FormField>
         <FormField label="Address 1">
-          <TextInput name="address1" placeholder="123 Example Street"/>
+          <TextInput name="address1"/>
         </FormField>
         <FormField label="Address 2">
-          <TextInput name="address2" placeholder="Apt 1"/>
+          <TextInput name="address2"/>
         </FormField>
         <Box direction="row">
           <FormField label="City">
-            <TextInput name="city" placeholder="San Jose"/>
+            <TextInput name="city"/>
           </FormField>
           <FormField label="State">
-            <TextInput name="state" placeholder="California"/>
+            <TextInput name="state"/>
           </FormField>
           <FormField label="Zipcode">
-            <TextInput name="zip" placeholder="95111"/>
+            <TextInput name="zip"/>
           </FormField>
         </Box>
         <Button label="Save" type="submit" />

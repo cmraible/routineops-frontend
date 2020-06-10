@@ -18,10 +18,10 @@ const IconSidebar = ({ logout, toggleDarkMode }) => {
           </Link>
         </Box>
         <Box align="center" flex justify="center" gap="small">
-          <Button icon={<Add />} as={NavLink} to="/add" />
-          <Button icon={<Dashboard />} as={NavLink} to="/dash" />
-          <Button icon={<Grid />} as={NavLink} to="/grid" />
-          <Button icon={<List />} as={NavLink} to="/list" />
+          <NavLink to="/add"><Button icon={<Add />} /></NavLink>
+          <NavLink to="/dash"><Button icon={<Dashboard />} /></NavLink>
+          <NavLink to="/grid"><Button icon={<Grid />} /></NavLink>
+          <NavLink to="/list"><Button icon={<List />} /></NavLink>
         </Box>
         <Box align="center" flex justify="end">
           <Button icon={<Actions />} onClick={() => toggleDarkMode()} />

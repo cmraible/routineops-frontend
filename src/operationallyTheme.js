@@ -96,7 +96,7 @@ const operationallyTheme = {
         }
       },
       "position": "inner",
-      "side": "left",
+      "side": "bottom",
       "size": "xsmall"
     },
     "content": {
