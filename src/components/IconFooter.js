@@ -1,7 +1,7 @@
 import React from 'react';
-import { Avatar, Box, Button, Footer } from 'grommet';
-import { Link, NavLink } from 'react-router-dom';
-import { Add, Dashboard, Grid, List, Logout, User, View } from 'grommet-icons';
+import { Box, Button, Footer } from 'grommet';
+import { NavLink } from 'react-router-dom';
+import { Add, Dashboard, Grid, List } from 'grommet-icons';
 
 const IconFooter = ({ logout, toggleDarkMode, darkMode }) => {
 

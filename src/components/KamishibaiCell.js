@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, TableCell } from 'grommet';
+import { TableCell } from 'grommet';
 import { Alert, Checkmark, Clock, Close, Subtract } from 'grommet-icons';
 
 
@@ -14,10 +14,9 @@ const KamishibaiCell = (props) => {
       return (
               <TableCell
                 align="center"
-                as={Button}
                 background="green"
                 icon=<Checkmark color="white"/>
-                fill="true"
+                fill
                 hoverIndicator="true"
                 justify="center"
                 pad="none"
@@ -28,10 +27,9 @@ const KamishibaiCell = (props) => {
       return (
               <TableCell
                 align="center"
-                as={Button}
                 background="red"
                 icon=<Close color="white"/>
-                fill="true"
+                fill
                 hoverIndicator="true"
                 justify="center"
                 pad="none"
@@ -42,10 +40,9 @@ const KamishibaiCell = (props) => {
       return (
               <TableCell
                 align="center"
-                as={Button}
                 background="orange"
                 icon=<Alert color="black"/>
-                fill="true"
+                fill
                 hoverIndicator="true"
                 justify="center"
                 pad="none"
@@ -56,10 +53,9 @@ const KamishibaiCell = (props) => {
       return (
               <TableCell
                 align="center"
-                as={Button}
                 background="gray"
                 icon=<Clock color="white"/>
-                fill="true"
+                fill
                 hoverIndicator="true"
                 justify="center"
                 pad="none"
@@ -70,10 +66,9 @@ const KamishibaiCell = (props) => {
       return (
               <TableCell
                 align="center"
-                as={Button}
                 background="gray"
                 icon=<Subtract color="white"/>
-                fill="true"
+                fill
                 hoverIndicator="true"
                 justify="center"
                 pad="none"

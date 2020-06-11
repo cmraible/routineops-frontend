@@ -1,15 +1,18 @@
 import React from 'react';
-import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
+import { connect } from 'react-redux';
+import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
 
-const Login = (props) => {
+const Login = ({loginFunction, loginError}) => {
+
     return (
       <Main pad="xlarge">
       <Heading>
         Hello.
       </Heading>
+      <Text size="small" color="status-error">{loginError}</Text>
       <Form
         onSubmit={({value, touch}) => {
-          props.loginFunction(value.username, value.password)
+          loginFunction(value.username, value.password)
         }}
       >
         <FormField name="username" htmlfor="username-id">
@@ -18,7 +21,7 @@ const Login = (props) => {
         <FormField name="password" htmlfor="password-id">
           <TextInput id="password-id" name="password" type="password" placeholder="Password" />
         </FormField>
-        <Box direction="row" gap="medium">
+        <Box direction="row" gap="medium" pad="small">
           <Button type="submit" primary label="Login" size="large" />
         </Box>
       </Form>
@@ -26,4 +29,10 @@ const Login = (props) => {
   )
 }
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    loginError: state.loginError
+  }
+}
+
+export default connect(mapStateToProps)(Login)

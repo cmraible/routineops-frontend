@@ -11,23 +11,20 @@ class Signup extends Component {
         </Heading>
         <Form>
           <FormField label="Organization Name">
-            <TextInput name="name" placeholder="Operationally, LLC" />
+            <TextInput name="name" />
           </FormField>
-          <FormField label="Address 1">
-            <TextInput name="address1" placeholder="123 Example Street"/>
-          </FormField>
-          <FormField label="Address 2">
-            <TextInput name="address2" placeholder="Apt 1"/>
+          <FormField label="Address">
+            <TextInput name="address" />
           </FormField>
           <Box direction="row">
             <FormField label="City">
-              <TextInput name="city" placeholder="San Jose"/>
+              <TextInput name="city" />
             </FormField>
             <FormField label="State">
-              <TextInput name="state" placeholder="California"/>
+              <TextInput name="state" />
             </FormField>
             <FormField label="Zipcode">
-              <TextInput name="zip" placeholder="95111"/>
+              <TextInput name="zip" />
             </FormField>
           </Box>
           <Button label="Save" type="submit" />

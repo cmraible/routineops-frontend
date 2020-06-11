@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import AppWrapper from './containers/AppWrapper';
+import App from './components/App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from './configureStore.js';
 
@@ -25,7 +25,7 @@ const renderApp = () =>
     <React.StrictMode>
       <Provider store={store}>
           <Router>
-            <AppWrapper />
+            <App />
           </Router>
       </Provider>
     </React.StrictMode>,

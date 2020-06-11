@@ -13,31 +13,31 @@ const Kamishibai = () => {
               Role
             </TableCell>
             <TableCell align="center">
-              Mon
+              M
             </TableCell>
             <TableCell align="center">
-              Tue
+              T
             </TableCell>
             <TableCell align="center">
-              Wed
+              W
             </TableCell>
             <TableCell align="center">
-              Thu
+              T
             </TableCell>
             <TableCell align="center">
-              Fri
+              F
             </TableCell>
             <TableCell align="center"f>
-              Sat
+              S
             </TableCell>
             <TableCell align="center">
-              Sun
+              S
             </TableCell>
           </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell style={{left: "0px"}}>Mechanic, A</TableCell>
+            <TableCell>Mechanic, A</TableCell>
             <KamishibaiCell status="success" />
             <KamishibaiCell status="fail" />
             <KamishibaiCell status="success" />

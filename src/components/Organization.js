@@ -12,11 +12,8 @@ const Organization = () => {
         <FormField label="Organization Name">
           <TextInput name="name" />
         </FormField>
-        <FormField label="Address 1">
-          <TextInput name="address1"/>
-        </FormField>
-        <FormField label="Address 2">
-          <TextInput name="address2"/>
+        <FormField label="Address">
+          <TextInput name="address"/>
         </FormField>
         <Box direction="row">
           <FormField label="City">
@@ -25,7 +22,7 @@ const Organization = () => {
           <FormField label="State">
             <TextInput name="state"/>
           </FormField>
-          <FormField label="Zipcode">
+          <FormField label="Zip">
             <TextInput name="zip"/>
           </FormField>
         </Box>
