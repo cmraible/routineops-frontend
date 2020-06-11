@@ -5,7 +5,7 @@ import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet'
 const Organization = () => {
 
   return (
-    <Main justify="stretch" pad="xlarge">
+    <Main pad="medium">
       <Heading level={1}>Organization</Heading>
       <Heading level={3}>Basic Information</Heading>
       <Form>

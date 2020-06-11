@@ -20,7 +20,7 @@ const App = ({ isLoggedIn, theme, darkMode, header, footer, login }) => {
     return (
         <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
           <Switch>
-            <Box align="start" direction="column" fill overflow="auto">
+            <Box align="start" direction="column" fill="horizontal" overflow="auto">
               { header }
                 <Route path="/add">
                   <AddTask />

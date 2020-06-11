@@ -5,7 +5,7 @@ import { Box, Button, Form, FormField, Heading, Main, Select, TextInput } from '
 const Profile = () => {
 
   return (
-    <Main justify="stretch" pad="xlarge">
+    <Main pad="large">
       <Heading>Profile</Heading>
       <Heading level={3}>Basic Information</Heading>
       <Form>

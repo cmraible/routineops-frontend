@@ -5,7 +5,7 @@ import { Button, Form, FormField, Heading, Main, Select, TextInput } from 'gromm
 const AddTask = () => {
 
   return (
-    <Main justify="stretch" pad="xlarge">
+    <Main justify="stretch" pad="large">
       <Heading>Add Task</Heading>
       <Form>
         <FormField label="Description">
