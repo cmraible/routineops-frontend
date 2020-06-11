@@ -12,7 +12,7 @@ const IconFooter = ({ logout, toggleDarkMode, darkMode }) => {
   }
   return (
       <Footer background="black" fill="horizontal" style={footerStyle}>
-        <Box align="center" justify="center" fill="horizontal" gap="large" direction="row" flex>
+        <Box align="center" justify="center" fill="horizontal" gap="medium" direction="row" flex>
           <NavLink to="/add"><Button icon={<Add />} /></NavLink>
           <NavLink to="/dash"><Button icon={<Dashboard />} /></NavLink>
           <NavLink to="/grid"><Button icon={<Grid />} /></NavLink>

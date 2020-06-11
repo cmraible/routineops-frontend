@@ -15,7 +15,6 @@ const Profile = () => {
           </FormField>
           <FormField label="Last Name">
             <TextInput name="last_name"/>
-
           </FormField>
         </Box>
         <Box direction="row">

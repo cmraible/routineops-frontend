@@ -5,15 +5,20 @@ import { Button, Form, FormField, Heading, Main, Select, TextInput } from 'gromm
 const AddTask = () => {
 
   return (
-    <Main justify="stretch" pad="large">
+    <Main pad="large">
       <Heading>Add Task</Heading>
       <Form>
         <FormField label="Description">
-          <TextInput name="description" />
+          <TextInput name="description"  />
         </FormField>
         <FormField label="Role">
           <Select
             options={["Technician", "Mechanic", "Supervisor", "Manager"]}
+          />
+        </FormField>
+        <FormField label="Recurrence">
+          <Select
+            options={["Daily", "Weekly", "Bi-Weekly", "Monthly", "Quarterly"]}
           />
         </FormField>
         <Button label="Save" primary size="large" type="submit" />

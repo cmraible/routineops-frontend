@@ -37,7 +37,7 @@ const Kamishibai = () => {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell>Mechanic, A</TableCell>
+            <TableCell style={{left: "0px"}}>Mechanic, A</TableCell>
             <KamishibaiCell status="success" />
             <KamishibaiCell status="fail" />
             <KamishibaiCell status="success" />
