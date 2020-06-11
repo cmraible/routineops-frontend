@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "grommet": "^2.13.0",
     "grommet-icons": "^4.4.0",
+    "grommet-styles": "^0.2.0",
     "history": "^4.10.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

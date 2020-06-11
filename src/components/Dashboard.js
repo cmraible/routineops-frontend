@@ -5,7 +5,7 @@ import { Heading, Main } from 'grommet';
 const Dashboard = () => {
 
   return (
-    <Main justify="stretch" pad="small">
+    <Main justify="stretch" pad="xlarge">
       <Heading>Dashboard</Heading>
     </Main>
   )

@@ -1,5 +1,3 @@
-import React from 'react';
-import { Redirect } from 'react-router';
 import history from './history.js';
 const axios = require('axios').default;
 

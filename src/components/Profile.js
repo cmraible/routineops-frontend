@@ -5,7 +5,7 @@ import { Box, Button, Form, FormField, Heading, Main, Select, TextInput } from '
 const Profile = () => {
 
   return (
-    <Main justify="stretch" pad="small">
+    <Main justify="stretch" pad="xlarge">
       <Heading>Profile</Heading>
       <Heading level={3}>Basic Information</Heading>
       <Form>
@@ -15,7 +15,7 @@ const Profile = () => {
           </FormField>
           <FormField label="Last Name">
             <TextInput name="last_name"/>
-            
+
           </FormField>
         </Box>
         <Box direction="row">
@@ -30,7 +30,7 @@ const Profile = () => {
             />
           </FormField>
         </Box>
-        <Button label="Save" type="submit" />
+        <Button label="Save" primary size="large" type="submit" />
       </Form>
     </Main>
   )

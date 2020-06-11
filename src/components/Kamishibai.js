@@ -5,7 +5,7 @@ import KamishibaiCell from './KamishibaiCell.js'
 const Kamishibai = () => {
 
   return (
-    <Main>
+    <Main fill="horizontal">
       <Table>
         <TableHeader>
           <TableRow>

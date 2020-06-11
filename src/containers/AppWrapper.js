@@ -3,15 +3,19 @@ import { connect } from 'react-redux'
 import { toggleDarkMode, login } from '../actions'
 import App from '../components/App'
 import operationallyTheme from '../operationallyTheme.js';
-import AppSidebar from './AppSidebar.js';
+import AppHeader from './AppHeader.js';
+import AppFooter from './AppFooter.js';
+
 
 
 const mapStateToProps = state => {
-  const sidebar = <AppSidebar />
+  const header = <AppHeader />
+  const footer = <AppFooter />
   return {
     darkMode: state.darkMode,
     theme: operationallyTheme,
-    sidebar: sidebar,
+    header: header,
+    footer: footer,
     isLoggedIn: state.isLoggedIn
   }
 }

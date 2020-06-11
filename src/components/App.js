@@ -13,15 +13,15 @@ import LandingPage from './LandingPage.js';
 import Organization from './Organization.js';
 
 
-const App = ({ isLoggedIn, theme, darkMode, sidebar, login }) => {
+const App = ({ isLoggedIn, theme, darkMode, header, footer, login }) => {
 
 
   if (isLoggedIn) {
     return (
         <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
           <Switch>
-            <Box align="start" direction="row" fill overflow="auto">
-              { sidebar }
+            <Box align="start" direction="column" fill overflow="auto">
+              { header }
                 <Route path="/add">
                   <AddTask />
                 </Route>
@@ -40,6 +40,7 @@ const App = ({ isLoggedIn, theme, darkMode, sidebar, login }) => {
                 <Route path="/profile">
                   <Profile />
                 </Route>
+                { footer}
             </Box>
           </Switch>
         </Grommet>

@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import AppWrapper from './containers/AppWrapper';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from './configureStore.js';
-import { toggleDarkMode } from './actions';
 
 
 const persistedState = localStorage.getItem('operationallyState')

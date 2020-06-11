@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
 
 const Login = (props) => {
     return (
-      <Main pad="large">
+      <Main pad="xlarge">
       <Heading>
         Hello.
       </Heading>

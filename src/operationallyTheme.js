@@ -6,7 +6,7 @@ const operationallyTheme = {
   "global": {
     "colors": {
       "brand": {
-        "dark": "#000000",
+        "dark": "#FFFFFF",
         "light": "#000000"
       },
       "background": {
@@ -45,7 +45,7 @@ const operationallyTheme = {
         "dark": "#444444",
         "light": "#CCCCCC"
       },
-      "focus": "background",
+      "focus": "brand",
       "control": "brand",
       "active-background": "background-contrast",
       "active-text": "text-strong",
