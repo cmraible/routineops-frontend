@@ -2,33 +2,63 @@ import React from 'react';
 import { Avatar, Box, Button, Header, Menu } from 'grommet';
 import { Link } from 'react-router-dom';
 import { Down, User } from 'grommet-icons';
+import { connect } from 'react-redux';
+import { toggleDarkMode, logout, goToProfile, goToOrg } from '../actions/actions'
+import history from '../history.js';
 
-const IconHeader = ({ logout, toggleDarkMode, darkMode }) => {
+
+const IconHeader = ({ logout, toggleDarkMode, darkMode, goToProfile, goToOrg, user }) => {
 
 
   return (
       <Header background="black" fill="horizontal" pad="small">
         <Box direction="row">
-          <Link to="/organization"><Button color="white" plain>Logo</Button></Link>
+          <Button color="white" plain onClick={() => {goToOrg()} }>Logo</Button>
         </Box>
 
-        <Box direction="row">
+        <Box direction="row" align="center">
 
           <Menu
+            label={user.first_name + ' ' + user.last_name}
             icon=<Down />
             items={[
+              { label: "Profile", onClick: () => {goToProfile()} },
               { label: (darkMode) ? "Light" : "Dark" , onClick: () => {toggleDarkMode()} },
               { label: "Logout", onClick: () => {logout()} }
+
             ]}
-          />
-          <Link to="/profile">
-            <Avatar background="white" round="full">
-                <User color="brand"/>
+          >
+            <Avatar background="white" round="full" size="small">
+                <User color="brand" size="small"/>
             </Avatar>
-          </Link>
+          </Menu>
         </Box>
       </Header>
   )
 
 };
-export default IconHeader;
+
+const mapStateToProps = state => {
+  return {
+    darkMode: state.darkMode,
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleDarkMode: () => {
+      dispatch(toggleDarkMode())
+    },
+    logout: () => {
+      dispatch(logout())
+    },
+    goToProfile: () => {
+      dispatch(goToProfile())
+    },
+    goToOrg: () => {
+      dispatch(goToOrg())
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(IconHeader);

@@ -1,5 +1,15 @@
 import { combineReducers } from 'redux';
-import { TOGGLE_DARK_MODE, LOGOUT, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL } from './actions';
+import {
+  TOGGLE_DARK_MODE,
+  LOGOUT,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  GO_TO_PROFILE,
+  GO_TO_ORG,
+  SAVE_USER_SUCCESS
+} from '../actions/actions';
+import { connectRouter } from 'connected-react-router'
 
 
 function darkMode(state = false, action) {
@@ -23,8 +33,11 @@ function isLoggedIn(state = false, action) {
 }
 
 function user(state = false, action) {
+  console.log(action.user)
   switch (action.type) {
     case LOGIN_SUCCESS:
+      return action.user
+    case SAVE_USER_SUCCESS:
       return action.user
     default:
       return state
@@ -55,7 +68,8 @@ function token(state = false, action) {
   }
 }
 
-const rootReducer = combineReducers({
+const createRootReducer = history => combineReducers({
+  router: connectRouter(history),
   darkMode,
   isLoggedIn,
   loginError,
@@ -63,4 +77,4 @@ const rootReducer = combineReducers({
   token
 })
 
-export default rootReducer;
+export default createRootReducer;

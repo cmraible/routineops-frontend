@@ -1,4 +1,4 @@
-import history from './history.js';
+import history from '../history.js';
 const axios = require('axios').default;
 
 
@@ -25,7 +25,7 @@ export function toggleDarkMode() {
 
 export const LOGOUT = 'LOGOUT'
 export function logout() {
-  history.push('/login')
+  history.push('/')
   return {
     type: LOGOUT
   }
@@ -134,41 +134,41 @@ export function addTask(task) {
   }
 }
 
-export const SAVE_PROFILE_REQUEST = 'SAVE_PROFILE_REQUEST'
-export function saveProfileRequest(profile) {
+export const SAVE_USER_REQUEST = 'SAVE_USER_REQUEST'
+export function saveUserRequest(user) {
   return {
-    type: SAVE_PROFILE_REQUEST,
-    profile: profile
+    type: SAVE_USER_REQUEST,
+    user: user
   }
 }
 
-export const SAVE_PROFILE_SUCCESS = 'SAVE_PROFILE_SUCCESS'
-export function saveProfileSuccess(profile) {
+export const SAVE_USER_SUCCESS = 'SAVE_USER_SUCCESS'
+export function saveUserSuccess(user) {
   return {
-    type: SAVE_PROFILE_SUCCESS,
-    profile: profile
+    type: SAVE_USER_SUCCESS,
+    user: user
   }
 }
 
-export const SAVE_PROFILE_FAIL = 'SAVE_PROFILE_FAIL'
-export function saveProfileFail(error) {
+export const SAVE_USER_FAIL = 'SAVE_USER_FAIL'
+export function saveUserFail(error) {
   console.log(error)
   return {
-    type: SAVE_PROFILE_FAIL,
+    type: SAVE_USER_FAIL,
     message: "An error occurred."
   }
 }
 
-export function saveProfile(profile) {
+export function saveUser(user) {
 
   return function(dispatch) {
-    dispatch(saveProfileRequest())
-
-    return client.post(
-      '/users/', profile
+    dispatch(saveUserRequest())
+    console.log(user)
+    return client.patch(
+      '/users/' + user.id + '/', user
     )
-    .then( response => dispatch(saveProfileSuccess(response.data)) )
-    .catch( error => dispatch(saveProfileFail(error)))
+    .then( response => dispatch(saveUserSuccess(response.data)) )
+    .catch( error => dispatch(saveUserFail(error)) )
   }
 }
 
@@ -202,14 +202,32 @@ export function getUser(user) {
   return function(dispatch) {
     dispatch(getUserRequest())
 
+
     return client.get(
-      '/users/'
+      '/users/' + user.id + '/'
     )
     .then( response => {
+      console.log(response.data)
       dispatch(getUserSuccess(response.data))
     })
     .catch( error => {
       dispatch(getUserFail(error))
     })
+  }
+}
+
+export const GO_TO_PROFILE = 'GO_TO_PROFILE'
+export function goToProfile() {
+  history.push('/profile')
+  return {
+    type: GO_TO_PROFILE
+  }
+}
+
+export const GO_TO_ORG = 'GO_TO_ORG'
+export function goToOrg() {
+  history.push('/organization')
+  return {
+    type: GO_TO_ORG
   }
 }

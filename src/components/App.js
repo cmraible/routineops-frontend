@@ -7,66 +7,45 @@ import TaskList from './TaskList.js';
 import Login from './Login.js';
 import Signup from './Signup.js';
 import Dashboard from './Dashboard.js';
-import AddTaskWrapper from '../containers/AddTaskWrapper.js';
+import AddTask from './AddTask.js';
 import Profile from './Profile.js';
 import LandingPage from './LandingPage.js';
 import Organization from './Organization.js';
 import { connect } from 'react-redux'
-import { toggleDarkMode, login } from '../actions'
+import { toggleDarkMode, login } from '../actions/actions'
 import operationallyTheme from '../operationallyTheme.js';
-import AppHeader from '../containers/AppHeader.js';
-import AppFooter from '../containers/AppFooter.js';
+import IconHeader from './IconHeader.js';
+import IconFooter from './IconFooter.js';
 
 
 
 const App = ({ isLoggedIn, theme, darkMode, header, footer, login }) => {
 
-
   if (isLoggedIn) {
     return (
-        <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
-          <Switch>
-            <Box align="start" direction="column" fill="horizontal" overflow="auto">
+      <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
+        <Switch>
+          <Box align="start" direction="column" fill="horizontal" overflow="auto">
               { header }
-                <Route path="/add">
-                  <AddTaskWrapper />
-                </Route>
-                <Route path="/dash">
-                  <Dashboard />
-                </Route>
-                <Route path="/grid">
-                  <Kamishibai />
-                </Route>
-                <Route path="/list">
-                  <TaskList />
-                </Route>
-                <Route path="/organization">
-                  <Organization />
-                </Route>
-                <Route path="/profile">
-                  <Profile />
-                </Route>
-                { footer}
-            </Box>
-          </Switch>
-        </Grommet>
+              <Route path="/add" component={AddTask} />
+              <Route path="/dash" component={Dashboard} />
+              <Route path="/grid" component={Kamishibai} />
+              <Route path="/list" component={TaskList} />
+              <Route path="/organization" component={Organization} />
+              <Route path="/profile" component={Profile} />
+              { footer}
+          </Box>
+        </Switch>
+      </Grommet>
     )
   } else {
     return (
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
         <Switch>
           <Box align="start" direction="row" fill overflow="auto">
-            <Main align="stretch">
-              <Route exact path="/">
-                <LandingPage />
-              </Route>
-              <Route path="/login">
-                <Login loginFunction={login}/>
-              </Route>
-              <Route path="/signup">
-                <Signup />
-              </Route>
-            </Main>
+              <Route exact path="/" component={LandingPage} />
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={Signup} />
           </Box>
         </Switch>
       </Grommet>
@@ -78,8 +57,8 @@ const App = ({ isLoggedIn, theme, darkMode, header, footer, login }) => {
 };
 
 const mapStateToProps = state => {
-  const header = <AppHeader />
-  const footer = <AppFooter />
+  const header = <IconHeader />
+  const footer = <IconFooter />
   return {
     darkMode: state.darkMode,
     theme: operationallyTheme,

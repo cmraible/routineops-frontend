@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
-import { saveProfile } from '../actions'
+import { saveUser } from '../actions/actions'
 
 
-const Profile = ({ saveProfile }) => {
+const Profile = ({ saveUser, user }) => {
+  const [ value, setValue ] = useState({
+      id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email
+  });
+
+
 
   return (
     <Main pad="large">
@@ -12,20 +20,22 @@ const Profile = ({ saveProfile }) => {
       <Heading level={3}>Basic Information</Heading>
       <Form
         onSubmit={({value, touch}) => {
-          saveProfile(value)
+          saveUser(value)
         }}
+        value={value}
+        onChange={ nextValue => setValue(nextValue) }
       >
         <Box direction="row">
           <FormField label="First Name">
             <TextInput name="first_name" />
           </FormField>
           <FormField label="Last Name">
-            <TextInput name="last_name"/>
+            <TextInput name="last_name" />
           </FormField>
         </Box>
         <Box direction="row">
           <FormField label="Email Address">
-            <TextInput name="email"/>
+            <TextInput name="email" />
           </FormField>
         </Box>
         <Box direction="row">
@@ -44,14 +54,16 @@ const Profile = ({ saveProfile }) => {
 
 const mapStateToProps = state => {
   return {
-    loginError: state.loginError
+    loginError: state.loginError,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveProfile: (profile) => {
-      dispatch(saveProfile(profile))
+    saveUser: (user) => {
+      console.log(user)
+      dispatch(saveUser(user))
     }
   }
 }

@@ -2,6 +2,8 @@ import React from 'react';
 import { Avatar, Box, Button, Sidebar } from 'grommet';
 import { Link, NavLink } from 'react-router-dom';
 import { Add, Dashboard, Grid, List, Logout, User, View } from 'grommet-icons';
+import { connect } from 'react-redux';
+
 
 const IconSidebar = ({ logout, toggleDarkMode, darkMode }) => {
 
@@ -30,4 +32,23 @@ const IconSidebar = ({ logout, toggleDarkMode, darkMode }) => {
   )
 
 };
-export default IconSidebar;
+
+const mapStateToProps = state => {
+  return {
+    darkMode: state.darkMode
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleDarkMode: () => {
+      dispatch(toggleDarkMode())
+    },
+    logout: () => {
+      dispatch(logout())
+    }
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(IconSidebar);

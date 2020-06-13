@@ -3,7 +3,9 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/App';
 import { BrowserRouter as Router } from 'react-router-dom';
-import configureStore from './configureStore.js';
+import { ConnectedRouter } from 'connected-react-router';
+import configureStore from './configureStore';
+import history from './history'
 
 
 const persistedState = localStorage.getItem('operationallyState')
@@ -24,9 +26,9 @@ const renderApp = () =>
   render(
     <React.StrictMode>
       <Provider store={store}>
-          <Router>
+          <ConnectedRouter history={history}>
             <App />
-          </Router>
+          </ConnectedRouter>
       </Provider>
     </React.StrictMode>,
     document.getElementById('root')

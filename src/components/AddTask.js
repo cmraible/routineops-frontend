@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
+import { connect } from 'react-redux';
+import { addTask } from '../actions/actions';
 
 const AddTask = (props) => {
 
@@ -31,4 +33,19 @@ const AddTask = (props) => {
   )
 
 };
-export default AddTask;
+
+const mapStateToProps = state => {
+  return {
+    darkMode: state.darkMode
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addTask: () => {
+      dispatch(addTask())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTask);
