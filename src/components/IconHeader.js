@@ -1,10 +1,9 @@
 import React from 'react';
 import { Avatar, Box, Button, Header, Menu } from 'grommet';
-import { Link } from 'react-router-dom';
 import { Down, User } from 'grommet-icons';
 import { connect } from 'react-redux';
-import { toggleDarkMode, logout, goToProfile, goToOrg } from '../actions/actions'
-import history from '../history.js';
+import { logout } from '../actions/actions'
+import { goToProfile, goToOrg, toggleDarkMode } from '../actions/ui.actions'
 
 
 const IconHeader = ({ logout, toggleDarkMode, darkMode, goToProfile, goToOrg, user }) => {

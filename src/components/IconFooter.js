@@ -1,11 +1,16 @@
 import React from 'react';
 import { Box, Button, Footer } from 'grommet';
-import { NavLink } from 'react-router-dom';
-import { Add, Dashboard, Grid, List } from 'grommet-icons';
+import { Add, Grid, List } from 'grommet-icons';
 import { connect } from 'react-redux';
-import { toggleDarkMode, logout } from '../actions/actions';
+import { logout } from '../actions/actions';
+import {
+  goToAddTask,
+  goToDash,
+  goToGrid,
+  goToList
+} from '../actions/ui.actions';
 
-const IconFooter = ({ logout, toggleDarkMode, darkMode }) => {
+const IconFooter = ({ logout, darkMode, goToAddTask, goToDash, goToGrid, goToList }) => {
 
   const footerStyle = {
     position: "absolute",
@@ -15,10 +20,9 @@ const IconFooter = ({ logout, toggleDarkMode, darkMode }) => {
   return (
       <Footer background="black" fill="horizontal" style={footerStyle}>
         <Box align="center" justify="center" fill="horizontal" gap="medium" direction="row" flex>
-          <NavLink to="/add"><Button icon={<Add />} /></NavLink>
-          <NavLink to="/dash"><Button icon={<Dashboard />} /></NavLink>
-          <NavLink to="/grid"><Button icon={<Grid />} /></NavLink>
-          <NavLink to="/list"><Button icon={<List />} /></NavLink>
+          <Button icon={<Add />} onClick={() => goToAddTask() } />
+          <Button icon={<Grid />} onClick={() => goToGrid() }/>
+          <Button icon={<List />} onClick={() => goToList() }/>
         </Box>
       </Footer>
   )
@@ -33,11 +37,20 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleDarkMode: () => {
-      dispatch(toggleDarkMode())
-    },
     logout: () => {
       dispatch(logout())
+    },
+    goToAddTask: () => {
+      dispatch(goToAddTask())
+    },
+    goToDash: () => {
+      dispatch(goToDash())
+    },
+    goToGrid: () => {
+      dispatch(goToGrid())
+    },
+    goToList: () => {
+      dispatch(goToList())
     }
   }
 }

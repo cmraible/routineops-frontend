@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 import {
-  TOGGLE_DARK_MODE,
   LOGOUT,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  GO_TO_PROFILE,
-  GO_TO_ORG,
   SAVE_USER_SUCCESS
 } from '../actions/actions';
+import {
+  TOGGLE_DARK_MODE
+} from '../actions/ui.actions';
 import { connectRouter } from 'connected-react-router'
 
 
@@ -33,7 +33,6 @@ function isLoggedIn(state = false, action) {
 }
 
 function user(state = false, action) {
-  console.log(action.user)
   switch (action.type) {
     case LOGIN_SUCCESS:
       return action.user

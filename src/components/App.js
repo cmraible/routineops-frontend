@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { Box , Main } from 'grommet';
+import { Box  } from 'grommet';
 import { Grommet } from 'grommet';
 import Kamishibai from './Kamishibai.js';
 import TaskList from './TaskList.js';
@@ -12,7 +12,8 @@ import Profile from './Profile.js';
 import LandingPage from './LandingPage.js';
 import Organization from './Organization.js';
 import { connect } from 'react-redux'
-import { toggleDarkMode, login } from '../actions/actions'
+import { login } from '../actions/actions';
+import { toggleDarkMode } from '../actions/ui.actions';
 import operationallyTheme from '../operationallyTheme.js';
 import IconHeader from './IconHeader.js';
 import IconFooter from './IconFooter.js';
@@ -27,8 +28,8 @@ const App = ({ isLoggedIn, theme, darkMode, header, footer, login }) => {
         <Switch>
           <Box align="start" direction="column" fill="horizontal" overflow="auto">
               { header }
-              <Route path="/add" component={AddTask} />
-              <Route path="/dash" component={Dashboard} />
+              <Route path="/addtask" component={AddTask} />
+              <Route path="/dashboard" component={Dashboard} />
               <Route path="/grid" component={Kamishibai} />
               <Route path="/list" component={TaskList} />
               <Route path="/organization" component={Organization} />

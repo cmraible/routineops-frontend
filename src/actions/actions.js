@@ -15,14 +15,6 @@ const client = axios.create({
 });
 
 
-export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE'
-export function toggleDarkMode() {
-  return {
-    type: TOGGLE_DARK_MODE
-  }
-}
-
-
 export const LOGOUT = 'LOGOUT'
 export function logout() {
   history.push('/')
@@ -169,65 +161,5 @@ export function saveUser(user) {
     )
     .then( response => dispatch(saveUserSuccess(response.data)) )
     .catch( error => dispatch(saveUserFail(error)) )
-  }
-}
-
-
-export const GET_USER_REQUEST = 'GET_USER_REQUEST'
-export function getUserRequest(user) {
-  return {
-    type: GET_USER_REQUEST,
-    user: user
-  }
-}
-
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS'
-export function getUserSuccess(user) {
-  return {
-    type: GET_USER_SUCCESS,
-    user: user
-  }
-}
-
-export const GET_USER_FAIL = 'GET_USER_FAIL'
-export function getUserFail(user) {
-  return {
-    type: GET_USER_FAIL,
-    user: user
-  }
-}
-
-export function getUser(user) {
-
-  return function(dispatch) {
-    dispatch(getUserRequest())
-
-
-    return client.get(
-      '/users/' + user.id + '/'
-    )
-    .then( response => {
-      console.log(response.data)
-      dispatch(getUserSuccess(response.data))
-    })
-    .catch( error => {
-      dispatch(getUserFail(error))
-    })
-  }
-}
-
-export const GO_TO_PROFILE = 'GO_TO_PROFILE'
-export function goToProfile() {
-  history.push('/profile')
-  return {
-    type: GO_TO_PROFILE
-  }
-}
-
-export const GO_TO_ORG = 'GO_TO_ORG'
-export function goToOrg() {
-  history.push('/organization')
-  return {
-    type: GO_TO_ORG
   }
 }
