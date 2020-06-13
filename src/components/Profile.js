@@ -12,10 +12,8 @@ const Profile = ({ saveUser, user }) => {
       email: user.email
   });
 
-
-
   return (
-    <Main pad="large">
+    <Main pad="medium">
       <Heading>Profile</Heading>
       <Heading level={3}>Basic Information</Heading>
       <Form

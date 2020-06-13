@@ -4,7 +4,8 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  SAVE_USER_SUCCESS
+  SAVE_USER_SUCCESS,
+  GET_ORG_SUCCESS
 } from '../actions/actions';
 import {
   TOGGLE_DARK_MODE
@@ -27,6 +28,15 @@ function isLoggedIn(state = false, action) {
       return false
     case LOGIN_SUCCESS:
       return true
+    default:
+      return state
+  }
+}
+
+function organization(state = false, action) {
+  switch (action.type) {
+    case GET_ORG_SUCCESS:
+      return action.org
     default:
       return state
   }
@@ -72,6 +82,7 @@ const createRootReducer = history => combineReducers({
   darkMode,
   isLoggedIn,
   loginError,
+  organization,
   user,
   token
 })
