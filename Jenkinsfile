@@ -3,15 +3,17 @@ properties([pipelineTriggers([githubPush()])])
 pipeline {
   agent any
   stages {
-    stage('Build') {
+    stage('Build Staging') {
+      when {
+        branch 'staging'
+      }
+      environment {
+        REACT_APP_ENVIRONMENT=staging
+        PUBLIC_URL=https://staging.operationally.io
+        REACT_APP_API_HOST=https://staging.api.operationally.io
+      }
       steps {
         sh 'npm update && npm install && npm run build'
-      }
-    }
-
-    stage('Test') {
-      steps {
-        echo 'Testing application...'
       }
     }
 
@@ -25,6 +27,20 @@ pipeline {
       }
     }
 
+    stage('Build Production') {
+      when {
+        branch 'production'
+      }
+      environment {
+        REACT_APP_ENVIRONMENT=production
+        PUBLIC_URL=https://www.operationally.io
+        REACT_APP_API_HOST=https://api.operationally.io
+      }
+      steps {
+        sh 'npm update && npm install && npm run build'
+      }
+    }
+
     stage('Deploy') {
       when {
         branch 'production'
@@ -35,10 +51,5 @@ pipeline {
       }
     }
 
-  }
-  environment {
-    PUBLIC_URL = 'https://www.operationally.io'
-    REACT_APP_ENVIRONMENT = 'production'
-    REACT_APP_API_HOST = 'https://api.operationally.io'
   }
 }
