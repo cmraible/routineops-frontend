@@ -8,9 +8,9 @@ pipeline {
         branch 'staging'
       }
       environment {
-        REACT_APP_ENVIRONMENT=staging
-        PUBLIC_URL=https://staging.operationally.io
-        REACT_APP_API_HOST=https://staging.api.operationally.io
+        REACT_APP_ENVIRONMENT = 'staging'
+        PUBLIC_URL = 'https://staging.operationally.io'
+        REACT_APP_API_HOST = 'https://staging.api.operationally.io'
       }
       steps {
         sh 'npm update && npm install && npm run build'
@@ -32,9 +32,9 @@ pipeline {
         branch 'production'
       }
       environment {
-        REACT_APP_ENVIRONMENT=production
-        PUBLIC_URL=https://www.operationally.io
-        REACT_APP_API_HOST=https://api.operationally.io
+        REACT_APP_ENVIRONMENT = 'production'
+        PUBLIC_URL = 'https://www.operationally.io'
+        REACT_APP_API_HOST = 'https://api.operationally.io'
       }
       steps {
         sh 'npm update && npm install && npm run build'
