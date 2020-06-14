@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'npm update && npm install && npmp run build'
+        sh 'npm update && npm install && npm run build'
       }
     }
 
