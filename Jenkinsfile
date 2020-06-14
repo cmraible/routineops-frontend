@@ -20,7 +20,7 @@ pipeline {
         branch 'staging'
       }
       steps {
-        sh 'aws s3 sync build s3:operationally-staging'
+        sh 'aws s3 sync build s3://operationally-staging'
       }
     }
 
