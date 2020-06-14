@@ -52,7 +52,6 @@ const Profile = ({ saveUser, user }) => {
 
 const mapStateToProps = state => {
   return {
-    loginError: state.loginError,
     user: state.user
   }
 }

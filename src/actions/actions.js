@@ -197,7 +197,9 @@ export function saveOrg(org) {
     return client.patch(
       '/organizations/' + org.id + '/', org
     )
-    .then( response => dispatch(saveOrgSuccess(response.data)) )
+    .then( response => {
+      dispatch(saveOrgSuccess(response.data))
+    })
     .catch( error => dispatch(saveOrgFail(error)) )
   }
 }
