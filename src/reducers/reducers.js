@@ -8,15 +8,18 @@ import {
   GET_ORG_SUCCESS
 } from '../actions/actions';
 import {
-  TOGGLE_DARK_MODE
+  TOGGLE_DARK_MODE,
+  GO_TO_LOGIN
 } from '../actions/ui.actions';
 import { connectRouter } from 'connected-react-router'
 
 
-function darkMode(state = false, action) {
+function darkMode(state = true, action) {
   switch (action.type) {
     case TOGGLE_DARK_MODE:
       return !state
+    case LOGOUT:
+      return true
     default:
       return state
   }
@@ -37,6 +40,8 @@ function organization(state = false, action) {
   switch (action.type) {
     case GET_ORG_SUCCESS:
       return action.org
+    case LOGOUT:
+      return false
     default:
       return state
   }
@@ -48,6 +53,8 @@ function user(state = false, action) {
       return action.user
     case SAVE_USER_SUCCESS:
       return action.user
+    case LOGOUT:
+      return false
     default:
       return state
   }
@@ -60,6 +67,8 @@ function loginError(state = false, action) {
     case LOGIN_SUCCESS:
       return false
     case LOGIN_REQUEST:
+      return false
+    case GO_TO_LOGIN:
       return false
     default:
       return state

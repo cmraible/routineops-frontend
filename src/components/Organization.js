@@ -8,7 +8,15 @@ class Organization extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      organization: props.organization,
+      organization: {
+        id: props.organization.id,
+        name: props.organization.name ? props.organization.name : "",
+        address1: props.organization.address1 ? props.organization.address1 : "",
+        address2: props.organization.address2 ? props.organization.address2 : "",
+        state: props.organization.state ? props.organization.state : "",
+        city: props.organization.city ? props.organization.city : "",
+        zip: props.organization.zip ? props.organization.zip : ""
+      },
     }
   }
 

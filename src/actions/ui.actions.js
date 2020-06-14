@@ -48,6 +48,14 @@ export function goToAddTask() {
   }
 }
 
+export const GO_TO_LOGIN = 'GO_TO_LOGIN'
+export function goToLogin() {
+  history.push('/login')
+  return {
+    type: GO_TO_LOGIN
+  }
+}
+
 export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE'
 export function toggleDarkMode() {
   return {

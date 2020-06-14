@@ -18,10 +18,10 @@ const Login = ({login, loginError}) => {
         }}
       >
         <FormField name="username" htmlfor="username-id">
-          <TextInput id="username-id" name="username" placeholder="Username" />
+          <TextInput id="username-id" name="username" placeholder="Email" required />
         </FormField>
         <FormField name="password" htmlfor="password-id">
-          <TextInput id="password-id" name="password" type="password" placeholder="Password" />
+          <TextInput id="password-id" name="password" type="password" placeholder="Password" required />
         </FormField>
         <Box direction="row" gap="medium" pad="small">
           <Button type="submit" primary label="Login" size="large" />

@@ -1,4 +1,5 @@
 import history from '../history.js';
+import { goToLogin } from './ui.actions';
 const axios = require('axios').default;
 
 
@@ -80,7 +81,7 @@ export function login(username, password) {
     .then( (response) => {
       console.log(response)
       dispatch(loginSuccess(response.data.token, response.data.user))
-      dispatch(getOrg(response.data.user.id))
+      dispatch(getOrg(response.data.user.organization))
     })
     .catch( (error) => {
       dispatch(loginFail(error))
@@ -235,5 +236,45 @@ export function getOrg(id) {
     )
     .then( response => dispatch(getOrgSuccess(response.data)) )
     .catch( error => dispatch(getOrgFail(error)) )
+  }
+}
+
+export const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
+export function signupRequest(user) {
+  return {
+    type: SIGNUP_REQUEST,
+    user: user
+  }
+}
+
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
+export function signupSuccess(user) {
+  return {
+    type: SIGNUP_SUCCESS,
+    user: user
+  }
+}
+
+export const SIGNUP_FAIL = 'SIGNUP_FAIL'
+export function signupFail(error) {
+  console.log(error)
+  return {
+    type: SIGNUP_FAIL,
+    message: "An error occurred."
+  }
+}
+
+export function signup(user) {
+
+  return function(dispatch) {
+    dispatch(signupRequest())
+    return client.post(
+      '/users/', user
+    )
+    .then( response => {
+      dispatch(signupSuccess(response.data))
+      dispatch(goToLogin())
+    })
+    .catch( error => dispatch(signupFail(error)) )
   }
 }
