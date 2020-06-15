@@ -46,24 +46,24 @@ export function loginSuccess(token, user) {
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 export function loginFail(error) {
   if (error.response) {
-
+    if (error.response.status === 400) {
+      return {
+        type: LOGIN_FAIL,
+        message: 'Incorrect username or password.'
+      }
+    } else {
+      return {
+        type: LOGIN_FAIL,
+        message: 'Login failed for an unknown reason.'
+      }
+    }
   } else {
     return {
       type: LOGIN_FAIL,
       message: 'Unable to connect.'
     }
   }
-  if (error.response.status === 400) {
-    return {
-      type: LOGIN_FAIL,
-      message: 'Incorrect username or password.'
-    }
-  } else {
-    return {
-      type: LOGIN_FAIL,
-      message: 'Login failed for an unknown reason.'
-    }
-  }
+
 }
 
 
@@ -259,10 +259,18 @@ export function signupSuccess(user) {
 
 export const SIGNUP_FAIL = 'SIGNUP_FAIL'
 export function signupFail(error) {
-  console.log(error)
-  return {
-    type: SIGNUP_FAIL,
-    message: "An error occurred."
+  if (error.response) {
+    if (error.response.status === 400) {
+      return {
+        type: SIGNUP_FAIL,
+        errors: error.response.data
+      }
+    }
+  } else {
+    return {
+      type: SIGNUP_FAIL,
+      errors: {'form': 'Unable to connect'}
+    }
   }
 }
 

@@ -8,6 +8,14 @@ export function goToProfile() {
   }
 }
 
+export const GO_TO_SIGNUP = 'GO_TO_SIGNUP'
+export function goToSignup() {
+  history.push('/signup')
+  return {
+    type: GO_TO_SIGNUP
+  }
+}
+
 export const GO_TO_ORG = 'GO_TO_ORG'
 export function goToOrg() {
   history.push('/organization')

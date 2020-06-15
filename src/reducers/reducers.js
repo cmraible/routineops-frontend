@@ -6,11 +6,15 @@ import {
   LOGIN_FAIL,
   SAVE_USER_SUCCESS,
   SAVE_ORG_SUCCESS,
-  GET_ORG_SUCCESS
+  GET_ORG_SUCCESS,
+  SIGNUP_REQUEST,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAIL
 } from '../actions/actions';
 import {
   TOGGLE_DARK_MODE,
-  GO_TO_LOGIN
+  GO_TO_LOGIN,
+  GO_TO_SIGNUP
 } from '../actions/ui.actions';
 import { connectRouter } from 'connected-react-router'
 
@@ -78,6 +82,21 @@ function loginError(state = false, action) {
   }
 }
 
+function signupErrors(state = [], action) {
+  switch (action.type) {
+    case SIGNUP_FAIL:
+      return action.errors
+    case SIGNUP_SUCCESS:
+      return []
+    case SIGNUP_REQUEST:
+      return []
+    case GO_TO_SIGNUP:
+      return []
+    default:
+      return state
+  }
+}
+
 function token(state = false, action) {
   switch (action.type) {
     case LOGOUT:
@@ -94,6 +113,7 @@ const createRootReducer = history => combineReducers({
   darkMode,
   isLoggedIn,
   loginError,
+  signupErrors,
   organization,
   user,
   token

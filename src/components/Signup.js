@@ -4,18 +4,45 @@ import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'gr
 import { signup } from '../actions/actions'
 
 
-const Signup = ({signup, signupError}) => {
+const Signup = ({signup, signupErrors}) => {
+
+  const validateEmail = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  const validateEmailField = (value, formvalue) => {
+    if (validateEmail(value)) {
+      return true
+    } else {
+      return {
+        'message': 'Invalid email address',
+        'status': 'error'
+      }
+    }
+  }
+
+  const formErrors = {}
+  for (const error in signupErrors) {
+    const key = (error === 'username') ? 'email' : error;
+    formErrors[key] = signupErrors[error][0]
+  }
+
+
+
 
     return (
       <Main pad="xlarge">
       <Heading>
         Welcome.
       </Heading>
-      <Text size="small" color="status-error">{signupError}</Text>
+      <Text size="small" color="status-error">{}</Text>
       <Form
         onSubmit={({value, touch}) => {
           signup(value)
         }}
+        validate="blur"
+        errors={formErrors}
       >
         <FormField>
           <TextInput name="first_name" placeholder="fist name" required />
@@ -23,7 +50,7 @@ const Signup = ({signup, signupError}) => {
         <FormField>
           <TextInput name="last_name" placeholder="last name" required />
         </FormField>
-        <FormField name="email" htmlfor="email-id">
+        <FormField name="email" htmlfor="email-id" validate={validateEmailField}>
           <TextInput id="email-id" name="email" placeholder="work email" required />
         </FormField>
         <FormField name="phone" htmlfor="phone-id">
@@ -42,7 +69,7 @@ const Signup = ({signup, signupError}) => {
 
 const mapStateToProps = state => {
   return {
-    signupError: state.signupError
+    signupErrors: state.signupErrors
   }
 }
 
