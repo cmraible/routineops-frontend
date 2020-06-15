@@ -97,6 +97,15 @@ function signupErrors(state = [], action) {
   }
 }
 
+function signupSuccess(state = false, action) {
+  switch (action.type) {
+    case SIGNUP_SUCCESS:
+      return true
+    default:
+      return false
+  }
+}
+
 function token(state = false, action) {
   switch (action.type) {
     case LOGOUT:
@@ -113,6 +122,7 @@ const createRootReducer = history => combineReducers({
   darkMode,
   isLoggedIn,
   loginError,
+  signupSuccess,
   signupErrors,
   organization,
   user,
