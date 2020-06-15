@@ -13,7 +13,7 @@ pipeline {
         REACT_APP_API_HOST = 'https://staging.api.operationally.io'
       }
       steps {
-        sh 'npm update && npm install && npm run build'
+        sh 'npm install && npm run build'
       }
     }
 
@@ -37,7 +37,7 @@ pipeline {
         REACT_APP_API_HOST = 'https://api.operationally.io'
       }
       steps {
-        sh 'npm update && npm install && npm run build'
+        sh 'npm install && npm run build'
       }
     }
 
