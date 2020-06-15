@@ -49,7 +49,7 @@ export function loginFail(error) {
     if (error.response.status === 400) {
       return {
         type: LOGIN_FAIL,
-        message: 'Incorrect username or password.'
+        message: 'Unable to login with provided credentials.'
       }
     } else {
       return {
@@ -79,11 +79,11 @@ export function login(username, password) {
       }
     )
     .then( (response) => {
-      console.log(response)
       dispatch(loginSuccess(response.data.token, response.data.user))
       dispatch(getOrg(response.data.user.organization))
     })
     .catch( (error) => {
+      console.log(error.response)
       dispatch(loginFail(error))
     } )
 
@@ -251,6 +251,7 @@ export function signupRequest(user) {
 
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
 export function signupSuccess(user) {
+  history.push('/signup/success')
   return {
     type: SIGNUP_SUCCESS,
     user: user
@@ -283,7 +284,6 @@ export function signup(user) {
     )
     .then( response => {
       dispatch(signupSuccess(response.data))
-      dispatch(goToLogin())
     })
     .catch( error => dispatch(signupFail(error)) )
   }
