@@ -66,7 +66,7 @@ const Signup = ({signup, signupErrors, signupSuccess}) => {
               <TextInput id="phone-id" name="phone" placeholder="phone" required />
             </FormField>
             <FormField name="password" htmlfor="password-id">
-              <TextInput id="password-id" name="password" type="password" placeholder="Password" required />
+              <TextInput id="password-id" name="password" type="password" placeholder="password" required />
             </FormField>
             <Box direction="row" gap="medium" pad="small">
               <Button type="submit" primary label="Signup Free" size="large" />
