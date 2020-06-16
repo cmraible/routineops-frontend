@@ -9,7 +9,10 @@ import {
   GET_ORG_SUCCESS,
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
-  SIGNUP_FAIL
+  SIGNUP_FAIL,
+  GET_ROLES_SUCCESS,
+  ADD_ROLE_SUCCESS,
+  DELETE_ROLE_SUCCESS
 } from '../actions/actions';
 import {
   TOGGLE_DARK_MODE,
@@ -119,6 +122,19 @@ function token(state = false, action) {
   }
 }
 
+function roles(state = [], action) {
+  switch (action.type) {
+    case GET_ROLES_SUCCESS:
+      return action.roles
+    case ADD_ROLE_SUCCESS:
+      return [...state, action.role]
+    case DELETE_ROLE_SUCCESS:
+      return state.filter((role, index) => role.id !== action.role_id )
+    default:
+      return state
+  }
+}
+
 const createRootReducer = history => combineReducers({
   router: connectRouter(history),
   darkMode,
@@ -128,6 +144,7 @@ const createRootReducer = history => combineReducers({
   signupErrors,
   organization,
   user,
+  roles,
   token
 })
 
