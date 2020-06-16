@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
-import { saveOrg } from '../actions/actions';
+import { saveOrg, getOrg } from '../actions/actions';
 import { connect } from 'react-redux';
 
-const Organization = ({ saveOrg, organization }) => {
+const Organization = ({ saveOrg, getOrg, organization }) => {
 
   const [ value, setValue] = useState({
     id: organization.id,
@@ -14,6 +14,10 @@ const Organization = ({ saveOrg, organization }) => {
     state: (organization.state) ? organization.state : '',
     zip: (organization.zip) ? organization.zip : ''
   });
+
+  useEffect(() => {
+    getOrg(organization.id)
+  }, [organization.id]);
 
   return (
     <Main pad="medium">
@@ -63,6 +67,9 @@ const mapDispatchToProps = dispatch => {
   return {
     saveOrg: (organization) => {
       dispatch(saveOrg(organization))
+    },
+    getOrg: (id) => {
+      dispatch(getOrg(id))
     }
   }
 }

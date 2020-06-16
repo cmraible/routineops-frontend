@@ -2,12 +2,11 @@ import React from 'react';
 import { Avatar, Box, Button, Header, Menu } from 'grommet';
 import { Down, User } from 'grommet-icons';
 import { connect } from 'react-redux';
-import { logout } from '../actions/actions'
+import { logout, getOrg } from '../actions/actions'
 import { goToProfile, goToOrg, toggleDarkMode } from '../actions/ui.actions'
 
 
 const IconHeader = ({ logout, toggleDarkMode, darkMode, goToProfile, goToOrg, user }) => {
-
 
   return (
       <Header background="black" fill="horizontal" pad="small">
@@ -40,7 +39,7 @@ const IconHeader = ({ logout, toggleDarkMode, darkMode, goToProfile, goToOrg, us
 const mapStateToProps = state => {
   return {
     darkMode: state.darkMode,
-    user: state.user
+    user: state.user,
   }
 }
 
