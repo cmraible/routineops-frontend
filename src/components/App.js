@@ -9,6 +9,7 @@ import Signup from './Signup.js';
 import Dashboard from './Dashboard.js';
 import AddTask from './AddTask.js';
 import Profile from './Profile.js';
+import Roles from './Roles.js';
 import LandingPage from './LandingPage.js';
 import Organization from './Organization.js';
 import { connect } from 'react-redux'
@@ -34,6 +35,7 @@ const App = ({ isLoggedIn, theme, darkMode, header, footer, login }) => {
               <Route path="/list" component={TaskList} />
               <Route path="/organization" component={Organization} />
               <Route path="/profile" component={Profile} />
+              <Route path="/roles" component={Roles} />
               { footer}
           </Box>
         </Switch>

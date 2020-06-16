@@ -49,6 +49,8 @@ function organization(state = false, action) {
       return action.org
     case LOGOUT:
       return false
+    case LOGIN_SUCCESS:
+      return { id: action.user.organization }
     default:
       return state
   }

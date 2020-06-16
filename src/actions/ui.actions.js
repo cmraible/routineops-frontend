@@ -1,10 +1,19 @@
 import history from '../history.js';
+import { getOrg } from './actions';
 
 export const GO_TO_PROFILE = 'GO_TO_PROFILE'
 export function goToProfile() {
   history.push('/profile')
   return {
     type: GO_TO_PROFILE
+  }
+}
+
+export const GO_TO_ROLES = 'GO_TO_ROLES'
+export function goToRoles() {
+  history.push('/roles')
+  return {
+    type: GO_TO_ROLES
   }
 }
 

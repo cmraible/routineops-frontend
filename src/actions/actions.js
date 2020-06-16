@@ -1,23 +1,32 @@
 import history from '../history.js';
 import { goToLogin } from './ui.actions';
+
 const axios = require('axios').default;
-
-
 
 // Get API host from env variable, then get api baseurl
 const host = process.env.REACT_APP_API_HOST
 const baseUrl = host + '/api'
 
-
 // Create axios client with baseUrl and auth headers above
-const client = axios.create({
+const config = {
   baseURL: baseUrl,
-  timeout: 1000
-});
+  timeout: 1000,
+};
 
+const getToken = () => {
+  return window.localStorage.getItem('operationally-token')
+}
+
+const getAuthConfig = () => {
+  return {
+    headers: {'Authorization': 'Token ' + getToken() },
+    ...config
+  }
+}
 
 export const LOGOUT = 'LOGOUT'
 export function logout() {
+  window.localStorage.removeItem('operationally-token')
   history.push('/')
   return {
     type: LOGOUT
@@ -36,6 +45,9 @@ export function loginRequest() {
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export function loginSuccess(token, user) {
   history.push('/')
+  // Save the token to localstorage
+  window.localStorage.setItem('operationally-token', token)
+
   return {
       type: LOGIN_SUCCESS,
       token: token,
@@ -72,6 +84,8 @@ export function login(username, password) {
   return function(dispatch) {
     dispatch(loginRequest())
 
+    const client = axios.create(config)
+
     return client.post(
       '/auth_token/', {
         username: username,
@@ -80,7 +94,6 @@ export function login(username, password) {
     )
     .then( (response) => {
       dispatch(loginSuccess(response.data.token, response.data.user))
-      dispatch(getOrg(response.data.user.organization))
     })
     .catch( (error) => {
       console.log(error.response)
@@ -120,6 +133,8 @@ export function addTask(task) {
   return function(dispatch) {
     dispatch(addTaskRequest())
 
+    const client = axios.create(config)
+
     return client.post(
       '/task/', task
     )
@@ -157,7 +172,9 @@ export function saveUser(user) {
 
   return function(dispatch) {
     dispatch(saveUserRequest())
-    console.log(user)
+
+    const client = axios.create(getAuthConfig())
+
     return client.patch(
       '/users/' + user.id + '/', user
     )
@@ -194,6 +211,9 @@ export function saveOrg(org) {
 
   return function(dispatch) {
     dispatch(saveOrgRequest())
+
+    const client = axios.create(getAuthConfig())
+
     return client.patch(
       '/organizations/' + org.id + '/', org
     )
@@ -205,10 +225,10 @@ export function saveOrg(org) {
 }
 
 export const GET_ORG_REQUEST = 'GET_ORG_REQUEST'
-export function getOrgRequest(org) {
+export function getOrgRequest(id) {
   return {
     type: GET_ORG_REQUEST,
-    org: org
+    org: id
   }
 }
 
@@ -233,6 +253,9 @@ export function getOrg(id) {
 
   return function(dispatch) {
     dispatch(getOrgRequest())
+
+    const client = axios.create(getAuthConfig())
+
     return client.get(
       '/organizations/' + id + '/'
     )
@@ -279,8 +302,11 @@ export function signup(user) {
 
   return function(dispatch) {
     dispatch(signupRequest())
+
+    const client = axios.create(config)
+
     return client.post(
-      '/users/', user
+      '/register/', user
     )
     .then( response => {
       dispatch(signupSuccess(response.data))

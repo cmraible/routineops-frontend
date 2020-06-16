@@ -36,13 +36,6 @@ const Profile = ({ saveUser, user }) => {
             <TextInput name="email" />
           </FormField>
         </Box>
-        <Box direction="row">
-          <FormField label="Role">
-            <Select
-              options={["Technician", "Mechanic", "Supervisor", "Manager"]}
-            />
-          </FormField>
-        </Box>
         <Button label="Save" primary size="large" type="submit" />
       </Form>
     </Main>

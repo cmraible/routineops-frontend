@@ -1,13 +1,14 @@
 import React from 'react';
 import { Box, Button, Footer } from 'grommet';
-import { Add, Grid, List } from 'grommet-icons';
+import { Add, Grid, Group, List } from 'grommet-icons';
 import { connect } from 'react-redux';
 import { logout } from '../actions/actions';
 import {
   goToAddTask,
   goToDash,
   goToGrid,
-  goToList
+  goToList,
+  goToRoles
 } from '../actions/ui.actions';
 
 const IconFooter = ({ logout, darkMode, goToAddTask, goToDash, goToGrid, goToList }) => {
@@ -21,6 +22,7 @@ const IconFooter = ({ logout, darkMode, goToAddTask, goToDash, goToGrid, goToLis
       <Footer background="black" fill="horizontal" style={footerStyle}>
         <Box align="center" justify="center" fill="horizontal" gap="medium" direction="row" flex>
           <Button icon={<Add />} onClick={() => goToAddTask() } />
+          <Button icon={<Group />} onClick={() => goToRoles() } />
           <Button icon={<Grid />} onClick={() => goToGrid() }/>
           <Button icon={<List />} onClick={() => goToList() }/>
         </Box>
