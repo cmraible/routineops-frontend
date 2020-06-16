@@ -94,6 +94,7 @@ export function login(username, password) {
     )
     .then( (response) => {
       dispatch(loginSuccess(response.data.token, response.data.user))
+      dispatch(getOrg(response.data.user.organization))
     })
     .catch( (error) => {
       console.log(error.response)
