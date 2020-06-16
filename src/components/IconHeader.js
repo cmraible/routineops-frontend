@@ -26,8 +26,8 @@ const IconHeader = ({ logout, toggleDarkMode, darkMode, goToProfile, goToOrg, us
 
             ]}
           >
-            <Avatar background="white" round="full" size="small">
-                <User color="brand" size="small"/>
+            <Avatar background="white" round="full" size="medium">
+                <User color="brand" size="medium"/>
             </Avatar>
           </Menu>
         </Box>

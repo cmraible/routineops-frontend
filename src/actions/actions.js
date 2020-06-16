@@ -104,7 +104,6 @@ export function login(username, password) {
   }
 }
 
-
 export const ADD_TASK_REQUEST = 'ADD_TASK_REQUEST'
 export function addTaskRequest(task) {
   return {
