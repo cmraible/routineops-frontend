@@ -94,6 +94,7 @@ export function login(username, password) {
     )
     .then( (response) => {
       dispatch(loginSuccess(response.data.token, response.data.user))
+      dispatch(getOrg(response.data.user.organization))
     })
     .catch( (error) => {
       console.log(error.response)
@@ -102,7 +103,6 @@ export function login(username, password) {
 
   }
 }
-
 
 export const ADD_TASK_REQUEST = 'ADD_TASK_REQUEST'
 export function addTaskRequest(task) {
