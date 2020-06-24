@@ -20,7 +20,9 @@ const LandingPage = ({ goToSignup, goToLogin }) => {
           <Box fill align="center" justify="center">
               <Box align="start" fill pad="xlarge">
                 <Heading color="white">Modern software and professional services to help you operate more effectively.</Heading>
-                <Button color="white" label="Sign Up" onClick={() => goToSignup() } primary />
+              {
+                //<Button color="white" label="Sign Up" onClick={() => goToSignup() } primary />
+              }
               </Box>
           </Box>
       </Box>
