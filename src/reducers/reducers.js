@@ -127,7 +127,7 @@ function roles(state = [], action) {
     case GET_ROLES_SUCCESS:
       return action.roles
     case ADD_ROLE_SUCCESS:
-      return [...state, action.role]
+      return [action.role, ...state]
     case DELETE_ROLE_SUCCESS:
       return state.filter((role, index) => role.id !== action.role_id )
     default:
