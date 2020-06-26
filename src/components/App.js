@@ -7,7 +7,8 @@ import TaskList from './TaskList.js';
 import Login from './Login.js';
 import Signup from './Signup.js';
 import Dashboard from './Dashboard.js';
-import AddTask from './AddTask.js';
+import Tasks from './Tasks.js';
+import TaskMatrix from './TaskMatrix.js';
 import Profile from './Profile.js';
 import Roles from './Roles.js';
 import LandingPage from './LandingPage.js';
@@ -29,14 +30,15 @@ const App = ({ isLoggedIn, theme, darkMode, header, footer, login }) => {
         <Switch>
           <Box align="start" direction="column" fill="horizontal" overflow="auto">
               { header }
-              <Route path="/addtask" component={AddTask} />
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/grid" component={Kamishibai} />
               <Route path="/list" component={TaskList} />
+              <Route path="/matrix" component={TaskMatrix} />
               <Route path="/organization" component={Organization} />
               <Route path="/profile" component={Profile} />
               <Route path="/roles" component={Roles} />
-              { footer}
+              <Route path="/tasks" component={Tasks} />
+              { footer }
           </Box>
         </Switch>
       </Grommet>
