@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
 import { Add, Subtract } from 'grommet-icons';
-import { addRole, getRoles, deleteRole } from '../actions/actions'
+import { addTask, getTasks, deleteTask } from '../actions/actions'
 
 
-const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
+const Tasks = ({ organization, tasks, addTask, getTask, deleteTask }) => {
 
   const [value, setValue] = useState({
     name: ''
   });
 
   useEffect(() => {
-    getRoles(organization.id)
+    getTasks(organization.id)
   }, [organization.id]);
 
   const renderChildren = (datum, index) => {
@@ -25,7 +25,7 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
           primary
           color="status-critical"
           onClick={() => {
-            deleteRole(datum.id)
+            deleteTask(datum.id)
           }}
         />
       </Box>
@@ -34,11 +34,11 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
 
   return (
     <Main pad="medium" fill="horizontal" >
-      <Heading>Roles</Heading>
+      <Heading>Tasks</Heading>
       <Box direction="column" gap="large">
         <Form
           onSubmit={({value, touch}) => {
-            addRole({
+            addTask({
               organization: organization.id,
               name: value.name
             })
@@ -48,13 +48,13 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
           onChange={ nextValue => setValue(nextValue) }
         >
           <Box direction="row" gap="small">
-            <TextInput required name="name" placeholder="New role" />
+            <TextInput required name="name" placeholder="New task" />
             <Button type="submit" size="small" primary icon={<Add />} />
           </Box>
         </Form>
         <List
           primaryKey="name"
-          data={roles}
+          data={tasks}
           children={renderChildren}
         />
       </Box>
@@ -67,22 +67,22 @@ const mapStateToProps = state => {
   return {
     organization: state.organization,
     user: state.user,
-    roles: state.roles
+    tasks: state.tasks
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    addRole: (role) => {
-      dispatch(addRole(role))
+    addTask: (task) => {
+      dispatch(addTask(task))
     },
-    getRoles: (organization_id) => {
-      dispatch(getRoles(organization_id))
+    getTasks: (organization_id) => {
+      dispatch(getTasks(organization_id))
     },
-    deleteRole: (role_id) => {
-      dispatch(deleteRole(role_id))
+    deleteTask: (task_id) => {
+      dispatch(deleteTask(task_id))
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Roles);
+export default connect(mapStateToProps, mapDispatchToProps)(Tasks);

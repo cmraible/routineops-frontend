@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Box, Button, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
+import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
 import { saveUser } from '../actions/actions'
 
 

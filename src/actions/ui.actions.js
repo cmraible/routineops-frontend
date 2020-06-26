@@ -1,5 +1,4 @@
 import history from '../history.js';
-import { getOrg } from './actions';
 
 export const GO_TO_PROFILE = 'GO_TO_PROFILE'
 export function goToProfile() {
@@ -57,11 +56,11 @@ export function goToList() {
   }
 }
 
-export const GO_TO_ADD_TASK = 'GO_TO_ADD_TASK'
-export function goToAddTask() {
-  history.push('/addtask')
+export const GO_TO_TASKS = 'GO_TO_TASKS'
+export function goToTasks() {
+  history.push('/tasks')
   return {
-    type: GO_TO_ADD_TASK
+    type: GO_TO_TASKS
   }
 }
 
@@ -70,6 +69,14 @@ export function goToLogin() {
   history.push('/login')
   return {
     type: GO_TO_LOGIN
+  }
+}
+
+export const GO_TO_MATRIX = 'GO_TO_MATRIX'
+export function goToMatrix() {
+  history.push('/matrix')
+  return {
+    type: GO_TO_MATRIX
   }
 }
 

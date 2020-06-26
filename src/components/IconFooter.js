@@ -1,17 +1,18 @@
 import React from 'react';
 import { Box, Button, Footer } from 'grommet';
-import { Add, Grid, Group, List } from 'grommet-icons';
+import { Checkmark, Group, Resources } from 'grommet-icons';
 import { connect } from 'react-redux';
 import { logout } from '../actions/actions';
 import {
-  goToAddTask,
   goToDash,
   goToGrid,
   goToList,
-  goToRoles
+  goToMatrix,
+  goToRoles,
+  goToTasks
 } from '../actions/ui.actions';
 
-const IconFooter = ({ logout, darkMode, goToAddTask, goToDash, goToGrid, goToList }) => {
+const IconFooter = ({ logout, darkMode, goToTasks, goToDash, goToGrid, goToList, goToMatrix }) => {
 
   const footerStyle = {
     position: "absolute",
@@ -21,10 +22,9 @@ const IconFooter = ({ logout, darkMode, goToAddTask, goToDash, goToGrid, goToLis
   return (
       <Footer background="black" fill="horizontal" style={footerStyle}>
         <Box align="center" justify="center" fill="horizontal" gap="medium" direction="row" flex>
-          <Button icon={<Add />} onClick={() => goToAddTask() } />
           <Button icon={<Group />} onClick={() => goToRoles() } />
-          <Button icon={<Grid />} onClick={() => goToGrid() }/>
-          <Button icon={<List />} onClick={() => goToList() }/>
+          <Button icon={<Checkmark />} onClick={() => goToTasks() } />
+          <Button icon={<Resources />} onClick={() => goToMatrix()} />
         </Box>
       </Footer>
   )
@@ -42,8 +42,8 @@ const mapDispatchToProps = dispatch => {
     logout: () => {
       dispatch(logout())
     },
-    goToAddTask: () => {
-      dispatch(goToAddTask())
+    goToTasks: () => {
+      dispatch(goToTasks())
     },
     goToDash: () => {
       dispatch(goToDash())
@@ -53,6 +53,9 @@ const mapDispatchToProps = dispatch => {
     },
     goToList: () => {
       dispatch(goToList())
+    },
+    goToMatrix: () => {
+      dispatch(goToMatrix())
     }
   }
 }
