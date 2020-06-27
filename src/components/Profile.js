@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
-import { saveUser } from '../actions/actions'
+import { saveUser } from '../actions/user.actions'
 
 
 const Profile = ({ saveUser, user }) => {

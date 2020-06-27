@@ -4,19 +4,32 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  SAVE_USER_SUCCESS,
-  SAVE_ORG_SUCCESS,
-  GET_ORG_SUCCESS,
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
-  SIGNUP_FAIL,
+  SIGNUP_FAIL
+} from '../actions/auth.actions';
+import {
+  SAVE_USER_SUCCESS,
+} from '../actions/user.actions';
+import {
+  SAVE_ORG_SUCCESS,
+  GET_ORG_SUCCESS,
+} from '../actions/organization.actions';
+import {
   GET_ROLES_SUCCESS,
   ADD_ROLE_SUCCESS,
-  DELETE_ROLE_SUCCESS,
+  DELETE_ROLE_SUCCESS
+} from '../actions/role.actions';
+import {
   GET_TASKS_SUCCESS,
   ADD_TASK_SUCCESS,
   DELETE_TASK_SUCCESS
-} from '../actions/actions';
+} from '../actions/task.actions';
+import {
+  GET_TASK_LAYERS_SUCCESS,
+  ADD_TASK_LAYER_SUCCESS,
+  DELETE_TASK_LAYER_SUCCESS
+} from '../actions/taskLayer.actions';
 import {
   TOGGLE_DARK_MODE,
   GO_TO_LOGIN,
@@ -133,6 +146,8 @@ function roles(state = [], action) {
       return [action.role, ...state]
     case DELETE_ROLE_SUCCESS:
       return state.filter((role, index) => role.id !== action.role_id )
+    case LOGOUT:
+      return []
     default:
       return state
   }
@@ -146,6 +161,23 @@ function tasks(state = [], action) {
       return [action.task, ...state]
     case DELETE_TASK_SUCCESS:
       return state.filter((task, index) => task.id !== action.task_id )
+    case LOGOUT:
+      return []
+    default:
+      return state
+  }
+}
+
+function taskLayers(state = [], action) {
+  switch (action.type) {
+    case GET_TASK_LAYERS_SUCCESS:
+      return action.taskLayers
+    case ADD_TASK_LAYER_SUCCESS:
+      return [action.taskLayer, ...state]
+    case DELETE_TASK_LAYER_SUCCESS:
+      return state.filter((taskLayer, index) => taskLayer.id !== action.taskLayer_id )
+    case LOGOUT:
+      return []
     default:
       return state
   }
@@ -162,6 +194,7 @@ const createRootReducer = history => combineReducers({
   user,
   roles,
   tasks,
+  taskLayers,
   token
 })
 

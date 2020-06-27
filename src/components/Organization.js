@@ -1,9 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
-import { saveOrg, getOrg } from '../actions/actions';
+import { Box, Button, CheckBoxGroup, Form, FormField, Heading, Main, Select, Text, TextInput } from 'grommet';
+import { saveOrg, getOrg } from '../actions/organization.actions';
 import { connect } from 'react-redux';
 
 const Organization = ({ saveOrg, getOrg, organization }) => {
+
+  const weekdays = [
+    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+  ]
+
+  const weekday_objs = [
+    {
+      index: 0,
+      weekday: 'Monday'
+    },
+    {
+      index: 1,
+      weekday: 'Tuesday'
+    },
+    {
+      index: 2,
+      weekday: 'Wednesday'
+    },
+    {
+      index: 3,
+      weekday: 'Thursday'
+    },
+    {
+      index: 4,
+      weekday: 'Friday'
+    },
+    {
+      index: 5,
+      weekday: 'Saturday'
+    },
+    {
+      index: 6,
+      weekday: 'Sunday'
+    },
+  ]
 
   const [ value, setValue] = useState({
     id: organization.id,
@@ -12,7 +47,9 @@ const Organization = ({ saveOrg, getOrg, organization }) => {
     address2: (organization.address2) ? organization.address2 : '',
     city: (organization.city) ? organization.city : '',
     state: (organization.state) ? organization.state : '',
-    zip: (organization.zip) ? organization.zip : ''
+    zip: (organization.zip) ? organization.zip : '',
+    wkst: (organization.wkst) ? organization.wkst : 0,
+    working_days: (organization.working_days) ? organization.working_days: []
   });
 
   useEffect(() => {
@@ -20,9 +57,9 @@ const Organization = ({ saveOrg, getOrg, organization }) => {
   }, [organization.id]);
 
   return (
-    <Main pad="medium">
+    <Main pad="medium" margin={{bottom:"large"}}>
       <Heading level={1}>Organization</Heading>
-      <Heading level={3}>Basic Information</Heading>
+
       <Form
         onSubmit={({value, touch}) => {
           saveOrg(value)
@@ -30,6 +67,7 @@ const Organization = ({ saveOrg, getOrg, organization }) => {
         value={value}
         onChange={ nextValue => setValue(nextValue) }
       >
+        <Heading level={2}>Basic Information</Heading>
         <FormField label="Organization Name">
           <TextInput name="name" />
         </FormField>
@@ -50,6 +88,23 @@ const Organization = ({ saveOrg, getOrg, organization }) => {
             <TextInput name="zip"/>
           </FormField>
         </Box>
+        <Heading level={2}>Calendar Information</Heading>
+        <FormField label="Weekstart">
+          <Select
+            children={(option, index, options, state) => (<Box pad="small">{weekdays[option]}</Box>)}
+            name='wkst'
+            options={[0,1,2,3,4,5,6]}
+            labelKey={(option) => weekdays[option]}
+          />
+        </FormField>
+        <FormField label="Working Days">
+          <CheckBoxGroup
+            name='working_days'
+            options={weekday_objs}
+            labelKey='weekday'
+            valueKey='index'
+          />
+        </FormField>
         <Button label="Save" primary size="large" type="submit" pad="small" />
       </Form>
     </Main>

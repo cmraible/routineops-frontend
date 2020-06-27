@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
 import { Add, Subtract } from 'grommet-icons';
-import { addRole, getRoles, deleteRole } from '../actions/actions'
+import { addRole, getRoles, deleteRole } from '../actions/role.actions'
 
 
 const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
@@ -13,7 +13,7 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
 
   useEffect(() => {
     getRoles(organization.id)
-  }, [organization.id]);
+  }, []);
 
   const renderChildren = (datum, index) => {
     return (

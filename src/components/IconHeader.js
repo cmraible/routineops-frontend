@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar, Box, Button, Header, Menu } from 'grommet';
 import { Down, User } from 'grommet-icons';
 import { connect } from 'react-redux';
-import { logout } from '../actions/actions'
+import { logout } from '../actions/auth.actions'
 import { goToProfile, goToOrg, toggleDarkMode } from '../actions/ui.actions'
 
 

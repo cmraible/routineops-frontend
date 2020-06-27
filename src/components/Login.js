@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
-import { login } from '../actions/actions'
+import { login } from '../actions/auth.actions'
 
 
 const Login = ({login, loginError}) => {

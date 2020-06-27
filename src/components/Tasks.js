@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
 import { Add, Subtract } from 'grommet-icons';
-import { addTask, getTasks, deleteTask } from '../actions/actions'
+import { addTask, getTasks, deleteTask } from '../actions/task.actions'
 
 
-const Tasks = ({ organization, tasks, addTask, getTask, deleteTask }) => {
+const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask }) => {
 
   const [value, setValue] = useState({
     name: ''
@@ -13,7 +13,7 @@ const Tasks = ({ organization, tasks, addTask, getTask, deleteTask }) => {
 
   useEffect(() => {
     getTasks(organization.id)
-  }, [organization.id]);
+  }, []);
 
   const renderChildren = (datum, index) => {
     return (

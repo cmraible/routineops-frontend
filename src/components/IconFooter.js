@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Button, Footer } from 'grommet';
-import { Checkmark, Group, Resources } from 'grommet-icons';
+import { Checkmark, Grid, Group, Resources } from 'grommet-icons';
 import { connect } from 'react-redux';
-import { logout } from '../actions/actions';
+import { logout } from '../actions/auth.actions';
 import {
   goToDash,
   goToGrid,
@@ -25,6 +25,7 @@ const IconFooter = ({ logout, darkMode, goToTasks, goToDash, goToGrid, goToList,
           <Button icon={<Group />} onClick={() => goToRoles() } />
           <Button icon={<Checkmark />} onClick={() => goToTasks() } />
           <Button icon={<Resources />} onClick={() => goToMatrix()} />
+          <Button icon={<Grid />} onClick={() => goToGrid()} />
         </Box>
       </Footer>
   )
