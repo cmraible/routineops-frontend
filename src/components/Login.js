@@ -4,7 +4,7 @@ import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'gr
 import { login } from '../actions/auth.actions'
 
 
-const Login = ({login, loginError}) => {
+const Login = ({onLogin, loginError}) => {
 
     return (
       <Main pad="xlarge">
@@ -14,7 +14,7 @@ const Login = ({login, loginError}) => {
       <Text size="small" color="status-error">{loginError}</Text>
       <Form
         onSubmit={({value, touch}) => {
-          login(value.username, value.password)
+          onLogin(value.username, value.password)
         }}
       >
         <FormField name="username" htmlfor="username-id">
@@ -31,18 +31,8 @@ const Login = ({login, loginError}) => {
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    loginError: state.loginError
-  }
-}
+const mapStateToProps = state => ({
+  loginError: state.auth.loginError
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    login: (username, password) => {
-      dispatch(login(username, password))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, { onLogin: login })(Login)

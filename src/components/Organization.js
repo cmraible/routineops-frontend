@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, CheckBoxGroup, Form, FormField, Heading, Main, Select, Text, TextInput } from 'grommet';
+import { Box, Button, CheckBoxGroup, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
 import { saveOrg, getOrg } from '../actions/organization.actions';
 import { connect } from 'react-redux';
 
-const Organization = ({ saveOrg, getOrg, organization }) => {
+const Organization = ({ onSave, getOrg, organization }) => {
 
   const weekdays = [
     'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
@@ -54,7 +54,7 @@ const Organization = ({ saveOrg, getOrg, organization }) => {
 
   useEffect(() => {
     getOrg(organization.id)
-  }, [organization.id]);
+  }, [getOrg, organization.id]);
 
   return (
     <Main pad="medium" margin={{bottom:"large"}}>
@@ -62,7 +62,7 @@ const Organization = ({ saveOrg, getOrg, organization }) => {
 
       <Form
         onSubmit={({value, touch}) => {
-          saveOrg(value)
+          onSave(value)
         }}
         value={value}
         onChange={ nextValue => setValue(nextValue) }
@@ -112,21 +112,8 @@ const Organization = ({ saveOrg, getOrg, organization }) => {
 
 };
 
-const mapStateToProps = state => {
-  return {
-    organization: state.organization
-  }
-}
+const mapStateToProps = state => ({
+  organization: state.organization
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    saveOrg: (organization) => {
-      dispatch(saveOrg(organization))
-    },
-    getOrg: (id) => {
-      dispatch(getOrg(id))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Organization);
+export default connect(mapStateToProps, {onSave: saveOrg, getOrg: getOrg })(Organization);

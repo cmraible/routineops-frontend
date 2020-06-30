@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
 import { Add, Subtract } from 'grommet-icons';
 import { addTask, getTasks, deleteTask } from '../actions/task.actions'
+import { getAllTasks } from '../reducers/reducers';
 
 
 const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask }) => {
@@ -13,7 +14,7 @@ const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask }) => {
 
   useEffect(() => {
     getTasks(organization.id)
-  }, []);
+  }, [getTasks, organization.id]);
 
   const renderChildren = (datum, index) => {
     return (
@@ -33,7 +34,7 @@ const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask }) => {
   }
 
   return (
-    <Main pad="medium" fill="horizontal" >
+    <Main pad="medium" fill="horizontal" margin={{bottom: "large"}} >
       <Heading>Tasks</Heading>
       <Box direction="column" gap="large">
         <Form
@@ -63,26 +64,22 @@ const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask }) => {
 
 };
 
-const mapStateToProps = state => {
-  return {
-    organization: state.organization,
-    user: state.user,
-    tasks: state.tasks
-  }
-}
+const mapStateToProps = state => ({
+  organization: state.organization,
+  user: state.user,
+  tasks: getAllTasks(state)
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addTask: (task) => {
-      dispatch(addTask(task))
-    },
-    getTasks: (organization_id) => {
-      dispatch(getTasks(organization_id))
-    },
-    deleteTask: (task_id) => {
-      dispatch(deleteTask(task_id))
-    }
+const mapDispatchToProps = dispatch => ({
+  addTask: (task) => {
+    dispatch(addTask(task))
+  },
+  getTasks: (organization_id) => {
+    dispatch(getTasks(organization_id))
+  },
+  deleteTask: (task_id) => {
+    dispatch(deleteTask(task_id))
   }
-}
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasks);

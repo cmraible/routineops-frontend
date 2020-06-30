@@ -28,21 +28,17 @@ const LandingPage = ({ goToSignup, goToLogin }) => {
   )
 };
 
-const mapStateToProps = state => {
-  return {
+const mapStateToProps = state => ({
 
-  }
-}
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    goToSignup: () => {
-      dispatch(goToSignup())
-    },
-    goToLogin: () => {
-      dispatch(goToLogin())
-    }
+const mapDispatchToProps = dispatch => ({
+  goToSignup: () => {
+    dispatch(goToSignup())
+  },
+  goToLogin: () => {
+    dispatch(goToLogin())
   }
-}
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingPage)

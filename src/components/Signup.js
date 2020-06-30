@@ -4,7 +4,7 @@ import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'gr
 import { signup } from '../actions/auth.actions'
 
 
-const Signup = ({signup, signupErrors, signupSuccess}) => {
+const Signup = ({onSignup, signupErrors, signupSuccess}) => {
 
   const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -48,7 +48,7 @@ const Signup = ({signup, signupErrors, signupSuccess}) => {
           <Text size="small" color="status-error">{}</Text>
           <Form
             onSubmit={({value, touch}) => {
-              signup(value)
+              onSignup(value)
             }}
             validate="blur"
             errors={formErrors}
@@ -77,19 +77,9 @@ const Signup = ({signup, signupErrors, signupSuccess}) => {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    signupErrors: state.signupErrors,
-    signupSuccess: state.signupSuccess
-  }
-}
+const mapStateToProps = state => ({
+  signupErrors: state.auth.signupErrors,
+  signupSuccess: state.auth.signupSuccess
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    signup: (user) => {
-      dispatch(signup(user))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Signup)
+export default connect(mapStateToProps, { onSignup: signup })(Signup)

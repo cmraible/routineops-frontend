@@ -1,105 +1,64 @@
-import history from '../history.js';
-
-const axios = require('axios').default;
-
-// Get API host from env variable, then get api baseurl
-const host = process.env.REACT_APP_API_HOST
-const baseUrl = host + '/api'
-
-// Create axios client with baseUrl and auth headers above
-const config = {
-  baseURL: baseUrl,
-  timeout: 1000,
-};
-
-const getToken = () => {
-  return window.localStorage.getItem('operationally-token')
-}
-
-const getAuthConfig = () => {
-  return {
-    headers: {'Authorization': 'Token ' + getToken() },
-    ...config
-  }
-}
+import { getClient } from '../apiClient.js';
 
 export const SAVE_ORG_REQUEST = 'SAVE_ORG_REQUEST'
-export function saveOrgRequest(org) {
-  return {
-    type: SAVE_ORG_REQUEST,
-    org: org
-  }
-}
+export const saveOrgRequest = (org) => ({
+  type: SAVE_ORG_REQUEST,
+  org: org
+});
 
 export const SAVE_ORG_SUCCESS = 'SAVE_ORG_SUCCESS'
-export function saveOrgSuccess(org) {
-  return {
-    type: SAVE_ORG_SUCCESS,
-    org: org
-  }
-}
+export const saveOrgSuccess = (org) => ({
+  type: SAVE_ORG_SUCCESS,
+  org: org
+});
 
 export const SAVE_ORG_FAIL = 'SAVE_ORG_FAIL'
-export function saveOrgFail(error) {
-  return {
-    type: SAVE_ORG_FAIL,
-    message: "An error occurred."
-  }
-}
+export const saveOrgFail = (error) => ({
+  type: SAVE_ORG_FAIL,
+  message: "An error occurred."
+});
 
-export function saveOrg(org) {
+export const saveOrg = (org) => ((dispatch) => {
+  dispatch(saveOrgRequest())
 
-  return function(dispatch) {
-    dispatch(saveOrgRequest())
+  const client = getClient()
 
-    const client = axios.create(getAuthConfig())
-
-    return client.patch(
-      '/organizations/' + org.id + '/', org
-    )
-    .then( response => {
-      dispatch(saveOrgSuccess(response.data))
-    })
-    .catch( error => dispatch(saveOrgFail(error)) )
-  }
-}
+  return client.patch(
+    '/organizations/' + org.id + '/', org
+  )
+  .then( response => {
+    dispatch(saveOrgSuccess(response.data))
+  })
+  .catch( error => dispatch(saveOrgFail(error)) )
+});
 
 export const GET_ORG_REQUEST = 'GET_ORG_REQUEST'
-export function getOrgRequest(id) {
-  return {
-    type: GET_ORG_REQUEST,
-    org: id
-  }
-}
+export const getOrgRequest = (id) => ({
+  type: GET_ORG_REQUEST,
+  org: id
+});
+
 
 export const GET_ORG_SUCCESS = 'GET_ORG_SUCCESS'
-export function getOrgSuccess(org) {
-  return {
-    type: GET_ORG_SUCCESS,
-    org: org
-  }
-}
+export const getOrgSuccess = (org) => ({
+  type: GET_ORG_SUCCESS,
+  org: org
+});
 
 export const GET_ORG_FAIL = 'GET_ORG_FAIL'
-export function getOrgFail(error) {
-  console.log(error)
-  return {
-    type: GET_ORG_FAIL,
-    message: "An error occurred."
-  }
-}
+export const getOrgFail = (error) => ({
+  type: GET_ORG_FAIL,
+  message: "An error occurred."
+});
 
-export function getOrg(id) {
+export const getOrg = (id) => ((dispatch) => {
+  dispatch(getOrgRequest())
 
-  return function(dispatch) {
-    dispatch(getOrgRequest())
+  const client = getClient()
 
-    const client = axios.create(getAuthConfig())
-
-    return client.get(
-      '/organizations/' + id + '/'
-    )
-    .then( response => dispatch(getOrgSuccess(response.data)) )
-    .catch( error => dispatch(getOrgFail(error)) )
-  }
-}
+  return client.get(
+    '/organizations/' + id + '/'
+  )
+  .then( response => dispatch(getOrgSuccess(response.data)) )
+  .catch( error => dispatch(getOrgFail(error)) )
+});

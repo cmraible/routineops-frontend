@@ -1,12 +1,12 @@
-import React from 'react';
 import { Avatar, Box, Button, Header, Menu } from 'grommet';
 import { Down, User } from 'grommet-icons';
+import React from 'react';
 import { connect } from 'react-redux';
-import { logout } from '../actions/auth.actions'
-import { goToProfile, goToOrg, toggleDarkMode } from '../actions/ui.actions'
+import { logout } from '../actions/auth.actions';
+import { goToOrg, goToProfile, toggleDarkMode } from '../actions/ui.actions';
 
 
-const IconHeader = ({ logout, toggleDarkMode, darkMode, goToProfile, goToOrg, user }) => {
+const IconHeader = ({ darkMode, goToOrg, goToProfile, onLogout, onToggleDarkMode, user }) => {
 
   return (
       <Header background="black" fill="horizontal" pad="small">
@@ -18,11 +18,11 @@ const IconHeader = ({ logout, toggleDarkMode, darkMode, goToProfile, goToOrg, us
 
           <Menu
             label={user.first_name + ' ' + user.last_name}
-            icon=<Down />
+            icon={<Down/>}
             items={[
               { label: "Profile", onClick: () => {goToProfile()} },
-              { label: (darkMode) ? "Light" : "Dark" , onClick: () => {toggleDarkMode()} },
-              { label: "Logout", onClick: () => {logout()} }
+              { label: (darkMode) ? "Light" : "Dark" , onClick: () => {onToggleDarkMode()} },
+              { label: "Logout", onClick: () => {onLogout()} }
 
             ]}
           >
@@ -32,31 +32,27 @@ const IconHeader = ({ logout, toggleDarkMode, darkMode, goToProfile, goToOrg, us
           </Menu>
         </Box>
       </Header>
-  )
+      )
 
 };
 
-const mapStateToProps = state => {
-  return {
-    darkMode: state.darkMode,
-    user: state.user,
-  }
-}
+const mapStateToProps = state => ({
+  darkMode: state.ui.darkMode,
+  user: state.user,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    toggleDarkMode: () => {
-      dispatch(toggleDarkMode())
-    },
-    logout: () => {
-      dispatch(logout())
-    },
-    goToProfile: () => {
-      dispatch(goToProfile())
-    },
-    goToOrg: () => {
-      dispatch(goToOrg())
-    }
+const mapDispatchToProps = dispatch => ({
+  onToggleDarkMode: () => {
+    dispatch(toggleDarkMode())
+  },
+  onLogout: () => {
+    dispatch(logout())
+  },
+  goToProfile: () => {
+    dispatch(goToProfile())
+  },
+  goToOrg: () => {
+    dispatch(goToOrg())
   }
-}
+});
 export default connect(mapStateToProps, mapDispatchToProps)(IconHeader);

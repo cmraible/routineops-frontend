@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
 import { Add, Subtract } from 'grommet-icons';
 import { addRole, getRoles, deleteRole } from '../actions/role.actions'
+import { getAllRoles } from '../reducers/reducers';
 
 
 const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
@@ -13,7 +14,7 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
 
   useEffect(() => {
     getRoles(organization.id)
-  }, []);
+  }, [getRoles, organization.id]);
 
   const renderChildren = (datum, index) => {
     return (
@@ -33,7 +34,7 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
   }
 
   return (
-    <Main pad="medium" fill="horizontal" >
+    <Main fill="horizontal" margin={{bottom:"large"}} pad="medium" >
       <Heading>Roles</Heading>
       <Box direction="column" gap="large">
         <Form
@@ -63,26 +64,10 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
 
 };
 
-const mapStateToProps = state => {
-  return {
-    organization: state.organization,
-    user: state.user,
-    roles: state.roles
-  }
-}
+const mapStateToProps = state => ({
+  organization: state.organization,
+  user: state.user,
+  roles: getAllRoles(state)
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addRole: (role) => {
-      dispatch(addRole(role))
-    },
-    getRoles: (organization_id) => {
-      dispatch(getRoles(organization_id))
-    },
-    deleteRole: (role_id) => {
-      dispatch(deleteRole(role_id))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Roles);
+export default connect(mapStateToProps, {addRole: addRole, getRoles: getRoles, deleteRole: deleteRole })(Roles);

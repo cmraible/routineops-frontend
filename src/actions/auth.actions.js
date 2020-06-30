@@ -1,54 +1,29 @@
 import history from '../history.js';
 import { getOrg } from './organization.actions';
+import { getClient } from '../apiClient';
 
-
-const axios = require('axios').default;
-
-// Get API host from env variable, then get api baseurl
-const host = process.env.REACT_APP_API_HOST
-const baseUrl = host + '/api'
-
-// Create axios client with baseUrl and auth headers above
-const config = {
-  baseURL: baseUrl,
-  timeout: 1000,
-};
-
-const getToken = () => {
-  return window.localStorage.getItem('operationally-token')
-}
-
-const getAuthConfig = () => {
-  return {
-    headers: {'Authorization': 'Token ' + getToken() },
-    ...config
-  }
-}
 
 export const LOGOUT = 'LOGOUT'
-export function logout() {
+export const logout = () => {
   window.localStorage.removeItem('operationally-token')
   history.push('/')
   return {
     type: LOGOUT
   }
-}
+} 
 
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export function loginRequest() {
-  return {
-    type: LOGIN_REQUEST
-  }
-}
+export const loginRequest = () => ({
+  type: LOGIN_REQUEST
+});
 
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export function loginSuccess(token, user) {
+export const loginSuccess = (token, user) => {
   history.push('/')
   // Save the token to localstorage
   window.localStorage.setItem('operationally-token', token)
-
   return {
       type: LOGIN_SUCCESS,
       token: token,
@@ -56,8 +31,9 @@ export function loginSuccess(token, user) {
   }
 }
 
+
 export const LOGIN_FAIL = 'LOGIN_FAIL'
-export function loginFail(error) {
+export const loginFail = (error) => {
   if (error.response) {
     if (error.response.status === 400) {
       return {
@@ -80,42 +56,36 @@ export function loginFail(error) {
 }
 
 
-export function login(username, password) {
+export const login = (username, password) => ((dispatch) => {
+  dispatch(loginRequest())
 
-  return function(dispatch) {
-    dispatch(loginRequest())
+  const client = getClient()
 
-    const client = axios.create(config)
-
-    return client.post(
-      '/auth_token/', {
-        username: username,
-        password: password
-      }
-    )
-    .then( (response) => {
-      dispatch(loginSuccess(response.data.token, response.data.user))
-      dispatch(getOrg(response.data.user.organization))
-    })
-    .catch( (error) => {
-      console.log(error.response)
-      dispatch(loginFail(error))
-    } )
-
-  }
-}
+  return client.post(
+    '/auth_token/', {
+      username: username,
+      password: password
+    }
+  )
+  .then( (response) => {
+    dispatch(loginSuccess(response.data.token, response.data.user))
+    dispatch(getOrg(response.data.user.organization))
+  })
+  .catch( (error) => {
+    console.log(error.response)
+    dispatch(loginFail(error))
+  })
+});
 
 
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
-export function signupRequest(user) {
-  return {
-    type: SIGNUP_REQUEST,
-    user: user
-  }
-}
+export const signupRequest = (user) => ({
+  type: SIGNUP_REQUEST,
+  user: user
+});
 
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
-export function signupSuccess(user) {
+export const signupSuccess = (user) => {
   history.push('/signup/success')
   return {
     type: SIGNUP_SUCCESS,
@@ -124,7 +94,7 @@ export function signupSuccess(user) {
 }
 
 export const SIGNUP_FAIL = 'SIGNUP_FAIL'
-export function signupFail(error) {
+export const signupFail = (error) => {
   if (error.response) {
     if (error.response.status === 400) {
       return {
@@ -140,19 +110,16 @@ export function signupFail(error) {
   }
 }
 
-export function signup(user) {
+export const signup = (user) => ((dispatch) => {
+  dispatch(signupRequest())
 
-  return function(dispatch) {
-    dispatch(signupRequest())
+  const client = getClient()
 
-    const client = axios.create(config)
-
-    return client.post(
-      '/register/', user
-    )
-    .then( response => {
-      dispatch(signupSuccess(response.data))
-    })
-    .catch( error => dispatch(signupFail(error)) )
-  }
-}
+  return client.post(
+    '/register/', user
+  )
+  .then( response => {
+    dispatch(signupSuccess(response.data))
+  })
+  .catch( error => dispatch(signupFail(error)) )
+});

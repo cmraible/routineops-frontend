@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Select, Text } from 'grommet';
+import { Form, Select } from 'grommet';
 import { RRule } from 'rrule';
-import { addTaskLayer, saveTaskLayer } from '../actions/taskLayer.actions';
 
 
 
@@ -80,6 +79,9 @@ const TaskLayerForm = ({ organization, task, role, taskLayer, saveFunction, addF
         }
       }}
     >
+      {
+//      <Text>{role.name} - {task.name}</Text>
+      }
       <Select
         name="recurrence"
         options={frequency_options}
@@ -90,7 +92,6 @@ const TaskLayerForm = ({ organization, task, role, taskLayer, saveFunction, addF
         labelKey="label"
       />
     </Form>
-
   )
 
 };

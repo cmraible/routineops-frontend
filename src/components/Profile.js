@@ -4,7 +4,7 @@ import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet'
 import { saveUser } from '../actions/user.actions'
 
 
-const Profile = ({ saveUser, user }) => {
+const Profile = ({ onSave, user }) => {
   const [ value, setValue ] = useState({
       id: user.id,
       first_name: user.first_name,
@@ -18,7 +18,7 @@ const Profile = ({ saveUser, user }) => {
       <Heading level={3}>Basic Information</Heading>
       <Form
         onSubmit={({value, touch}) => {
-          saveUser(value)
+          onSave(value)
         }}
         value={value}
         onChange={ nextValue => setValue(nextValue) }
@@ -43,19 +43,8 @@ const Profile = ({ saveUser, user }) => {
 
 };
 
-const mapStateToProps = state => {
-  return {
-    user: state.user
-  }
-}
+const mapStateToProps = state => ({
+  user: state.user
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    saveUser: (user) => {
-      console.log(user)
-      dispatch(saveUser(user))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, { onSave: saveUser })(Profile);

@@ -1,18 +1,15 @@
 import React from 'react';
 import { Box, Button, Footer } from 'grommet';
-import { Checkmark, Grid, Group, Resources } from 'grommet-icons';
+import { Calendar, Checkmark, Group, Resources } from 'grommet-icons';
 import { connect } from 'react-redux';
-import { logout } from '../actions/auth.actions';
 import {
-  goToDash,
-  goToGrid,
-  goToList,
+  goToCalendar,
   goToMatrix,
   goToRoles,
   goToTasks
 } from '../actions/ui.actions';
 
-const IconFooter = ({ logout, darkMode, goToTasks, goToDash, goToGrid, goToList, goToMatrix }) => {
+const IconFooter = ({goToTasks, goToCalendar, goToMatrix }) => {
 
   const footerStyle = {
     position: "absolute",
@@ -25,41 +22,28 @@ const IconFooter = ({ logout, darkMode, goToTasks, goToDash, goToGrid, goToList,
           <Button icon={<Group />} onClick={() => goToRoles() } />
           <Button icon={<Checkmark />} onClick={() => goToTasks() } />
           <Button icon={<Resources />} onClick={() => goToMatrix()} />
-          <Button icon={<Grid />} onClick={() => goToGrid()} />
+          <Button icon={<Calendar />} onClick={() => goToCalendar()} />
         </Box>
       </Footer>
   )
 
 };
 
-const mapStateToProps = state => {
-  return {
-    darkMode: state.darkMode
-  }
-}
+const mapStateToProps = state => ({
 
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => {
-      dispatch(logout())
-    },
-    goToTasks: () => {
-      dispatch(goToTasks())
-    },
-    goToDash: () => {
-      dispatch(goToDash())
-    },
-    goToGrid: () => {
-      dispatch(goToGrid())
-    },
-    goToList: () => {
-      dispatch(goToList())
-    },
-    goToMatrix: () => {
-      dispatch(goToMatrix())
-    }
+});
+
+const mapDispatchToProps = dispatch => ({
+  goToTasks: () => {
+    dispatch(goToTasks())
+  },
+  goToCalendar: () => {
+    dispatch(goToCalendar())
+  },
+  goToMatrix: () => {
+    dispatch(goToMatrix())
   }
-}
+});
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(IconFooter);
