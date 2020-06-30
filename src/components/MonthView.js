@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Box, DataTable, Text } from 'grommet';
 import { format, eachDayOfInterval, isSameDay, getDay, endOfMonth, startOfMonth } from 'date-fns';
 import { getTaskLayers } from '../actions/taskLayer.actions';
-import WeekViewCell from './WeekViewCell';
+import MonthViewCell from './MonthViewCell';
 import { getAllTaskLayers, getAllRoles } from '../reducers/reducers';
 
 
@@ -34,11 +34,14 @@ const MonthView = ({ organization, taskLayers, tasks, roles, date }) => {
   })
 
   const roleColumns = roles.map((role) => {
+
     return {
       align: 'center',
       header: <Text>{role.name}</Text>,
       key: date,
-      render: datum => <WeekViewCell date={date} status="undefined" />
+      render: datum => {
+        return <MonthViewCell date={datum} role={role} status="undefined" />
+      }
     }
   })
 
@@ -62,7 +65,6 @@ const MonthView = ({ organization, taskLayers, tasks, roles, date }) => {
         columns={columns}
         data={workingDatesInInterval}
         pad={{body: false}}
-        primaryKey="id"
       />
     </Box>
   )

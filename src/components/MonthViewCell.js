@@ -1,23 +1,12 @@
 import React from 'react';
 import { Box } from 'grommet';
-import { Checkmark, Close, Clock,  Subtract } from 'grommet-icons';
+import { Checkmark, Close, Subtract } from 'grommet-icons';
 import { rrulestr } from 'rrule';
 import { endOfDay, startOfDay } from 'date-fns';
 
 
-const WeekViewCell = ({ date, taskLayer, status }) => {
-
-  const recurrence = rrulestr(taskLayer.recurrence)
-  const scheduled = recurrence.between(startOfDay(date), endOfDay(date))
-  if (scheduled.length > 0) {
-    return (
-      <Box align="center" background="status-warning" fill pad="small">
-        <Clock color="white" />
-      </Box>
-    )
-  }
+const MonthViewCell = ({ date, taskLayer, status }) => {
   
-
   switch(status) {
     case 'OK':
       return (
@@ -43,4 +32,4 @@ const WeekViewCell = ({ date, taskLayer, status }) => {
 
 };
 
-export default WeekViewCell;
+export default MonthViewCell;

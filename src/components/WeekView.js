@@ -35,7 +35,6 @@ const WeekView = ({ organization, taskLayers, tasks, roles, date }) => {
   })
 
   const dayColumns = workingDatesInInterval.map((workingDate) => {
-    console.log(date)
     const active = isSameDay(workingDate, date)
     return {
       align: 'center',
