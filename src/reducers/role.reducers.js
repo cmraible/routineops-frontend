@@ -4,6 +4,7 @@ import {
 import {
   GET_ROLES_SUCCESS,
   ADD_ROLE_SUCCESS,
+  SAVE_ROLE_SUCCESS,
   DELETE_ROLE_SUCCESS
 } from '../actions/role.actions.js';
 import { combineReducers } from 'redux';
@@ -11,6 +12,7 @@ import { combineReducers } from 'redux';
 const role = (state, action) => {
   switch (action.type) {
     case ADD_ROLE_SUCCESS:
+    case SAVE_ROLE_SUCCESS:
       return action.role
     default:
       return state
@@ -26,6 +28,7 @@ const byId = (state = {}, action) => {
         return {}
       }
     case ADD_ROLE_SUCCESS:
+    case SAVE_ROLE_SUCCESS:
       return {
         ...state,
         [action.role.id]: role(undefined, action)

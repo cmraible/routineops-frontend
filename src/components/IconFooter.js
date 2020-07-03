@@ -1,9 +1,10 @@
-import React from 'react';
 import { Box, Button, Footer } from 'grommet';
-import { Calendar, Checkmark, Group, Resources } from 'grommet-icons';
+import { Calendar, Checkmark, Group, Home, Resources } from 'grommet-icons';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
   goToCalendar,
+  goToHome,
   goToMatrix,
   goToRoles,
   goToTasks
@@ -19,6 +20,8 @@ const IconFooter = ({goToTasks, goToCalendar, goToMatrix }) => {
   return (
       <Footer background="black" fill="horizontal" style={footerStyle}>
         <Box align="center" justify="center" fill="horizontal" gap="medium" direction="row" flex>
+          <Button icon={<Home />} onClick={() => goToHome() } />
+          {/* <Button icon={<SettingsOption />} onClick={() => goToSettings() } /> */}
           <Button icon={<Group />} onClick={() => goToRoles() } />
           <Button icon={<Checkmark />} onClick={() => goToTasks() } />
           <Button icon={<Resources />} onClick={() => goToMatrix()} />

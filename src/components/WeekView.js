@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Box, DataTable, Text } from 'grommet';
-import { format, eachDayOfInterval, isSameDay, getDay, endOfWeek, startOfWeek } from 'date-fns';
-import { getTaskLayers } from '../actions/taskLayer.actions';
+import { Box, Table, TableHeader, TableRow, TableCell, TableBody, ThemeContext } from 'grommet';
+import { format, eachDayOfInterval, getDay, endOfWeek, startOfWeek } from 'date-fns';
+import { getTaskInstances } from '../actions/taskInstance.actions';
 import WeekViewCell from './WeekViewCell';
 import { getAllTaskLayers } from '../reducers/reducers';
+import { rrulestr } from 'rrule';
+import { getAllTaskInstances } from '../reducers/reducers'
 
 
 
-const WeekView = ({ organization, taskLayers, tasks, roles, date }) => {
+const WeekView = ({ getTaskInstances, organization, tasks, taskInstances, taskLayers, roles, date }) => {
 
   useEffect(() => {
-    getTaskLayers(organization.id)
+    getTaskInstances(organization.id)
   }, [organization.id]);
 
   // object to map monday based to sunday based weekdays
@@ -34,42 +36,49 @@ const WeekView = ({ organization, taskLayers, tasks, roles, date }) => {
     return workingDays.some((workingDay) => weekdayMapping[workingDay] === getDay(datum))
   })
 
-  const dayColumns = workingDatesInInterval.map((workingDate) => {
-    const active = isSameDay(workingDate, date)
-    return {
-      align: 'center',
-      header: (active) ? <Text size="large" color="accent-1" as="u">{format(workingDate, 'EEEEE')}</Text> : <Text size="large">{format(workingDate, 'EEEEE')}</Text>,
-      key: date,
-      render: datum => (<WeekViewCell date={workingDate} taskLayer={datum} />),
-      sortable: false
-    }
-  })
-
-  const columns = [
-    {
-      align: 'start',
-      property: 'Task',
-      header: <Box pad="small">Task</Box>,
-      render: datum => (<Box pad="small">{tasks[datum.task].name}</Box>),
-    },
-    {
-      align: 'start',
-      property: 'Role',
-      header: <Box pad="small">Role</Box>,
-      render: datum => (<Box pad="small">{roles[datum.role].name}</Box>)
-    },
-    ...dayColumns
-  ]
-
   return (
     <Box fill>
-      <DataTable
-        border={true}
-        columns={columns}
-        data={taskLayers}
-        pad={{body: false}}
-        sortable={false}
-      />
+      <ThemeContext.Extend 
+        value={{
+          table: {
+            header: {
+              border: "gray"
+            },
+            body: {
+              border: "gray"
+            }
+          }
+        }}
+      >
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableCell>Task</TableCell>
+              <TableCell>Role</TableCell>
+              {
+                workingDatesInInterval.map(date => <TableCell align="center">{format(date, 'EEEEE')}</TableCell>)
+              }
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {
+              taskLayers.map(taskLayer => (
+                <TableRow>
+                  <TableCell>{tasks[taskLayer.task].name}</TableCell>
+                  <TableCell>{roles[taskLayer.role].name}</TableCell>
+                  {
+                    workingDatesInInterval.map(date => {
+                      const recurrence = rrulestr(taskLayer.recurrence)
+                      return (<WeekViewCell taskLayer={taskLayer} date={date} />)
+                    })
+                  }
+                </TableRow>
+              ))
+            }
+          </TableBody>
+        </Table>
+      </ThemeContext.Extend>
+      
     </Box>
   )
 
@@ -80,13 +89,14 @@ const mapStateToProps = state => ({
   user: state.user,
   tasks: state.tasks.byId,
   taskLayers: getAllTaskLayers(state),
+  taskInstances: getAllTaskInstances(state),
   roles: state.roles.byId
 });
 
 const mapDispatchToProps = dispatch => ({
-  getTaskLayers: () => {
-    dispatch(getTaskLayers())
-  }
+  getTaskInstances: () => {
+    dispatch(getTaskInstances())
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeekView);

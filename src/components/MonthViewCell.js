@@ -1,8 +1,6 @@
 import React from 'react';
 import { Box } from 'grommet';
 import { Checkmark, Close, Subtract } from 'grommet-icons';
-import { rrulestr } from 'rrule';
-import { endOfDay, startOfDay } from 'date-fns';
 
 
 const MonthViewCell = ({ date, taskLayer, status }) => {

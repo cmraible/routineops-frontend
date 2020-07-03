@@ -24,11 +24,29 @@ export const goToSignup = () => {
   }
 }
 
+
+export const GO_TO_HOME = 'GO_TO_HOME'
+export const goToHome = () => {
+  history.push('/')
+  return {
+    type: GO_TO_HOME
+  }
+}
+
+
 export const GO_TO_ORG = 'GO_TO_ORG'
 export const goToOrg = () => {
   history.push('/organization')
   return {
     type: GO_TO_ORG
+  }
+}
+
+export const GO_TO_SETTINGS = 'GO_TO_SETTINGS'
+export const goToSettings = () => {
+  history.push('/settings')
+  return {
+    type: GO_TO_SETTINGS
   }
 }
 

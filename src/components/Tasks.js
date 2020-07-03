@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
-import { Add, Subtract } from 'grommet-icons';
+import { Add } from 'grommet-icons';
 import { addTask, getTasks, deleteTask } from '../actions/task.actions'
 import { getAllTasks } from '../reducers/reducers';
+import TaskOverlay from './TaskOverlay';
+import { getTaskTypes } from '../actions/taskType.actions';
 
 
-const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask }) => {
+const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask, getTaskTypes }) => {
 
   const [value, setValue] = useState({
-    name: ''
+    name: ''  
   });
+
+  const [openTask, setOpenTask] = useState()
+
+  const onOpenTask = (event) => setOpenTask(event.item);
+
+  const onCloseTask = () => setOpenTask(undefined);
 
   useEffect(() => {
     getTasks(organization.id)
+    getTaskTypes(organization.id)
   }, [getTasks, organization.id]);
 
   const renderChildren = (datum, index) => {
     return (
       <Box direction="row" justify="between" align="center">
         <Text>{datum.name}</Text>
-        <Button
-          size="small"
-          icon={<Subtract />}
-          primary
-          color="status-critical"
-          onClick={() => {
-            deleteTask(datum.id)
-          }}
-        />
       </Box>
     )
   }
@@ -41,7 +41,8 @@ const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask }) => {
           onSubmit={({value, touch}) => {
             addTask({
               organization: organization.id,
-              name: value.name
+              name: value.name,
+              taskType: 1
             })
             setValue({name: ''})
           }}
@@ -57,7 +58,13 @@ const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask }) => {
           primaryKey="name"
           data={tasks}
           children={renderChildren}
+          onClickItem={onOpenTask}
         />
+        {
+          openTask && (
+            <TaskOverlay task={openTask} onClose={onCloseTask} deleteTask={deleteTask} />
+          )
+        }
       </Box>
     </Main>
   )
@@ -79,6 +86,9 @@ const mapDispatchToProps = dispatch => ({
   },
   deleteTask: (task_id) => {
     dispatch(deleteTask(task_id))
+  },
+  getTaskTypes: (organization_id) => {
+    dispatch(getTaskTypes(organization_id))
   }
 });
 

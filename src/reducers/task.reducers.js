@@ -1,7 +1,8 @@
 import {
   GET_TASKS_SUCCESS,
   ADD_TASK_SUCCESS,
-  DELETE_TASK_SUCCESS
+  DELETE_TASK_SUCCESS,
+  SAVE_TASK_SUCCESS
 } from '../actions/task.actions';
 import {
   LOGOUT
@@ -12,6 +13,7 @@ import { combineReducers } from 'redux';
 const task = (state, action) => {
   switch (action.type) {
     case ADD_TASK_SUCCESS:
+    case SAVE_TASK_SUCCESS:
       return action.task
     default:
       return state
@@ -27,10 +29,12 @@ function byId(state = {}, action) {
         return {}
       }
     case ADD_TASK_SUCCESS:
+    case SAVE_TASK_SUCCESS:
       return {
         ...state,
         [action.task.id]: task(undefined, action)
       }
+    
     case DELETE_TASK_SUCCESS:
       const {[action.task]: omit, ...rest} = state;
       return rest
@@ -65,3 +69,4 @@ export default taskReducer;
 
 export const getAllTasks = (state) =>
   state.allIds.map(id => state.byId[id]);
+  

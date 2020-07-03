@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Main, Tabs, Tab } from 'grommet';
 import { toDate } from 'date-fns';
 import WeekView from './WeekView.js';
 import MonthView from './MonthView.js';
 import { getAllRoles, getAllTasks, getAllTaskLayers } from '../reducers/reducers';
+import { getTaskLayers } from '../actions/taskLayer.actions'
 
 
 
+const Calendar = ({ organization, taskLayers }) => {
 
-const Calendar = ({ organization }) => {
+  useEffect(() => {
+    getTaskLayers(organization.id)
+  }, [organization.id]);
 
   const today = toDate(new Date())
 
@@ -17,7 +21,7 @@ const Calendar = ({ organization }) => {
     <Main direction="column" fill margin={{bottom:"large"}}>
       <Tabs alignControls="start">
         <Tab title="Week">
-          <WeekView date={today} />
+          <WeekView date={today} taskLayers={taskLayers} />
         </Tab>
         <Tab title="Month">
           <MonthView date={today} />
@@ -30,10 +34,16 @@ const Calendar = ({ organization }) => {
 
 const mapStateToProps = state => ({
   organization: state.organization,
-  user: state.user,
+  roles: getAllRoles(state),
   tasks: getAllTasks(state),
   taskLayers: getAllTaskLayers(state),
-  roles: getAllRoles(state)
+  user: state.user
 });
 
-export default connect(mapStateToProps)(Calendar);
+const mapDispatchToProps = dispatch => ({
+  getTaskLayers: () => {
+    dispatch(getTaskLayers())
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

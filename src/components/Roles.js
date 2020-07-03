@@ -4,6 +4,7 @@ import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet
 import { Add, Subtract } from 'grommet-icons';
 import { addRole, getRoles, deleteRole } from '../actions/role.actions'
 import { getAllRoles } from '../reducers/reducers';
+import RoleOverlay from './RoleOverlay';
 
 
 const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
@@ -11,6 +12,13 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
   const [value, setValue] = useState({
     name: ''
   });
+
+  const [openRole, setOpenRole] = useState()
+
+  const onOpenRole = (event) => setOpenRole(event.item);
+
+  const onCloseRole = () => setOpenRole(undefined);
+
 
   useEffect(() => {
     getRoles(organization.id)
@@ -20,15 +28,6 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
     return (
       <Box direction="row" justify="between" align="center">
         <Text>{datum.name}</Text>
-        <Button
-          size="small"
-          icon={<Subtract />}
-          primary
-          color="status-critical"
-          onClick={() => {
-            deleteRole(datum.id)
-          }}
-        />
       </Box>
     )
   }
@@ -57,7 +56,13 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
           primaryKey="name"
           data={roles}
           children={renderChildren}
+          onClickItem={onOpenRole}
         />
+        {
+          openRole && (
+            <RoleOverlay role={openRole} onClose={onCloseRole} deleteRole={deleteRole} />
+          )
+        }
       </Box>
     </Main>
   )

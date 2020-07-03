@@ -1,21 +1,21 @@
+import { Box, Grommet } from 'grommet';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { Box  } from 'grommet';
-import { Grommet } from 'grommet';
+import operationallyTheme from '../operationallyTheme.js';
 import Calendar from './Calendar.js';
-import Login from './Login.js';
-import Signup from './Signup.js';
 import Dashboard from './Dashboard.js';
-import Tasks from './Tasks.js';
-import TaskMatrix from './TaskMatrix.js';
+import Home from './Home.js';
+import IconFooter from './IconFooter.js';
+import IconHeader from './IconHeader.js';
+import LandingPage from './LandingPage.js';
+import Login from './Login.js';
 import Profile from './Profile.js';
 import Roles from './Roles.js';
-import LandingPage from './LandingPage.js';
-import Organization from './Organization.js';
-import { connect } from 'react-redux'
-import operationallyTheme from '../operationallyTheme.js';
-import IconHeader from './IconHeader.js';
-import IconFooter from './IconFooter.js';
+import Settings from './Settings.js';
+import Signup from './Signup.js';
+import TaskMatrix from './TaskMatrix.js';
+import Tasks from './Tasks.js';
 
 
 
@@ -25,14 +25,15 @@ const App = ({ isLoggedIn, theme, darkMode }) => {
     return (
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
         <Switch>
-          <Box align="start" direction="column" fill="horizontal" overflow="auto">
+          <Box align="start" direction="column" fill="horizontal">
               <IconHeader />
+              <Route path="/" exact component={Home} />
               <Route path="/calendar" component={Calendar} />
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/matrix" component={TaskMatrix} />
-              <Route path="/organization" component={Organization} />
               <Route path="/profile" component={Profile} />
               <Route path="/roles" component={Roles} />
+              <Route path="/settings" component={Settings} />
               <Route path="/tasks" component={Tasks} />
               <IconFooter />
           </Box>

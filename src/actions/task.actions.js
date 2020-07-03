@@ -92,6 +92,44 @@ export const getTasks = (organization_id) =>  ((dispatch) => {
   .catch( error => dispatch(getTasksFail(error)) )
 });
 
+
+export const SAVE_TASK_REQUEST = 'SAVE_TASK_REQUEST'
+export const saveTaskRequest = (task) => ({
+  type: SAVE_TASK_REQUEST,
+  task: task
+});
+
+export const SAVE_TASK_SUCCESS = 'SAVE_TASK_SUCCESS'
+export const saveTaskSuccess = (task) => ({
+  type: SAVE_TASK_SUCCESS,
+  task: task
+});
+
+export const SAVE_TASK_FAIL = 'SAVE_TASK_FAIL'
+export const saveTaskFail = (error) => {
+  console.log(error)
+  return ({
+    type: SAVE_TASK_FAIL,
+    message: "An error occurred."
+  });
+};
+
+export const saveTask = (task) => ((dispatch) => {
+  dispatch(saveTaskRequest())
+
+  const client = getClient()
+
+  return client.patch(
+    '/tasks/' + task.id + '/', task
+  )
+  .then( response => {
+    
+    dispatch(saveTaskSuccess(response.data))
+  })
+  .catch( error => dispatch(saveTaskFail(error)) )
+});
+
+
 export const DELETE_TASK_REQUEST = 'DELETE_TASK_REQUEST'
 export const deleteTaskRequest = (task_id) => ({
   type: DELETE_TASK_REQUEST,

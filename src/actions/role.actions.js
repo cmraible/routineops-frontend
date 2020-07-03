@@ -90,6 +90,42 @@ export const getRoles = (organization_id) => ((dispatch) => {
   .catch( error => dispatch(getRolesFail(error)) )
 });
 
+export const SAVE_ROLE_REQUEST = 'SAVE_ROLE_REQUEST'
+export const saveRoleRequest = (role) => ({
+  type: SAVE_ROLE_REQUEST,
+  role: role
+});
+
+export const SAVE_ROLE_SUCCESS = 'SAVE_ROLE_SUCCESS'
+export const saveRoleSuccess = (role) => ({
+  type: SAVE_ROLE_SUCCESS,
+  role: role
+});
+
+export const SAVE_ROLE_FAIL = 'SAVE_ROLE_FAIL'
+export const saveRoleFail = (error) => {
+  console.log(error)
+  return ({
+    type: SAVE_ROLE_FAIL,
+    message: "An error occurred."
+  });
+};
+
+export const saveRole = (role) => ((dispatch) => {
+  dispatch(saveRoleRequest())
+
+  const client = getClient()
+
+  return client.patch(
+    '/roles/' + role.id + '/', role
+  )
+  .then( response => {
+    
+    dispatch(saveRoleSuccess(response.data))
+  })
+  .catch( error => dispatch(saveRoleFail(error)) )
+});
+
 export const DELETE_ROLE_REQUEST = 'DELETE_ROLE_REQUEST'
 export const deleteRoleRequest = (role_id) => ({
   type: DELETE_ROLE_REQUEST,
