@@ -106,10 +106,12 @@ export const saveTaskLayerSuccess = (taskLayer) => ({
 });
 
 export const SAVE_TASK_LAYER_FAIL = 'SAVE_TASK_LAYER_FAIL'
-export const saveTaskLayerFail = (error) => ({
-  type: SAVE_TASK_LAYER_FAIL,
-  message: "An error occurred."
-});
+export const saveTaskLayerFail = (error) => {
+  return ({
+    type: SAVE_TASK_LAYER_FAIL,
+    message: "An error occurred."
+  });
+};
 
 export const saveTaskLayer = (taskLayer) => ((dispatch) => {
   dispatch(saveTaskLayerRequest())

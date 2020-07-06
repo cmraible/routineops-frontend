@@ -14,7 +14,7 @@ import Profile from './Profile.js';
 import Roles from './Roles.js';
 import Settings from './Settings.js';
 import Signup from './Signup.js';
-import TaskMatrix from './TaskMatrix.js';
+import TaskLayers from './TaskLayers.js';
 import Tasks from './Tasks.js';
 
 
@@ -30,7 +30,7 @@ const App = ({ isLoggedIn, theme, darkMode }) => {
               <Route path="/" exact component={Home} />
               <Route path="/calendar" component={Calendar} />
               <Route path="/dashboard" component={Dashboard} />
-              <Route path="/matrix" component={TaskMatrix} />
+              <Route path="/layers" component={TaskLayers} />
               <Route path="/profile" component={Profile} />
               <Route path="/roles" component={Roles} />
               <Route path="/settings" component={Settings} />

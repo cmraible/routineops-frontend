@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Button, Heading, Layer, Stack } from 'grommet';
+import React, { useEffect } from 'react';
+import { Box, Button, Heading, Layer } from 'grommet';
 import { Close } from 'grommet-icons';
 import { saveTask } from '../actions/task.actions';
 import { getChecks } from '../actions/check.actions';
@@ -31,8 +31,8 @@ const TaskInstanceOverlay = ({ checks, getChecks, taskInstance, onClose, taskLay
         </Box>
         <Box pad="medium" gap="medium" overflow="scroll">
           <Heading>{task.name}</Heading>
-          {(taskChecks.length > 1) && (<Checklist checks={taskChecks} />)}
-          {(taskChecks.length === 1) && (<Confirm check={taskChecks[0]} />) }
+          {(taskChecks.length > 1) && (<Checklist checks={taskChecks} taskInstance={taskInstance} onComplete={() => onClose()} />)}
+          {(taskChecks.length === 1) && (<Confirm check={taskChecks[0]} taskInstance={taskInstance} onComplete={() => onClose()} />) }
         </Box>
     </Layer>
   )

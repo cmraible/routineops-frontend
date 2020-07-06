@@ -3,10 +3,10 @@ import { Box, Button, Form, List } from 'grommet';
 import { getChecks } from '../actions/check.actions';
 import { connect } from 'react-redux';
 import ChecklistItem from './ChecklistItem';
+import { completeTaskInstance } from '../actions/taskInstance.actions'; 
 
-const Checklist = ({ checks }) => {
 
-  console.log(checks)
+const Checklist = ({ checks, taskInstance, completeTaskInstance, onComplete }) => {
 
   const [value, setValue] = useState();
 
@@ -14,19 +14,43 @@ const Checklist = ({ checks }) => {
     getChecks()
   }, [getChecks])
 
+  const disabled = (taskInstance.completed) ? true : false
+
+
+  const submitForm = (data) => {
+    // Send to "complete checklist" API endpoint with all checks
+    // Wait for response from server to close
+    console.log(data)
+    const results = Object.keys(data).map((id) => {
+      return {
+        check: id,
+        result: data[id]
+      }
+    })
+    completeTaskInstance(taskInstance, results)
+  }
+
   return (
-        <Form>
+        <Form
+          onSubmit={({value, touch}) => {
+            // send to server
+            submitForm(value)
+            onComplete()
+          }}
+          value={value}
+          onChange={ nextValue => setValue(nextValue) }
+        >
           <Box gap="medium">
           <List
             data={checks}
             children={(check, index) => (
-              <ChecklistItem check={check} index={index} />
+              <ChecklistItem check={check} disabled={disabled} index={index} />
             )}
           />
-          <Button label="Submit" primary />
+          
+          {(!disabled && <Button disabled={disabled} label="Submit" primary type="submit" />)}
           </Box>
         </Form>
-
   )
 
 };
@@ -37,4 +61,4 @@ const mapStateToProps = state => ({
   tasks: state.tasks.byId,
 })
 
-export default connect(mapStateToProps, {getChecks: getChecks})(Checklist)
+export default connect(mapStateToProps, {getChecks: getChecks, completeTaskInstance: completeTaskInstance})(Checklist)

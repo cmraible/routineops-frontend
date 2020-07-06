@@ -5,7 +5,7 @@ import { getChecks } from '../actions/check.actions';
 import { connect } from 'react-redux';
 import { getAllChecks } from '../reducers/reducers';
 
-const ChecklistItem = ({ check, index }) => {
+const ChecklistItem = ({ check, index, disabled }) => {
 
   const number = (index >= 0) ? `${index + 1}. ` : '';
 
@@ -13,22 +13,34 @@ const ChecklistItem = ({ check, index }) => {
     <Box align="start" direction="column" gap="medium">
       <Text>{number}{check.prompt}</Text>
       <RadioButtonGroup
-        name="radio"
+        name={check.id}
+        disabled={disabled}
         direction="row"
         gap="xsmall"
-        options={["Yes", "No"]}
+        options={[
+          {
+            name: 'Yes',
+            value: true,
+            label: 'Yes'
+          }, 
+          {
+            name: 'No',
+            value: false,
+            label: 'No'
+          }
+        ]}
       >
         {(option, { checked, hover }) => {
-          const Icon = option === "Yes" ? Checkmark : Close;
+          const Icon = option.name === "Yes" ? Checkmark : Close;
           let background;
-          if (checked && option === "Yes") background = "status-ok";
-          else if (checked && option === "No") background = "status-critical";
+          if (checked && option.name === "Yes") background = "status-ok";
+          else if (checked && option.name === "No") background = "status-critical";
           else if (hover) background = "light-4";
           else background = "light-2";
           return (
             <Box background={background} gap="small" pad="small" direction="row">
               <Icon />
-              <Text size="medium">{option}</Text>
+              <Text size="medium">{option.label}</Text>
             </Box>
           );
         }}

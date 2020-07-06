@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
-import { Add, Subtract } from 'grommet-icons';
+import { Add, User } from 'grommet-icons';
 import { addRole, getRoles, deleteRole } from '../actions/role.actions'
 import { getAllRoles } from '../reducers/reducers';
 import RoleOverlay from './RoleOverlay';
@@ -26,8 +26,8 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
 
   const renderChildren = (datum, index) => {
     return (
-      <Box direction="row" justify="between" align="center">
-        <Text>{datum.name}</Text>
+      <Box direction="row" align="center" gap="medium">
+        <User /><Text>{datum.name}</Text>
       </Box>
     )
   }

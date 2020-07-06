@@ -10,7 +10,7 @@ import taskTypeReducer, * as fromTaskTypes from './taskType.reducers.js';
 import uiReducer from './ui.reducers.js';
 import userReducer from './user.reducers.js';
 import taskInstanceReducer, * as fromTaskInstances from './taskInstance.reducers.js';
-import { parseISO, parse } from 'date-fns';
+import { parseISO } from 'date-fns';
 
 
 

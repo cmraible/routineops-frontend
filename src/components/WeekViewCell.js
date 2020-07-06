@@ -1,46 +1,48 @@
 import React from 'react';
-import { TableCell } from 'grommet';
-import { Checkmark, Close, Clock,  Subtract } from 'grommet-icons';
-import { rrulestr } from 'rrule';
-import { endOfDay, startOfDay } from 'date-fns';
+import { Box, Text } from 'grommet';
+import { StatusGood, StatusCritical, StatusWarning, StatusPlaceholder } from 'grommet-icons';
+import { parse, isBefore, startOfToday } from 'date-fns';
 
+const WeekViewCell = ({ score, instances, date }) => {
 
-const WeekViewCell = ({ date, taskLayer, status }) => {
+  const count = instances.length
+  const today = startOfToday
+  const past = date < today
+  const completed = instances.every((instance) => instance.completed)
+  const ontime = instances.every((instance) => instance.completed < instance.due)
+  const late = instances.some((instance) => instance.completed > instance.due)
 
-  const recurrence = rrulestr(taskLayer.recurrence)
-  const scheduled = recurrence.between(startOfDay(date), endOfDay(date))
-  if (scheduled.length > 0) {
+  if (completed && ontime && count) {
     return (
-      <TableCell align="center" background="status-warning" fill pad="small">
-        <Clock color="white" />
-      </TableCell>
+      <Box align="center" background="status-ok" fill pad="small">
+        <StatusGood color="white" />
+      </Box>
+    )
+  } else if (completed && late) {
+    return (
+      <Box align="center" background="status-ok" fill pad="small">
+        <StatusWarning color="status-critical" />
+      </Box>
+    )
+  } else if (!completed && past) {
+    return (
+      <Box align="center" background="status-critical" fill pad="small">
+        <StatusCritical color="white" />
+      </Box>
+    )
+  } else if (count)  {
+    return (
+      <Box align="center" background="status-warning" fill pad="small">
+        <StatusPlaceholder />
+      </Box>
+    )
+  } else {
+    return (
+      <Box align="center" background="status-disabled" fill pad="medium">
+
+      </Box>
     )
   }
-  
-
-  switch(status) {
-    case 'OK':
-      return (
-        <TableCell align="center" background="status-ok" fill pad="small">
-          <Checkmark color="white" />
-        </TableCell>
-      )
-    case 'OVERDUE':
-      return (
-        <TableCell align="center" background="status-critical" fill pad="small">
-          <Close color="white" />
-        </TableCell>
-      )
-    default:
-      return (
-        <TableCell align="center" background="status-disabled" fill pad="small">
-          <Subtract color="white" />
-        </TableCell>
-      )
-  }
-
-
-
 };
 
 export default WeekViewCell;

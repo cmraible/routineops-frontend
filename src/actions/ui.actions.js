@@ -90,11 +90,11 @@ export const goToLogin = () => {
   }
 }
 
-export const GO_TO_MATRIX = 'GO_TO_MATRIX'
-export const goToMatrix = () => {
-  history.push('/matrix')
+export const GO_TO_LAYERS = 'GO_TO_LAYERS'
+export const goToLayers = () => {
+  history.push('/layers')
   return {
-    type: GO_TO_MATRIX
+    type: GO_TO_LAYERS
   }
 }
 

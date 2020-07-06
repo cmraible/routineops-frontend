@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Box, Table, TableHeader, TableRow, TableCell, TableBody, ThemeContext } from 'grommet';
-import { format, eachDayOfInterval, getDay, endOfWeek, startOfWeek } from 'date-fns';
-import { getTaskInstances } from '../actions/taskInstance.actions';
+import { eachDayOfInterval, endOfWeek, format, getDay, isSameDay, parseISO, startOfWeek } from 'date-fns';
+import { Box, DataTable, ThemeContext } from 'grommet';
+import React from 'react';
 import WeekViewCell from './WeekViewCell';
-import { getAllTaskLayers } from '../reducers/reducers';
-import { rrulestr } from 'rrule';
-import { getAllTaskInstances } from '../reducers/reducers'
 
 
 
-const WeekView = ({ getTaskInstances, organization, tasks, taskInstances, taskLayers, roles, date }) => {
-
-  useEffect(() => {
-    getTaskInstances(organization.id)
-  }, [organization.id]);
+const WeekView = ({ organization, tasks, taskInstances, taskLayers, roles, date }) => {
 
   // object to map monday based to sunday based weekdays
   const weekdayMapping = {
@@ -36,6 +27,47 @@ const WeekView = ({ getTaskInstances, organization, tasks, taskInstances, taskLa
     return workingDays.some((workingDay) => weekdayMapping[workingDay] === getDay(datum))
   })
 
+  const data = taskLayers.map((layer) => {
+    const role = roles[layer.role]
+    const task = tasks[layer.task]
+    return {
+      task: (task) ? task.name : '',
+      role: (role) ? role.name : '',
+      id: layer.id
+    }
+  })
+
+  console.log(data)
+
+  const columns = [
+    {
+      property: 'task',
+      header: <Box pad="small">Task</Box>,
+      render: (layer) => (<Box pad="small">{layer.task}</Box>)
+    },
+    {
+      property: 'role',
+      header: <Box pad="small">Role</Box>,
+      render: (layer) => (<Box pad="small">{layer.role}</Box>)
+
+    },
+    ...workingDatesInInterval.map((date) => {
+      const dateInstances = (taskInstances) ? taskInstances.filter((instance) => isSameDay(date, parseISO(instance.due))) : []
+      
+      return {
+        align: "center",
+        property: format(date, 'EEE'),
+        header: <Box pad="small">{format(date, 'EEEEE')}</Box>,
+        render: (layer) => {
+          const cellInstances = dateInstances.filter((instance) => instance.taskLayer === layer.id)
+          return (<WeekViewCell taskLayer={layer} date={date} instances={cellInstances} />)
+        },
+
+      }
+    })
+    
+  ]
+
   return (
     <Box fill>
       <ThemeContext.Extend 
@@ -50,33 +82,11 @@ const WeekView = ({ getTaskInstances, organization, tasks, taskInstances, taskLa
           }
         }}
       >
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableCell>Task</TableCell>
-              <TableCell>Role</TableCell>
-              {
-                workingDatesInInterval.map(date => <TableCell align="center">{format(date, 'EEEEE')}</TableCell>)
-              }
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {
-              taskLayers.map(taskLayer => (
-                <TableRow>
-                  <TableCell>{tasks[taskLayer.task].name}</TableCell>
-                  <TableCell>{roles[taskLayer.role].name}</TableCell>
-                  {
-                    workingDatesInInterval.map(date => {
-                      const recurrence = rrulestr(taskLayer.recurrence)
-                      return (<WeekViewCell taskLayer={taskLayer} date={date} />)
-                    })
-                  }
-                </TableRow>
-              ))
-            }
-          </TableBody>
-        </Table>
+        <DataTable 
+          columns={columns}
+          data={data}
+          pad="none"
+        />
       </ThemeContext.Extend>
       
     </Box>
@@ -84,19 +94,4 @@ const WeekView = ({ getTaskInstances, organization, tasks, taskInstances, taskLa
 
 };
 
-const mapStateToProps = state => ({
-  organization: state.organization,
-  user: state.user,
-  tasks: state.tasks.byId,
-  taskLayers: getAllTaskLayers(state),
-  taskInstances: getAllTaskInstances(state),
-  roles: state.roles.byId
-});
-
-const mapDispatchToProps = dispatch => ({
-  getTaskInstances: () => {
-    dispatch(getTaskInstances())
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(WeekView);
+export default WeekView;

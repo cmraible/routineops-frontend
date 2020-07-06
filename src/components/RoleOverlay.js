@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Form, FormField, Heading, Layer, Select, TextInput } from 'grommet';
+import { Box, Button, Form, FormField, Heading, Layer, TextInput } from 'grommet';
 import { Close } from 'grommet-icons';
 import { saveRole } from '../actions/role.actions';
 import { connect } from 'react-redux';
@@ -35,10 +35,9 @@ const RoleOverlay = ({ role, saveRole, onClose, deleteRole }) => {
         </FormField>
           <Box gap="medium">
             <Button color="status-ok" label="Save" pad="small" primary size="large" type="submit" />
-            <Button color="status-critical" label="Delete Role" onClick={onDelete} pad="small" primary size="small" />
+            {/* <Button color="status-critical" label="Delete Role" onClick={onDelete} pad="small" primary size="small" /> */}
           </Box>
         </Form>
-
       </Box>
     </Layer>
   )

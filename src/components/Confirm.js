@@ -3,11 +3,15 @@ import { Box, Button, Form, RadioButtonGroup, Text } from 'grommet';
 import { Checkmark, Close } from 'grommet-icons';
 import { getChecks } from '../actions/check.actions';
 import { connect } from 'react-redux';
+import { completeTaskInstance } from '../actions/taskInstance.actions'; 
 
-const Confirm = ({ check }) => {
+
+const Confirm = ({ taskInstance, check, completeTaskInstance, onComplete }) => {
 
 
   const [value, setValue] = useState();
+
+  const disabled = (taskInstance.completed) ? true : false
 
   useEffect(() => {
     getChecks()
@@ -16,16 +20,24 @@ const Confirm = ({ check }) => {
   const submitForm = (data) => {
     // Send to "complete checklist" API endpoint with all checks
     // Wait for response from server to close
-    
+    console.log(data)
+    const results = [
+      {
+        check: check.id,
+        result: data.radio
+      }
+    ]
+    console.log(results)
+    completeTaskInstance(taskInstance, results)
   }
 
 
   return (
         <Form
           onSubmit={({value, touch}) => {
-            // validate
             // send to server
-            console.log(value)
+            submitForm(value)
+            onComplete()
           }}
           value={value}
           onChange={ nextValue => setValue(nextValue) }
@@ -35,27 +47,39 @@ const Confirm = ({ check }) => {
             <Text>{check.prompt}</Text>
             <RadioButtonGroup
               name="radio"
+              disabled={disabled}
               direction="row"
               gap="xsmall"
-              options={["Yes", "No"]}
+              options={[
+                {
+                  name: 'Yes',
+                  value: true,
+                  label: 'Yes'
+                }, 
+                {
+                  name: 'No',
+                  value: false,
+                  label: 'No'
+                }
+              ]}
             >
               {(option, { checked, hover }) => {
-                const Icon = option === "Yes" ? Checkmark : Close;
+                const Icon = option.name === "Yes" ? Checkmark : Close;
                 let background;
-                if (checked && option === "Yes") background = "status-ok";
-                else if (checked && option === "No") background = "status-critical";
+                if (checked && option.name === "Yes") background = "status-ok";
+                else if (checked && option.name === "No") background = "status-critical";
                 else if (hover) background = "light-4";
                 else background = "light-2";
                 return (
                   <Box background={background} gap="small" pad="small" direction="row">
                     <Icon />
-                    <Text size="medium">{option}</Text>
+                    <Text size="medium">{option.label}</Text>
                   </Box>
                 );
               }}
             </RadioButtonGroup>
           </Box>
-          <Button label="Submit" primary type="submit" />
+          {(!disabled && <Button label="Submit" primary type="submit" /> )}
           </Box>
         </Form>
 
@@ -69,4 +93,4 @@ const mapStateToProps = state => ({
   tasks: state.tasks.byId,
 })
 
-export default connect(mapStateToProps, {getChecks: getChecks})(Confirm)
+export default connect(mapStateToProps, {getChecks: getChecks, completeTaskInstance: completeTaskInstance})(Confirm)

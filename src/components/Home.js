@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { parseISO, format } from 'date-fns';
+import { parseISO, formatRelative, isBefore, isPast } from 'date-fns';
 import { Box, Heading, List, Main, Text } from 'grommet';
+import { Checkmark } from 'grommet-icons';
 import { getTaskInstancesForAssignee } from '../reducers/reducers';
 import TaskInstanceOverlay from './TaskInstanceOverlay';
+import { getTaskInstances } from '../actions/taskInstance.actions';
+import { getTasks } from '../actions/task.actions';
+import { getTaskLayers } from '../actions/taskLayer.actions';
+import { getTaskTypes } from '../actions/taskType.actions';
 
-const Home = ({ tasks, taskInstances, taskLayers }) => {
+const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances, getTasks, getTaskLayers, getTaskTypes }) => {
+
+  useEffect(() => {
+    getTasks(organization.id)
+    getTaskLayers(organization.id)
+    getTaskInstances(organization.id)
+    getTaskTypes(organization.id)
+  }, [organization.id]);
 
   const [openTaskInstance, setOpenTaskInstance] = useState()
 
@@ -19,20 +31,30 @@ const Home = ({ tasks, taskInstances, taskLayers }) => {
       {
         (taskInstances &&
           <List 
+            pad="none"
             data={taskInstances}
             onClickItem={onOpenTaskInstance}
-            primaryKey="name"
             children={(taskInstance) => {
               if (taskInstance) {
                 const taskLayer = taskLayers[taskInstance.taskLayer]
                 const task = tasks[taskLayer.task]
+                const completed = (taskInstance.completed) ? parseISO(taskInstance.completed) : undefined;
+                const due = parseISO(taskInstance.due)
+                let color
+                if (completed && isBefore(completed, due)) {
+                  color = "status-ok"
+                } else if (isPast(due)) {
+                  color = "status-critical"
+                } else {
+                  color = "background"
+                }
                 return (
-                <Box align="center" direction="row" justify="between">
+                <Box align="center" background={color} pad="small" margin="none" direction="row" justify="between">
                   <Box>
-                  <Heading level={3}>{ task.name }</Heading>
+                   <Heading level={3}>{ task.name }</Heading>
                   </Box>
-                  
-                  <Text>Due: { format(parseISO(taskInstance.due), 'M/d/yyyy') }</Text>
+                  {(!completed && <Text>Due { formatRelative(parseISO(taskInstance.due), new Date()) }</Text>)}
+                  {(completed && <Checkmark size="large"  />)}
                 </Box>
                 )
               }
@@ -61,4 +83,4 @@ const mapStateToProps = state => ({
   tasks: state.tasks.byId
 });
 
-export default connect(mapStateToProps, {})(Home);
+export default connect(mapStateToProps, {getTaskInstances: getTaskInstances, getTasks: getTasks, getTaskLayers: getTaskLayers, getTaskTypes: getTaskTypes})(Home);

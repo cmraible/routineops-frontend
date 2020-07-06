@@ -1,51 +1,6 @@
 import { normalize, schema } from 'normalizr';
 import { getClient } from '../apiClient.js';
 
-
-export const ADD_TASK_INSTANCE_REQUEST = 'ADD_TASK_INSTANCE_REQUEST'
-export const addTaskInstanceRequest = (taskInstance) => ({
-  type: ADD_TASK_INSTANCE_REQUEST,
-  taskInstance: taskInstance
-});
-
-
-export const ADD_TASK_INSTANCE_SUCCESS = 'ADD_TASK_INSTANCE_SUCCESS'
-export const addTaskInstanceSuccess = (taskInstance) => ({
-  type: ADD_TASK_INSTANCE_SUCCESS,
-  taskInstance: taskInstance
-});
-
-export const ADD_TASK_INSTANCE_FAIL = 'ADD_TASK_INSTANCE_FAIL'
-export const addTaskInstanceFail = (error) => {
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: ADD_TASK_INSTANCE_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: ADD_TASK_INSTANCE_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
-  }
-}
-
-export const addTaskInstance = (taskInstance) => ((dispatch) => {
-  dispatch(addTaskInstanceRequest())
-
-  const client = getClient()
-
-  return client.post(
-    '/taskinstances/', taskInstance
-  )
-  .then( response => {
-    dispatch(addTaskInstanceSuccess(response.data))
-  })
-  .catch( error => dispatch(addTaskInstanceFail(error)) )
-});
-
 export const GET_TASK_INSTANCES_REQUEST = 'GET_TASK_INSTANCES_REQUEST'
 export const getTaskInstancesRequest = (organization_id) => ({
   type: GET_TASK_INSTANCES_REQUEST,
@@ -171,4 +126,49 @@ export const deleteTaskInstance = (taskInstance_id) => ((dispatch) => {
     dispatch(deleteTaskInstanceSuccess(taskInstance_id))
   })
   .catch( error => dispatch(deleteTaskInstanceFail(error)) )
+});
+
+export const COMPLETE_TASK_INSTANCE_REQUEST = 'COMPLETE_TASK_INSTANCE_REQUEST'
+export const completeTaskInstanceRequest = (taskInstance, results) => ({
+  type: COMPLETE_TASK_INSTANCE_REQUEST,
+  taskInstance: taskInstance,
+  results: results
+});
+
+
+export const COMPLETE_TASK_INSTANCE_SUCCESS = 'COMPLETE_TASK_INSTANCE_SUCCESS'
+export const completeTaskInstanceSuccess = (taskInstance) => ({
+  type: COMPLETE_TASK_INSTANCE_SUCCESS,
+  taskInstance: taskInstance
+});
+
+export const COMPLETE_TASK_INSTANCE_FAIL = 'COMPLETE_TASK_INSTANCE_FAIL'
+export const completeTaskInstanceFail = (error) => {
+  if (error.response) {
+    if (error.response.status === 400) {
+      return {
+        type: COMPLETE_TASK_INSTANCE_FAIL,
+        errors: error.response.data
+      }
+    }
+  } else {
+    return {
+      type: COMPLETE_TASK_INSTANCE_FAIL,
+      errors: {'form': 'Unable to connect'}
+    }
+  }
+}
+
+export const completeTaskInstance = (taskInstance, results) => ((dispatch) => {
+  dispatch(completeTaskInstanceRequest(taskInstance, results))
+
+  const client = getClient()
+
+  return client.post(
+    '/taskinstances/' + taskInstance.id + '/complete/', results
+  )
+  .then( response => {
+    dispatch(completeTaskInstanceSuccess(response.data))
+  })
+  .catch( error => dispatch(completeTaskInstanceFail(error)) )
 });

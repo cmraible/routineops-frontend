@@ -68,3 +68,11 @@ export default taskLayerReducer;
 
 export const getAllTaskLayers = (state) =>
   state.allIds.map(id => state.byId[id])
+
+  export const getTaskLayersForTask = (state, task) =>
+  state.allIds.map(id => {
+    const layer = state.byId[id]
+    if (layer.task === task.id) {
+      return state.byId[id]
+    }
+})

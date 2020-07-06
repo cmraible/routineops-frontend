@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
-import { Add } from 'grommet-icons';
+import { Add, Checkmark } from 'grommet-icons';
 import { addTask, getTasks, deleteTask } from '../actions/task.actions'
 import { getAllTasks } from '../reducers/reducers';
 import TaskOverlay from './TaskOverlay';
@@ -27,8 +27,8 @@ const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask, getTaskType
 
   const renderChildren = (datum, index) => {
     return (
-      <Box direction="row" justify="between" align="center">
-        <Text>{datum.name}</Text>
+      <Box direction="row" align="center" gap="medium">
+        <Checkmark /><Text>{datum.name}</Text>
       </Box>
     )
   }

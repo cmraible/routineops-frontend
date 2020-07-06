@@ -1,99 +1,142 @@
 import React, { useState } from 'react';
-import { Form, Select } from 'grommet';
-import { RRule } from 'rrule';
+import { Box, Button,  Form } from 'grommet';
+import { endOfDay, startOfHour, endOfWeek, addWeeks } from 'date-fns';
+import HourMultipleSelect from './HourMultipleSelect';
+import FrequencySelect from './FrequencySelect';
+import WeekdayMultipleSelect from './WeekdayMultipleSelect';
+import TimeMaskedInput from './TimeMaskedInput';
+import MonthDayMultipleSelect from './MonthDayMultipleSelect';
+import MonthMultipleSelect from './MonthMultipleSelect';
+import QuarterDayMultipleSelect from './QuarterDayMultipleSelect';
+import RRule from 'rrule';
 
+const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunction, role, successFunction }) => {
 
-
-const TaskLayerForm = ({ organization, task, role, taskLayer, saveFunction, addFunction, deleteFunction }) => {
-
-  const frequency_options = [
-    {
-      label: ' ',
-      rule: ''
-    },
-    {
-      label: 'Daily',
-      rule: new RRule({
-        freq: RRule.DAILY,
-        byweekday: organization.working_days
-      }).toString()
-    },
-    {
-      label: 'Weekly',
-      rule: new RRule({
-        freq: RRule.WEEKLY,
-        bysetpos: -1
-      }).toString()
-    },
-    {
-      label: 'Bi-Weekly',
-      rule: new RRule({
-        freq: RRule.WEEKLY,
-        interval: 2,
-        bysetpos: -1
-      }).toString()
-    },
-    {
-      label: 'Monthly',
-      rule: new RRule({
-        freq: RRule.MONTHLY,
-        bysetpos: -1
-      }).toString()
-    },
-    {
-      label: 'Quarterly',
-      rule: new RRule({
-        freq: RRule.MONTHLY,
-        interval: 3,
-        bysetpos: -1
-      }).toString()
-    },
-    {
-      label: 'Yearly',
-      rule: new RRule({
-        freq: RRule.YEARLY,
-        bysetpos: -1
-      }).toString()
-    }
-  ]
+  const now = new Date()
+  const hourStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 0, 0)
+  const dayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+  const weekEnd = endOfWeek(now, {weekStartsOn: 1})
 
   const [value, setValue] = useState({
     id: (taskLayer) ? taskLayer.id : null,
     organization: organization.id,
-    role: role.id,
+    role: (taskLayer) ? taskLayer.role : role.id || '',
     task: task.id,
-    recurrence: (taskLayer) ? taskLayer.recurrence : false
+    label: (taskLayer) ? taskLayer.label : '',
+    frequency: (taskLayer) ? taskLayer.frequency : undefined,
+    byhour: (taskLayer) ? taskLayer.byhour : [],
+    time: (taskLayer) ? taskLayer.time : '',
+    byweekday: (taskLayer) ? taskLayer.byweekday : []
   });
 
-  return (
-    <Form
-      value={value}
-      onChange={ (nextValue) => {
-        setValue(nextValue)
-        if (taskLayer && nextValue.recurrence) {
-          saveFunction(nextValue)
-        } else if (nextValue.recurrence) {
-          addFunction(nextValue)
-        } else {
-          deleteFunction(taskLayer.id)
-        }
-      }}
-    >
-      {
-//      <Text>{role.name} - {task.name}</Text>
-      }
-      <Select
-        name="recurrence"
-        options={frequency_options}
-        valueKey={{
-          key: 'rule',
-          reduce: true
-        }}
-        labelKey="label"
-      />
-    </Form>
-  )
+  const addOrSave = (data) => {
+    (taskLayer) ? saveFunction(data) : addFunction(data);
+  }
+  
+  const submitForm = (value) => {
+    console.log(value);
+    if (value.label === 'Hourly') {
+      const data = {
+        ...value,
+        label: 'Hourly',
+        frequency: RRule.HOURLY,
+        interval: 1,
+        dtstart: hourStart,
+        bysetpos: [],
+        bymonthday: []
+      };
+      addOrSave(data)
+    } else if (value.label === 'Daily') {
+      const data = {
+        ...value,
+        label: 'Daily',
+        frequency: RRule.DAILY,
+        interval: 1,
+        dtstart: dayEnd,
+        bymonthday: [],
+        bysetpos: []
+      };
+      addOrSave(data)
+    } else if (value.label === 'Weekly') {
+      const data = {
+        ...value,
+        label: 'Weekly',
+        frequency: RRule.WEEKLY,
+        interval: 1,
+        dtstart: weekEnd,
+        bymonthday: [],
+        bysetpos: []
+      };
+      addOrSave(data)
+    } else if (value.label === 'Bi-Weekly') {
+      const data = {
+        ...value,
+        label: 'Bi-Weekly',
+        frequency: RRule.WEEKLY,
+        interval: 2,
+        dtstart: weekEnd,
+        bymonthday: [],
+        bysetpos: []
+      };
+      addOrSave(data)
+    } else if (value.label === 'Monthly') {
+      const data = {
+        ...value,
+        label: 'Monthly',
+        frequency: RRule.MONTHLY,
+        interval: 1,
+        dtstart: dayEnd,
+        bymonthday: [-1],
+        bysetpos: []
+      };
+      addOrSave(data)
+    } else if (value.label === 'Quarterly') {
+      const data = {
+        ...value,
+        label: 'Quarterly',
+        frequency: RRule.MONTHLY,
+        interval: 3,
+        dtstart: dayEnd,
+        bymonthday: [-1],
+        bysetpos: []
+      };
+      addOrSave(data)
+    } else if (value.label === 'Yearly') {
+      const data = {
+        ...value,
+        label: 'Yearly',
+        frequency: RRule.YEARLY,
+        interval: 1,
+        bymonthday: [-1],
+        bysetpos: []
+      };
+      addOrSave(data)
+    }
+  }
 
+  return (
+    <Box pad="small" fill="horizontal">
+      <Form
+        value={value}
+        onChange={ nextValue => setValue(nextValue) }
+        onSubmit={({value}) => {
+          submitForm(value)
+        }}
+      >
+        <Box gap="medium" fill>
+          <FrequencySelect />
+          {/* { (value.label === 'Hourly' && (<Box gap="small"><HourMultipleSelect /> <WeekdayMultipleSelect /></Box>))}
+          { (value.label === 'Daily' &&  (<Box gap="small"><WeekdayMultipleSelect /> <TimeMaskedInput /></Box>))}
+          { (value.label === 'Weekly' &&  (<Box gap="small"><WeekdayMultipleSelect />  <TimeMaskedInput /></Box>))}
+          { (value.label === 'Bi-Weekly' &&  (<Box gap="small"><WeekdayMultipleSelect />  <TimeMaskedInput /></Box>))}
+          { (value.label === 'Monthly' &&  (<Box gap="small"><MonthDayMultipleSelect /> <MonthMultipleSelect /> </Box>))}
+          { (value.label === 'Quarterly' &&  (<Box gap="small"><QuarterDayMultipleSelect /></Box>))}
+          { (value.label === 'Yearly' &&  (<Box gap="small"><MonthMultipleSelect /><MonthDayMultipleSelect /></Box>))} */}
+          <Button type="submit" label="Save" />
+        </Box>   
+      </Form>
+    </Box>
+  )
 };
 
 export default TaskLayerForm;

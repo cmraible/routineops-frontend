@@ -1,16 +1,16 @@
 import { Box, Button, Footer } from 'grommet';
-import { Calendar, Checkmark, Group, Home, Resources } from 'grommet-icons';
+import { Calendar, Checkmark, Clock, Group, Home } from 'grommet-icons';
 import React from 'react';
 import { connect } from 'react-redux';
 import {
   goToCalendar,
   goToHome,
-  goToMatrix,
+  goToLayers,
   goToRoles,
   goToTasks
 } from '../actions/ui.actions';
 
-const IconFooter = ({goToTasks, goToCalendar, goToMatrix }) => {
+const IconFooter = ({goToTasks, goToCalendar, goToLayers }) => {
 
   const footerStyle = {
     position: "absolute",
@@ -24,7 +24,7 @@ const IconFooter = ({goToTasks, goToCalendar, goToMatrix }) => {
           {/* <Button icon={<SettingsOption />} onClick={() => goToSettings() } /> */}
           <Button icon={<Group />} onClick={() => goToRoles() } />
           <Button icon={<Checkmark />} onClick={() => goToTasks() } />
-          <Button icon={<Resources />} onClick={() => goToMatrix()} />
+          <Button icon={<Clock />} onClick={() => goToLayers()} />
           <Button icon={<Calendar />} onClick={() => goToCalendar()} />
         </Box>
       </Footer>
@@ -43,8 +43,8 @@ const mapDispatchToProps = dispatch => ({
   goToCalendar: () => {
     dispatch(goToCalendar())
   },
-  goToMatrix: () => {
-    dispatch(goToMatrix())
+  goToLayers: () => {
+    dispatch(goToLayers())
   }
 });
 

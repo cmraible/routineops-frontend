@@ -1,6 +1,6 @@
 import {
   GET_TASK_INSTANCES_SUCCESS,
-  ADD_TASK_INSTANCE_SUCCESS,
+  COMPLETE_TASK_INSTANCE_SUCCESS,
   DELETE_TASK_INSTANCE_SUCCESS,
   SAVE_TASK_INSTANCE_SUCCESS
 } from '../actions/taskInstance.actions';
@@ -12,8 +12,8 @@ import { combineReducers } from 'redux';
 
 const taskInstance = (state, action) => {
   switch (action.type) {
-    case ADD_TASK_INSTANCE_SUCCESS:
     case SAVE_TASK_INSTANCE_SUCCESS:
+    case COMPLETE_TASK_INSTANCE_SUCCESS:
       return action.taskInstance
     default:
       return state
@@ -28,8 +28,8 @@ function byId(state = {}, action) {
       } else {
         return {}
       }
-    case ADD_TASK_INSTANCE_SUCCESS:
     case SAVE_TASK_INSTANCE_SUCCESS:
+    case COMPLETE_TASK_INSTANCE_SUCCESS:
       return {
         ...state,
         [action.taskInstance.id]: taskInstance(undefined, action)
@@ -48,8 +48,6 @@ function allIds(state = [], action) {
   switch (action.type) {
     case GET_TASK_INSTANCES_SUCCESS:
       return action.taskInstances.result
-    case ADD_TASK_INSTANCE_SUCCESS:
-      return [...state, action.taskInstance.id]
     case DELETE_TASK_INSTANCE_SUCCESS:
       return state.filter(id => action.taskInstance !== id)
     case LOGOUT:
