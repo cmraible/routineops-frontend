@@ -33,7 +33,7 @@ pipeline {
       }
       environment {
         REACT_APP_ENVIRONMENT = 'production'
-        PUBLIC_URL = 'https://www.operationally.io'
+        PUBLIC_URL = 'https://app.operationally.io'
         REACT_APP_API_HOST = 'https://api.operationally.io'
       }
       steps {
