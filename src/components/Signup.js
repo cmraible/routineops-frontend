@@ -41,20 +41,20 @@ const Signup = ({onSignup, signupErrors, signupSuccess}) => {
             validate="blur"
             errors={formErrors}
           >
-            <FormField>
-              <TextInput name="first_name" placeholder="First name" required />
+            <FormField label="First Name">
+              <TextInput name="first_name" required />
             </FormField>
-            <FormField>
-              <TextInput name="last_name" placeholder="Last name" required />
+            <FormField label="Last Name">
+              <TextInput name="last_name" required />
             </FormField>
-            <FormField name="email" htmlfor="email-id" validate={validateEmailField}>
-              <TextInput id="email-id" name="email" placeholder="work email" required />
+            <FormField name="email" htmlfor="email-id" validate={validateEmailField} label="Work Email">
+              <TextInput id="email-id" name="email" required />
             </FormField>
-            <FormField name="phone" htmlfor="phone-id">
-              <TextInput id="phone-id" name="phone" placeholder="Phone" required />
+            <FormField name="phone" htmlfor="phone-id" label="Direct Phone Number">
+              <TextInput id="phone-id" name="phone" required />
             </FormField>
-            <FormField name="password" htmlfor="password-id">
-              <TextInput id="password-id" name="password" type="password" placeholder="Password" required />
+            <FormField name="password" htmlfor="password-id" label="Create Password">
+              <TextInput id="password-id" name="password" type="password" required />
             </FormField>
             <Box direction="row" gap="medium" pad="small">
               <Button type="submit" primary label="Sign up" size="large" />

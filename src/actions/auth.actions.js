@@ -86,7 +86,7 @@ export const signupRequest = (user) => ({
 
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
 export const signupSuccess = (user) => {
-  history.push('/signup/success')
+  history.push('/')
   return {
     type: SIGNUP_SUCCESS,
     user: user
@@ -120,6 +120,7 @@ export const signup = (user) => ((dispatch) => {
   )
   .then( response => {
     dispatch(signupSuccess(response.data))
+    dispatch(login(user.email, user.password))
   })
   .catch( error => dispatch(signupFail(error)) )
 });
