@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
+import { Anchor, Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
 import { login } from '../actions/auth.actions'
 
 
@@ -11,6 +11,7 @@ const Login = ({onLogin, loginError}) => {
       <Heading>
         Hello.
       </Heading>
+      <Text>New to Operationally? <Anchor href="/signup">Sign up</Anchor> here.</Text>
       <Text size="small" color="status-error">{loginError}</Text>
       <Form
         onSubmit={({value, touch}) => {

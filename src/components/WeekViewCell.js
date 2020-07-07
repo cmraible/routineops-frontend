@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Text } from 'grommet';
-import { StatusGood, StatusCritical, StatusWarning, StatusPlaceholder } from 'grommet-icons';
+import { StatusGood, StatusCritical, StatusWarning, Subtract } from 'grommet-icons';
 import { parse, isBefore, startOfToday } from 'date-fns';
 
 const WeekViewCell = ({ score, instances, date }) => {
@@ -33,13 +33,13 @@ const WeekViewCell = ({ score, instances, date }) => {
   } else if (count)  {
     return (
       <Box align="center" background="status-warning" fill pad="small">
-        <StatusPlaceholder />
+        <Subtract />
       </Box>
     )
   } else {
     return (
-      <Box align="center" background="status-disabled" fill pad="medium">
-
+      <Box align="center" background="status-disabled" fill pad="small">
+        <Subtract />
       </Box>
     )
   }

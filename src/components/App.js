@@ -45,9 +45,8 @@ const App = ({ isLoggedIn, theme, darkMode }) => {
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
         <Switch>
           <Box align="start" direction="row" fill overflow="auto">
-            <Route exact path="/" component={LandingPage} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
+            <Route  exact path="/" component={Login} />
+            <Route exact path="/signup" component={Signup} />
           </Box>
         </Switch>
       </Grommet>

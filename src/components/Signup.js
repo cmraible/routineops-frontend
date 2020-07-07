@@ -28,18 +28,6 @@ const Signup = ({onSignup, signupErrors, signupSuccess}) => {
     formErrors[key] = signupErrors[error][0]
   }
 
-
-
-    if (signupSuccess) {
-      return (
-        <Main pad="xlarge">
-          <Heading>
-            Awesome! Check your email to confirm before logging in.
-          </Heading>
-        </Main>
-      )
-    } else {
-
       return (
         <Main pad="xlarge">
           <Heading>
@@ -54,27 +42,26 @@ const Signup = ({onSignup, signupErrors, signupSuccess}) => {
             errors={formErrors}
           >
             <FormField>
-              <TextInput name="first_name" placeholder="fist name" required />
+              <TextInput name="first_name" placeholder="First name" required />
             </FormField>
             <FormField>
-              <TextInput name="last_name" placeholder="last name" required />
+              <TextInput name="last_name" placeholder="Last name" required />
             </FormField>
             <FormField name="email" htmlfor="email-id" validate={validateEmailField}>
               <TextInput id="email-id" name="email" placeholder="work email" required />
             </FormField>
             <FormField name="phone" htmlfor="phone-id">
-              <TextInput id="phone-id" name="phone" placeholder="phone" required />
+              <TextInput id="phone-id" name="phone" placeholder="Phone" required />
             </FormField>
             <FormField name="password" htmlfor="password-id">
-              <TextInput id="password-id" name="password" type="password" placeholder="password" required />
+              <TextInput id="password-id" name="password" type="password" placeholder="Password" required />
             </FormField>
             <Box direction="row" gap="medium" pad="small">
-              <Button type="submit" primary label="Signup Free" size="large" />
+              <Button type="submit" primary label="Sign up" size="large" />
             </Box>
           </Form>
         </Main>
     )
-  }
 }
 
 const mapStateToProps = state => ({
