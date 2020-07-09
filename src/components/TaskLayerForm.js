@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button,  Form } from 'grommet';
-import { endOfDay, startOfHour, endOfWeek, addWeeks } from 'date-fns';
-import HourMultipleSelect from './HourMultipleSelect';
+import { endOfWeek } from 'date-fns';
 import FrequencySelect from './FrequencySelect';
-import WeekdayMultipleSelect from './WeekdayMultipleSelect';
-import TimeMaskedInput from './TimeMaskedInput';
-import MonthDayMultipleSelect from './MonthDayMultipleSelect';
-import MonthMultipleSelect from './MonthMultipleSelect';
-import QuarterDayMultipleSelect from './QuarterDayMultipleSelect';
 import RRule from 'rrule';
 
 const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunction, role, successFunction }) => {
@@ -112,6 +106,7 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
       };
       addOrSave(data)
     }
+    successFunction()
   }
 
   return (

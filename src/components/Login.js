@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Anchor, Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
 import { login } from '../actions/auth.actions'
+import Error from './Error.js';
 
 
 const Login = ({onLogin, loginError}) => {
@@ -11,18 +12,18 @@ const Login = ({onLogin, loginError}) => {
       <Heading>
         Hello.
       </Heading>
-      <Text>New to Operationally? <Anchor href="/signup">Sign up</Anchor> here.</Text>
-      <Text size="small" color="status-error">{loginError}</Text>
+      <Text margin={{bottom: "large"}}>New to Operationally? <Anchor href="/signup">Sign up</Anchor> here.</Text>
+      <Error message={loginError} />
       <Form
         onSubmit={({value, touch}) => {
           onLogin(value.username, value.password)
         }}
       >
-        <FormField name="username" htmlfor="username-id">
-          <TextInput id="username-id" name="username" placeholder="Email" required />
+        <FormField name="username" htmlfor="username-id" label="Email Address">
+          <TextInput id="username-id" name="username" required />
         </FormField>
-        <FormField name="password" htmlfor="password-id">
-          <TextInput id="password-id" name="password" type="password" placeholder="Password" required />
+        <FormField name="password" htmlfor="password-id" label="Password">
+          <TextInput id="password-id" name="password" type="password" required />
         </FormField>
         <Box direction="row" gap="medium" pad="small">
           <Button type="submit" primary label="Login" size="large" />

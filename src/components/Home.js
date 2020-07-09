@@ -8,15 +8,13 @@ import TaskInstanceOverlay from './TaskInstanceOverlay';
 import { getTaskInstances } from '../actions/taskInstance.actions';
 import { getTasks } from '../actions/task.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
-import { getTaskTypes } from '../actions/taskType.actions';
 
-const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances, getTasks, getTaskLayers, getTaskTypes }) => {
+const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances, getTasks, getTaskLayers }) => {
 
   useEffect(() => {
     getTasks(organization.id)
     getTaskLayers(organization.id)
     getTaskInstances(organization.id)
-    getTaskTypes(organization.id)
   }, [organization.id]);
 
   const [openTaskInstance, setOpenTaskInstance] = useState()
@@ -37,7 +35,7 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
             children={(taskInstance) => {
               if (taskInstance) {
                 const taskLayer = taskLayers[taskInstance.taskLayer]
-                const task = tasks[taskLayer.task]
+                const task = (taskLayer) ? tasks[taskLayer.task] : undefined;
                 const completed = (taskInstance.completed) ? parseISO(taskInstance.completed) : undefined;
                 const due = parseISO(taskInstance.due)
                 let color
@@ -51,7 +49,7 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
                 return (
                 <Box align="center" background={color} pad="small" margin="none" direction="row" justify="between">
                   <Box>
-                   <Heading level={3}>{ task.name }</Heading>
+                   <Heading level={3}>{ (task) ? task.name : '' }</Heading>
                   </Box>
                   {(!completed && <Text>Due { formatRelative(parseISO(taskInstance.due), new Date()) }</Text>)}
                   {(completed && <Checkmark size="large"  />)}
@@ -83,4 +81,4 @@ const mapStateToProps = state => ({
   tasks: state.tasks.byId
 });
 
-export default connect(mapStateToProps, {getTaskInstances: getTaskInstances, getTasks: getTasks, getTaskLayers: getTaskLayers, getTaskTypes: getTaskTypes})(Home);
+export default connect(mapStateToProps, {getTaskInstances: getTaskInstances, getTasks: getTasks, getTaskLayers: getTaskLayers})(Home);

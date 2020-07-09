@@ -1,5 +1,14 @@
 import history from '../history.js';
 
+export const GO_TO_TASK = 'GO_TO_TASK'
+export const goToTask = (id) => {
+  history.push(`/task/${id}`)
+  return {
+    type: GO_TO_TASK,
+    task_id: id
+  }
+}
+
 export const GO_TO_PROFILE = 'GO_TO_PROFILE'
 export const goToProfile = () => {
   history.push('/profile')

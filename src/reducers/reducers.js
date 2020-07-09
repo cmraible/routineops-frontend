@@ -6,7 +6,6 @@ import organizationReducer from './organization.reducers.js';
 import roleReducer, * as fromRoles from './role.reducers.js';
 import taskReducer, * as fromTasks from './task.reducers.js';
 import taskLayerReducer, * as fromTaskLayers from './taskLayer.reducers.js';
-import taskTypeReducer, * as fromTaskTypes from './taskType.reducers.js';
 import uiReducer from './ui.reducers.js';
 import userReducer from './user.reducers.js';
 import taskInstanceReducer, * as fromTaskInstances from './taskInstance.reducers.js';
@@ -23,7 +22,6 @@ const createRootReducer = history => combineReducers({
   tasks: taskReducer,
   taskInstances: taskInstanceReducer,
   taskLayers: taskLayerReducer,
-  taskTypes: taskTypeReducer,
   ui: uiReducer,
   user: userReducer
 })
@@ -38,9 +36,6 @@ export const getAllTasks = (state) =>
 
 export const getAllTaskLayers = (state) =>
   fromTaskLayers.getAllTaskLayers(state.taskLayers);
-
-export const getAllTaskTypes = (state) =>
-  fromTaskTypes.getAllTaskTypes(state.taskTypes);
 
 export const getAllTaskInstances = (state) =>
   fromTaskInstances.getAllTaskInstances(state.taskInstances)

@@ -9,13 +9,15 @@ export const addTaskLayerRequest = (taskLayer) => ({
 });
 
 export const ADD_TASK_LAYER_SUCCESS = 'ADD_TASK_LAYER_SUCCESS'
-export const addTaskLayerSuccess = (taskLayer) => ({
+export const addTaskLayerSuccess = (data) => ({
   type: ADD_TASK_LAYER_SUCCESS,
-  taskLayer: taskLayer
+  entities: data.entities,
+  result: data.result
 });
 
 export const ADD_TASK_LAYER_FAIL = 'ADD_TASK_LAYER_FAIL'
 export const addTaskLayerFail = (error) => {
+  console.log(error)
   if (error.response) {
     if (error.response.status === 400) {
       return {
@@ -40,8 +42,9 @@ export const addTaskLayer = (taskLayer) => ((dispatch) => {
     '/tasklayers/', taskLayer
   )
   .then( response => {
-
-    dispatch(addTaskLayerSuccess(response.data))
+    const taskLayer = new schema.Entity('taskLayers', {})
+    const normalizedData = normalize(response.data, taskLayer)
+    dispatch(addTaskLayerSuccess(normalizedData))
   })
   .catch( error => dispatch(addTaskLayerFail(error)) )
 });
@@ -53,9 +56,10 @@ export const getTaskLayersRequest = (organization_id) => ({
 });
 
 export const GET_TASK_LAYERS_SUCCESS = 'GET_TASK_LAYERS_SUCCESS'
-export const getTaskLayersSuccess = (taskLayers) => ({
+export const getTaskLayersSuccess = (data) => ({
   type: GET_TASK_LAYERS_SUCCESS,
-  taskLayers: taskLayers
+  entities: data.entities,
+  result: data.result
 });
 
 export const GET_TASK_LAYERS_FAIL = 'GET_TASK_LAYERS_FAIL'
@@ -100,9 +104,10 @@ export const saveTaskLayerRequest = (taskLayer) => ({
 });
 
 export const SAVE_TASK_LAYER_SUCCESS = 'SAVE_TASK_LAYER_SUCCESS'
-export const saveTaskLayerSuccess = (taskLayer) => ({
+export const saveTaskLayerSuccess = (data) => ({
   type: SAVE_TASK_LAYER_SUCCESS,
-  taskLayer: taskLayer
+  entities: data.entities,
+  result: data.result
 });
 
 export const SAVE_TASK_LAYER_FAIL = 'SAVE_TASK_LAYER_FAIL'
@@ -120,7 +125,11 @@ export const saveTaskLayer = (taskLayer) => ((dispatch) => {
   return client.patch(
     '/tasklayers/' + taskLayer.id + '/', taskLayer
   )
-  .then( response => dispatch(saveTaskLayerSuccess(response.data)) )
+  .then( response => {
+    const taskLayer = new schema.Entity('taskLayers', {})
+    const normalizedData = normalize(response.data, taskLayer)
+    return dispatch(saveTaskLayerSuccess(normalizedData));
+  } )
   .catch( error => dispatch(saveTaskLayerFail(error)) )
 });
 

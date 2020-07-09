@@ -89,7 +89,6 @@ const Confirm = ({ taskInstance, check, completeTaskInstance, onComplete }) => {
 
 const mapStateToProps = state => ({
   taskLayers: state.taskLayers.byId,
-  taskTypes: state.taskTypes.byId,
   tasks: state.tasks.byId,
 })
 

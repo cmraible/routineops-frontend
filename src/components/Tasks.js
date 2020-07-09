@@ -2,27 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
 import { Add, Checkmark } from 'grommet-icons';
-import { addTask, getTasks, deleteTask } from '../actions/task.actions'
+import { addTask, getTasks, getTask, deleteTask } from '../actions/task.actions'
 import { getAllTasks } from '../reducers/reducers';
-import TaskOverlay from './TaskOverlay';
-import { getTaskTypes } from '../actions/taskType.actions';
+import { goToTask } from '../actions/ui.actions';
+import { getRoles } from '../actions/role.actions';
+import { getAllRoles } from '../reducers/reducers';
 
 
-const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask, getTaskTypes }) => {
+const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles }) => {
 
   const [value, setValue] = useState({
-    name: ''  
+    organization: organization.id,
+    name: '',
+    checks: [
+      {prompt: '', resultType: 'BOOLEAN', organization: organization.id}
+    ]
   });
-
-  const [openTask, setOpenTask] = useState()
-
-  const onOpenTask = (event) => setOpenTask(event.item);
-
-  const onCloseTask = () => setOpenTask(undefined);
 
   useEffect(() => {
     getTasks(organization.id)
-    getTaskTypes(organization.id)
+    getRoles(organization.id)
   }, [getTasks, organization.id]);
 
   const renderChildren = (datum, index) => {
@@ -42,7 +41,9 @@ const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask, getTaskType
             addTask({
               organization: organization.id,
               name: value.name,
-              taskType: 1
+              checks: [
+                {prompt: `Did you ${value.name.toLowerCase()}?`, resultType: 'BOOLEAN', organization: organization.id}
+              ]
             })
             setValue({name: ''})
           }}
@@ -58,13 +59,8 @@ const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask, getTaskType
           primaryKey="name"
           data={tasks}
           children={renderChildren}
-          onClickItem={onOpenTask}
+          onClickItem={(event) => goToTask(event.item.id)}
         />
-        {
-          openTask && (
-            <TaskOverlay task={openTask} onClose={onCloseTask} deleteTask={deleteTask} />
-          )
-        }
       </Box>
     </Main>
   )
@@ -74,22 +70,8 @@ const Tasks = ({ organization, tasks, addTask, getTasks, deleteTask, getTaskType
 const mapStateToProps = state => ({
   organization: state.organization,
   user: state.user,
-  tasks: getAllTasks(state)
+  tasks: getAllTasks(state),
+  roles: getAllRoles(state)
 });
 
-const mapDispatchToProps = dispatch => ({
-  addTask: (task) => {
-    dispatch(addTask(task))
-  },
-  getTasks: (organization_id) => {
-    dispatch(getTasks(organization_id))
-  },
-  deleteTask: (task_id) => {
-    dispatch(deleteTask(task_id))
-  },
-  getTaskTypes: (organization_id) => {
-    dispatch(getTaskTypes(organization_id))
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tasks);
+export default connect(mapStateToProps, {addTask, getTasks, getTask, deleteTask, getRoles})(Tasks);

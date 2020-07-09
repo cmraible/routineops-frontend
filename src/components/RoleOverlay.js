@@ -23,7 +23,7 @@ const RoleOverlay = ({ role, saveRole, onClose, deleteRole }) => {
       <Box align="end">
        <Button icon={(<Close />)} onClick={onClose} />
       </Box>
-      <Box pad="medium">
+      <Box pad="medium" width="medium">
         <Heading>Edit Role</Heading>
         <Form
           value={value}
@@ -33,9 +33,9 @@ const RoleOverlay = ({ role, saveRole, onClose, deleteRole }) => {
         <FormField label="Role Name">
            <TextInput name="name" />
         </FormField>
-          <Box gap="medium">
+          <Box gap="small">
             <Button color="status-ok" label="Save" pad="small" primary size="large" type="submit" />
-            {/* <Button color="status-critical" label="Delete Role" onClick={onDelete} pad="small" primary size="small" /> */}
+            <Button color="status-critical" label="Delete Role" onClick={onDelete} pad="small" primary size="small" />
           </Box>
         </Form>
       </Box>

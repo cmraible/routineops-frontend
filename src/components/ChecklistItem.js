@@ -52,7 +52,6 @@ const ChecklistItem = ({ check, index, disabled }) => {
 
 const mapStateToProps = state => ({
   taskLayers: state.taskLayers.byId,
-  taskTypes: state.taskTypes.byId,
   tasks: state.tasks.byId,
   checks: getAllChecks(state)
 })

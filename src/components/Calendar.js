@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getRoles } from '../actions/role.actions.js';
 import { getTaskInstances } from '../actions/taskInstance.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
-import { getAllRoles, getAllTaskLayers, getAllTasks } from '../reducers/reducers';
+import { getAllTaskLayers } from '../reducers/reducers';
 import MonthView from './MonthView.js';
 import WeekView from './WeekView.js';
 import { getTasks } from '../actions/task.actions.js';

@@ -57,8 +57,7 @@ const Checklist = ({ checks, taskInstance, completeTaskInstance, onComplete }) =
 
 const mapStateToProps = state => ({
   taskLayers: state.taskLayers.byId,
-  taskTypes: state.taskTypes.byId,
-  tasks: state.tasks.byId,
+  tasks: state.tasks.byId
 })
 
-export default connect(mapStateToProps, {getChecks: getChecks, completeTaskInstance: completeTaskInstance})(Checklist)
+export default connect(mapStateToProps, {getChecks, completeTaskInstance})(Checklist)

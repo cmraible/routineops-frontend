@@ -1,23 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Button, Heading, Layer } from 'grommet';
 import { Close } from 'grommet-icons';
 import { saveTask } from '../actions/task.actions';
-import { getChecks } from '../actions/check.actions';
 import { connect } from 'react-redux';
 import { getAllChecks } from '../reducers/reducers';
 import Checklist from './Checklist';
 import Confirm from './Confirm';
 
-const TaskInstanceOverlay = ({ checks, getChecks, taskInstance, onClose, taskLayers, taskTypes, tasks }) => {
-
-  useEffect(() => {
-    getChecks()
-  }, [getChecks])
+const TaskInstanceOverlay = ({ checks, taskInstance, onClose, taskLayers, tasks }) => {
 
   const taskLayer = taskLayers[taskInstance.taskLayer]
   const task = tasks[taskLayer.task]
-  const taskType = taskTypes[task.taskType]
-  const taskChecks = checks.filter((check) => check.taskType === taskType.id)
+  const taskChecks = checks.filter((check) => check.task === task.id)
 
   return (
     <Layer 
@@ -41,9 +35,8 @@ const TaskInstanceOverlay = ({ checks, getChecks, taskInstance, onClose, taskLay
 
 const mapStateToProps = state => ({
   taskLayers: state.taskLayers.byId,
-  taskTypes: state.taskTypes.byId,
   tasks: state.tasks.byId,
   checks: getAllChecks(state)
 })
 
-export default connect(mapStateToProps, {saveTask: saveTask, getChecks: getChecks})(TaskInstanceOverlay)
+export default connect(mapStateToProps, {saveTask: saveTask})(TaskInstanceOverlay)

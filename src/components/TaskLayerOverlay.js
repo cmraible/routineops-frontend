@@ -1,25 +1,16 @@
 import React from 'react';
 import { Box, Button, Heading, Layer } from 'grommet';
-import { Close } from 'grommet-icons';
+import { Close, Checkmark } from 'grommet-icons';
 import { saveTask } from '../actions/task.actions';
 import { connect } from 'react-redux';
-import { getAllTaskTypes } from '../reducers/reducers';
 import TaskLayerForm from './TaskLayerForm';
 import { getAllRoles } from '../reducers/reducers';
-import { getTaskLayers, addTaskLayer, saveTaskLayer } from '../actions/taskLayer.actions';
+import { addTaskLayer, saveTaskLayer } from '../actions/taskLayer.actions';
 import { getAllTaskLayers } from '../reducers/reducers';
 
 
 
-const TaskLayerOverlay = ({ organization, layer, role, onClose, addTaskLayer, saveTaskLayer }) => {
-
-  const onSave = (value) => {
-    saveTask(value)
-    onClose()
-  }
-
-  const taskLayer = (layer) ? layer.taskLayer : undefined
-  const task = (layer) ? layer.task : {name: ''}
+const TaskLayerOverlay = ({ organization, taskLayer, task, role, onClose, addTaskLayer, saveTaskLayer }) => {
 
   return (
     <Layer
@@ -33,7 +24,9 @@ const TaskLayerOverlay = ({ organization, layer, role, onClose, addTaskLayer, sa
       </Box>
       <Box flex overflow="scroll" gap="medium" pad="medium">
         <Box>
-          <Heading>{task.name}</Heading>
+          <Box>
+          <Heading level={2}>{task.name}</Heading>
+          </Box>
           <TaskLayerForm 
             organization={organization}
             task={task}
@@ -52,7 +45,6 @@ const TaskLayerOverlay = ({ organization, layer, role, onClose, addTaskLayer, sa
 
 const mapStateToProps = state => ({
   organization: state.organization,
-  taskTypes: getAllTaskTypes(state),
   roles: getAllRoles(state),
   taskLayers: getAllTaskLayers(state),
   tasks: state.tasks.byId

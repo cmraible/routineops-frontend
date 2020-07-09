@@ -10,13 +10,15 @@ export const addCheckRequest = (check) => ({
 
 
 export const ADD_CHECK_SUCCESS = 'ADD_CHECK_SUCCESS'
-export const addCheckSuccess = (check) => ({
+export const addCheckSuccess = (data) => ({
   type: ADD_CHECK_SUCCESS,
-  check: check
+  entities: data.entities,
+  result: data.result
 });
 
 export const ADD_CHECK_FAIL = 'ADD_CHECK_FAIL'
 export const addCheckFail = (error) => {
+  console.log(error);
   if (error.response) {
     if (error.response.status === 400) {
       return {
@@ -41,7 +43,9 @@ export const addCheck = (check) => ((dispatch) => {
     '/checks/', check
   )
   .then( response => {
-    dispatch(addCheckSuccess(response.data))
+    const check = new schema.Entity('checks', {})
+    const normalizedData = normalize(response.data, check)
+    dispatch(addCheckSuccess(normalizedData))
   })
   .catch( error => dispatch(addCheckFail(error)) )
 });
@@ -100,9 +104,10 @@ export const saveCheckRequest = (check) => ({
 });
 
 export const SAVE_CHECK_SUCCESS = 'SAVE_CHECK_SUCCESS'
-export const saveCheckSuccess = (check) => ({
+export const saveCheckSuccess = (data) => ({
   type: SAVE_CHECK_SUCCESS,
-  check: check
+  entities: data.entities,
+  result: data.result
 });
 
 export const SAVE_CHECK_FAIL = 'SAVE_CHECK_FAIL'
@@ -123,8 +128,9 @@ export const saveCheck = (check) => ((dispatch) => {
     '/checks/' + check.id + '/', check
   )
   .then( response => {
-    
-    dispatch(saveCheckSuccess(response.data))
+    const check = new schema.Entity('checks', {})
+    const normalizedData = normalize(response.data, check)
+    dispatch(saveCheckSuccess(normalizedData))
   })
   .catch( error => dispatch(saveCheckFail(error)) )
 });

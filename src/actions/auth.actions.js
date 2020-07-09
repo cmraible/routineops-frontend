@@ -86,7 +86,6 @@ export const signupRequest = (user) => ({
 
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
 export const signupSuccess = (user) => {
-  history.push('/')
   return {
     type: SIGNUP_SUCCESS,
     user: user
