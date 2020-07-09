@@ -6,16 +6,15 @@ import operationallyTheme from '../operationallyTheme';
 import Calendar from './Calendar';
 import Dashboard from './Dashboard';
 import Home from './Home';
-import IconFooter from './IconFooter';
-import IconHeader from './IconHeader';
+import DefaultSidebar from './DefaultSidebar';
 import Login from './Login';
 import Profile from './Profile';
 import Roles from './Roles';
 import Settings from './Settings';
 import Signup from './Signup';
-import TaskLayers from './TaskLayers';
 import Tasks from './Tasks';
 import Task from './Task';
+import Role from './Role';
 
 
 
@@ -25,17 +24,17 @@ const App = ({ isLoggedIn, theme, darkMode }) => {
     return (
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
         <Switch>
-          <Box align="start" direction="column" fill="horizontal">
-              <IconHeader />
+          <Box align="start" direction="row" fill="vertical">
+              <DefaultSidebar />
               <Route path="/" exact component={Home} />
               <Route path="/calendar" component={Calendar} />
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/profile" component={Profile} />
-              <Route path="/roles" component={Roles} />
+              <Route exact path="/roles" component={Roles} />
+              <Route path="/roles/:role_id" component={Role} />
               <Route path="/settings" component={Settings} />
-              <Route path="/tasks" component={Tasks} />
+              <Route exact path="/tasks" component={Tasks} />
               <Route path="/task/:task_id" component={Task} />
-              <IconFooter />
           </Box>
         </Switch>
       </Grommet>

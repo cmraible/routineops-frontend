@@ -5,6 +5,7 @@ import { Add, User } from 'grommet-icons';
 import { addRole, getRoles, deleteRole } from '../actions/role.actions'
 import { getAllRoles } from '../reducers/reducers';
 import RoleOverlay from './RoleOverlay';
+import { goToRole } from '../actions/ui.actions';
 
 
 const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
@@ -33,7 +34,7 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
   }
 
   return (
-    <Main fill="horizontal" margin={{bottom:"large"}} pad="medium" >
+    <Main pad="medium" >
       <Heading>Roles</Heading>
       <Box direction="column" gap="large">
         <Form
@@ -56,7 +57,7 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole }) => {
           primaryKey="name"
           data={roles}
           children={renderChildren}
-          onClickItem={onOpenRole}
+          onClickItem={(event) => goToRole(event.item.id)}
         />
         {
           openRole && (

@@ -25,8 +25,8 @@ const TaskChecks = ({ organization, task, addCheck, saveCheck, deleteCheck, allC
   const onCloseCheck = () => setOpenCheck(undefined)
 
   return (
-    <Box pad="medium" fill="horizontal" gap="medium">
-      <Heading level={2}>Checks</Heading>
+    <Box>
+      <Heading level={1}>Checks</Heading>
       <Form
         onSubmit={({value, touch}) => {
           addCheck(value)
@@ -35,7 +35,7 @@ const TaskChecks = ({ organization, task, addCheck, saveCheck, deleteCheck, allC
         value={checkValue}
         onChange={ nextValue => setCheckValue(nextValue) }
       >
-        <Box direction="row" gap="small">
+        <Box direction="row" gap="small" margin={{bottom: "medium"}}>
           <TextInput required name="prompt" placeholder="Add a check" />              
           <Button type="submit" size="small" primary icon={<Add />} />
         </Box>

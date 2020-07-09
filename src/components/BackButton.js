@@ -5,14 +5,8 @@ import { Previous } from 'grommet-icons';
 
 const BackButton = ({ onClick, label }) => {
 
-  const headerStyle = {
-    position: "absolute",
-    top: "0px",
-    left: "0px"
-  }
-
   return (
-    <Box align="start" style={headerStyle} pad="medium">
+    <Box align="start" pad="medium">
       <Button
         primary
         icon={<Previous size="small" />}

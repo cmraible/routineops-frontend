@@ -19,7 +19,7 @@ const Profile = ({ onSave, user, roles }) => {
   console.log(roles)
 
   return (
-    <Main fill="horizontal" pad="medium">
+    <Main pad="medium">
       <Heading>Profile</Heading>
       <Heading level={3}>Basic Information</Heading>
       <Form

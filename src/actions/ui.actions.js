@@ -25,6 +25,14 @@ export const goToRoles = () => {
   }
 }
 
+export const GO_TO_ROLE = 'GO_TO_ROLE'
+export const goToRole = (role_id) => {
+  history.push('/roles/' + role_id)
+  return {
+    type: GO_TO_ROLE
+  }
+}
+
 export const GO_TO_SIGNUP = 'GO_TO_SIGNUP'
 export const goToSignup = () => {
   history.push('/signup')

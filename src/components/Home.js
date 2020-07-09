@@ -24,8 +24,8 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
   const onCloseTaskInstance = () => setOpenTaskInstance(undefined);
 
   return (
-    <Main pad="medium" fill="horizontal" margin={{bottom: "large"}} >
-      <Heading>My Tasks</Heading>
+    <Main pad="medium" >
+      <Heading>Home</Heading>
       {
         (taskInstances &&
           <List 

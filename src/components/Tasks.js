@@ -33,7 +33,7 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles }) => {
   }
 
   return (
-    <Main pad="medium" fill="horizontal" margin={{bottom: "large"}} >
+    <Main pad="medium" >
       <Heading>Tasks</Heading>
       <Box direction="column" gap="large">
         <Form

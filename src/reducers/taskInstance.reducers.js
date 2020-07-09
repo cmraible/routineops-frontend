@@ -73,4 +73,6 @@ export const getTaskInstancesForAssignee = (state, user) =>
     if (instance.assignee === user.id) {
       return state.byId[id]
     }
+}).sort((a, b) => {
+  return a.due - b.due
 })

@@ -57,7 +57,7 @@ const Settings = ({ onSave, getOrg, organization }) => {
   }, [getOrg, organization.id]);
 
   return (
-    <Main pad="medium" margin={{bottom:"large"}}>
+    <Main pad="medium">
       <Heading level={1}>Settings</Heading>
 
       <Form

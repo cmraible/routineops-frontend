@@ -2,22 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Box, Button, Form, FormField, Heading, TextArea, TextInput } from 'grommet';
 import { Trash, Save } from 'grommet-icons';
-import { saveTask, deleteTask, getTask } from '../actions/task.actions';
-import { goToTasks } from '../actions/ui.actions';
+import { goToRoles } from '../actions/ui.actions';
+import { getRole, deleteRole, saveRole } from '../actions/role.actions';
 import ConfirmDelete from './ConfirmDelete';
 
-
-const TaskForm = ({ task, saveTask, deleteTask, getTask }) => {
+const RoleForm = ({ role, getRole, deleteRole, saveRole }) => {
 
   useEffect(() => {
-    getTask(task.id)
-  }, [getTask]);
+    getRole(role.id)
+  }, [getRole]);
   
   // Set up state for Task form
-  const [taskValue, setTaskValue] = useState({
-    id: task.id,
-    name: task.name,
-    description: (task && task.description) ? task.description : ''
+  const [roleValue, setRoleValue] = useState({
+    id: role.id,
+    name: role.name,
+    organization: role.organization
   })
 
   // Setup state for delete confirm overlay
@@ -26,30 +25,27 @@ const TaskForm = ({ task, saveTask, deleteTask, getTask }) => {
   const onCloseDelete = () => setOpenDelete(undefined);
 
   // Define function to delete a task
-  const onDelete = (task_id) => {
-    deleteTask(task_id)
-    goToTasks()
+  const onDelete = (role_id) => {
+    deleteRole(role_id)
+    goToRoles()
   }
 
   // Define what happens when the task form is submitted
   const submitForm = (value) => {
     console.log(value);
-    saveTask(value)
+    saveRole(value)
   }
 
   return (
-        <Box>
-         <Heading level={1}>Task Information</Heading>
+        <Box pad="medium" fill="horizontal">
+         <Heading level={2}>Role Information</Heading>
           <Form
-            value={taskValue}
-            onChange={ nextValue => setTaskValue(nextValue) }
+            value={roleValue}
+            onChange={ nextValue => setRoleValue(nextValue) }
             onSubmit={({value}) => submitForm(value)}
           >
-            <FormField label="Task Name">
+            <FormField label="Role Name">
               <TextInput name="name" />
-            </FormField>
-            <FormField label="Task Description">
-              <TextArea name="description" />
             </FormField>
             <Box justify="between" direction="row">
               <Button color="status-ok" icon={<Save />} label="Save" pad="small" primary type="submit" />
@@ -59,13 +55,14 @@ const TaskForm = ({ task, saveTask, deleteTask, getTask }) => {
           {
             openDelete && 
             <ConfirmDelete 
-              onClick={() => onDelete(task.id)} 
+              onClick={() => onDelete(role.id)} 
               onClose={onCloseDelete}
-              message="This action will permanently delete this task and all data associated with it."
+              message="This action will permanently delete role task and all data associated with it."
             />
           }
-
         </Box>
+
+
   )
 
 };
@@ -75,7 +72,7 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, {
-  saveTask,
-  deleteTask,
-  getTask
-})(TaskForm)
+  getRole,
+  saveRole,
+  deleteRole
+})(RoleForm)

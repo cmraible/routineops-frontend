@@ -8,37 +8,20 @@ import {
   DELETE_ROLE_SUCCESS
 } from '../actions/role.actions.js';
 import { combineReducers } from 'redux';
+import merge from 'lodash/merge'
 
-const role = (state, action) => {
-  switch (action.type) {
-    case ADD_ROLE_SUCCESS:
-    case SAVE_ROLE_SUCCESS:
-      return action.role
-    default:
-      return state
-  }
-}
 
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case GET_ROLES_SUCCESS:
-      if ('roles' in action.roles.entities) {
-        return action.roles.entities.roles
-      } else {
-        return {}
-      }
-    case ADD_ROLE_SUCCESS:
-    case SAVE_ROLE_SUCCESS:
-      return {
-        ...state,
-        [action.role.id]: role(undefined, action)
-      }
     case DELETE_ROLE_SUCCESS:
       const {[action.role]: omit, ...rest } = state;
       return rest
     case LOGOUT:
       return {}
     default:
+      if (action.entities && action.entities.roles) {
+        return merge({}, state, action.entities.roles)
+      }
       return state
   }
 }
@@ -46,9 +29,9 @@ const byId = (state = {}, action) => {
 const allIds = (state = [], action) => {
   switch (action.type) {
     case GET_ROLES_SUCCESS:
-      return action.roles.result
+      return action.result
     case ADD_ROLE_SUCCESS:
-      return [...state, action.role.id]
+      return [...state, action.result]
     case DELETE_ROLE_SUCCESS:
       return state.filter(id => action.role !== id)
     case LOGOUT:
@@ -66,4 +49,8 @@ const roleReducer = combineReducers({
 export default roleReducer;
 
 export const getAllRoles = (state) => 
-  state.allIds.map(id => state.byId[id]);
+  state.allIds.map(id => state.byId[id]).sort((a, b) => {
+    if (a.name < b.name) return -1
+    if (a.name > b.name) return 1
+    else return 0
+  });

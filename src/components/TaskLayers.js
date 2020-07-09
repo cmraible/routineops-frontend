@@ -20,8 +20,8 @@ const TaskLayers = ({ task, taskLayers, rolesById, allRoles }) => {
     const roleLayer = (openRole) ? layers.find((layer) => layer.task === task.id && layer.role === openRole.id) : undefined
 
   return (
-        <Box pad="medium" fill="horizontal">
-          <Heading level={2}>Schedule</Heading>
+        <Box>
+          <Heading level={1}>Schedule</Heading>
           <List
             data={roles}
             children={(role) => {

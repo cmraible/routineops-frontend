@@ -25,7 +25,7 @@ const Calendar = ({ getTaskLayers, getTaskInstances, getTasks, getRoles, organiz
   const today = toDate(new Date())
 
   return (
-    <Main direction="column" fill margin={{bottom:"large"}}>
+    <Main direction="column" pad="medium">
       <Heading>Calendar</Heading>
       <Tabs alignControls="start">
         <Tab title="Week">

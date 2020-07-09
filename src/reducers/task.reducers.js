@@ -47,5 +47,9 @@ const taskReducer = combineReducers({
 export default taskReducer;
 
 export const getAllTasks = (state) =>
-  state.allIds.map(id => state.byId[id]);
+  state.allIds.map(id => state.byId[id]).sort((a, b) => {
+    if (a.name < b.name) return -1
+    if (a.name > b.name) return 1
+    else return 0
+  });
   

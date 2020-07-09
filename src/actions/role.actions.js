@@ -9,9 +9,10 @@ export const addRoleRequest = (role) => ({
 });
 
 export const ADD_ROLE_SUCCESS = 'ADD_ROLE_SUCCESS'
-export const addRoleSuccess = (role) => ({
+export const addRoleSuccess = (data) => ({
   type: ADD_ROLE_SUCCESS,
-  role: role
+  entities: data.entities,
+  result: data.result
 });
 
 export const ADD_ROLE_FAIL = 'ADD_ROLE_FAIL'
@@ -40,7 +41,9 @@ export const addRole = (role) => ((dispatch) => {
     '/roles/', role
   )
   .then( response => {
-    dispatch(addRoleSuccess(response.data))
+    const role = new schema.Entity('roles', {})
+    const normalizedData = normalize(response.data, role)
+    dispatch(addRoleSuccess(normalizedData))
   })
   .catch( error => dispatch(addRoleFail(error)) )
 });
@@ -52,9 +55,10 @@ export const getRolesRequest = (organization_id) => ({
 });
 
 export const GET_ROLES_SUCCESS = 'GET_ROLES_SUCCESS'
-export const getRolesSuccess = (roles) => ({
+export const getRolesSuccess = (data) => ({
   type: GET_ROLES_SUCCESS,
-  roles: roles
+  entities: data.entities,
+  result: data.result
 });
 
 export const GET_ROLES_FAIL = 'GET_ROLES_FAIL'
@@ -97,9 +101,10 @@ export const saveRoleRequest = (role) => ({
 });
 
 export const SAVE_ROLE_SUCCESS = 'SAVE_ROLE_SUCCESS'
-export const saveRoleSuccess = (role) => ({
+export const saveRoleSuccess = (data) => ({
   type: SAVE_ROLE_SUCCESS,
-  role: role
+  entities: data.entities,
+  result: data.result
 });
 
 export const SAVE_ROLE_FAIL = 'SAVE_ROLE_FAIL'
@@ -120,8 +125,9 @@ export const saveRole = (role) => ((dispatch) => {
     '/roles/' + role.id + '/', role
   )
   .then( response => {
-    
-    dispatch(saveRoleSuccess(response.data))
+    const role = new schema.Entity('roles', {})
+    const normalizedData = normalize(response.data, role)
+    dispatch(saveRoleSuccess(normalizedData))
   })
   .catch( error => dispatch(saveRoleFail(error)) )
 });
@@ -168,4 +174,51 @@ export const deleteRole = (role_id) => ((dispatch) => {
     dispatch(deleteRoleSuccess(role_id))
   })
   .catch( error => dispatch(deleteRoleFail(error)) )
+});
+
+export const GET_ROLE_REQUEST = 'GET_ROLE_REQUEST'
+export const getRoleRequest = (role_id) => ({
+  type: GET_ROLE_REQUEST,
+  role_id: role_id
+});
+
+export const GET_ROLE_SUCCESS = 'GET_ROLE_SUCCESS'
+export const getRoleSuccess = (data) => ({
+  type: GET_ROLE_SUCCESS,
+  entities: data.entities,
+  result: data.result
+});
+
+export const GET_ROLE_FAIL = 'GET_ROLE_FAIL'
+export const getRoleFail = (error) => {
+  console.log(error);
+  if (error.response) {
+    if (error.response.status === 400) {
+      return {
+        type: GET_ROLE_FAIL,
+        errors: error.response.data
+      }
+    }
+  } else {
+    return {
+      type: GET_ROLE_FAIL,
+      errors: {'form': 'Unable to connect'}
+    }
+  }
+}
+
+export const getRole = (role_id) =>  ((dispatch) => {
+  dispatch(getRoleRequest(role_id))
+
+  const client = getClient()
+
+  return client.get(
+    '/roles/' + role_id
+  )
+  .then( response => {
+    const check = new schema.Entity('roles', {})
+    const normalizedData = normalize(response.data, check)
+    dispatch(getRoleSuccess(normalizedData))
+  })
+  .catch( error => dispatch(getRoleFail(error)) )
 });
