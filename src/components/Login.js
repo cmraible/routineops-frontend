@@ -1,7 +1,7 @@
+import { Anchor, Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Anchor, Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
-import { login } from '../actions/auth.actions'
+import { login } from '../actions/auth.actions';
 import Error from './Error.js';
 
 

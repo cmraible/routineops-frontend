@@ -1,5 +1,5 @@
 import { Box, Button, Footer } from 'grommet';
-import { Calendar, Checkmark, Clock, Group, Task } from 'grommet-icons';
+import { Calendar, Checkmark, Group, Task } from 'grommet-icons';
 import React from 'react';
 import { connect } from 'react-redux';
 import {

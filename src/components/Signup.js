@@ -1,7 +1,7 @@
+import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
-import { signup } from '../actions/auth.actions'
+import { signup } from '../actions/auth.actions';
 
 
 const Signup = ({onSignup, signupErrors, signupSuccess}) => {

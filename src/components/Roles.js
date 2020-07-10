@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
+import { Box, Button, Form, Heading, List, Text, TextInput } from 'grommet';
 import { Add, User } from 'grommet-icons';
-import { addRole, getRoles, deleteRole } from '../actions/role.actions'
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { addRole, deleteRole, getRoles } from '../actions/role.actions';
+import { goToRole } from '../actions/ui.actions';
 import { getAllRoles } from '../reducers/reducers';
 import RoleOverlay from './RoleOverlay';
-import { goToRole } from '../actions/ui.actions';
 import Spinner from './Spinner';
 
 

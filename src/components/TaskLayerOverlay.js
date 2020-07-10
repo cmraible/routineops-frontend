@@ -1,12 +1,11 @@
-import React from 'react';
 import { Box, Button, Heading, Layer } from 'grommet';
-import { Close, Checkmark } from 'grommet-icons';
-import { saveTask } from '../actions/task.actions';
+import { Close } from 'grommet-icons';
+import React from 'react';
 import { connect } from 'react-redux';
-import TaskLayerForm from './TaskLayerForm';
-import { getAllRoles } from '../reducers/reducers';
+import { saveTask } from '../actions/task.actions';
 import { addTaskLayer, saveTaskLayer } from '../actions/taskLayer.actions';
-import { getAllTaskLayers } from '../reducers/reducers';
+import { getAllRoles, getAllTaskLayers } from '../reducers/reducers';
+import TaskLayerForm from './TaskLayerForm';
 
 
 

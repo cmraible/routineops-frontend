@@ -1,8 +1,8 @@
-import React from 'react';
 import { Box, Button, Heading, Layer } from 'grommet';
 import { Close } from 'grommet-icons';
-import { saveTask } from '../actions/task.actions';
+import React from 'react';
 import { connect } from 'react-redux';
+import { saveTask } from '../actions/task.actions';
 import { getAllChecks } from '../reducers/reducers';
 import Checklist from './Checklist';
 import Confirm from './Confirm';

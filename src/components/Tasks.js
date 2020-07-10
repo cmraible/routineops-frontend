@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
 import { Add, Checkmark } from 'grommet-icons';
-import { addTask, getTasks, getTask, deleteTask } from '../actions/task.actions'
-import { getAllTasks } from '../reducers/reducers';
-import { goToTask } from '../actions/ui.actions';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { getRoles } from '../actions/role.actions';
-import { getAllRoles } from '../reducers/reducers';
+import { addTask, deleteTask, getTask, getTasks } from '../actions/task.actions';
+import { goToTask } from '../actions/ui.actions';
+import { getAllRoles, getAllTasks } from '../reducers/reducers';
 
 
 const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles }) => {

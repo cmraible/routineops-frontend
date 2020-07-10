@@ -1,8 +1,8 @@
 import { Sidebar } from 'grommet';
 import React from 'react';
-import UserMenu from './UserMenu';
-import SidebarNav from './SidebarNav';
 import SidebarFooter from './SidebarFooter';
+import SidebarNav from './SidebarNav';
+import UserMenu from './UserMenu';
 
 const DefaultSidebar = () => {
   

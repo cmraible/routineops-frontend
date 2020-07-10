@@ -1,4 +1,4 @@
-import { Avatar, Box, Header, Menu, Text } from 'grommet';
+import { Avatar, Box, Text } from 'grommet';
 import { User } from 'grommet-icons';
 import React from 'react';
 import { connect } from 'react-redux';

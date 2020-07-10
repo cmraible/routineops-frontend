@@ -1,8 +1,7 @@
-import React from 'react';
-import { Box, Button,  Select } from 'grommet';
-import { tonight } from 'date-fns';
-import { RRule } from 'rrule';
 import { endOfToday } from 'date-fns';
+import { Box, Button, Select } from 'grommet';
+import React from 'react';
+import { RRule } from 'rrule';
 
 
 const RecurrenceInput = ({roles}) => {

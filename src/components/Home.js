@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { parseISO, formatRelative, isBefore, isPast } from 'date-fns';
+import { formatRelative, isBefore, isPast, parseISO } from 'date-fns';
 import { Box, Heading, List, Main, Text } from 'grommet';
 import { Checkmark } from 'grommet-icons';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { getTasks } from '../actions/task.actions';
+import { getTaskInstances } from '../actions/taskInstance.actions';
+import { getTaskLayers } from '../actions/taskLayer.actions';
 import { getTaskInstancesForAssignee } from '../reducers/reducers';
 import TaskInstanceOverlay from './TaskInstanceOverlay';
-import { getTaskInstances } from '../actions/taskInstance.actions';
-import { getTasks } from '../actions/task.actions';
-import { getTaskLayers } from '../actions/taskLayer.actions';
 
 const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances, getTasks, getTaskLayers }) => {
 

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Box, Text, RadioButtonGroup } from 'grommet';
+import { Box, RadioButtonGroup, Text } from 'grommet';
 import { Checkmark, Close } from 'grommet-icons';
-import { getChecks } from '../actions/check.actions';
+import React from 'react';
 import { connect } from 'react-redux';
+import { getChecks } from '../actions/check.actions';
 import { getAllChecks } from '../reducers/reducers';
 
 const ChecklistItem = ({ check, index, disabled }) => {

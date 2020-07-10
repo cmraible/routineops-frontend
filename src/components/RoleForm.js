@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { Box, Button, Form, FormField, Heading, TextInput } from 'grommet';
+import { Save, Trash } from 'grommet-icons';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Box, Button, Form, FormField, Heading, TextArea, TextInput } from 'grommet';
-import { Trash, Save } from 'grommet-icons';
+import { deleteRole, getRole, saveRole } from '../actions/role.actions';
 import { goToRoles } from '../actions/ui.actions';
-import { getRole, deleteRole, saveRole } from '../actions/role.actions';
 import ConfirmDelete from './ConfirmDelete';
 import Spinner from './Spinner';
 

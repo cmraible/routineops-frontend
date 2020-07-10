@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import { Box, Button, Form, FormField, Heading, Layer, TextInput } from 'grommet';
 import { Close } from 'grommet-icons';
-import { saveRole } from '../actions/role.actions';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { saveRole } from '../actions/role.actions';
 
 const RoleOverlay = ({ role, saveRole, onClose, deleteRole }) => {
 

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import { Box, Button, CheckBoxGroup, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
-import { saveOrg, getOrg } from '../actions/organization.actions';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { getOrg, saveOrg } from '../actions/organization.actions';
 
 const Settings = ({ onSave, getOrg, organization }) => {
 

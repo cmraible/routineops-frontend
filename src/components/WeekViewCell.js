@@ -1,7 +1,7 @@
-import React from 'react';
-import { Box } from 'grommet';
-import { StatusGood, StatusCritical, StatusWarning, Subtract } from 'grommet-icons';
 import { startOfToday } from 'date-fns';
+import { Box } from 'grommet';
+import { StatusCritical, StatusGood, StatusWarning, Subtract } from 'grommet-icons';
+import React from 'react';
 
 const WeekViewCell = ({ score, instances, date }) => {
 

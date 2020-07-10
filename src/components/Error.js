@@ -1,5 +1,5 @@
-import React from 'react';
 import { Box, Layer, Text } from 'grommet';
+import React from 'react';
 
 
 const Error = ({ message }) => {

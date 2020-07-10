@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Box, Button,  Form } from 'grommet';
 import { endOfWeek } from 'date-fns';
-import FrequencySelect from './FrequencySelect';
+import { Box, Button, Form } from 'grommet';
+import React, { useState } from 'react';
 import RRule from 'rrule';
+import FrequencySelect from './FrequencySelect';
 
 const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunction, role, successFunction }) => {
 

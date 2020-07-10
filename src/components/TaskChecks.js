@@ -1,8 +1,8 @@
+import { Box, Button, Form, Heading, List, Text, TextInput } from 'grommet';
+import { Add } from 'grommet-icons';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Box, Button, Form, Heading, Text, List, TextInput } from 'grommet';
-import { Add } from 'grommet-icons';
-import { addCheck, saveCheck, deleteCheck } from '../actions/check.actions';
+import { addCheck, deleteCheck, saveCheck } from '../actions/check.actions';
 import { getAllChecks, getAllRoles, getAllTaskLayers } from '../reducers/reducers';
 import CheckOverlay from './CheckOverlay';
 

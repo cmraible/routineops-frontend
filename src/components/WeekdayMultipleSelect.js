@@ -1,8 +1,7 @@
-import React from 'react';
 import { Box, Select } from 'grommet';
 import { Checkmark } from 'grommet-icons';
+import React from 'react';
 import { RRule } from 'rrule';
-import { format } from 'date-fns';
 
 
 const WeekdayMultipleSelect = () => {

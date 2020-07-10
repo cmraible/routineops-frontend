@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, Button } from 'grommet';
+import { Box } from 'grommet';
 import { PowerCycle } from 'grommet-icons';
+import React from 'react';
 
 
 const Spinner = () => {

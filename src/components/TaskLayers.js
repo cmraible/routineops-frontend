@@ -1,7 +1,7 @@
+import { Box, Heading, List, Text } from 'grommet';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Box, Heading, List, Text } from 'grommet';
-import { saveTask, deleteTask, getTask } from '../actions/task.actions';
+import { deleteTask, getTask, saveTask } from '../actions/task.actions';
 import { getAllTaskLayers } from '../reducers/reducers';
 import TaskLayerOverlay from './TaskLayerOverlay';
 

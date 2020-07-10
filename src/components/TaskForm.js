@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Box, Button, Form, FormField, Heading, TextArea, TextInput } from 'grommet';
-import { Trash, Save } from 'grommet-icons';
-import { saveTask, deleteTask, getTask } from '../actions/task.actions';
+import { Save, Trash } from 'grommet-icons';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { deleteTask, getTask, saveTask } from '../actions/task.actions';
 import { goToTasks } from '../actions/ui.actions';
 import ConfirmDelete from './ConfirmDelete';
 

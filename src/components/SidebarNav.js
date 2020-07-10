@@ -4,10 +4,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   goToCalendar,
+  goToDashboard, 
   goToHome,
   goToRoles,
-  goToTasks,
-  goToDashboard
+  goToTasks
 } from '../actions/ui.actions';
 import SidebarButton from './SidebarButton';
 

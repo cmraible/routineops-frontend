@@ -1,5 +1,5 @@
-import React from 'react';
 import { Box, Button, Text } from 'grommet';
+import React from 'react';
 
 
 const SidebarButton = ({ onClick, icon, label, active }) => {

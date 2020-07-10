@@ -1,12 +1,12 @@
+import { Box, Main } from 'grommet';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Box, Button, Heading, Main } from 'grommet';
+import { getRoles } from '../actions/role.actions';
 import { getTask } from '../actions/task.actions';
-import { goToRoles } from '../actions/ui.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
+import { goToRoles } from '../actions/ui.actions';
 import { getAllTaskLayers } from '../reducers/reducers';
 import BackButton from './BackButton';
-import { getRoles } from '../actions/role.actions';
 import RoleForm from './RoleForm';
 
 

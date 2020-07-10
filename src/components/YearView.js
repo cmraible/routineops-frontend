@@ -1,9 +1,8 @@
+import { eachDayOfInterval, endOfMonth, getDay, startOfMonth } from 'date-fns';
+import { Box, DataTable } from 'grommet';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Box, DataTable, Text } from 'grommet';
-import { format, eachDayOfInterval, isSameDay, getDay, endOfMonth, startOfMonth } from 'date-fns';
 import { getTaskLayers } from '../actions/taskLayer.actions';
-import WeekViewCell from './WeekViewCell';
 import { getAllTaskLayers } from '../reducers/reducers';
 
 

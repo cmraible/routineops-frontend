@@ -1,6 +1,6 @@
-import React from 'react';
 import { Box, Select } from 'grommet';
 import { Checkmark } from 'grommet-icons';
+import React from 'react';
 
 
 const QuarterDayMultipleSelect = () => {

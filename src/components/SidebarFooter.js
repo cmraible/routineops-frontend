@@ -2,11 +2,11 @@ import { Box, CheckBox, Footer, Nav, Text } from 'grommet';
 import { Logout, SettingsOption } from 'grommet-icons';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { logout } from '../actions/auth.actions';
 import {
   goToSettings,
   toggleDarkMode
 } from '../actions/ui.actions';
-import { logout } from '../actions/auth.actions';
 import SidebarButton from './SidebarButton';
 
 const SidebarFooter = ({logout, user, toggleDarkMode, darkMode }) => {

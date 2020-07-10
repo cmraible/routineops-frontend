@@ -1,7 +1,7 @@
-import React from 'react';
+import { format } from 'date-fns';
 import { Box, Select } from 'grommet';
 import { Checkmark } from 'grommet-icons';
-import { format } from 'date-fns';
+import React from 'react';
 
 
 const MonthMultipleSelect = () => {

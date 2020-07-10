@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
 import { Box, Button, Form, RadioButtonGroup, Text } from 'grommet';
 import { Checkmark, Close } from 'grommet-icons';
-import { getChecks } from '../actions/check.actions';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { completeTaskInstance } from '../actions/taskInstance.actions'; 
+import { getChecks } from '../actions/check.actions';
+import { completeTaskInstance } from '../actions/taskInstance.actions';
 
 
 const Confirm = ({ taskInstance, check, completeTaskInstance, onComplete }) => {

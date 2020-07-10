@@ -1,7 +1,7 @@
-import React from 'react';
+import { addHours, format, startOfDay } from 'date-fns';
 import { Box, Select } from 'grommet';
 import { Checkmark } from 'grommet-icons';
-import { startOfDay, addHours, format } from 'date-fns';
+import React from 'react';
 
 
 const HourMultipleSelect = () => {

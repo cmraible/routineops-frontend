@@ -1,6 +1,6 @@
-import React from 'react';
 import { Box } from 'grommet';
 import { Checkmark, Close, Subtract } from 'grommet-icons';
+import React from 'react';
 
 
 const MonthViewCell = ({ date, taskLayer, status }) => {

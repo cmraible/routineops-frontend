@@ -1,5 +1,5 @@
-import React from 'react';
 import { MaskedInput } from 'grommet';
+import React from 'react';
 
 const DayMultipleSelect = () => {
 

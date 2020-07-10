@@ -1,6 +1,6 @@
-import React from 'react';
 import { Box, Button, Layer } from 'grommet';
 import { Close } from 'grommet-icons';
+import React from 'react';
 import CheckForm from './CheckForm';
 
 const CheckOverlay = ({ organization, check, onClose, onDelete, onSave }) => {

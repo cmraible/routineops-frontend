@@ -1,9 +1,6 @@
-import React from 'react';
 import { Box, Button, Heading, Layer, Text } from 'grommet';
-import { Trash, Close } from 'grommet-icons';
-import { getChecks } from '../actions/check.actions';
-import { connect } from 'react-redux';
-import { completeTaskInstance } from '../actions/taskInstance.actions'; 
+import { Close, Trash } from 'grommet-icons';
+import React from 'react';
 
 
 const ConfirmDelete = ({ onClick, onClose, message }) => {

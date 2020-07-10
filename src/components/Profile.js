@@ -1,7 +1,7 @@
+import { Button, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
-import { saveUser } from '../actions/user.actions'
+import { saveUser } from '../actions/user.actions';
 import { getAllRoles } from '../reducers/reducers';
 
 
