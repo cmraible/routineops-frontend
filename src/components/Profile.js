@@ -1,11 +1,12 @@
-import { Button, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
+import { Box, Button, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { saveUser } from '../actions/user.actions';
 import { getAllRoles } from '../reducers/reducers';
+import Spinner from './Spinner';
 
 
-const Profile = ({ onSave, user, roles }) => {
+const Profile = ({ onSave, user, roles, isFetching }) => {
 
   console.log(user.role)
   const [ value, setValue ] = useState({
@@ -16,11 +17,12 @@ const Profile = ({ onSave, user, roles }) => {
       role: (user.role) ? user.role : {}  
   });
 
-  console.log(roles)
-
   return (
     <Main pad="medium">
-      <Heading>Profile</Heading>
+      <Box direction="row" align="center" gap="large">
+        <Heading>Profile</Heading>
+        <Spinner isFetching={isFetching} />
+      </Box>
       <Heading level={3}>Basic Information</Heading>
       <Form
         onSubmit={({value, touch}) => {
@@ -49,7 +51,7 @@ const Profile = ({ onSave, user, roles }) => {
               }}
             />
           </FormField>
-        <Button label="Save" primary size="large" type="submit" />
+        <Button label="Save" primary size="large" type="submit" disabled={isFetching} />
       </Form>
     </Main>
   )
@@ -57,8 +59,9 @@ const Profile = ({ onSave, user, roles }) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.user,
-  roles: getAllRoles(state)
+  user: state.user.user,
+  roles: getAllRoles(state),
+  isFetching: state.user.isFetching
 });
 
 export default connect(mapStateToProps, { onSave: saveUser })(Profile);

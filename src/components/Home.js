@@ -12,10 +12,10 @@ import TaskInstanceOverlay from './TaskInstanceOverlay';
 const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances, getTasks, getTaskLayers }) => {
 
   useEffect(() => {
-    getTasks(organization.id)
-    getTaskLayers(organization.id)
-    getTaskInstances(organization.id)
-  }, [organization.id]);
+    getTasks()
+    getTaskLayers()
+    getTaskInstances()
+  }, [getTasks, getTaskLayers, getTaskInstances]);
 
   const [openTaskInstance, setOpenTaskInstance] = useState()
 
@@ -74,8 +74,8 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
 };
 
 const mapStateToProps = state => ({
-  organization: state.organization,
-  user: state.user,
+  organization: state.organization.organization,
+  user: state.user.user,
   taskInstances: getTaskInstancesForAssignee(state),
   taskLayers: state.taskLayers.byId,
   tasks: state.tasks.byId

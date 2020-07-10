@@ -10,7 +10,7 @@ import BackButton from './BackButton';
 import RoleForm from './RoleForm';
 
 
-const Role = ({ match, tasksById, getTask, getRoles, getTaskLayers, rolesById, isFetching }) => {
+const Role = ({ match, getRoles, getTaskLayers, rolesById, isFetching }) => {
 
   const role_id = match.params.role_id
   const role = rolesById[role_id]
@@ -18,7 +18,7 @@ const Role = ({ match, tasksById, getTask, getRoles, getTaskLayers, rolesById, i
   useEffect(() => {
     getTaskLayers()
     getRoles()
-  }, [getTask]);
+  }, [getTaskLayers, getRoles]);
 
   return (
         <Main pad="medium">
@@ -34,7 +34,6 @@ const Role = ({ match, tasksById, getTask, getRoles, getTaskLayers, rolesById, i
 
 const mapStateToProps = (state) => ({
   rolesById: state.roles.byId,
-  tasksById: state.tasks.byId,
   taskLayers: getAllTaskLayers(state),
   isFetching: state.roles.isFetching
 })

@@ -15,19 +15,17 @@ const Confirm = ({ taskInstance, check, completeTaskInstance, onComplete }) => {
 
   useEffect(() => {
     getChecks()
-  }, [getChecks])
+  }, [])
 
   const submitForm = (data) => {
     // Send to "complete checklist" API endpoint with all checks
     // Wait for response from server to close
-    console.log(data)
     const results = [
       {
         check: check.id,
         result: data.radio
       }
     ]
-    console.log(results)
     completeTaskInstance(taskInstance, results)
   }
 

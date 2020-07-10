@@ -72,8 +72,8 @@ const MonthView = ({ organization, taskLayers, tasks, roles, date }) => {
 };
 
 const mapStateToProps = state => ({
-  organization: state.organization,
-  user: state.user,
+  organization: state.organization.organization,
+  user: state.user.user,
   tasks: state.tasks.byId,
   taskLayers: getAllTaskLayers(state),
   roles: getAllRoles(state)

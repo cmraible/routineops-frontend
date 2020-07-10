@@ -21,7 +21,7 @@ const Task = ({ match, tasksById, getTask, getRoles, getTaskLayers }) => {
     getTask(task_id)
     getTaskLayers()
     getRoles()
-  }, [getTask]);
+  }, [getTask, getTaskLayers, getRoles, task_id]);
 
   return (
     <Main pad="medium">

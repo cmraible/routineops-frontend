@@ -43,7 +43,7 @@ const TaskLayerOverlay = ({ organization, taskLayer, task, role, onClose, addTas
 };
 
 const mapStateToProps = state => ({
-  organization: state.organization,
+  organization: state.organization.organization,
   roles: getAllRoles(state),
   taskLayers: getAllTaskLayers(state),
   tasks: state.tasks.byId

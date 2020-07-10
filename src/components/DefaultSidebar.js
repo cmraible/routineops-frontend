@@ -10,7 +10,6 @@ const DefaultSidebar = () => {
       <Sidebar 
         align="center" 
         background="black" 
-        pad="medium" 
         justify="between"
         header={<UserMenu />}
         footer={<SidebarFooter />}

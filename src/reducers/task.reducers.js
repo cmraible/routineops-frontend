@@ -9,7 +9,9 @@ import {
   GET_TASK_SUCCESS,
   GET_TASK_FAIL,
   ADD_TASK_SUCCESS,
-  DELETE_TASK_SUCCESS
+  DELETE_TASK_SUCCESS,
+  GET_TASKS_FAIL,
+  GET_TASKS_REQUEST
 } from '../actions/task.actions';
 import {
   LOGOUT
@@ -52,6 +54,7 @@ const isFetching = (state = false, action) => {
     case ADD_TASK_REQUEST:
     case SAVE_TASK_REQUEST:
     case GET_TASK_REQUEST:
+    case GET_TASKS_REQUEST:
       return true
     case ADD_TASK_SUCCESS:
     case ADD_TASK_FAIL:
@@ -59,6 +62,8 @@ const isFetching = (state = false, action) => {
     case SAVE_TASK_FAIL:
     case GET_TASK_SUCCESS:
     case GET_TASK_FAIL:
+    case GET_TASKS_SUCCESS:
+    case GET_TASKS_FAIL:
       return false
     default:
       return state

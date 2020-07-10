@@ -2,9 +2,11 @@ import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'gr
 import React from 'react';
 import { connect } from 'react-redux';
 import { signup } from '../actions/auth.actions';
+import Error from './Error';
+import Spinner from './Spinner';
 
 
-const Signup = ({onSignup, signupErrors, signupSuccess}) => {
+const Signup = ({onSignup, signupErrors, signupSuccess, isFetching}) => {
 
   const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -22,24 +24,19 @@ const Signup = ({onSignup, signupErrors, signupSuccess}) => {
     }
   }
 
-  const formErrors = {}
-  for (const error in signupErrors) {
-    const key = (error === 'username') ? 'email' : error;
-    formErrors[key] = signupErrors[error][0]
-  }
-
       return (
         <Main pad="xlarge">
-          <Heading>
-            Welcome.
-          </Heading>
+          <Box direction="row" align="center" gap="large">
+            <Heading>Welcome.</Heading>
+            <Spinner isFetching={isFetching} error={signupErrors} />
+          </Box>
+          <Error message={signupErrors} />
           <Text size="small" color="status-error">{}</Text>
           <Form
             onSubmit={({value, touch}) => {
               onSignup(value)
             }}
             validate="blur"
-            errors={formErrors}
           >
             <FormField label="First Name">
               <TextInput name="first_name" required />
@@ -66,7 +63,8 @@ const Signup = ({onSignup, signupErrors, signupSuccess}) => {
 
 const mapStateToProps = state => ({
   signupErrors: state.auth.signupErrors,
-  signupSuccess: state.auth.signupSuccess
+  signupSuccess: state.auth.signupSuccess,
+  isFetching: state.auth.isFetching
 });
 
 export default connect(mapStateToProps, { onSignup: signup })(Signup)

@@ -2,8 +2,9 @@ import { Box, Button, CheckBoxGroup, Form, FormField, Heading, Main, Select, Tex
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getOrg, saveOrg } from '../actions/organization.actions';
+import Spinner from './Spinner';
 
-const Settings = ({ onSave, getOrg, organization }) => {
+const Settings = ({ onSave, getOrg, organization, isFetching }) => {
 
   const weekdays = [
     'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
@@ -53,67 +54,73 @@ const Settings = ({ onSave, getOrg, organization }) => {
   });
 
   useEffect(() => {
-    getOrg(organization.id)
-  }, [getOrg, organization.id]);
+    getOrg()
+  }, [getOrg]);
 
   return (
     <Main pad="medium">
-      <Heading level={1}>Settings</Heading>
-
-      <Form
-        onSubmit={({value, touch}) => {
-          onSave(value)
-        }}
-        value={value}
-        onChange={ nextValue => setValue(nextValue) }
-      >
-        <Heading level={2}>Organization Information</Heading>
-        <FormField label="Organization Name">
-          <TextInput name="name" />
-        </FormField>
-        <FormField label="Address 1">
-          <TextInput name="address1"/>
-        </FormField>
-        <FormField label="Address 2">
-          <TextInput name="address2"/>
-        </FormField>
-        <Box direction="row">
-          <FormField label="City">
-            <TextInput name="city"/>
-          </FormField>
-          <FormField label="State">
-            <TextInput name="state"/>
-          </FormField>
-          <FormField label="Zip">
-            <TextInput name="zip"/>
-          </FormField>
+      <Box flex={false}>
+        <Box direction="row" align="center" gap="large">
+          <Heading level={1}>Settings</Heading>
+          <Spinner isFetching={isFetching} />
         </Box>
-        <Heading level={2}>Calendar Information</Heading>
-        <FormField label="Weekstart">
-          <Select
-            children={(option, index, options, state) => (<Box pad="small">{weekdays[option]}</Box>)}
-            name='wkst'
-            options={[0,1,2,3,4,5,6]}
-            labelKey={(option) => weekdays[option]}
-          />
-        </FormField>
-        <FormField label="Working Days">
-          <CheckBoxGroup
-            name='working_days'
-            options={weekday_objs}
-            labelKey='weekday'
-            valueKey='index'
-          />
-        </FormField>
-        <Button label="Save" primary size="large" type="submit" pad="small" />
-      </Form>
+        <Form
+          onSubmit={({value, touch}) => {
+            onSave(value)
+          }}
+          value={value}
+          onChange={ nextValue => setValue(nextValue) }
+        >
+          <Heading level={2}>Organization Information</Heading>
+          <FormField label="Organization Name">
+            <TextInput name="name" />
+          </FormField>
+          <FormField label="Address 1">
+            <TextInput name="address1"/>
+          </FormField>
+          <FormField label="Address 2">
+            <TextInput name="address2"/>
+          </FormField>
+          <Box direction="row">
+            <FormField label="City">
+              <TextInput name="city"/>
+            </FormField>
+            <FormField label="State">
+              <TextInput name="state"/>
+            </FormField>
+            <FormField label="Zip">
+              <TextInput name="zip"/>
+            </FormField>
+          </Box>
+          <Heading level={2}>Calendar Information</Heading>
+          <FormField label="Weekstart">
+            <Select
+              children={(option, index, options, state) => (<Box pad="small">{weekdays[option]}</Box>)}
+              name='wkst'
+              options={[0,1,2,3,4,5,6]}
+              labelKey={(option) => weekdays[option]}
+            />
+          </FormField>
+          <FormField label="Working Days">
+            <CheckBoxGroup
+              name='working_days'
+              options={weekday_objs}
+              labelKey='weekday'
+              valueKey='index'
+            />
+          </FormField>
+          <Button label="Save" primary size="large" type="submit" pad="small" disabled={isFetching} />
+        </Form>
+      </Box>
+      
     </Main>
   )
 
 };
 
 const mapStateToProps = state => ({
-  organization: state.organization
+  organization: state.organization.organization,
+  isFetching: state.organization.isFetching
 });
 
 export default connect(mapStateToProps, {onSave: saveOrg, getOrg: getOrg })(Settings);

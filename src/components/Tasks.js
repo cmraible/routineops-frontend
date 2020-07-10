@@ -6,9 +6,10 @@ import { getRoles } from '../actions/role.actions';
 import { addTask, deleteTask, getTask, getTasks } from '../actions/task.actions';
 import { goToTask } from '../actions/ui.actions';
 import { getAllRoles, getAllTasks } from '../reducers/reducers';
+import Spinner from './Spinner';
 
 
-const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles }) => {
+const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetching }) => {
 
   const [value, setValue] = useState({
     organization: organization.id,
@@ -19,9 +20,9 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles }) => {
   });
 
   useEffect(() => {
-    getTasks(organization.id)
-    getRoles(organization.id)
-  }, [getTasks, organization.id]);
+    getTasks()
+    getRoles()
+  }, [getTasks, getRoles]);
 
   const renderChildren = (datum, index) => {
     return (
@@ -34,7 +35,10 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles }) => {
   return (
     <Main pad="medium">
       <Box flex={false}>
-        <Heading>Tasks</Heading>
+      <Box direction="row" align="center" gap="large">
+          <Heading>Tasks</Heading>
+          {((isFetching) && <Spinner />) }
+        </Box>
         <Box direction="column" gap="large">
           <Form
             onSubmit={({value, touch}) => {
@@ -70,10 +74,11 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles }) => {
 };
 
 const mapStateToProps = state => ({
-  organization: state.organization,
-  user: state.user,
+  organization: state.organization.organization,
+  user: state.user.user,
   tasks: getAllTasks(state),
-  roles: getAllRoles(state)
+  roles: getAllRoles(state),
+  isFetching: state.tasks.isFetching
 });
 
 export default connect(mapStateToProps, {addTask, getTasks, getTask, deleteTask, getRoles})(Tasks);

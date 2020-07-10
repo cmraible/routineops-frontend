@@ -2,7 +2,6 @@ import history from '../history.js';
 import { getOrg } from './organization.actions';
 import { getClient } from '../apiClient';
 
-
 export const LOGOUT = 'LOGOUT'
 export const logout = () => {
   window.localStorage.removeItem('operationally-token')
@@ -12,12 +11,10 @@ export const logout = () => {
   }
 } 
 
-
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const loginRequest = () => ({
   type: LOGIN_REQUEST
 });
-
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const loginSuccess = (token, user) => {
@@ -31,30 +28,13 @@ export const loginSuccess = (token, user) => {
   }
 }
 
-
 export const LOGIN_FAIL = 'LOGIN_FAIL'
-export const loginFail = (error) => {
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: LOGIN_FAIL,
-        message: 'Unable to login with provided credentials.'
-      }
-    } else {
-      return {
-        type: LOGIN_FAIL,
-        message: 'Login failed for an unknown reason.'
-      }
-    }
-  } else {
-    return {
-      type: LOGIN_FAIL,
-      message: 'Unable to connect.'
-    }
+export const loginFail = (message) => {
+  return {
+    type: LOGIN_FAIL,
+    message: message
   }
-
 }
-
 
 export const login = (username, password) => ((dispatch) => {
   dispatch(loginRequest())
@@ -72,11 +52,16 @@ export const login = (username, password) => ((dispatch) => {
     dispatch(getOrg(response.data.user.organization))
   })
   .catch( (error) => {
-    console.log(error.response)
-    dispatch(loginFail(error))
+    if (!error.response) {
+      // No response from server
+      dispatch(loginFail('Unable to connect to server.'))
+    } else if (error.response.status === 400) {
+      dispatch(loginFail('Unable to login with the provided credentials.'))
+    } else {
+      dispatch(loginFail('Something went wrong.'))
+    }
   })
 });
-
 
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
 export const signupRequest = (user) => ({
@@ -93,19 +78,10 @@ export const signupSuccess = (user) => {
 }
 
 export const SIGNUP_FAIL = 'SIGNUP_FAIL'
-export const signupFail = (error) => {
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: SIGNUP_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: SIGNUP_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const signupFail = (message) => {
+  return {
+    type: SIGNUP_FAIL,
+    message: message
   }
 }
 
@@ -121,5 +97,13 @@ export const signup = (user) => ((dispatch) => {
     dispatch(signupSuccess(response.data))
     dispatch(login(user.email, user.password))
   })
-  .catch( error => dispatch(signupFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      return dispatch(signupFail('Unabled to connect to server.'))
+    }
+    if (error.response.data.email) {
+      return dispatch(signupFail('User with that email address already exists.'))
+    }
+    return dispatch(signupFail('Something went wrong.'));
+  } )
 });

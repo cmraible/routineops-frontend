@@ -2,6 +2,7 @@ import { Box, Button, CheckBoxGroup, Form, FormField, Heading, Main, Select, Tex
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getOrg, saveOrg } from '../actions/organization.actions';
+import Spinner from './Spinner';
 
 const Organization = ({ onSave, getOrg, organization }) => {
 
@@ -58,7 +59,10 @@ const Organization = ({ onSave, getOrg, organization }) => {
 
   return (
     <Main pad="medium" margin={{bottom:"large"}}>
-      <Heading level={1}>Organization</Heading>
+      <Box direction="row" align="center" gap="large">
+        <Heading>Organization</Heading>
+        <Spinner isFetching={isFetching} />
+      </Box>
 
       <Form
         onSubmit={({value, touch}) => {
@@ -113,7 +117,8 @@ const Organization = ({ onSave, getOrg, organization }) => {
 };
 
 const mapStateToProps = state => ({
-  organization: state.organization
+  organization: state.organization.organization,
+  isFetching: state.organization.isFetching
 });
 
 export default connect(mapStateToProps, {onSave: saveOrg, getOrg: getOrg })(Organization);

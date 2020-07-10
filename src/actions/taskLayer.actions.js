@@ -91,7 +91,6 @@ export const getTaskLayers = (organization_id) => ((dispatch) => {
   .then( response => {
     const taskLayer = new schema.Entity('taskLayers', {})
     const normalizedData = normalize(response.data, [taskLayer])
-    console.log(normalizedData)
     dispatch(getTaskLayersSuccess(normalizedData))
   })
   .catch( error => dispatch(getTaskLayersFail(error)) )

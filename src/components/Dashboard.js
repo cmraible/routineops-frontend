@@ -3,7 +3,7 @@ import React from 'react';
 
 const Dashboard = () => {
   return (
-    <Main pad="large">
+    <Main pad="medium" direction="column">
       <Heading>Dashboard</Heading>
       
     </Main>

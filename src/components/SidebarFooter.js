@@ -10,7 +10,6 @@ import {
 import SidebarButton from './SidebarButton';
 
 const SidebarFooter = ({logout, user, toggleDarkMode, darkMode }) => {
-  console.log(darkMode)
 
   const [checked, setChecked] = useState(darkMode)
   const onChange = event => {
@@ -20,10 +19,9 @@ const SidebarFooter = ({logout, user, toggleDarkMode, darkMode }) => {
 
 
   return (
-      <Footer>
-        
-        <Nav>
-          <Box direction="row" justify="between">
+      <Footer> 
+        <Nav gap="small">
+          <Box direction="row" justify="between" papd="small">
             <CheckBox toggle checked={checked} onChange={onChange} />
             <Text>Dark Mode</Text>
           </Box>
@@ -39,7 +37,7 @@ const SidebarFooter = ({logout, user, toggleDarkMode, darkMode }) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.user,
+  user: state.user.user,
   pathname: state.router.location.pathname,
   darkMode: state.ui.darkMode
 });

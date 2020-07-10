@@ -40,16 +40,16 @@ function loginError(state = false, action) {
   }
 }
 
-function signupErrors(state = [], action) {
+function signupErrors(state = false, action) {
   switch (action.type) {
     case SIGNUP_FAIL:
-      return action.errors
+      return action.message
     case SIGNUP_SUCCESS:
-      return []
+      return false
     case SIGNUP_REQUEST:
-      return []
+      return false
     case GO_TO_SIGNUP:
-      return []
+      return false
     default:
       return state
   }
@@ -75,12 +75,28 @@ function token(state = false, action) {
   }
 }
 
+function isFetching(state = false, action) {
+  switch (action.type) {
+    case LOGIN_REQUEST:
+    case SIGNUP_REQUEST:
+      return true
+    case LOGIN_SUCCESS:
+    case LOGIN_FAIL:
+    case SIGNUP_SUCCESS:
+    case SIGNUP_FAIL:
+      return false
+    default:
+      return state
+  }
+}
+
 const authReducer = combineReducers({
   isLoggedIn,
   loginError,
   signupErrors,
   signupSuccess,
-  token
+  token,
+  isFetching
 })
 
 

@@ -61,7 +61,7 @@ const TaskChecks = ({ organization, task, addCheck, saveCheck, deleteCheck, allC
 };
 
 const mapStateToProps = (state) => ({
-  organization: state.organization,
+  organization: state.organization.organization,
   roles: getAllRoles(state),
   taskLayers: getAllTaskLayers(state),
   checksById: state.checks.byId,

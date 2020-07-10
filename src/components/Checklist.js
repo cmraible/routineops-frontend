@@ -12,7 +12,7 @@ const Checklist = ({ checks, taskInstance, completeTaskInstance, onComplete }) =
 
   useEffect(() => {
     getChecks()
-  }, [getChecks])
+  }, [])
 
   const disabled = (taskInstance.completed) ? true : false
 

@@ -1,12 +1,15 @@
+import { combineReducers } from 'redux';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
 } from '../actions/auth.actions';
 import {
   SAVE_USER_SUCCESS,
+  SAVE_USER_FAIL,
+  SAVE_USER_REQUEST
 } from '../actions/user.actions';
 
-function userReducer(state = false, action) {
+function user(state = false, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return action.user
@@ -18,5 +21,23 @@ function userReducer(state = false, action) {
       return state
   }
 }
+
+function isFetching(state = false, action) {
+  switch (action.type) {
+    case SAVE_USER_REQUEST:
+      return true
+    case SAVE_USER_SUCCESS:
+    case SAVE_USER_FAIL:
+      return false
+    default:
+      return state
+  }
+}
+
+
+const userReducer = combineReducers({
+  user,
+  isFetching
+})
 
 export default userReducer;

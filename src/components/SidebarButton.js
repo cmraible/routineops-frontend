@@ -9,9 +9,9 @@ const SidebarButton = ({ onClick, icon, label, active }) => {
       {({ hover }) => (
       <Box
         align="center"
-        pad="small"
         direction="row"
         gap="large"
+        pad="small"
       >
         {icon}
         <Text size="medium">{label}</Text>

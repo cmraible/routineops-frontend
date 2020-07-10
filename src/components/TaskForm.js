@@ -5,13 +5,14 @@ import { connect } from 'react-redux';
 import { deleteTask, getTask, saveTask } from '../actions/task.actions';
 import { goToTasks } from '../actions/ui.actions';
 import ConfirmDelete from './ConfirmDelete';
+import Spinner from './Spinner';
 
 
-const TaskForm = ({ task, saveTask, deleteTask, getTask }) => {
+const TaskForm = ({ task, saveTask, deleteTask, getTask, isFetching }) => {
 
   useEffect(() => {
     getTask(task.id)
-  }, [getTask]);
+  }, [getTask, task.id]);
   
   // Set up state for Task form
   const [taskValue, setTaskValue] = useState({
@@ -39,7 +40,10 @@ const TaskForm = ({ task, saveTask, deleteTask, getTask }) => {
 
   return (
         <Box>
-         <Heading level={2}>Task Information</Heading>
+         <Box direction="row" align="center" gap="medium">
+           <Heading level={2}>Task Information</Heading>
+           {(isFetching && <Spinner />)}
+          </Box>
           <Form
             value={taskValue}
             onChange={ nextValue => setTaskValue(nextValue) }
@@ -52,7 +56,7 @@ const TaskForm = ({ task, saveTask, deleteTask, getTask }) => {
               <TextArea name="description" />
             </FormField>
             <Box justify="between" direction="row">
-              <Button color="status-ok" icon={<Save />} label="Save" pad="small" primary type="submit" />
+              <Button color="status-ok" icon={<Save />} label="Save" pad="small" primary type="submit" disabled={isFetching} />
               <Button color="status-critical" icon={<Trash size="small" />} primary pad="small" onClick={onOpenDelete} />
             </Box>
           </Form>
@@ -71,7 +75,7 @@ const TaskForm = ({ task, saveTask, deleteTask, getTask }) => {
 };
 
 const mapStateToProps = (state) => ({
-  
+  isFetching: state.tasks.isFetching
 })
 
 export default connect(mapStateToProps, {

@@ -16,11 +16,11 @@ import WeekView from './WeekView.js';
 const Calendar = ({ getTaskLayers, getTaskInstances, getTasks, getRoles, organization, taskLayers, taskInstances, roles, tasks }) => {
 
   useEffect(() => {
-    getTaskLayers(organization.id)
-    getTasks(organization.id)
-    getTaskInstances(organization.id)
-    getRoles(organization.id)
-  }, [organization.id]);
+    getTaskLayers()
+    getTasks()
+    getTaskInstances()
+    getRoles()
+  }, [getRoles, getTaskLayers, getTasks, getTaskInstances]);
 
   const today = toDate(new Date())
 
@@ -41,12 +41,12 @@ const Calendar = ({ getTaskLayers, getTaskInstances, getTasks, getRoles, organiz
 };
 
 const mapStateToProps = state => ({
-  organization: state.organization,
+  organization: state.organization.organization,
   roles: state.roles.byId,
   tasks: state.tasks.byId,
   taskLayers: getAllTaskLayers(state),
   taskInstances: getAllTaskInstances(state),
-  user: state.user
+  user: state.user.user
 });
 
 export default connect(mapStateToProps, {getTaskLayers, getTaskInstances, getRoles, getTasks})(Calendar);

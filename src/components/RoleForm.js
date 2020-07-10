@@ -11,7 +11,7 @@ const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching }) => {
 
   useEffect(() => {
     getRole(role.id)
-  }, [getRole]);
+  }, [getRole, role.id]);
   
   // Set up state for Task form
   const [roleValue, setRoleValue] = useState({
@@ -41,7 +41,7 @@ const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching }) => {
         <Box fill="horizontal">
           <Box direction="row" align="center" gap="medium">
            <Heading level={2}>Role Information</Heading>
-           {(isFetching && <Spinner />)}
+           <Spinner isFetching={isFetching} />
           </Box>
          
           <Form
@@ -53,7 +53,7 @@ const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching }) => {
               <TextInput name="name" />
             </FormField>
             <Box justify="between" direction="row">
-              <Button color="status-ok" icon={<Save />} label="Save" pad="small" primary type="submit" />
+              <Button color="status-ok" icon={<Save />} label="Save" pad="small" primary type="submit" disabled={isFetching} />
               <Button color="status-critical" icon={<Trash size="small" />} primary pad="small" onClick={onOpenDelete} />
             </Box>
           </Form>

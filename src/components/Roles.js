@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { addRole, deleteRole, getRoles } from '../actions/role.actions';
 import { goToRole } from '../actions/ui.actions';
 import { getAllRoles } from '../reducers/reducers';
-import RoleOverlay from './RoleOverlay';
 import Spinner from './Spinner';
 
 
@@ -15,16 +14,9 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching 
     name: ''
   });
 
-  const [openRole, setOpenRole] = useState()
-
-  const onOpenRole = (event) => setOpenRole(event.item);
-
-  const onCloseRole = () => setOpenRole(undefined);
-
-
   useEffect(() => {
-    getRoles(organization.id)
-  }, [getRoles, organization.id]);
+    getRoles()
+  }, [getRoles]);
 
   const renderChildren = (datum, index) => {
     return (
@@ -39,7 +31,7 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching 
       <Box flex={false}>
         <Box direction="row" align="center" gap="large">
           <Heading>Roles</Heading>
-          {((isFetching) && <Spinner />) }
+          <Spinner isFetching={isFetching} />
         </Box>
         
         <Box direction="column" gap="large">
@@ -65,11 +57,6 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching 
             children={renderChildren}
             onClickItem={(event) => goToRole(event.item.id)}
           />
-          {
-            openRole && (
-              <RoleOverlay role={openRole} onClose={onCloseRole} deleteRole={deleteRole} />
-            )
-          }
         </Box>
       </Box>
       
@@ -79,8 +66,8 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching 
 };
 
 const mapStateToProps = state => ({
-  organization: state.organization,
-  user: state.user,
+  organization: state.organization.organization,
+  user: state.user.user,
   roles: getAllRoles(state),
   isFetching: state.roles.isFetching
 });

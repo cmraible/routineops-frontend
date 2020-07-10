@@ -8,9 +8,10 @@ export const getTaskInstancesRequest = (organization_id) => ({
 });
 
 export const GET_TASK_INSTANCES_SUCCESS = 'GET_TASK_INSTANCES_SUCCESS'
-export const getTaskInstancesSuccess = (taskInstances) => ({
+export const getTaskInstancesSuccess = (data) => ({
   type: GET_TASK_INSTANCES_SUCCESS,
-  taskInstances: taskInstances
+  entities: data.entities,
+  result: data.result
 });
 
 export const GET_TASK_INSTANCES_FAIL = 'GET_TASK_INSTANCES_FAIL'
@@ -55,9 +56,10 @@ export const saveTaskInstanceRequest = (taskInstance) => ({
 });
 
 export const SAVE_TASK_INSTANCE_SUCCESS = 'SAVE_TASK_INSTANCE_SUCCESS'
-export const saveTaskInstanceSuccess = (taskInstance) => ({
+export const saveTaskInstanceSuccess = (data) => ({
   type: SAVE_TASK_INSTANCE_SUCCESS,
-  taskInstance: taskInstance
+  entities: data.entities,
+  result: data.result
 });
 
 export const SAVE_TASK_INSTANCE_FAIL = 'SAVE_TASK_INSTANCE_FAIL'
@@ -78,8 +80,9 @@ export const saveTaskInstance = (taskInstance) => ((dispatch) => {
     '/taskinstances/' + taskInstance.id + '/', taskInstance
   )
   .then( response => {
-    
-    dispatch(saveTaskInstanceSuccess(response.data))
+    const taskInstance = new schema.Entity('taskInstances')
+    const normalizedData = normalize(response.data, taskInstance)
+    dispatch(saveTaskInstanceSuccess(normalizedData))
   })
   .catch( error => dispatch(saveTaskInstanceFail(error)) )
 });
@@ -137,9 +140,10 @@ export const completeTaskInstanceRequest = (taskInstance, results) => ({
 
 
 export const COMPLETE_TASK_INSTANCE_SUCCESS = 'COMPLETE_TASK_INSTANCE_SUCCESS'
-export const completeTaskInstanceSuccess = (taskInstance) => ({
+export const completeTaskInstanceSuccess = (data) => ({
   type: COMPLETE_TASK_INSTANCE_SUCCESS,
-  taskInstance: taskInstance
+  entities: data.entities,
+  result: data.result
 });
 
 export const COMPLETE_TASK_INSTANCE_FAIL = 'COMPLETE_TASK_INSTANCE_FAIL'
@@ -168,7 +172,9 @@ export const completeTaskInstance = (taskInstance, results) => ((dispatch) => {
     '/taskinstances/' + taskInstance.id + '/complete/', results
   )
   .then( response => {
-    dispatch(completeTaskInstanceSuccess(response.data))
+    const taskInstance = new schema.Entity('taskInstances')
+    const normalizedData = normalize(response.data, taskInstance)
+    dispatch(completeTaskInstanceSuccess(normalizedData))
   })
   .catch( error => dispatch(completeTaskInstanceFail(error)) )
 });

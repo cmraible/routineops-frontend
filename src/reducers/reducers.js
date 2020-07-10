@@ -41,7 +41,7 @@ export const getAllTaskInstances = (state) =>
   fromTaskInstances.getAllTaskInstances(state.taskInstances)
 
 export const getTaskInstancesForAssignee = (state) =>
-  fromTaskInstances.getTaskInstancesForAssignee(state.taskInstances, state.user)
+  fromTaskInstances.getTaskInstancesForAssignee(state.taskInstances, state.user.user)
   .sort((a, b) => parseISO(a.due) - parseISO(b.due))
 
 export const getAllChecks = (state) =>

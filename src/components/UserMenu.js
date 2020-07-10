@@ -13,14 +13,18 @@ const UserMenu = ({ goToProfile, user }) => {
           <Avatar background="white" round="full" size="medium">
               <User color="brand" size="medium" />
           </Avatar>
-          <Text>{user.first_name + ' ' + user.last_name}</Text>
+          <Box direction="column">
+            <Text>{user.first_name + ' ' + user.last_name}</Text>
+          </Box>
+          
         </Box>
     </Box>
   )
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user.user,
+  isFetching: state.user.isFetching
 });
 
 export default connect(mapStateToProps, { goToProfile })(UserMenu);
