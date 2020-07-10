@@ -17,11 +17,10 @@ const UserMenu = ({ goToProfile, user }) => {
         </Box>
     </Box>
   )
-
 };
 
 const mapStateToProps = state => ({
-  user: state.user,
+  user: state.user
 });
 
 export default connect(mapStateToProps, { goToProfile })(UserMenu);

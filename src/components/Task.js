@@ -7,6 +7,7 @@ import { goToTasks } from '../actions/ui.actions';
 import TaskForm from './TaskForm';
 import TaskChecks from './TaskChecks';
 import TaskLayers from './TaskLayers';
+import BackButton from './BackButton';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 import { getAllTaskLayers } from '../reducers/reducers';
 import { getRoles } from '../actions/role.actions';
@@ -25,6 +26,7 @@ const Task = ({ match, tasksById, getTask, getRoles, getTaskLayers }) => {
 
   return (
     <Main pad="medium"> 
+        <BackButton onClick={goToTasks} label="Tasks" />
         <TaskForm  task={task} />
         <TaskChecks task={task} />
         <TaskLayers task={task} />       

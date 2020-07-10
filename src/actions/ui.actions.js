@@ -17,6 +17,14 @@ export const goToProfile = () => {
   }
 }
 
+export const GO_TO_DASHBOARD = 'GO_TO_DASHBOARD'
+export const goToDashboard = () => {
+  history.push('/dashboard')
+  return {
+    type: GO_TO_DASHBOARD
+  }
+}
+
 export const GO_TO_ROLES = 'GO_TO_ROLES'
 export const goToRoles = () => {
   history.push('/roles')
