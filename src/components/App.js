@@ -5,16 +5,16 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import operationallyTheme from '../operationallyTheme';
 import Calendar from './Calendar';
 import Dashboard from './Dashboard';
-import Home from './Home';
 import DefaultSidebar from './DefaultSidebar';
+import Home from './Home';
 import Login from './Login';
 import Profile from './Profile';
+import Role from './Role';
 import Roles from './Roles';
 import Settings from './Settings';
 import Signup from './Signup';
-import Tasks from './Tasks';
 import Task from './Task';
-import Role from './Role';
+import Tasks from './Tasks';
 
 
 
@@ -24,7 +24,7 @@ const App = ({ isLoggedIn, theme, darkMode }) => {
     return (
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
         <Switch>
-          <Box align="start" direction="row" fill="vertical">
+          <Box align="start" direction="row" fill>
               <DefaultSidebar />
               <Route path="/" exact component={Home} />
               <Route path="/calendar" component={Calendar} />

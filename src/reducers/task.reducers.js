@@ -1,5 +1,13 @@
 import {
   GET_TASKS_SUCCESS,
+  ADD_TASK_REQUEST,
+  SAVE_TASK_REQUEST,
+  GET_TASK_REQUEST,
+  ADD_TASK_FAIL,
+  SAVE_TASK_SUCCESS,
+  SAVE_TASK_FAIL,
+  GET_TASK_SUCCESS,
+  GET_TASK_FAIL,
   ADD_TASK_SUCCESS,
   DELETE_TASK_SUCCESS
 } from '../actions/task.actions';
@@ -39,9 +47,28 @@ function allIds(state = [], action) {
   }
 }
 
+const isFetching = (state = false, action) => {
+  switch (action.type) {
+    case ADD_TASK_REQUEST:
+    case SAVE_TASK_REQUEST:
+    case GET_TASK_REQUEST:
+      return true
+    case ADD_TASK_SUCCESS:
+    case ADD_TASK_FAIL:
+    case SAVE_TASK_SUCCESS:
+    case SAVE_TASK_FAIL:
+    case GET_TASK_SUCCESS:
+    case GET_TASK_FAIL:
+      return false
+    default:
+      return state
+  }
+}
+
 const taskReducer = combineReducers({
   byId,
-  allIds
+  allIds,
+  isFetching
 })
 
 export default taskReducer;

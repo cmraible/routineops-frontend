@@ -25,11 +25,13 @@ const Task = ({ match, tasksById, getTask, getRoles, getTaskLayers }) => {
   }, [getTask]);
 
   return (
-    <Main pad="medium"> 
+    <Main pad="medium">
+      <Box flex={false}> 
         <BackButton onClick={goToTasks} label="Tasks" />
         <TaskForm  task={task} />
         <TaskChecks task={task} />
         <TaskLayers task={task} />       
+      </Box>
     </Main>
   )
 

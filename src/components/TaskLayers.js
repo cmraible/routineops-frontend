@@ -21,7 +21,7 @@ const TaskLayers = ({ task, taskLayers, rolesById, allRoles }) => {
 
   return (
         <Box>
-          <Heading level={1}>Schedule</Heading>
+          <Heading level={2}>Schedule</Heading>
           <List
             data={roles}
             children={(role) => {

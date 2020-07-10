@@ -39,7 +39,7 @@ const TaskForm = ({ task, saveTask, deleteTask, getTask }) => {
 
   return (
         <Box>
-         <Heading level={1}>Task Information</Heading>
+         <Heading level={2}>Task Information</Heading>
           <Form
             value={taskValue}
             onChange={ nextValue => setTaskValue(nextValue) }

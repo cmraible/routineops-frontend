@@ -3,8 +3,14 @@ import {
 } from '../actions/auth.actions.js';
 import {
   GET_ROLES_SUCCESS,
+  GET_ROLES_REQUEST,
   ADD_ROLE_SUCCESS,
   SAVE_ROLE_SUCCESS,
+  SAVE_ROLE_REQUEST,
+  ADD_ROLE_FAIL,
+  GET_ROLES_FAIL,
+  SAVE_ROLE_FAIL,
+  ADD_ROLE_REQUEST,
   DELETE_ROLE_SUCCESS
 } from '../actions/role.actions.js';
 import { combineReducers } from 'redux';
@@ -41,9 +47,28 @@ const allIds = (state = [], action) => {
   }
 }
 
+const isFetching = (state = false, action) => {
+  switch (action.type) {
+    case ADD_ROLE_REQUEST:
+    case SAVE_ROLE_REQUEST:
+    case GET_ROLES_REQUEST:
+      return true
+    case ADD_ROLE_SUCCESS:
+    case ADD_ROLE_FAIL:
+    case SAVE_ROLE_SUCCESS:
+    case SAVE_ROLE_FAIL:
+    case GET_ROLES_SUCCESS:
+    case GET_ROLES_FAIL:
+      return false
+    default:
+      return state
+  }
+}
+
 const roleReducer = combineReducers({
   byId,
-  allIds
+  allIds,
+  isFetching
 })
 
 export default roleReducer;

@@ -3,13 +3,13 @@ import { Heading, Main, Tab, Tabs } from 'grommet';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getRoles } from '../actions/role.actions.js';
+import { getTasks } from '../actions/task.actions.js';
 import { getTaskInstances } from '../actions/taskInstance.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 import { getAllTaskLayers } from '../reducers/reducers';
+import { getAllTaskInstances } from '../reducers/reducers.js';
 import MonthView from './MonthView.js';
 import WeekView from './WeekView.js';
-import { getTasks } from '../actions/task.actions.js';
-import { getAllTaskInstances } from '../reducers/reducers.js';
 
 
 

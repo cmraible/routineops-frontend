@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { 
-  Box, 
-  Button, 
-  Form, 
-  FormField, 
-  TextInput, 
-  Select
+import {
+  Box,
+  Button,
+  Form,
+  FormField,
+  Select, 
+  TextInput
 } from 'grommet';
 import { Trash } from 'grommet-icons';
+import React, { useState } from 'react';
 
 const CheckForm = ({organization, check, onSubmit, onDelete }) => {
 

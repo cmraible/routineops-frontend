@@ -26,7 +26,7 @@ const TaskChecks = ({ organization, task, addCheck, saveCheck, deleteCheck, allC
 
   return (
     <Box>
-      <Heading level={1}>Checks</Heading>
+      <Heading level={2}>Checks</Heading>
       <Form
         onSubmit={({value, touch}) => {
           addCheck(value)

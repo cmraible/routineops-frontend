@@ -5,8 +5,9 @@ import { Trash, Save } from 'grommet-icons';
 import { goToRoles } from '../actions/ui.actions';
 import { getRole, deleteRole, saveRole } from '../actions/role.actions';
 import ConfirmDelete from './ConfirmDelete';
+import Spinner from './Spinner';
 
-const RoleForm = ({ role, getRole, deleteRole, saveRole }) => {
+const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching }) => {
 
   useEffect(() => {
     getRole(role.id)
@@ -37,8 +38,12 @@ const RoleForm = ({ role, getRole, deleteRole, saveRole }) => {
   }
 
   return (
-        <Box pad="medium" fill="horizontal">
-         <Heading level={2}>Role Information</Heading>
+        <Box fill="horizontal">
+          <Box direction="row" align="center" gap="medium">
+           <Heading level={2}>Role Information</Heading>
+           {(isFetching && <Spinner />)}
+          </Box>
+         
           <Form
             value={roleValue}
             onChange={ nextValue => setRoleValue(nextValue) }

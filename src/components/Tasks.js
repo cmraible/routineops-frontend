@@ -33,35 +33,38 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles }) => {
   }
 
   return (
-    <Main pad="medium" >
-      <Heading>Tasks</Heading>
-      <Box direction="column" gap="large">
-        <Form
-          onSubmit={({value, touch}) => {
-            addTask({
-              organization: organization.id,
-              name: value.name,
-              checks: [
-                {prompt: `Did you ${value.name.toLowerCase()}?`, resultType: 'BOOLEAN', organization: organization.id}
-              ]
-            })
-            setValue({name: ''})
-          }}
-          value={value}
-          onChange={ nextValue => setValue(nextValue) }
-        >
-          <Box direction="row" gap="small">
-            <TextInput required name="name" placeholder="New task" />
-            <Button type="submit" size="small" primary icon={<Add />} />
-          </Box>
-        </Form>
-        <List
-          primaryKey="name"
-          data={tasks}
-          children={renderChildren}
-          onClickItem={(event) => goToTask(event.item.id)}
-        />
+    <Main pad="medium">
+      <Box flex={false}>
+        <Heading>Tasks</Heading>
+        <Box direction="column" gap="large">
+          <Form
+            onSubmit={({value, touch}) => {
+              addTask({
+                organization: organization.id,
+                name: value.name,
+                checks: [
+                  {prompt: `Did you ${value.name.toLowerCase()}?`, resultType: 'BOOLEAN', organization: organization.id}
+                ]
+              })
+              setValue({name: ''})
+            }}
+            value={value}
+            onChange={ nextValue => setValue(nextValue) }
+          >
+            <Box direction="row" gap="small">
+              <TextInput required name="name" placeholder="New task" />
+              <Button type="submit" size="small" primary icon={<Add />} />
+            </Box>
+          </Form>
+          <List
+            primaryKey="name"
+            data={tasks}
+            children={renderChildren}
+            onClickItem={(event) => goToTask(event.item.id)}
+          />
+        </Box>
       </Box>
+      
     </Main>
   )
 

@@ -10,7 +10,7 @@ import { getRoles } from '../actions/role.actions';
 import RoleForm from './RoleForm';
 
 
-const Role = ({ match, tasksById, getTask, getRoles, getTaskLayers, rolesById }) => {
+const Role = ({ match, tasksById, getTask, getRoles, getTaskLayers, rolesById, isFetching }) => {
 
   const role_id = match.params.role_id
   const role = rolesById[role_id]
@@ -21,9 +21,12 @@ const Role = ({ match, tasksById, getTask, getRoles, getTaskLayers, rolesById })
   }, [getTask]);
 
   return (
-        <Main pad="medium">     
-          <BackButton onClick={goToRoles} label="Roles" />
-          <RoleForm role={role} />
+        <Main pad="medium">
+          <Box flex={false}>
+            <BackButton onClick={goToRoles} label="Roles" />
+            <RoleForm role={role} isFetching={isFetching} />
+          </Box>   
+     
         </Main>
   )
 
@@ -32,7 +35,8 @@ const Role = ({ match, tasksById, getTask, getRoles, getTaskLayers, rolesById })
 const mapStateToProps = (state) => ({
   rolesById: state.roles.byId,
   tasksById: state.tasks.byId,
-  taskLayers: getAllTaskLayers(state)
+  taskLayers: getAllTaskLayers(state),
+  isFetching: state.roles.isFetching
 })
 
 export default connect(mapStateToProps, {
