@@ -2,7 +2,7 @@ const operationallyTheme = {
   "name": "operationally",
   "rounding": 1,
   "spacing": 24,
-  "defaultMode": "dark",
+  "defaultMode": "light",
   "global": {
     "colors": {
       "brand": {
