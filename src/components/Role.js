@@ -10,7 +10,7 @@ import BackButton from './BackButton';
 import RoleForm from './RoleForm';
 
 
-const Role = ({ match, getRoles, getTaskLayers, rolesById, isFetching }) => {
+const Role = ({ match, getRoles, getTaskLayers, rolesById, isFetching, errors }) => {
 
   const role_id = match.params.role_id
   const role = rolesById[role_id]
@@ -24,9 +24,8 @@ const Role = ({ match, getRoles, getTaskLayers, rolesById, isFetching }) => {
         <Main pad="medium">
           <Box flex={false}>
             <BackButton onClick={goToRoles} label="Roles" />
-            <RoleForm role={role} isFetching={isFetching} />
+            <RoleForm role={role} isFetching={isFetching} errors={errors} />
           </Box>   
-     
         </Main>
   )
 
@@ -35,7 +34,8 @@ const Role = ({ match, getRoles, getTaskLayers, rolesById, isFetching }) => {
 const mapStateToProps = (state) => ({
   rolesById: state.roles.byId,
   taskLayers: getAllTaskLayers(state),
-  isFetching: state.roles.isFetching
+  isFetching: state.roles.isFetching,
+  errors: state.roles.errors
 })
 
 export default connect(mapStateToProps, {

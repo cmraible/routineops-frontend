@@ -11,6 +11,7 @@ import {
   GET_ORG_REQUEST,
   GET_ORG_FAIL
 } from '../actions/organization.actions';
+import { GO_TO_SETTINGS } from '../actions/ui.actions';
 
 function organization(state = false, action) {
   switch (action.type) {
@@ -42,9 +43,26 @@ function isFetching(state = false, action) {
   }
 }
 
+function errors(state = false, action) {
+  switch (action.type) {
+    case SAVE_ORG_FAIL:
+    case GET_ORG_FAIL:
+      return action.message
+    case SAVE_ORG_SUCCESS:
+    case SAVE_ORG_REQUEST:
+    case GET_ORG_SUCCESS:
+    case GET_ORG_REQUEST:
+    case GO_TO_SETTINGS:
+      return false
+    default:
+      return state
+  }
+}
+
 const organizationReducer = combineReducers({
   organization, 
-  isFetching
+  isFetching,
+  errors
 })
 
 export default organizationReducer;

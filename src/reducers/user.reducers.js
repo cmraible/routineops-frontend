@@ -8,6 +8,9 @@ import {
   SAVE_USER_FAIL,
   SAVE_USER_REQUEST
 } from '../actions/user.actions';
+import {
+  GO_TO_PROFILE
+} from '../actions/ui.actions';
 
 function user(state = false, action) {
   switch (action.type) {
@@ -34,10 +37,24 @@ function isFetching(state = false, action) {
   }
 }
 
+function errors(state = false, action) {
+  switch (action.type) {
+    case SAVE_USER_FAIL:
+      return action.message
+    case SAVE_USER_SUCCESS:
+    case SAVE_USER_REQUEST:
+    case GO_TO_PROFILE:
+      return false
+    default:
+      return state
+  }
+}
+
 
 const userReducer = combineReducers({
   user,
-  isFetching
+  isFetching,
+  errors
 })
 
 export default userReducer;

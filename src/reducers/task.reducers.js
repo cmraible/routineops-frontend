@@ -11,7 +11,9 @@ import {
   ADD_TASK_SUCCESS,
   DELETE_TASK_SUCCESS,
   GET_TASKS_FAIL,
-  GET_TASKS_REQUEST
+  GET_TASKS_REQUEST,
+  DELETE_TASK_FAIL,
+  DELETE_TASK_REQUEST
 } from '../actions/task.actions';
 import {
   LOGOUT
@@ -70,10 +72,35 @@ const isFetching = (state = false, action) => {
   }
 }
 
+const errors = (state = false, action) => {
+  switch (action.type) {
+    case SAVE_TASK_FAIL:
+    case ADD_TASK_FAIL:
+    case GET_TASKS_FAIL:
+    case GET_TASK_FAIL:
+    case DELETE_TASK_FAIL:
+      return action.message
+    case SAVE_TASK_SUCCESS:
+    case SAVE_TASK_REQUEST:
+    case ADD_TASK_SUCCESS:
+    case ADD_TASK_REQUEST:
+    case GET_TASKS_SUCCESS:
+    case GET_TASKS_REQUEST:
+    case GET_TASK_SUCCESS:
+    case GET_TASK_REQUEST:
+    case DELETE_TASK_SUCCESS:
+    case DELETE_TASK_REQUEST:
+      return false
+    default:
+      return state
+  }
+}
+
 const taskReducer = combineReducers({
   byId,
   allIds,
-  isFetching
+  isFetching,
+  errors
 })
 
 export default taskReducer;

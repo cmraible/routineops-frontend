@@ -11,7 +11,9 @@ import {
   GET_ROLES_FAIL,
   SAVE_ROLE_FAIL,
   ADD_ROLE_REQUEST,
-  DELETE_ROLE_SUCCESS
+  DELETE_ROLE_SUCCESS,
+  DELETE_ROLE_FAIL,
+  DELETE_ROLE_REQUEST
 } from '../actions/role.actions.js';
 import { combineReducers } from 'redux';
 import merge from 'lodash/merge'
@@ -65,10 +67,32 @@ const isFetching = (state = false, action) => {
   }
 }
 
+const errors = (state = false, action) => {
+  switch (action.type) {
+    case SAVE_ROLE_FAIL:
+    case ADD_ROLE_FAIL:
+    case GET_ROLES_FAIL:
+    case DELETE_ROLE_FAIL:
+      return action.message
+    case SAVE_ROLE_SUCCESS:
+    case SAVE_ROLE_REQUEST:
+    case ADD_ROLE_SUCCESS:
+    case ADD_ROLE_REQUEST:
+    case GET_ROLES_SUCCESS:
+    case GET_ROLES_REQUEST:
+    case DELETE_ROLE_SUCCESS:
+    case DELETE_ROLE_REQUEST:
+      return false
+    default:
+      return state
+  }
+}
+
 const roleReducer = combineReducers({
   byId,
   allIds,
-  isFetching
+  isFetching,
+  errors
 })
 
 export default roleReducer;

@@ -17,20 +17,10 @@ export const addCheckSuccess = (data) => ({
 });
 
 export const ADD_CHECK_FAIL = 'ADD_CHECK_FAIL'
-export const addCheckFail = (error) => {
-  console.log(error);
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: ADD_CHECK_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: ADD_CHECK_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const addCheckFail = (message) => {
+  return {
+    type: ADD_CHECK_FAIL,
+    message: message
   }
 }
 
@@ -47,7 +37,14 @@ export const addCheck = (check) => ((dispatch) => {
     const normalizedData = normalize(response.data, check)
     dispatch(addCheckSuccess(normalizedData))
   })
-  .catch( error => dispatch(addCheckFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(addCheckFail('Unable to connect to server'))
+    } else {
+      return dispatch(addCheckFail('Something went wrong'));
+    }
+  })
 });
 
 export const GET_CHECKS_REQUEST = 'GET_CHECKS_REQUEST'
@@ -63,20 +60,10 @@ export const getChecksSuccess = (checks) => ({
 });
 
 export const GET_CHECKS_FAIL = 'GET_CHECKS_FAIL'
-export const getChecksFail = (error) => {
-  console.log(error)
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: GET_CHECKS_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: GET_CHECKS_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const getChecksFail = (message) => {
+  return {
+    type: GET_CHECKS_FAIL,
+    message: message
   }
 }
 
@@ -93,7 +80,14 @@ export const getChecks = (organization_id) =>  ((dispatch) => {
     const normalizedData = normalize(response.data, [check])
     dispatch(getChecksSuccess(normalizedData))
   })
-  .catch( error => dispatch(getChecksFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(getChecksFail('Unable to connect to server'))
+    } else {
+      return dispatch(getChecksFail('Something went wrong'));
+    }
+  })
 });
 
 
@@ -111,11 +105,10 @@ export const saveCheckSuccess = (data) => ({
 });
 
 export const SAVE_CHECK_FAIL = 'SAVE_CHECK_FAIL'
-export const saveCheckFail = (error) => {
-  console.log(error)
+export const saveCheckFail = (message) => {
   return ({
     type: SAVE_CHECK_FAIL,
-    message: "An error occurred."
+    message: message
   });
 };
 
@@ -132,7 +125,14 @@ export const saveCheck = (check) => ((dispatch) => {
     const normalizedData = normalize(response.data, check)
     dispatch(saveCheckSuccess(normalizedData))
   })
-  .catch( error => dispatch(saveCheckFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(saveCheckFail('Unable to connect to server'))
+    } else {
+      return dispatch(saveCheckFail('Something went wrong'));
+    }
+  } )
 });
 
 
@@ -149,19 +149,10 @@ export const deleteCheckSuccess = (check_id) => ({
 });
 
 export const DELETE_CHECK_FAIL = 'DELETE_CHECK_FAIL'
-export const deleteCheckFail = (error) => {
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: DELETE_CHECK_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: DELETE_CHECK_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const deleteCheckFail = (message) => {
+  return {
+    type: DELETE_CHECK_FAIL,
+    message: message
   }
 }
 
@@ -176,5 +167,12 @@ export const deleteCheck = (check_id) => ((dispatch) => {
   .then( response => {
     dispatch(deleteCheckSuccess(check_id))
   })
-  .catch( error => dispatch(deleteCheckFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(deleteCheckFail('Unable to connect to server'))
+    } else {
+      return dispatch(deleteCheckFail('Something went wrong'));
+    }
+  } )
 });

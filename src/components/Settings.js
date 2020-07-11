@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getOrg, saveOrg } from '../actions/organization.actions';
 import Spinner from './Spinner';
+import Error from './Error';
 
-const Settings = ({ onSave, getOrg, organization, isFetching }) => {
+const Settings = ({ onSave, getOrg, organization, isFetching, errors }) => {
 
   const weekdays = [
     'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
@@ -54,8 +55,8 @@ const Settings = ({ onSave, getOrg, organization, isFetching }) => {
   });
 
   useEffect(() => {
-    getOrg()
-  }, [getOrg]);
+    getOrg(organization.id)
+  }, [getOrg, organization.id]);
 
   return (
     <Main pad="medium">
@@ -64,6 +65,7 @@ const Settings = ({ onSave, getOrg, organization, isFetching }) => {
           <Heading level={1}>Settings</Heading>
           <Spinner isFetching={isFetching} />
         </Box>
+        <Error message={errors} />
         <Form
           onSubmit={({value, touch}) => {
             onSave(value)
@@ -120,7 +122,8 @@ const Settings = ({ onSave, getOrg, organization, isFetching }) => {
 
 const mapStateToProps = state => ({
   organization: state.organization.organization,
-  isFetching: state.organization.isFetching
+  isFetching: state.organization.isFetching,
+  errors: state.organization.errors
 });
 
 export default connect(mapStateToProps, {onSave: saveOrg, getOrg: getOrg })(Settings);

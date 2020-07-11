@@ -17,20 +17,10 @@ export const addTaskSuccess = (data) => ({
 });
 
 export const ADD_TASK_FAIL = 'ADD_TASK_FAIL'
-export const addTaskFail = (error) => {
-  console.log(error);
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: ADD_TASK_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: ADD_TASK_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const addTaskFail = (message) => {
+  return {
+    type: ADD_TASK_FAIL,
+    message: message
   }
 }
 
@@ -51,7 +41,14 @@ export const addTask = (task) => ((dispatch) => {
     console.log(normalizedData)
     dispatch(addTaskSuccess(normalizedData))
   })
-  .catch( error => dispatch(addTaskFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(addTaskFail('Unable to connect to server'))
+    } else {
+      return dispatch(addTaskFail('Something went wrong'));
+    }
+  } )
 });
 
 export const GET_TASKS_REQUEST = 'GET_TASKS_REQUEST'
@@ -68,20 +65,10 @@ export const getTasksSuccess = (data) => ({
 });
 
 export const GET_TASKS_FAIL = 'GET_TASKS_FAIL'
-export const getTasksFail = (error) => {
-  console.log(error)
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: GET_TASKS_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: GET_TASKS_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const getTasksFail = (message) => {
+  return {
+    type: GET_TASKS_FAIL,
+    message: message
   }
 }
 
@@ -101,7 +88,14 @@ export const getTasks = (organization_id) =>  ((dispatch) => {
     const normalizedData = normalize(response.data, [task])
     dispatch(getTasksSuccess(normalizedData))
   })
-  .catch( error => dispatch(getTasksFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(getTasksFail('Unable to connect to server'))
+    } else {
+      return dispatch(getTasksFail('Something went wrong'));
+    }
+  } )
 });
 
 
@@ -119,11 +113,10 @@ export const saveTaskSuccess = (data) => ({
 });
 
 export const SAVE_TASK_FAIL = 'SAVE_TASK_FAIL'
-export const saveTaskFail = (error) => {
-  console.log(error)
+export const saveTaskFail = (message) => {
   return ({
     type: SAVE_TASK_FAIL,
-    message: "An error occurred."
+    message: message
   });
 };
 
@@ -143,7 +136,14 @@ export const saveTask = (task) => ((dispatch) => {
     const normalizedData = normalize(response.data, task)
     dispatch(saveTaskSuccess(normalizedData))
   })
-  .catch( error => dispatch(saveTaskFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(saveTaskFail('Unable to connect to server'))
+    } else {
+      return dispatch(saveTaskFail('Something went wrong'));
+    }
+  } )
 });
 
 
@@ -160,19 +160,10 @@ export const deleteTaskSuccess = (task_id) => ({
 });
 
 export const DELETE_TASK_FAIL = 'DELETE_TASK_FAIL'
-export const deleteTaskFail = (error) => {
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: DELETE_TASK_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: DELETE_TASK_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const deleteTaskFail = (message) => {
+  return {
+    type: DELETE_TASK_FAIL,
+    message: message
   }
 }
 
@@ -187,7 +178,14 @@ export const deleteTask = (task_id) => ((dispatch) => {
   .then( response => {
     dispatch(deleteTaskSuccess(task_id))
   })
-  .catch( error => dispatch(deleteTaskFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(deleteTaskFail('Unable to connect to server'))
+    } else {
+      return dispatch(deleteTaskFail('Something went wrong'));
+    }
+  } )
 });
 
 
@@ -205,20 +203,10 @@ export const getTaskSuccess = (data) => ({
 });
 
 export const GET_TASK_FAIL = 'GET_TASK_FAIL'
-export const getTaskFail = (error) => {
-  console.log(error);
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: GET_TASK_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: GET_TASK_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const getTaskFail = (message) => {
+  return {
+    type: GET_TASK_FAIL,
+    message: message
   }
 }
 
@@ -238,5 +226,12 @@ export const getTask = (task_id) =>  ((dispatch) => {
     const normalizedData = normalize(response.data, task)
     dispatch(getTaskSuccess(normalizedData))
   })
-  .catch( error => dispatch(getTaskFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(getTaskFail('Unable to connect to server'))
+    } else {
+      return dispatch(getTaskFail('Something went wrong'));
+    }
+  } )
 });

@@ -30,9 +30,7 @@ function loginError(state = false, action) {
     case LOGIN_FAIL:
       return action.message
     case LOGIN_SUCCESS:
-      return false
     case LOGIN_REQUEST:
-      return false
     case GO_TO_LOGIN:
       return false
     default:

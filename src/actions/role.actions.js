@@ -16,19 +16,10 @@ export const addRoleSuccess = (data) => ({
 });
 
 export const ADD_ROLE_FAIL = 'ADD_ROLE_FAIL'
-export const addRoleFail = (error) => {
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: ADD_ROLE_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: ADD_ROLE_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const addRoleFail = (message) => {
+  return {
+    type: ADD_ROLE_FAIL,
+    message: message
   }
 }
 
@@ -45,7 +36,14 @@ export const addRole = (role) => ((dispatch) => {
     const normalizedData = normalize(response.data, role)
     dispatch(addRoleSuccess(normalizedData))
   })
-  .catch( error => dispatch(addRoleFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(addRoleFail('Unable to connect to server'))
+    } else {
+      return dispatch(addRoleFail('Something went wrong'));
+    }
+  } )
 });
 
 export const GET_ROLES_REQUEST = 'GET_ROLES_REQUEST'
@@ -62,19 +60,10 @@ export const getRolesSuccess = (data) => ({
 });
 
 export const GET_ROLES_FAIL = 'GET_ROLES_FAIL'
-export const getRolesFail = (error) => {
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: GET_ROLES_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: GET_ROLES_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const getRolesFail = (message) => {
+  return {
+    type: GET_ROLES_FAIL,
+    message: message
   }
 }
 
@@ -91,7 +80,14 @@ export const getRoles = (organization_id) => ((dispatch) => {
     const normalizedData = normalize(response.data, [role])
     dispatch(getRolesSuccess(normalizedData))
   })
-  .catch( error => dispatch(getRolesFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(getRolesFail('Unable to connect to server'))
+    } else {
+      return dispatch(getRolesFail('Something went wrong'));
+    }
+  } )
 });
 
 export const SAVE_ROLE_REQUEST = 'SAVE_ROLE_REQUEST'
@@ -108,11 +104,10 @@ export const saveRoleSuccess = (data) => ({
 });
 
 export const SAVE_ROLE_FAIL = 'SAVE_ROLE_FAIL'
-export const saveRoleFail = (error) => {
-  console.log(error)
+export const saveRoleFail = (message) => {
   return ({
     type: SAVE_ROLE_FAIL,
-    message: "An error occurred."
+    message: message
   });
 };
 
@@ -129,7 +124,14 @@ export const saveRole = (role) => ((dispatch) => {
     const normalizedData = normalize(response.data, role)
     dispatch(saveRoleSuccess(normalizedData))
   })
-  .catch( error => dispatch(saveRoleFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(saveRoleFail('Unable to connect to server'))
+    } else {
+      return dispatch(saveRoleFail('Something went wrong'));
+    }
+  } )
 });
 
 export const DELETE_ROLE_REQUEST = 'DELETE_ROLE_REQUEST'
@@ -145,20 +147,10 @@ export const deleteRoleSuccess = (role_id) => ({
 });
 
 export const DELETE_ROLE_FAIL = 'DELETE_ROLE_FAIL'
-export const deleteRoleFail = (error) => {
-  console.log(error)
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: DELETE_ROLE_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: DELETE_ROLE_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const deleteRoleFail = (message) => {
+  return {
+    type: DELETE_ROLE_FAIL,
+    message: message
   }
 }
 
@@ -173,7 +165,14 @@ export const deleteRole = (role_id) => ((dispatch) => {
   .then( response => {
     dispatch(deleteRoleSuccess(role_id))
   })
-  .catch( error => dispatch(deleteRoleFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(deleteRoleFail('Unable to connect to server'))
+    } else {
+      return dispatch(deleteRoleFail('Something went wrong'));
+    }
+  } )
 });
 
 export const GET_ROLE_REQUEST = 'GET_ROLE_REQUEST'
@@ -190,20 +189,10 @@ export const getRoleSuccess = (data) => ({
 });
 
 export const GET_ROLE_FAIL = 'GET_ROLE_FAIL'
-export const getRoleFail = (error) => {
-  console.log(error);
-  if (error.response) {
-    if (error.response.status === 400) {
-      return {
-        type: GET_ROLE_FAIL,
-        errors: error.response.data
-      }
-    }
-  } else {
-    return {
-      type: GET_ROLE_FAIL,
-      errors: {'form': 'Unable to connect'}
-    }
+export const getRoleFail = (message) => {
+  return {
+    type: GET_ROLE_FAIL,
+    message: message
   }
 }
 
@@ -220,5 +209,12 @@ export const getRole = (role_id) =>  ((dispatch) => {
     const normalizedData = normalize(response.data, check)
     dispatch(getRoleSuccess(normalizedData))
   })
-  .catch( error => dispatch(getRoleFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(getRoleFail('Unable to connect to server'))
+    } else {
+      return dispatch(getRoleFail('Something went wrong'));
+    }
+  } )
 });

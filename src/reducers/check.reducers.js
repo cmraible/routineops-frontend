@@ -73,10 +73,32 @@ function isFetching(state = false, action) {
   }
 }
 
+function errors(state = false, action) {
+  switch (action.type) {
+    case ADD_CHECK_FAIL:
+    case SAVE_CHECK_FAIL:
+    case GET_CHECKS_FAIL:
+    case DELETE_CHECK_FAIL:
+      return action.message
+    case SAVE_CHECK_SUCCESS:
+    case SAVE_CHECK_REQUEST:
+    case ADD_CHECK_REQUEST:
+    case ADD_CHECK_SUCCESS:
+    case GET_CHECKS_REQUEST:
+    case GET_CHECKS_SUCCESS:
+    case DELETE_CHECK_REQUEST:
+    case DELETE_CHECK_SUCCESS:
+      return false
+    default:
+      return state
+  }
+}
+
 const checkReducer = combineReducers({
   byId,
   allIds,
-  isFetching
+  isFetching,
+  errors
 })
 
 export default checkReducer;

@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { saveUser } from '../actions/user.actions';
 import { getAllRoles } from '../reducers/reducers';
 import Spinner from './Spinner';
+import Error from './Error';
 
 
-const Profile = ({ onSave, user, roles, isFetching }) => {
+const Profile = ({ onSave, user, roles, isFetching, errors }) => {
 
-  console.log(user.role)
   const [ value, setValue ] = useState({
       id: user.id,
       first_name: user.first_name,
@@ -21,7 +21,8 @@ const Profile = ({ onSave, user, roles, isFetching }) => {
     <Main pad="medium">
       <Box direction="row" align="center" gap="large">
         <Heading>Profile</Heading>
-        <Spinner isFetching={isFetching} />
+        <Spinner isFetching={isFetching} errors={errors} />
+        <Error message={errors} />
       </Box>
       <Heading level={3}>Basic Information</Heading>
       <Form
@@ -61,7 +62,8 @@ const Profile = ({ onSave, user, roles, isFetching }) => {
 const mapStateToProps = state => ({
   user: state.user.user,
   roles: getAllRoles(state),
-  isFetching: state.user.isFetching
+  isFetching: state.user.isFetching,
+  errors: state.user.errors
 });
 
 export default connect(mapStateToProps, { onSave: saveUser })(Profile);

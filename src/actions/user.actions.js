@@ -13,9 +13,9 @@ export const saveUserSuccess = (user) => ({
 });
 
 export const SAVE_USER_FAIL = 'SAVE_USER_FAIL'
-export const saveUserFail = (error) => ({
+export const saveUserFail = (message) => ({
   type: SAVE_USER_FAIL,
-  message: "An error occurred."
+  message: message
 });
 
 export const saveUser = (user) => ((dispatch) => {
@@ -27,5 +27,12 @@ export const saveUser = (user) => ((dispatch) => {
     '/users/' + user.id + '/', user
   )
   .then( response => dispatch(saveUserSuccess(response.data)) )
-  .catch( error => dispatch(saveUserFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(saveUserFail('Unable to connect to server.'))
+    } else {
+      return dispatch(saveUserFail('Something went wrong.'));
+    }
+  })
 });

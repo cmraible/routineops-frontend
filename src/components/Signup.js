@@ -38,20 +38,20 @@ const Signup = ({onSignup, signupErrors, signupSuccess, isFetching}) => {
             }}
             validate="blur"
           >
-            <FormField label="First Name">
-              <TextInput name="first_name" required />
+            <FormField label="First Name" name="first_name" required>
+              <TextInput name="first_name" />
             </FormField>
-            <FormField label="Last Name">
-              <TextInput name="last_name" required />
+            <FormField label="Last Name" name="last_name" required>
+              <TextInput name="last_name" />
             </FormField>
-            <FormField name="email" htmlfor="email-id" validate={validateEmailField} label="Work Email">
-              <TextInput id="email-id" name="email" required />
+            <FormField name="email" htmlfor="email-id" validate={validateEmailField} label="Work Email" name="email" required>
+              <TextInput id="email-id" name="email" />
             </FormField>
-            <FormField name="phone" htmlfor="phone-id" label="Direct Phone Number">
-              <TextInput id="phone-id" name="phone" required />
+            <FormField name="phone" htmlfor="phone-id" label="Direct Phone Number" name="phone" required>
+              <TextInput id="phone-id" name="phone" />
             </FormField>
-            <FormField name="password" htmlfor="password-id" label="Create Password">
-              <TextInput id="password-id" name="password" type="password" required />
+            <FormField name="password" htmlfor="password-id" label="Create Password" name="password" required>
+              <TextInput id="password-id" name="password" type="password" />
             </FormField>
             <Box direction="row" gap="medium" pad="small">
               <Button type="submit" primary label="Sign up" size="large" />

@@ -6,8 +6,9 @@ import { deleteRole, getRole, saveRole } from '../actions/role.actions';
 import { goToRoles } from '../actions/ui.actions';
 import ConfirmDelete from './ConfirmDelete';
 import Spinner from './Spinner';
+import Error from './Error';
 
-const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching }) => {
+const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching, errors }) => {
 
   useEffect(() => {
     getRole(role.id)
@@ -28,7 +29,6 @@ const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching }) => {
   // Define function to delete a task
   const onDelete = (role_id) => {
     deleteRole(role_id)
-    goToRoles()
   }
 
   // Define what happens when the task form is submitted
@@ -43,13 +43,13 @@ const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching }) => {
            <Heading level={2}>Role Information</Heading>
            <Spinner isFetching={isFetching} />
           </Box>
-         
+         <Error message={errors} />
           <Form
             value={roleValue}
             onChange={ nextValue => setRoleValue(nextValue) }
             onSubmit={({value}) => submitForm(value)}
           >
-            <FormField label="Role Name">
+            <FormField label="Role Name" required name="name">
               <TextInput name="name" />
             </FormField>
             <Box justify="between" direction="row">
@@ -58,11 +58,11 @@ const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching }) => {
             </Box>
           </Form>
           {
-            openDelete && 
+            openDelete && !errors &&
             <ConfirmDelete 
               onClick={() => onDelete(role.id)} 
               onClose={onCloseDelete}
-              message="This action will permanently delete role task and all data associated with it."
+              message="This action will permanently delete this role and all data associated with it."
             />
           }
         </Box>

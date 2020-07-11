@@ -21,11 +21,11 @@ const Login = ({ onLogin, loginError, isFetching }) => {
           onLogin(value.username, value.password)
         }}
       >
-        <FormField name="username" htmlfor="username-id" label="Email Address">
-          <TextInput id="username-id" name="username" required />
+        <FormField name="username" label="Email Address" required>
+          <TextInput name="username" />
         </FormField>
-        <FormField name="password" htmlfor="password-id" label="Password">
-          <TextInput id="password-id" name="password" type="password" required />
+        <FormField name="password" label="Password" required>
+          <TextInput name="password" type="password" />
         </FormField>
         <Box direction="row" gap="medium" pad="small">
           <Button type="submit" primary label="Login" size="large" disabled={isFetching} />

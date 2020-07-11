@@ -7,9 +7,10 @@ import { addTask, deleteTask, getTask, getTasks } from '../actions/task.actions'
 import { goToTask } from '../actions/ui.actions';
 import { getAllRoles, getAllTasks } from '../reducers/reducers';
 import Spinner from './Spinner';
+import Error from './Error';
 
 
-const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetching }) => {
+const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetching, errors }) => {
 
   const [value, setValue] = useState({
     organization: organization.id,
@@ -35,10 +36,11 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetc
   return (
     <Main pad="medium">
       <Box flex={false}>
-      <Box direction="row" align="center" gap="large">
+        <Box direction="row" align="center" gap="large">
           <Heading>Tasks</Heading>
-          {((isFetching) && <Spinner />) }
+          <Spinner isFetching={isFetching} error={errors} />
         </Box>
+        <Error message={errors} />
         <Box direction="column" gap="large">
           <Form
             onSubmit={({value, touch}) => {
@@ -78,7 +80,8 @@ const mapStateToProps = state => ({
   user: state.user.user,
   tasks: getAllTasks(state),
   roles: getAllRoles(state),
-  isFetching: state.tasks.isFetching
+  isFetching: state.tasks.isFetching,
+  errors: state.tasks.errors
 });
 
 export default connect(mapStateToProps, {addTask, getTasks, getTask, deleteTask, getRoles})(Tasks);

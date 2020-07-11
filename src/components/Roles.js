@@ -6,9 +6,10 @@ import { addRole, deleteRole, getRoles } from '../actions/role.actions';
 import { goToRole } from '../actions/ui.actions';
 import { getAllRoles } from '../reducers/reducers';
 import Spinner from './Spinner';
+import Error from './Error';
 
 
-const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching }) => {
+const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching, errors }) => {
 
   const [value, setValue] = useState({
     name: ''
@@ -33,6 +34,7 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching 
           <Heading>Roles</Heading>
           <Spinner isFetching={isFetching} />
         </Box>
+        <Error message={errors} />
         
         <Box direction="column" gap="large">
           <Form
@@ -69,7 +71,8 @@ const mapStateToProps = state => ({
   organization: state.organization.organization,
   user: state.user.user,
   roles: getAllRoles(state),
-  isFetching: state.roles.isFetching
+  isFetching: state.roles.isFetching,
+  errors: state.roles.errors
 });
 
 export default connect(mapStateToProps, {addRole: addRole, getRoles: getRoles, deleteRole: deleteRole })(Roles);

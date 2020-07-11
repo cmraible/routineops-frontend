@@ -13,9 +13,9 @@ export const saveOrgSuccess = (org) => ({
 });
 
 export const SAVE_ORG_FAIL = 'SAVE_ORG_FAIL'
-export const saveOrgFail = (error) => ({
+export const saveOrgFail = (message) => ({
   type: SAVE_ORG_FAIL,
-  message: "An error occurred."
+  message: message
 });
 
 export const saveOrg = (org) => ((dispatch) => {
@@ -29,7 +29,14 @@ export const saveOrg = (org) => ((dispatch) => {
   .then( response => {
     dispatch(saveOrgSuccess(response.data))
   })
-  .catch( error => dispatch(saveOrgFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(saveOrgFail('Unable to connect to server.'))
+    } else {
+      return dispatch(saveOrgFail('Something went wrong.'));
+    }
+  })
 });
 
 export const GET_ORG_REQUEST = 'GET_ORG_REQUEST'
@@ -46,9 +53,9 @@ export const getOrgSuccess = (org) => ({
 });
 
 export const GET_ORG_FAIL = 'GET_ORG_FAIL'
-export const getOrgFail = (error) => ({
+export const getOrgFail = (message) => ({
   type: GET_ORG_FAIL,
-  message: "An error occurred."
+  message: message
 });
 
 export const getOrg = (id) => ((dispatch) => {
@@ -60,5 +67,12 @@ export const getOrg = (id) => ((dispatch) => {
     '/organizations/' + id + '/'
   )
   .then( response => dispatch(getOrgSuccess(response.data)) )
-  .catch( error => dispatch(getOrgFail(error)) )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(getOrgFail('Unable to connect to server.'))
+    } else {
+      return dispatch(getOrgFail('Something went wrong.'));
+    }
+  } )
 });
