@@ -18,25 +18,28 @@ const TaskLayerOverlay = ({ organization, taskLayer, task, role, onClose, addTas
       onEsc={onClose}
       pad="medium"
     >
-      <Box align="end">
-       <Button icon={(<Close />)} onClick={onClose} />
-      </Box>
-      <Box flex overflow="scroll" gap="medium" pad="medium">
-        <Box>
+      <Box flex={false} width="large">
+        <Box align="end">
+        <Button icon={(<Close />)} onClick={onClose} />
+        </Box>
+        <Box flex overflow="scroll" gap="medium" pad="medium">
           <Box>
-          <Heading level={2}>{task.name}</Heading>
+            <Box>
+            <Heading level={2}>{task.name}</Heading>
+            </Box>
+            <TaskLayerForm 
+              organization={organization}
+              task={task}
+              role={role}
+              taskLayer={taskLayer}
+              addFunction={addTaskLayer}
+              saveFunction={saveTaskLayer}
+              successFunction={onClose}
+            />
           </Box>
-          <TaskLayerForm 
-            organization={organization}
-            task={task}
-            role={role}
-            taskLayer={taskLayer}
-            addFunction={addTaskLayer}
-            saveFunction={saveTaskLayer}
-            successFunction={onClose}
-          />
         </Box>
       </Box>
+      
     </Layer>
   )
 

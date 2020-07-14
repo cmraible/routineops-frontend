@@ -1,4 +1,4 @@
-import { Select } from 'grommet';
+import { FormField, Select } from 'grommet';
 import React from 'react';
 
 
@@ -8,12 +8,15 @@ const FrequencySelect = () => {
 
 
   return (
-    <Select
-      name="label"
-      label="frequency"
-      options={frequency_options}
-      placeholder="Select Frequency"
-    />
+    <FormField label="Frequency" name="label" required>
+      <Select
+        name="label"
+        label="frequency"
+        options={frequency_options}
+        placeholder="Select Frequency"
+      />
+    </FormField>
+    
   )
 
 };

@@ -1,6 +1,5 @@
 import { Box, Layer, Text } from 'grommet';
-import { Close } from 'grommet-icons';
-import React, { useState } from 'react';
+import React from 'react';
 
 
 const Error = ({ message }) => {

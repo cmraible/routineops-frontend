@@ -3,7 +3,6 @@ import { Save, Trash } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { deleteRole, getRole, saveRole } from '../actions/role.actions';
-import { goToRoles } from '../actions/ui.actions';
 import ConfirmDelete from './ConfirmDelete';
 import Spinner from './Spinner';
 import Error from './Error';

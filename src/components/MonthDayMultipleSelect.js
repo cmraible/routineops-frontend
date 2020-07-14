@@ -1,4 +1,4 @@
-import { Box, Select } from 'grommet';
+import { Box, FormField, Select } from 'grommet';
 import { Checkmark } from 'grommet-icons';
 import React from 'react';
 
@@ -25,21 +25,24 @@ const MonthDayMultipleSelect = () => {
   console.log(options)
 
   return (
-    <Select 
-      name="bymonthday"
-      options={options}
-      placeholder="Select Day(s) of the Month (optional)"
-      multiple
-      closeOnChange={false}
-      children={(option, index, options, { active, disabled, selected }) => {
-        if (selected) return (<Box background="selected" pad="small" direction="row" justify="between">{option.label}<Checkmark /></Box>)
-        else return (<Box pad="small">{option.label}</Box>)
-      }}
-      valueKey={{
-        key: 'value',
-        reduce: true
-      }}
-    />
+    <FormField label="Which day(s)?" name="bymonthday">
+      <Select 
+        name="bymonthday"
+        options={options}
+        placeholder="Select Day(s) of the Month (optional)"
+        multiple
+        closeOnChange={false}
+        children={(option, index, options, { active, disabled, selected }) => {
+          if (selected) return (<Box background="selected" pad="small" direction="row" justify="between">{option.label}<Checkmark /></Box>)
+          else return (<Box pad="small">{option.label}</Box>)
+        }}
+        valueKey={{
+          key: 'value',
+          reduce: true
+        }}
+      />
+    </FormField>
+    
   )
 
 };

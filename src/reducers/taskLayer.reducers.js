@@ -14,7 +14,7 @@ import {
   DELETE_TASK_LAYER_FAIL,
   SAVE_TASK_LAYER_SUCCESS
 } from '../actions/taskLayer.actions';
-import merge from 'lodash/merge';
+import extend from 'lodash/extend';
 
 
 function byId(state = {}, action) {
@@ -26,7 +26,7 @@ function byId(state = {}, action) {
       return {}
     default:
       if (action.entities && action.entities.taskLayers) {
-        return merge({}, state, action.entities.taskLayers)
+        return extend(state, action.entities.taskLayers)
       }
       return state
   }

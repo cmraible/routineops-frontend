@@ -8,7 +8,6 @@ import TaskLayerOverlay from './TaskLayerOverlay';
 
 const TaskLayers = ({ task, taskLayers, rolesById, allRoles }) => {
 
-  console.log(taskLayers)
   const layers = (taskLayers) ? taskLayers.filter((layer) => layer.task === task.id) : [];
   const roles = allRoles.map((id) => rolesById[id])
 

@@ -44,13 +44,13 @@ const Signup = ({onSignup, signupErrors, signupSuccess, isFetching}) => {
             <FormField label="Last Name" name="last_name" required>
               <TextInput name="last_name" />
             </FormField>
-            <FormField name="email" htmlfor="email-id" validate={validateEmailField} label="Work Email" name="email" required>
+            <FormField name="email" htmlfor="email-id" validate={validateEmailField} label="Work Email" required>
               <TextInput id="email-id" name="email" />
             </FormField>
-            <FormField name="phone" htmlfor="phone-id" label="Direct Phone Number" name="phone" required>
+            <FormField name="phone" htmlfor="phone-id" label="Direct Phone Number" required>
               <TextInput id="phone-id" name="phone" />
             </FormField>
-            <FormField name="password" htmlfor="password-id" label="Create Password" name="password" required>
+            <FormField name="password" htmlfor="password-id" label="Create Password" required>
               <TextInput id="password-id" name="password" type="password" />
             </FormField>
             <Box direction="row" gap="medium" pad="small">
