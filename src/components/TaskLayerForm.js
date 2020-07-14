@@ -13,7 +13,7 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
 
   const hourStart = DateTime.local().setZone('utc', { keepLocalTime: true }).startOf('hour').toJSDate()
   const dayEnd = DateTime.local().setZone('utc', { keepLocalTime: true }).endOf('day').toJSDate()
-  const weekEnd = DateTime.local().setZone('utc', { keepLocalTime: true }).endOf('week').toJSDate()
+  const weekStart = DateTime.local().setZone('utc', { keepLocalTime: true }).startOf('week').toJSDate()
   const yearStart = DateTime.local().setZone('utc', { keepLocalTime: true }).startOf('year').toJSDate()
   const quarterEnd = DateTime.local().setZone('utc', { keepLocalTime: true}).endOf('quarter').toJSDate()
   const tz = DateTime.local().zoneName
