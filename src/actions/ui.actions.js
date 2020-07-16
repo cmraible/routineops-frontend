@@ -49,6 +49,29 @@ export const goToSignup = () => {
   }
 }
 
+export const GO_TO_SIGNUP_SUCCESS = 'GO_TO_SIGNUP_SUCCESS'
+export const goToSignupSuccess = () => {
+  history.push('/signupsuccess')
+  return {
+    type: GO_TO_SIGNUP_SUCCESS
+  }
+}
+
+export const GO_TO_FORGOT_SUCCESS = 'GO_TO_FORGOT_SUCCESS'
+export const goToForgotSuccess = () => {
+  history.push('/forgotsuccess')
+  return {
+    type: GO_TO_FORGOT_SUCCESS
+  }
+}
+
+export const GO_TO_RESET_SUCCESS = 'GO_TO_RESET_SUCCESS'
+export const goToResetSuccess = () => {
+  history.push('/resetsuccess')
+  return {
+    type: GO_TO_RESET_SUCCESS
+  }
+}
 
 export const GO_TO_HOME = 'GO_TO_HOME'
 export const goToHome = () => {
@@ -109,7 +132,7 @@ export const goToTasks = () => {
 
 export const GO_TO_LOGIN = 'GO_TO_LOGIN'
 export const goToLogin = () => {
-  history.push('/login')
+  history.push('/')
   return {
     type: GO_TO_LOGIN
   }

@@ -56,11 +56,12 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
         interval: 1,
         recurrence: rule.toString(),
         dtstart: hourStart,
+        byhour: value.byhour,
+        bymonth: [],
+        bymonthday: [],
         bysetpos: [],
         byweekday: value.byweekday,
-        bymonthday: [],
-        byhour: value.byhour,
-        tzid: tz
+        tzid: tz,
       };
       addOrSave(data)
     } else if (value.label === 'Daily') {
@@ -70,70 +71,69 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
         interval: 1,
         dtstart: dailydtstart,
         tzid: tz,
-        byweekday: value.byweekday,
-        byhour: [],
-        bysetpos: [],
-        bymonthday: []
+        byweekday: value.byweekday
       })
       const data = {
         ...value,
         label: 'Daily',
         frequency: RRule.DAILY,
         interval: 1,
+        recurrence: rule.toString(),
         dtstart: dailydtstart,
-        byweekday: value.byweekday,
+        byhour: [],
+        bymonth: [],
         bymonthday: [],
         bysetpos: [],
-        recurrence: rule.toString()
+        byweekday: value.byweekday,
+        tzid: tz
       };
       addOrSave(data)
     } else if (value.label === 'Weekly') {
-      const weeklydtstart = (time) ? time : weekEnd ;
+      const weeklydtstart = (time) ? time : weekStart ;
       const rule = new RRule({
         freq: RRule.WEEKLY,
         interval: 1,
         dtstart: weeklydtstart,
         tzid: tz,
-        byweekday: value.byweekday,
-        byhour: [],
-        bysetpos: [],
-        bymonthday: []
+        byweekday: value.byweekday
       })
       const data = {
         ...value,
         label: 'Weekly',
         frequency: RRule.WEEKLY,
         interval: 1,
+        recurrence: rule.toString(),
         dtstart: weeklydtstart,
-        byweekday: value.byweekday,
+        byhour: [],
+        bymonth: [],
         bymonthday: [],
         bysetpos: [],
-        recurrence: rule.toString()
+        byweekday: value.byweekday,
+        tzid: tz
       };
       addOrSave(data)
     } else if (value.label === 'Bi-Weekly') {
-      const weeklydtstart = (time) ? time : weekEnd ;
+      const weeklydtstart = (time) ? time : weekStart ;
       const rule = new RRule({
         freq: RRule.WEEKLY,
         interval: 2,
         dtstart: weeklydtstart,
         tzid: tz,
-        byweekday: value.byweekday,
-        byhour: [],
-        bysetpos: [],
-        bymonthday: []
+        byweekday: value.byweekday
       })
       const data = {
         ...value,
         label: 'Bi-Weekly',
         frequency: RRule.WEEKLY,
         interval: 2,
-        dtstart: weekEnd,
+        recurrence: rule.toString(),
+        dtstart: weeklydtstart,
+        byhour: [],
+        bymonth: [],
         bymonthday: [],
         bysetpos: [],
         byweekday: value.byweekday,
-        recurrence: rule.toString(),
-        byhour: []
+        tzid: tz
       };
       addOrSave(data)
     } else if (value.label === 'Monthly') {
@@ -142,9 +142,6 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
         interval: 1,
         dtstart: dayEnd,
         tzid: tz,
-        byweekday: [],
-        byhour: [],
-        bysetpos: [],
         bymonthday: value.bymonthday,
         bymonth: value.bymonth
       })
@@ -153,12 +150,13 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
         label: 'Monthly',
         frequency: RRule.MONTHLY,
         interval: 1,
-        dtstart: dayEnd,
-        bymonthday: value.bymonthday,
-        byweekday: [],
         recurrence: rule.toString(),
+        dtstart: dayEnd,
+        byhour: [],
+        bymonth: value.bymonth,
+        bymonthday: value.bymonthday,
         bysetpos: [],
-        bymonth: value.bymonth
+        byweekday: []
       };
       addOrSave(data)
     } else if (value.label === 'Quarterly') {
@@ -166,22 +164,21 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
         freq: RRule.MONTHLY,
         interval: 3,
         dtstart: quarterEnd,
-        tzid: tz,
-        byweekday: [],
-        byhour: [],
-        bysetpos: [],
-        bymonthday: [],
-        bymonth: []
+        tzid: tz
       })
       const data = {
         ...value,
         label: 'Quarterly',
         frequency: RRule.MONTHLY,
         interval: 3,
-        dtstart: quarterEnd,
-        bymonthday: [],
         recurrence: rule.toString(),
-        bysetpos: []
+        dtstart: quarterEnd,
+        byhour: [],
+        bymonth: [],
+        bymonthday: [],
+        bysetpos: [],
+        byweekday: [],
+        tzid: tz
       };
       addOrSave(data)
     } else if (value.label === 'Yearly') {
@@ -190,9 +187,6 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
         interval: 1,
         dtstart: yearStart,
         tzid: tz,
-        byweekday: [],
-        byhour: [],
-        bysetpos: [],
         bymonthday: value.bymonthday,
         bymonth: value.bymonth
       })
@@ -201,11 +195,14 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
         label: 'Yearly',
         frequency: RRule.YEARLY,
         interval: 1,
-        dtstart: yearStart,
-        bymonthday: value.bymonthday,
-        bymonth: value.bymonth,
         recurrence: rule.toString(),
-        bysetpos: []
+        dtstart: yearStart,
+        byhour: [],
+        bymonth: value.bymonth,
+        bymonthday: value.bymonthday,
+        bysetpos: [],
+        byweekday: [],
+        tzid: tz
       };
       addOrSave(data)
     }

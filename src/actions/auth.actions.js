@@ -1,6 +1,7 @@
 import history from '../history.js';
 import { getOrg } from './organization.actions';
 import { getClient } from '../apiClient';
+import { goToSignupSuccess, goToForgotSuccess, goToResetSuccess } from './ui.actions';
 
 export const LOGOUT = 'LOGOUT'
 export const logout = () => {
@@ -36,22 +37,23 @@ export const loginFail = (message) => {
   }
 }
 
-export const login = (username, password) => ((dispatch) => {
+export const login = (email, password) => ((dispatch) => {
   dispatch(loginRequest())
 
   const client = getClient()
 
   return client.post(
-    '/auth_token/', {
-      username: username,
+    '/accounts/login/', {
+      email: email,
       password: password
     }
   )
   .then( (response) => {
-    dispatch(loginSuccess(response.data.token, response.data.user))
+    dispatch(loginSuccess(response.data.key, response.data.user))
     dispatch(getOrg(response.data.user.organization))
   })
   .catch( (error) => {
+    console.log(error)
     if (!error.response) {
       // No response from server
       dispatch(loginFail('Unable to connect to server.'))
@@ -91,19 +93,116 @@ export const signup = (user) => ((dispatch) => {
   const client = getClient()
 
   return client.post(
-    '/register/', user
+    '/accounts/register/', user
   )
   .then( response => {
     dispatch(signupSuccess(response.data))
-    dispatch(login(user.email, user.password))
+    dispatch(goToSignupSuccess())
   })
   .catch( error => {
     if (!error.response) {
-      return dispatch(signupFail('Unabled to connect to server.'))
+      return dispatch(signupFail('Unable to connect to server.'))
     }
     if (error.response.data.email) {
       return dispatch(signupFail('User with that email address already exists.'))
     }
     return dispatch(signupFail('Something went wrong.'));
   } )
+});
+
+
+export const FORGOT_REQUEST = 'FORGOT_REQUEST'
+export const forgotRequest = () => ({
+  type: FORGOT_REQUEST
+});
+
+export const FORGOT_SUCCESS = 'FORGOT_SUCCESS'
+export const forgotSuccess = () => {
+  return {
+      type: FORGOT_SUCCESS
+  }
+}
+
+export const FORGOT_FAIL = 'FORGOT_FAIL'
+export const forgotFail = (message) => {
+  return {
+    type: FORGOT_FAIL,
+    message: message
+  }
+}
+
+export const forgot = (email) => ((dispatch) => {
+  dispatch(forgotRequest())
+
+  const client = getClient()
+
+  return client.post(
+    `/accounts/password/reset/`, {
+      email: email
+    }
+  )
+  .then( (response) => {
+    dispatch(forgotSuccess())
+    dispatch(goToForgotSuccess())
+  })
+  .catch( (error) => {
+    if (!error.response) {
+      // No response from server
+      dispatch(forgotFail('Unable to connect to server.'))
+    } else if (error.response.status === 404) {
+      dispatch(forgotFail('User not found.'))
+    } else {
+      dispatch(forgotFail('Something went wrong.'))
+    }
+  })
+});
+
+export const RESET_REQUEST = 'RESET_REQUEST'
+export const resetRequest = () => ({
+  type: RESET_REQUEST
+});
+
+export const RESET_SUCCESS = 'RESET_SUCCESS'
+export const resetSuccess = () => {
+  return {
+      type: RESET_SUCCESS
+  }
+}
+
+export const RESET_FAIL = 'RESET_FAIL'
+export const resetFail = (message) => {
+  return {
+    type: RESET_FAIL,
+    message: message
+  }
+}
+
+export const reset = (uid, token, password1, password2) => ((dispatch) => {
+  dispatch(resetRequest())
+
+  const client = getClient()
+
+  return client.post(
+    `/accounts/password/reset/confirm/`, {
+      uid: uid,
+      token: token,
+      new_password1: password1,
+      new_password2: password2
+    }
+  )
+  .then( (response) => {
+    dispatch(resetSuccess())
+    dispatch(goToResetSuccess())
+  })
+  .catch( (error) => {
+    console.log(error);
+    if (!error.response) {
+      // No response from server
+      dispatch(resetFail('Unable to connect to server.'))
+    } else if (error.response.status === 404) {
+      dispatch(resetFail('User not found.'))
+    } else {
+      dispatch(resetFail('Something went wrong.'))
+    }
+  })
 });

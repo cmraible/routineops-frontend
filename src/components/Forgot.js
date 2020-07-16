@@ -1,12 +1,14 @@
 import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
 import React from 'react';
 import { connect } from 'react-redux';
-import { signup } from '../actions/auth.actions';
+import { forgot } from '../actions/auth.actions';
+import { goToLogin } from '../actions/ui.actions';
 import Error from './Error';
 import Spinner from './Spinner';
+import BackButton from './BackButton';
 
 
-const Signup = ({onSignup, signupErrors, signupSuccess, isFetching}) => {
+const Forgot = ({forgot, isFetching, goToLogin}) => {
 
   const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -26,29 +28,24 @@ const Signup = ({onSignup, signupErrors, signupSuccess, isFetching}) => {
 
       return (
         <Main pad="xlarge">
+          <BackButton onClick={goToLogin} label="Login" />
           <Box direction="row" align="center" gap="large">
-            <Heading>Welcome.</Heading>
-            <Spinner isFetching={isFetching} error={signupErrors} />
+            <Heading>Forgot your password?</Heading>
+            <Spinner isFetching={isFetching} error={undefined} />
           </Box>
-          <Error message={signupErrors} />
+          <Error message={undefined} />
           <Text size="small" color="status-error">{}</Text>
           <Form
             onSubmit={({value, touch}) => {
-              onSignup(value)
+              forgot(value.email)
             }}
             validate="blur"
           >
-            <FormField name="email" htmlfor="email-id" validate={validateEmailField} label="Work Email" required>
-              <TextInput id="email-id" name="email" />
-            </FormField>
-            <FormField name="password1" label="Create Password" required>
-              <TextInput name="password1" type="password" />
-            </FormField>
-            <FormField name="password2" label="Confirm Password" required>
-              <TextInput name="password2" type="password" />
+            <FormField name="email" validate={validateEmailField} label="Email Address" required>
+              <TextInput name="email" />
             </FormField>
             <Box direction="row" gap="medium" pad="small">
-              <Button type="submit" primary label="Sign up" size="large" />
+              <Button type="submit" primary label="Submit" size="large" />
             </Box>
           </Form>
         </Main>
@@ -61,4 +58,4 @@ const mapStateToProps = state => ({
   isFetching: state.auth.isFetching
 });
 
-export default connect(mapStateToProps, { onSignup: signup })(Signup)
+export default connect(mapStateToProps, {forgot, goToLogin})(Forgot)

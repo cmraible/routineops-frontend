@@ -4,9 +4,15 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  FORGOT_REQUEST,
+  FORGOT_SUCCESS,
+  FORGOT_FAIL,
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
-  SIGNUP_FAIL
+  SIGNUP_FAIL,
+  RESET_REQUEST,
+  RESET_FAIL,
+  RESET_SUCCESS
 } from '../actions/auth.actions';
 import {
   GO_TO_LOGIN,
@@ -77,11 +83,17 @@ function isFetching(state = false, action) {
   switch (action.type) {
     case LOGIN_REQUEST:
     case SIGNUP_REQUEST:
+    case FORGOT_REQUEST:
+    case RESET_REQUEST:
       return true
     case LOGIN_SUCCESS:
     case LOGIN_FAIL:
+    case FORGOT_SUCCESS:
+    case FORGOT_FAIL:
     case SIGNUP_SUCCESS:
     case SIGNUP_FAIL:
+    case RESET_SUCCESS:
+    case RESET_FAIL:
       return false
     default:
       return state

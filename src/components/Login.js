@@ -18,15 +18,18 @@ const Login = ({ onLogin, loginError, isFetching }) => {
       <Error message={loginError} />
       <Form
         onSubmit={({value, touch}) => {
-          onLogin(value.username, value.password)
+          onLogin(value.email, value.password)
         }}
       >
-        <FormField name="username" label="Email Address" required>
-          <TextInput name="username" />
+        <FormField name="email" label="Email Address" required>
+          <TextInput name="email" />
         </FormField>
         <FormField name="password" label="Password" required>
           <TextInput name="password" type="password" />
         </FormField>
+        <Box align="end">
+          <Anchor href="/forgot" size="small">Forgot password?</Anchor>
+        </Box>
         <Box direction="row" gap="medium" pad="small">
           <Button type="submit" primary label="Login" size="large" disabled={isFetching} />
         </Box>
