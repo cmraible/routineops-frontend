@@ -9,8 +9,8 @@ pipeline {
       }
       environment {
         REACT_APP_ENVIRONMENT = 'staging'
-        PUBLIC_URL = 'https://staging.operationally.io'
-        REACT_APP_API_HOST = 'https://staging.api.operationally.io'
+        PUBLIC_URL = 'https://staging.routineops.com'
+        REACT_APP_API_HOST = 'https://staging.api.routineops.com'
       }
       steps {
         sh 'npm install && npm run build'
@@ -22,8 +22,8 @@ pipeline {
         branch 'staging'
       }
       steps {
-        sh 'aws s3 sync build s3://operationally-staging'
-        sh 'aws cloudfront create-invalidation --distribution-id=E1T41Y3MRJTWG4 --paths="/*"'
+        sh 'aws s3 sync build s3://routineops-staging'
+        sh 'aws cloudfront create-invalidation --distribution-id=E1H7MJ6AN5F2Z1 --paths="/*"'
       }
     }
 
@@ -33,8 +33,8 @@ pipeline {
       }
       environment {
         REACT_APP_ENVIRONMENT = 'production'
-        PUBLIC_URL = 'https://app.operationally.io'
-        REACT_APP_API_HOST = 'https://api.operationally.io'
+        PUBLIC_URL = 'https://app.routineops.com'
+        REACT_APP_API_HOST = 'https://api.routineops.com'
       }
       steps {
         sh 'npm install && npm run build'
@@ -46,8 +46,8 @@ pipeline {
         branch 'production'
       }
       steps {
-        sh 'aws s3 sync build s3://operationally'
-        sh 'aws cloudfront create-invalidation --distribution-id=E38N06MFN9SWY8 --paths="/*"'
+        sh 'aws s3 sync build s3://routineops-production'
+        sh 'aws cloudfront create-invalidation --distribution-id=EPFZANN5L5AMH --paths="/*"'
       }
     }
 
