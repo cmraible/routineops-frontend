@@ -12,7 +12,7 @@ const baseUrl = host + '/api'
 // Create axios client with baseUrl and auth headers above
  const baseConfig = {
   baseURL: baseUrl,
-  timeout: 30000,
+  timeout: 5000,
 };
 
 

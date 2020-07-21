@@ -14,7 +14,7 @@ const Login = ({ onLogin, loginError, isFetching }) => {
           <Heading>Hello.</Heading>
           <Spinner isFetching={isFetching} error={loginError} />
         </Box>
-      <Text margin={{bottom: "large"}}>New to Operationally? <Anchor href="/signup">Sign up</Anchor> here.</Text>
+      <Text margin={{bottom: "large"}}>New to Operationally? <Anchor href="/signup/1/">Sign up</Anchor> here.</Text>
       <Error message={loginError} />
       <Form
         onSubmit={({value, touch}) => {

@@ -3,11 +3,12 @@ import { Save, Trash } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { deleteRole, getRole, saveRole } from '../actions/role.actions';
+import { goToRoles } from '../actions/ui.actions';
 import ConfirmDelete from './ConfirmDelete';
 import Spinner from './Spinner';
 import Error from './Error';
 
-const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching, errors }) => {
+const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching, errors, goToRoles }) => {
 
   useEffect(() => {
     getRole(role.id)
@@ -28,6 +29,7 @@ const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching, errors }) =
   // Define function to delete a task
   const onDelete = (role_id) => {
     deleteRole(role_id)
+    goToRoles()
   }
 
   // Define what happens when the task form is submitted
@@ -78,5 +80,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getRole,
   saveRole,
-  deleteRole
+  deleteRole,
+  goToRoles
 })(RoleForm)

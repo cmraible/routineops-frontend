@@ -17,11 +17,27 @@ export const goToProfile = () => {
   }
 }
 
+export const GO_TO_CHECKOUT = 'GO_TO_CHECKOUT'
+export const goToCheckout = (email) => {
+  history.push('/signup/2/' + email + '/')
+  return {
+    type: GO_TO_CHECKOUT
+  }
+}
+
 export const GO_TO_DASHBOARD = 'GO_TO_DASHBOARD'
 export const goToDashboard = () => {
   history.push('/dashboard')
   return {
     type: GO_TO_DASHBOARD
+  }
+}
+
+export const GO_TO_USERS = 'GO_TO_USERS'
+export const goToUsers = () => {
+  history.push('/users')
+  return {
+    type: GO_TO_USERS
   }
 }
 
@@ -43,15 +59,15 @@ export const goToRole = (role_id) => {
 
 export const GO_TO_SIGNUP = 'GO_TO_SIGNUP'
 export const goToSignup = () => {
-  history.push('/signup')
+  history.push('/signup/1/')
   return {
     type: GO_TO_SIGNUP
   }
 }
 
 export const GO_TO_SIGNUP_SUCCESS = 'GO_TO_SIGNUP_SUCCESS'
-export const goToSignupSuccess = () => {
-  history.push('/signupsuccess')
+export const goToSignupSuccess = (email) => {
+  history.push('/signup/2/' + email + '/')
   return {
     type: GO_TO_SIGNUP_SUCCESS
   }
@@ -62,6 +78,30 @@ export const goToForgotSuccess = () => {
   history.push('/forgotsuccess')
   return {
     type: GO_TO_FORGOT_SUCCESS
+  }
+}
+
+export const GO_TO_ONBOARD_USER = 'GO_TO_ONBOARD_USER'
+export const goToOnboardUser = () => {
+  history.push('/onboard/user/')
+  return {
+    type: GO_TO_ONBOARD_USER
+  }
+}
+
+export const GO_TO_ONBOARD_ORG = 'GO_TO_ONBOARD_ORG'
+export const goToOnboardOrg = () => {
+  history.push('/onboard/org/')
+  return {
+    type: GO_TO_ONBOARD_ORG
+  }
+}
+
+export const GO_TO_ONBOARD_SUBSCRIPTION = 'GO_TO_ONBOARD_SUBSCRIPTION'
+export const goToOnboardSubscription = () => {
+  history.push('/onboard/subscription/')
+  return {
+    type: GO_TO_ONBOARD_SUBSCRIPTION
   }
 }
 

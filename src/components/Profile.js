@@ -13,8 +13,7 @@ const Profile = ({ onSave, user, roles, isFetching, errors }) => {
       id: user.id,
       first_name: user.first_name,
       last_name: user.last_name,
-      email: user.email,
-      role: (user.role) ? user.role : {}  
+      email: user.email
   });
 
   return (
@@ -41,9 +40,11 @@ const Profile = ({ onSave, user, roles, isFetching, errors }) => {
           <FormField label="Email Address">
             <TextInput name="email" />
           </FormField>
-          <FormField label="Role">
+          <FormField label="Roles">
             <Select 
-              name="role"
+              name="roles"
+              multiple
+              closeOnChange={false}
               options={roles} 
               labelKey="name"
               valueKey={{

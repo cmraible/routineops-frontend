@@ -1,16 +1,17 @@
 import { connectRouter } from 'connected-react-router';
-import { combineReducers } from 'redux';
-import authReducer from './auth.reducers.js';
-import checkReducer, * as fromChecks from './check.reducers.js';
-import organizationReducer from './organization.reducers.js';
-import roleReducer, * as fromRoles from './role.reducers.js';
-import taskReducer, * as fromTasks from './task.reducers.js';
-import taskLayerReducer, * as fromTaskLayers from './taskLayer.reducers.js';
-import uiReducer from './ui.reducers.js';
-import userReducer from './user.reducers.js';
-import taskInstanceReducer, * as fromTaskInstances from './taskInstance.reducers.js';
 import { parseISO } from 'date-fns';
-
+import { combineReducers } from 'redux';
+import authReducer from './auth.reducers';
+import checkReducer, * as fromChecks from './check.reducers';
+import organizationReducer from './organization.reducers';
+import roleReducer, * as fromRoles from './role.reducers';
+import taskReducer, * as fromTasks from './task.reducers';
+import taskInstanceReducer, * as fromTaskInstances from './taskInstance.reducers';
+import taskLayerReducer, * as fromTaskLayers from './taskLayer.reducers';
+import uiReducer from './ui.reducers';
+import userReducer from './user.reducers';
+import usersReducer, * as fromUsers from './users.reducers';
+import userRoleReducer, * as fromUserRoles from './userRole.reducers';
 
 
 const createRootReducer = history => combineReducers({
@@ -23,7 +24,9 @@ const createRootReducer = history => combineReducers({
   taskInstances: taskInstanceReducer,
   taskLayers: taskLayerReducer,
   ui: uiReducer,
-  user: userReducer
+  user: userReducer,
+  users: usersReducer,
+  userRoles: userRoleReducer
 })
 
 export default createRootReducer;
@@ -46,3 +49,12 @@ export const getTaskInstancesForAssignee = (state) =>
 
 export const getAllChecks = (state) =>
   fromChecks.getAllChecks(state.checks)
+
+export const getAllUsers = (state) =>
+  fromUsers.getAllUsers(state.users)
+
+export const getAllUserRoles = (state) =>
+  fromUserRoles.getAllUserRoles(state.userRoles)
+
+export const getUserActiveRoles = (state) =>
+  fromUserRoles.getUserActiveRoles(state.userRoles, state.user.user)

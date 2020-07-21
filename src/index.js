@@ -5,17 +5,25 @@ import App from './components/App';
 import { ConnectedRouter } from 'connected-react-router';
 import configureStore from './configureStore';
 import history from './history';
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe("pk_test_51H5bQnE6Et27QawvYnb0KIgVa4KMa1qfg9mdHg9i1NsQWDvyrKG7jrQXqp5F2l3ZnoOzsGQL0Qin67fY9Vi4Rw7E00z5KEeeC7");
 
 const store = configureStore();
 
 const renderApp = () =>
   render(
     <React.StrictMode>
-      <Provider store={store}>
-          <ConnectedRouter history={history}>
-            <App />
-          </ConnectedRouter>
-      </Provider>
+      <Elements stripe={stripePromise} >
+        <Provider store={store}>
+            <ConnectedRouter history={history}>
+              <App />
+            </ConnectedRouter>
+        </Provider>
+      </Elements>
     </React.StrictMode>,
     document.getElementById('root')
   )

@@ -1,5 +1,5 @@
 import { Nav } from 'grommet';
-import { Calendar, Checkmark, Dashboard, Group, Home } from 'grommet-icons';
+import { Calendar, Checkmark, Dashboard, Group, Home, User } from 'grommet-icons';
 import React from 'react';
 import { connect } from 'react-redux';
 import {
@@ -7,15 +7,21 @@ import {
   goToDashboard, 
   goToHome,
   goToRoles,
-  goToTasks
+  goToTasks,
+  goToUsers
 } from '../actions/ui.actions';
 import SidebarButton from './SidebarButton';
 
-const SidebarNav = ({goToTasks, goToCalendar, goToHome, pathname }) => {
+const SidebarNav = ({goToTasks, goToCalendar, goToUsers, goToDashboard, goToRoles, goToHome, pathname, user }) => {
 
   return (
         <Nav gap="small">
           <SidebarButton icon={<Home />} active={(pathname === '/')} label="Home" onClick={() => goToHome() } /> 
+          {
+            (user.is_org_admin && 
+              <SidebarButton icon={<User />} label="Users" onClick={() => goToUsers() } />
+            )
+          }
           <SidebarButton icon={<Group />} active={(pathname === '/roles')} label="Roles" onClick={() => goToRoles() } />
           <SidebarButton label="Tasks" icon={<Checkmark />} active={(pathname === '/tasks')} onClick={() => goToTasks() } /> 
           <SidebarButton label="Calendar" icon={<Calendar />} active={(pathname === '/calendar')} onClick={() => goToCalendar()} />
@@ -25,11 +31,15 @@ const SidebarNav = ({goToTasks, goToCalendar, goToHome, pathname }) => {
 };
 
 const mapStateToProps = state => ({
+  user: state.user.user,
   pathname: state.router.location.pathname
 });
 
 export default connect(mapStateToProps, {
   goToTasks,
   goToCalendar,
-  goToHome
+  goToHome,
+  goToUsers,
+  goToDashboard,
+  goToRoles
 })(SidebarNav);

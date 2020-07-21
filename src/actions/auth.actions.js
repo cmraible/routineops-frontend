@@ -1,7 +1,7 @@
 import history from '../history.js';
 import { getOrg } from './organization.actions';
 import { getClient } from '../apiClient';
-import { goToSignupSuccess, goToForgotSuccess, goToResetSuccess } from './ui.actions';
+import { goToSignupSuccess, goToForgotSuccess, goToResetSuccess, goToOnboardUser } from './ui.actions';
 
 export const LOGOUT = 'LOGOUT'
 export const logout = () => {
@@ -19,7 +19,6 @@ export const loginRequest = () => ({
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const loginSuccess = (token, user) => {
-  history.push('/')
   // Save the token to localstorage
   window.localStorage.setItem('operationally-token', token)
   return {
@@ -50,6 +49,7 @@ export const login = (email, password) => ((dispatch) => {
   )
   .then( (response) => {
     dispatch(loginSuccess(response.data.key, response.data.user))
+    history.push('/')
     dispatch(getOrg(response.data.user.organization))
   })
   .catch( (error) => {
@@ -97,7 +97,7 @@ export const signup = (user) => ((dispatch) => {
   )
   .then( response => {
     dispatch(signupSuccess(response.data))
-    dispatch(goToSignupSuccess())
+    dispatch(goToSignupSuccess(user.email))
   })
   .catch( error => {
     if (!error.response) {
@@ -193,6 +193,57 @@ export const reset = (uid, token, password1, password2) => ((dispatch) => {
   .then( (response) => {
     dispatch(resetSuccess())
     dispatch(goToResetSuccess())
+  })
+  .catch( (error) => {
+    console.log(error);
+    if (!error.response) {
+      // No response from server
+      dispatch(resetFail('Unable to connect to server.'))
+    } else if (error.response.status === 404) {
+      dispatch(resetFail('User not found.'))
+    } else {
+      dispatch(resetFail('Something went wrong.'))
+    }
+  })
+});
+
+
+export const VERIFY_EMAIL_REQUEST = 'VERIFY_EMAIL_REQUEST'
+export const verifyEmailRequest = () => ({
+  type: VERIFY_EMAIL_REQUEST
+});
+
+export const VERIFY_EMAIL_SUCCESS = 'VERIFY_EMAIL_SUCCESS'
+export const verifyEmailSuccess = (data) => {
+  return {
+      type: VERIFY_EMAIL_SUCCESS,
+      user: data.user,
+      token: data.token
+  }
+}
+
+export const VERIFY_EMAIL_FAIL = 'VERIFY_EMAIL_FAIL'
+export const verifyEmailFail = (message) => {
+  return {
+    type: VERIFY_EMAIL_FAIL,
+    message: message
+  }
+}
+
+export const verifyEmail = (key) => ((dispatch) => {
+  dispatch(verifyEmailRequest())
+
+  const client = getClient()
+
+  return client.post(
+    `/accounts/register/verify-email/`, {
+      key: key
+    }
+  )
+  .then( (response) => {
+    dispatch(verifyEmailSuccess(response.data))
+    dispatch(loginSuccess(response.data.token, response.data.user))
+    dispatch(goToOnboardUser())
   })
   .catch( (error) => {
     console.log(error);
