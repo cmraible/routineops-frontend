@@ -12,7 +12,7 @@ function darkMode(state = false, action) {
     case TOGGLE_DARK_MODE:
       return !state
     case LOGOUT:
-      return true
+      return false
     default:
       return state
   }
