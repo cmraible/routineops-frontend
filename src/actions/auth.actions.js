@@ -1,7 +1,7 @@
 import history from '../history.js';
 import { getOrg } from './organization.actions';
 import { getClient } from '../apiClient';
-import { goToSignupSuccess, goToForgotSuccess, goToResetSuccess, goToOnboardUser } from './ui.actions';
+import { goToForgotSuccess, goToResetSuccess, goToOnboardUser } from './ui.actions';
 
 export const LOGOUT = 'LOGOUT'
 export const logout = () => {
@@ -49,7 +49,6 @@ export const login = (email, password) => ((dispatch) => {
   )
   .then( (response) => {
     dispatch(loginSuccess(response.data.key, response.data.user))
-    history.push('/')
     dispatch(getOrg(response.data.user.organization))
   })
   .catch( (error) => {
@@ -97,7 +96,8 @@ export const signup = (user) => ((dispatch) => {
   )
   .then( response => {
     dispatch(signupSuccess(response.data))
-    dispatch(goToSignupSuccess(user.email))
+    dispatch(loginSuccess(response.data.key, response.data.user))
+    dispatch(goToOnboardUser())
   })
   .catch( error => {
     if (!error.response) {

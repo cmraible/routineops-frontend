@@ -1,8 +1,7 @@
-import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
+import { Box, Button, Form, FormField, Heading, Image, Main, TextInput } from 'grommet';
 import { LinkNext } from 'grommet-icons';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { verifyEmail } from '../actions/auth.actions';
 import { goToOnboardOrg } from '../actions/ui.actions';
 import { saveUser } from '../actions/user.actions';
 
@@ -13,40 +12,40 @@ const OnboardUser = ({ goToOnboardOrg, isFetching, user, saveUser }) => {
 
   const [value, setValue] = useState(user)
 
-  const success = (user.first_name.length > 0 && user.last_name.length > 0)
-
   const handleSubmit = ({value}) => {
-    console.log(value);
     saveUser(value);
   }
 
-  if (success) {
-    goToOnboardOrg()
-  }
-
   return (
-    <Main align="center" justify="start">
-      <Box align="stretch" width="large" margin={{vertical: "large"}}>
-        <Heading>Operationally</Heading>
-        <Heading level={3}>Tell us about yourself.</Heading>
+    <Main pad="xlarge">
+      <Box direction="row" align="center" gap="large">
+        <Heading size="large">Welcome.</Heading>
         <Spinner isFetching={isFetching} />
-        <Form
-          value={value}
-          onChange={ nextValue => setValue(nextValue)}
-          onSubmit={handleSubmit}
-        >
-          <FormField label="First Name" name="first_name" required>
-            <TextInput name="first_name" />
-          </FormField>
-          <FormField label="Last Name" name="last_name" required>
-            <TextInput name="last_name" />
-          </FormField>
-          <FormField label="Phone Number" name="phone">
-            <TextInput name="phone" />
-          </FormField>
-          <Button align="end" type="submit" label="Next" size="large" icon={<LinkNext />} reverse primary />
+      </Box>
 
-        </Form>
+      <Box direction="row-responsive" align="center" justify="start" fill="horizontal" gap="xlarge">
+          <Box width="large">
+            <Heading level={3}>Tell us about yourself.</Heading>
+            <Form
+              value={value}
+              onChange={ nextValue => setValue(nextValue)}
+              onSubmit={handleSubmit}
+            >
+              <FormField label="First Name" name="first_name" required>
+                <TextInput name="first_name" />
+              </FormField>
+              <FormField label="Last Name" name="last_name" required>
+                <TextInput name="last_name" />
+              </FormField>
+              <FormField label="Phone Number" name="phone">
+                <TextInput name="phone" />
+              </FormField>
+              <Button fill align="center" type="submit" label="Continue" size="large" icon={<LinkNext />} reverse primary />
+            </Form>
+          </Box>
+          <Box width="large">
+            <Image src={process.env.PUBLIC_URL + "/undraw_profile_6l1l.svg"} />
+          </Box>
       </Box>
     </Main>
   )

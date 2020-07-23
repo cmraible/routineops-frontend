@@ -20,7 +20,7 @@ const ConfirmEmail = ({ match, verifyEmail, isFetching, user }) => {
   return (
     <Main align="center" justify="start">
       <Box align="stretch" width="large" margin={{vertical: "large"}}>
-        <Heading>Operationally</Heading>
+        <Heading>Routine Ops</Heading>
         <Spinner isFetching={isFetching} />
         {confirmed && <Success message="Thanks for confirming your email!" />}
 
