@@ -1,4 +1,4 @@
-import { Box, Button, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
+import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { saveUser } from '../actions/user.actions';
@@ -39,19 +39,6 @@ const Profile = ({ onSave, user, roles, isFetching, errors }) => {
           </FormField>
           <FormField label="Email Address">
             <TextInput name="email" />
-          </FormField>
-          <FormField label="Roles">
-            <Select 
-              name="roles"
-              multiple
-              closeOnChange={false}
-              options={roles} 
-              labelKey="name"
-              valueKey={{
-                key: 'id',
-                reduce: true
-              }}
-            />
           </FormField>
         <Button label="Save" primary size="large" type="submit" disabled={isFetching} />
       </Form>

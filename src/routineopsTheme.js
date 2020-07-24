@@ -1,5 +1,5 @@
-const operationallyTheme = {
-  "name": "operationally",
+const routineopsTheme = {
+  "name": "routineops",
   "rounding": 1,
   "spacing": 24,
   "defaultMode": "light",
@@ -145,4 +145,4 @@ const operationallyTheme = {
   }
 }
 
-export default operationallyTheme;
+export default routineopsTheme;

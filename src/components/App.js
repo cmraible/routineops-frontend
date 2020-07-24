@@ -2,7 +2,7 @@ import { Box, Grommet } from 'grommet';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import operationallyTheme from '../operationallyTheme';
+import routineopsTheme from '../routineopsTheme';
 import Calendar from './Calendar';
 import ConfirmEmail from './ConfirmEmail';
 import Dashboard from './Dashboard';
@@ -81,7 +81,7 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
 const mapStateToProps = state => ({
   organization: state.organization.organization,
   darkMode: state.ui.darkMode,
-  theme: operationallyTheme,
+  theme: routineopsTheme,
   isLoggedIn: state.auth.isLoggedIn,
   user: state.user.user
 });

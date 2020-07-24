@@ -1,4 +1,4 @@
-import { Box, Button, Form, FormField, Heading, Layer, TextInput } from 'grommet';
+import { Box, Button, Heading, Layer, Text } from 'grommet';
 import { Close } from 'grommet-icons';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -9,11 +9,10 @@ const AddUserOverlay = ({  onClose }) => {
 
   return (
     <Layer
-      position="right"
+      position="center"
       onClickOutside={onClose}
       onEsc={onClose}
       pad="medium"
-      full="vertical"
       style={{"borderRadius": "0px"}}
     >
       <Box flex={false} width="medium">
@@ -21,13 +20,8 @@ const AddUserOverlay = ({  onClose }) => {
           <Button icon={(<Close />)} onClick={onClose} />
         </Box>
         <Box flex overflow="scroll" gap="medium" pad="medium">
-          <Heading>Add users</Heading>
-          <Form>
-            <FormField label="Email Address">
-              <TextInput />
-            </FormField>
-            <Button type="submit" primary label="Add users" />
-          </Form>
+          <Heading>Coming soon!</Heading>
+          <Text>We're still working on that functionality.</Text>
         </Box>
       </Box>
     </Layer>

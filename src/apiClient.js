@@ -2,7 +2,7 @@ const axios = require('axios').default;
 
 // Get API Token from localStorage
 const getToken = () => {
-    return window.localStorage.getItem('operationally-token')
+    return window.localStorage.getItem('routineops-token')
 }
 
 // Get API host from env variable, then get api baseurl

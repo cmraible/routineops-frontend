@@ -5,7 +5,7 @@ import { goToForgotSuccess, goToResetSuccess, goToOnboardUser } from './ui.actio
 
 export const LOGOUT = 'LOGOUT'
 export const logout = () => {
-  window.localStorage.removeItem('operationally-token')
+  window.localStorage.removeItem('routineops-token')
   history.push('/')
   return {
     type: LOGOUT
@@ -20,7 +20,7 @@ export const loginRequest = () => ({
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const loginSuccess = (token, user) => {
   // Save the token to localstorage
-  window.localStorage.setItem('operationally-token', token)
+  window.localStorage.setItem('routineops-token', token)
   return {
       type: LOGIN_SUCCESS,
       token: token,

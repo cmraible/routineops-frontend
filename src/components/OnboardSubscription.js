@@ -41,9 +41,9 @@ const OnboardSubscription = ({ isFetching, darkMode }) => {
   return (
     <Main align="center" justify="start">
       <Box align="stretch" width="large" margin={{vertical: "large"}} flex={false}>
-        <Heading>Operationally</Heading>
+        <Heading>Routine Ops</Heading>
         <Spinner isFetching={isFetching} />
-        <Heading level={3}>How many people will be using Operationally?</Heading>
+        <Heading level={3}>How many people will be using Routine Ops?</Heading>
         <Box  pad="medium" width="large">
           <Box gap="large" direction="row">
             <Box align="center" width="50%">
