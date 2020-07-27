@@ -4,8 +4,13 @@ import { connect } from 'react-redux';
 import { getOrg, saveOrg } from '../actions/organization.actions';
 import Spinner from './Spinner';
 import Error from './Error';
+import { Mixpanel } from '../mixpanel';
 
 const Settings = ({ onSave, getOrg, organization, isFetching, errors }) => {
+
+  useEffect(() => {
+    Mixpanel.track('Viewed settings page.')
+  }, []);
 
   const weekdays = [
     'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'

@@ -11,6 +11,7 @@ pipeline {
         REACT_APP_ENVIRONMENT = 'staging'
         PUBLIC_URL = 'https://staging.routineops.com'
         REACT_APP_API_HOST = 'https://staging.api.routineops.com'
+        MIXPANEL_TOKEN = '966befb56ff67f672c98f97eb89d0597'
       }
       steps {
         sh 'npm install && npm run build'
@@ -35,6 +36,7 @@ pipeline {
         REACT_APP_ENVIRONMENT = 'production'
         PUBLIC_URL = 'https://app.routineops.com'
         REACT_APP_API_HOST = 'https://api.routineops.com'
+        MIXPANEL_TOKEN = 'b45567f51a986e15b9ad852e97a9c048'
       }
       steps {
         sh 'npm install && npm run build'

@@ -1,14 +1,18 @@
 import { Box, Button, Form, FormField, Heading, Image, Main, Select, TextInput } from 'grommet';
 import { LinkNext } from 'grommet-icons';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { goToHome } from '../actions/ui.actions';
 import { saveOrg } from '../actions/organization.actions';
+import { Mixpanel } from '../mixpanel';
 
 import Spinner from './Spinner';
 
-
 const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organization, goToHome }) => {
+
+  useEffect(() => {
+    Mixpanel.track('Viewed onboard organization page.');
+  }, []);
 
   const [value, setValue] = useState({
     id: organization.id,

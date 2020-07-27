@@ -1,9 +1,10 @@
 import { Box, Button, Form, FormField, Heading, Image, Main, TextInput } from 'grommet';
 import { LinkNext } from 'grommet-icons';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { goToOnboardOrg } from '../actions/ui.actions';
 import { saveUser } from '../actions/user.actions';
+import { Mixpanel } from '../mixpanel';
 
 import Spinner from './Spinner';
 
@@ -11,6 +12,10 @@ import Spinner from './Spinner';
 const OnboardUser = ({ goToOnboardOrg, isFetching, user, saveUser }) => {
 
   const [value, setValue] = useState(user)
+
+  useEffect(() => {
+    Mixpanel.track('Viewed onboard user page.');
+  }, []);
 
   const handleSubmit = ({value}) => {
     saveUser(value);

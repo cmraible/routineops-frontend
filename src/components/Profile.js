@@ -1,10 +1,11 @@
 import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { saveUser } from '../actions/user.actions';
 import { getAllRoles } from '../reducers/reducers';
 import Spinner from './Spinner';
 import Error from './Error';
+import { Mixpanel } from '../mixpanel';
 
 
 const Profile = ({ onSave, user, roles, isFetching, errors }) => {
@@ -15,6 +16,10 @@ const Profile = ({ onSave, user, roles, isFetching, errors }) => {
       last_name: user.last_name,
       email: user.email
   });
+
+  useEffect(() => {
+    Mixpanel.track('Viewed profile page.')
+  }, []);
 
   return (
     <Main pad="medium">

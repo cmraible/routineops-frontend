@@ -8,6 +8,7 @@ import { getTaskInstances } from '../actions/taskInstance.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 import { getTaskInstancesForAssignee } from '../reducers/reducers';
 import TaskInstanceOverlay from './TaskInstanceOverlay';
+import { Mixpanel } from '../mixpanel';
 
 const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances, getTasks, getTaskLayers }) => {
 
@@ -16,6 +17,10 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
     getTaskLayers()
     getTaskInstances()
   }, [getTasks, getTaskLayers, getTaskInstances]);
+
+  useEffect(() => {
+    Mixpanel.track('Viewed user home page.')
+  }, []);
 
   const [openTaskInstance, setOpenTaskInstance] = useState()
 

@@ -7,6 +7,7 @@ import { goToRole } from '../actions/ui.actions';
 import { getAllRoles } from '../reducers/reducers';
 import Spinner from './Spinner';
 import Error from './Error';
+import { Mixpanel } from '../mixpanel';
 
 
 const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching, errors }) => {
@@ -18,6 +19,10 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching,
   useEffect(() => {
     getRoles()
   }, [getRoles]);
+
+  useEffect(() => {
+    Mixpanel.track('Viewed roles page.')
+  }, []);
 
   const renderChildren = (datum, index) => {
     return (

@@ -10,6 +10,7 @@ import { getAllTaskLayers } from '../reducers/reducers';
 import { getAllTaskInstances } from '../reducers/reducers.js';
 import MonthView from './MonthView.js';
 import WeekView from './WeekView.js';
+import { Mixpanel } from '../mixpanel';
 
 
 
@@ -21,6 +22,10 @@ const Calendar = ({ getTaskLayers, getTaskInstances, getTasks, getRoles, organiz
     getTaskInstances()
     getRoles()
   }, [getRoles, getTaskLayers, getTasks, getTaskInstances]);
+
+  useEffect(() => {
+    Mixpanel.track('Viewed calendar page.')
+  }, []);
 
   const today = toDate(new Date())
 

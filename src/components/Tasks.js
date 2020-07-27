@@ -8,6 +8,7 @@ import { goToTask } from '../actions/ui.actions';
 import { getAllRoles, getAllTasks } from '../reducers/reducers';
 import Spinner from './Spinner';
 import Error from './Error';
+import { Mixpanel } from '../mixpanel';
 
 
 const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetching, errors }) => {
@@ -24,6 +25,10 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetc
     getTasks()
     getRoles()
   }, [getTasks, getRoles]);
+
+  useEffect(() => {
+    Mixpanel.track('Viewed tasks page.')
+  }, []);
 
   const renderChildren = (datum, index) => {
     return (

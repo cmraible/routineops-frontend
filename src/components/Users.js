@@ -9,6 +9,7 @@ import AddUserOverlay from './AddUserOverlay';
 import UserOverlay from './UserOverlay';
 import { getUserRoles } from '../actions/userRole.actions';
 import { getRoles } from '../actions/role.actions';
+import { Mixpanel } from '../mixpanel';
 
 const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
 
@@ -17,6 +18,10 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
     getRoles()
     getUserRoles()
   }, [getUsers, getRoles, getUserRoles]);
+
+  useEffect(() => {
+    Mixpanel.track('Viewed users page.')
+  }, []);
 
   const columns = [
     {
@@ -52,7 +57,10 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
 
   // Set up state for Add User overlay
   const [openAddUser, setAddUser] = useState(undefined)
-  const onOpenAddUser = (event) => setAddUser(true)
+  const onOpenAddUser = (event) => {
+    Mixpanel.track('Clicked Add User button.')
+    setAddUser(true);
+  }
   const onCloseAddUser = () => setAddUser(undefined)
 
   // Set up state for Edit User overlay

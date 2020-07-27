@@ -2,11 +2,14 @@ import history from '../history.js';
 import { getOrg } from './organization.actions';
 import { getClient } from '../apiClient';
 import { goToForgotSuccess, goToResetSuccess, goToOnboardUser } from './ui.actions';
+import { Mixpanel } from '../mixpanel';
 
 export const LOGOUT = 'LOGOUT'
 export const logout = () => {
   window.localStorage.removeItem('routineops-token')
-  history.push('/')
+  history.push('/');
+  Mixpanel.track('Logged out.');
+  Mixpanel.reset();
   return {
     type: LOGOUT
   }
@@ -38,6 +41,8 @@ export const loginFail = (message) => {
 
 export const login = (email, password) => ((dispatch) => {
   dispatch(loginRequest())
+  Mixpanel.track('Login attempt.', {'email': email})
+
 
   const client = getClient()
 
@@ -50,6 +55,13 @@ export const login = (email, password) => ((dispatch) => {
   .then( (response) => {
     dispatch(loginSuccess(response.data.key, response.data.user))
     dispatch(getOrg(response.data.user.organization))
+    Mixpanel.identify(response.data.user.id)
+    Mixpanel.people.set({
+      '$email': response.data.user.email,
+      'organization': response.data.user.organization,
+      'onboard_complete': response.data.user.onboard_complete
+
+    })
   })
   .catch( (error) => {
     console.log(error)
@@ -88,6 +100,7 @@ export const signupFail = (message) => {
 
 export const signup = (user) => ((dispatch) => {
   dispatch(signupRequest())
+  Mixpanel.track('Signup attempt.', { '$email': user.email })
 
   const client = getClient()
 
