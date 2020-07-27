@@ -12,6 +12,7 @@ pipeline {
         PUBLIC_URL = 'https://staging.routineops.com'
         REACT_APP_API_HOST = 'https://staging.api.routineops.com'
         REACT_APP_MIXPANEL_TOKEN = '966befb56ff67f672c98f97eb89d0597'
+        REACT_APP_STRIPE_PUB_KEY = 'pk_test_51H7n2QJaJXMgpjCHiyenC68DaC95suc9PeEep4MVx8mWGDOehWKiNOTbfYgaWc2xHDhr6Ku3yFbmWl708vG41BPW00wVhKjSKo'
       }
       steps {
         sh 'npm install && npm run build'

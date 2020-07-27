@@ -1,4 +1,6 @@
 import mixpanel from 'mixpanel-browser';
+
+
 mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN);
 
 let actions = {
@@ -11,7 +13,7 @@ let actions = {
   track: (name, props) => {
     mixpanel.track(name, props);
   },
-  people: {
+  people: { 
     set: (props) => {
       mixpanel.people.set(props);
     },
