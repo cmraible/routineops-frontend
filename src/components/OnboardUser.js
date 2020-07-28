@@ -2,16 +2,20 @@ import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet'
 import { LinkNext } from 'grommet-icons';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { goToOnboardOrg } from '../actions/ui.actions';
 import { saveUser } from '../actions/user.actions';
 import { Mixpanel } from '../mixpanel';
 
 import Spinner from './Spinner';
 
 
-const OnboardUser = ({ goToOnboardOrg, isFetching, user, saveUser }) => {
+const OnboardUser = ({ isFetching, user, saveUser }) => {
 
-  const [value, setValue] = useState(user)
+  const [value, setValue] = useState({
+    id: user.id,
+    first_name: (user) ? user.first_name : '',
+    last_name: (user) ? user.last_name : '',
+    phone: (user.phone) ? user.phone : ''
+  })
 
   useEffect(() => {
     Mixpanel.track('Viewed onboard user page.');
@@ -29,7 +33,7 @@ const OnboardUser = ({ goToOnboardOrg, isFetching, user, saveUser }) => {
       </Box>
 
       <Box direction="row-responsive" flex={false} align="center" justify="start" fill="horizontal" gap="xlarge">
-          <Box width="large" flex={false}>
+          <Box width="large" flex={false} animation={{type: 'slideLeft', duration: 300, size: 'large'}}>
             <Heading level={3}>Tell us about yourself.</Heading>
             <Form
               value={value}
@@ -62,4 +66,4 @@ const mapStateToProps = state => ({
   
 });
 
-export default connect(mapStateToProps, { saveUser, goToOnboardOrg })(OnboardUser);
+export default connect(mapStateToProps, { saveUser })(OnboardUser);

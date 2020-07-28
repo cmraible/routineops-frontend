@@ -16,8 +16,8 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
 
   const [value, setValue] = useState({
     id: organization.id,
-    name: organization.name,
-    size: organization.size
+    name: (organization.name) ? organization.name : '',
+    size: (organization.size) ? organization.size : ''
   });
   
   const handleSubmit = ({value}) => {
@@ -32,7 +32,7 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
         <Heading size="large">Welcome.</Heading>
         <Spinner isFetching={isFetching} />
       </Box>
-      <Box direction="row-responsive" align="center" justify="start" fill="horizontal" gap="xlarge">
+      <Box direction="row-responsive" animation={{type: 'slideLeft', duration: 300, size: 'large'}} align="center" justify="start" fill="horizontal" gap="xlarge">
         <Box width="large" flex={false}>
           <Heading level={3}>Tell us about your Organization.</Heading>
           <Form
@@ -40,10 +40,10 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
             onChange={ nextValue => setValue(nextValue)}
             onSubmit={handleSubmit}
           >
-            <FormField label="Organization Name">
+            <FormField label="Organization Name" name="name">
               <TextInput name="name" />
             </FormField>
-            <FormField label="Organization Size">
+            <FormField label="Organization Size" name="size">
               <Select 
                 name="size"
                 options={

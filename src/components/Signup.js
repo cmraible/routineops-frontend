@@ -22,9 +22,7 @@ const Signup = ({ match, signup, signupErrors, isFetching }) => {
     Mixpanel.track('Viewed signup page.');
   });
 
-  const handleSubmit = ({value}) => {
-    signup(value)
-  }
+  const message = (value.password1 !== value.password2) ? "Passwords do not match." : undefined;
 
   const validatePassword = (password) => {
     if (password.length >= 9) {
@@ -36,6 +34,14 @@ const Signup = ({ match, signup, signupErrors, isFetching }) => {
       }
     }
   }
+
+  const handleSubmit = ({value}) => {
+    if (value.password1 === value.password2) {
+      signup(value)
+    }
+  }
+
+  
 
   return (
     <Main pad="xlarge">
@@ -52,7 +58,7 @@ const Signup = ({ match, signup, signupErrors, isFetching }) => {
             value={value}
             onChange={ nextValue => setValue(nextValue) }
             onSubmit={handleSubmit}
-            validate="blur"
+            validate="submit"
           >
             <Box flex={false}>
             <EmailField required={true} />
@@ -62,8 +68,13 @@ const Signup = ({ match, signup, signupErrors, isFetching }) => {
             <FormField name="password2" label="Confirm Password" required validate={validatePassword} >
               <TextInput name="password2" type="password" />
             </FormField>
+            {message && (
+              <Box pad={{ horizontal: 'small' }}>
+                <Text color="status-error">{message}</Text>
+              </Box>
+            )}
             <Box direction="row" gap="medium" pad="small">
-              <Button type="submit" primary label="Sign up" size="large" />
+              <Button type="submit" primary label="Sign up" size="large" disabled={isFetching || value.password1 !== value.password2} />
             </Box>
             </Box>
           </Form>

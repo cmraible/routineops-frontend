@@ -2,8 +2,7 @@ import { combineReducers } from 'redux';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
-  SIGNUP_SUCCESS,
-  VERIFY_EMAIL_SUCCESS
+  SIGNUP_SUCCESS
 } from '../actions/auth.actions';
 import {
   SAVE_USER_SUCCESS,
@@ -18,7 +17,6 @@ function user(state = false, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
     case SIGNUP_SUCCESS:
-    case VERIFY_EMAIL_SUCCESS:
       return action.user
     case SAVE_USER_SUCCESS:
       return action.user

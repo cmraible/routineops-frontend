@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import routineopsTheme from '../routineopsTheme';
 import Calendar from './Calendar';
-import ConfirmEmail from './ConfirmEmail';
 import Dashboard from './Dashboard';
 import DefaultSidebar from './DefaultSidebar';
 import Forgot from './Forgot';
@@ -35,9 +34,7 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
     return (
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
       <Switch>
-        <Route exact path="/signup/3/:key/" component={ConfirmEmail} />
         <Route path="/" component={Onboarding} />
-        
       </Switch>
     </Grommet>
     )
@@ -57,7 +54,6 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
             <Route exact path="/tasks" component={Tasks} />
             <Route exact path="/task/:task_id" component={Task} />
             <Route exact path="/users" component={Users} />
-            <Route exact path="/signup/3/:key/" component={ConfirmEmail} />
           </Box>
         </Switch>
       </Grommet>
@@ -69,7 +65,6 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
             <Route exact path="/" component={Login} />
             <Route exact path="/signup/1/" component={Signup} />
             <Route exact path="/signup/2/:email" component={SignupSuccess} />
-            <Route exact path="/signup/3/:key/" component={ConfirmEmail} />
             <Route exact path="/forgot" component={Forgot} />
             <Route exact path="/forgotsuccess" component={ForgotSuccess} />
             <Route exact path="/reset/:uid/:token" component={ForgotReset} />
