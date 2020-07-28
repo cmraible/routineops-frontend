@@ -1,4 +1,4 @@
-import { Box, Button, Form, FormField, Heading, Image, Main, TextInput } from 'grommet';
+import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
 import { LinkNext } from 'grommet-icons';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';

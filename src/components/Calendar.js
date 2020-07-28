@@ -1,5 +1,5 @@
 import { toDate } from 'date-fns';
-import { Heading, Main, Tab, Tabs } from 'grommet';
+import { Box, Heading, Main, Tab, Tabs } from 'grommet';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getRoles } from '../actions/role.actions.js';
@@ -30,16 +30,18 @@ const Calendar = ({ getTaskLayers, getTaskInstances, getTasks, getRoles, organiz
   const today = toDate(new Date())
 
   return (
-    <Main direction="column" pad="medium">
-      <Heading>Calendar</Heading>
-      <Tabs alignControls="start">
-        <Tab title="Week">
-          <WeekView date={today} taskLayers={taskLayers} taskInstances={taskInstances} tasks={tasks} roles={roles} organization={organization} />
-        </Tab>
-        <Tab title="Month">
-          <MonthView date={today} taskLayers={taskLayers} taskInstances={taskInstances} roles={roles} />
-        </Tab>
-      </Tabs>
+    <Main pad="medium">
+      <Box flex={false}>
+        <Heading>Calendar</Heading>
+        <Tabs alignControls="start">
+          <Tab title="Week">
+            <WeekView date={today} taskLayers={taskLayers} taskInstances={taskInstances} tasks={tasks} roles={roles} organization={organization} />
+          </Tab>
+          <Tab title="Month">
+            <MonthView date={today} taskLayers={taskLayers} taskInstances={taskInstances} roles={roles} />
+          </Tab>
+        </Tabs>
+      </Box>
     </Main>
   )
 

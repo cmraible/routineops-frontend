@@ -1,4 +1,4 @@
-import { Anchor, Box, Button, Form, FormField, Heading, Image, Main, Text, TextInput } from 'grommet';
+import { Anchor, Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions/auth.actions';

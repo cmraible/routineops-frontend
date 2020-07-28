@@ -44,17 +44,17 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
         <Switch>
           <Box align="start" direction="row" fill>
-          <DefaultSidebar />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/calendar" component={Calendar} />
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/roles" component={Roles} />
-          <Route exact path="/roles/:role_id" component={Role} />
-          <Route exact path="/settings" component={Settings} />
-          <Route exact path="/tasks" component={Tasks} />
-          <Route exact path="/task/:task_id" component={Task} />
-          <Route exact path="/users" component={Users} />
+            <DefaultSidebar />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/calendar" component={Calendar} />
+            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/roles" component={Roles} />
+            <Route exact path="/roles/:role_id" component={Role} />
+            <Route exact path="/settings" component={Settings} />
+            <Route exact path="/tasks" component={Tasks} />
+            <Route exact path="/task/:task_id" component={Task} />
+            <Route exact path="/users" component={Users} />
           </Box>
         </Switch>
       </Grommet>

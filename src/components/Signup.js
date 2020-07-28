@@ -1,4 +1,4 @@
-import { Box, Button, Form, FormField, Heading, Image, Main, Text, TextInput } from 'grommet';
+import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { signup } from '../actions/auth.actions';
@@ -8,7 +8,7 @@ import EmailField from './EmailField';
 import { Mixpanel } from '../mixpanel';
 
 
-const Signup = ({ match, signup, signupErrors, signupSuccess, isFetching }) => {
+const Signup = ({ match, signup, signupErrors, isFetching }) => {
   
   const email = match.params.email
 
