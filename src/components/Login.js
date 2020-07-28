@@ -24,7 +24,7 @@ const Login = ({ login, loginError, isFetching }) => {
       </Box>
       <Text margin={{bottom: "large"}}>New to Routine Ops? <Anchor href="/signup/1/">Sign up</Anchor> here.</Text>
 
-      <Box direction="row-responsive" align="center" justify="start" fill="horizontal" gap="xlarge">
+      <Box direction="row-responsive" flex={false} align="center" justify="start" fill="horizontal" gap="xlarge">
         <Box width="large">
           
           <Error message={loginError} />

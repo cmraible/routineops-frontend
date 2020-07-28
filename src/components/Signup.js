@@ -28,13 +28,13 @@ const Signup = ({ match, signup, signupErrors, signupSuccess, isFetching }) => {
 
   return (
     <Main pad="xlarge">
-      <Box direction="row" align="center" gap="large">
+      <Box direction="row" align="center" gap="large" flex={false}>
         <Heading size="large">Welcome.</Heading>
         <Spinner isFetching={isFetching} error={signupErrors} />
       </Box>
       <Error message={signupErrors} />
       <Text size="small" color="status-error">{}</Text>
-      <Box direction="row-responsive" align="center" justify="start" fill="horizontal" gap="xlarge">
+      <Box direction="row-responsive" flex={false} align="center" justify="start" fill="horizontal" gap="xlarge">
         <Box width="large">
           <Heading level={3}>Create an account.</Heading>
           <Form
