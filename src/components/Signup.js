@@ -26,6 +26,17 @@ const Signup = ({ match, signup, signupErrors, signupSuccess, isFetching }) => {
     signup(value)
   }
 
+  const validatePassword = (password) => {
+    if (password.length >= 9) {
+      return true
+    } else {
+      return {
+        'message': 'Password must be at least 9 characters.',
+        'status': 'error'
+      }
+    }
+  }
+
   return (
     <Main pad="xlarge">
       <Box direction="row" align="center" gap="large" flex={false}>
@@ -45,17 +56,16 @@ const Signup = ({ match, signup, signupErrors, signupSuccess, isFetching }) => {
           >
             <Box flex={false}>
             <EmailField required={true} />
-            <FormField name="password1" label="Create Password" required>
+            <FormField name="password1" label="Create Password" required validate={validatePassword} > 
               <TextInput name="password1" type="password" />
             </FormField>
-            <FormField name="password2" label="Confirm Password" required>
+            <FormField name="password2" label="Confirm Password" required validate={validatePassword} >
               <TextInput name="password2" type="password" />
             </FormField>
             <Box direction="row" gap="medium" pad="small">
               <Button type="submit" primary label="Sign up" size="large" />
             </Box>
             </Box>
-            
           </Form>
         </Box>
       </Box>
