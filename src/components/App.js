@@ -36,6 +36,7 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
       <Switch>
         <Route path="/" component={Onboarding} />
+        <Route exact path="/signup/3/:key/" component={ConfirmEmail} />
       </Switch>
     </Grommet>
     )
@@ -55,6 +56,7 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
             <Route exact path="/tasks" component={Tasks} />
             <Route exact path="/task/:task_id" component={Task} />
             <Route exact path="/users" component={Users} />
+            <Route exact path="/signup/3/:key/" component={ConfirmEmail} />
           </Box>
         </Switch>
       </Grommet>
