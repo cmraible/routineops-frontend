@@ -23,8 +23,6 @@ const ConfirmEmail = ({ match, verifyEmail, isFetching, user }) => {
         <Heading>Routine Ops</Heading>
         <Spinner isFetching={isFetching} />
         {confirmed && <Success message="Thanks for confirming your email!" />}
-
-       
       </Box>
     </Main>
   )
