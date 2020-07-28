@@ -58,9 +58,6 @@ const Signup = ({ match, signup, signupErrors, signupSuccess, isFetching }) => {
             
           </Form>
         </Box>
-        <Box width="large">
-          <Image src={process.env.PUBLIC_URL + "/undraw_sign_in_e6hj.svg"} />
-        </Box>
       </Box>
     </Main>
   )

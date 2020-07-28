@@ -33,7 +33,7 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
         <Spinner isFetching={isFetching} />
       </Box>
       <Box direction="row-responsive" align="center" justify="start" fill="horizontal" gap="xlarge">
-        <Box width="large">
+        <Box width="large" flex={false}>
           <Heading level={3}>Tell us about your Organization.</Heading>
           <Form
             value={value}
@@ -57,11 +57,11 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
                 ]}
               />
             </FormField>
+            <Box>
             <Button fill align="center" type="submit" label="Continue" size="large" icon={<LinkNext />} reverse primary />
+
+            </Box>
           </Form>
-        </Box>
-        <Box width="large">
-          <Image src={process.env.PUBLIC_URL + "/undraw_factory_dy0a.svg"} />
         </Box>
       </Box>
     </Main>

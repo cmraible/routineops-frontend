@@ -48,9 +48,6 @@ const Login = ({ login, loginError, isFetching }) => {
             
           </Form>
         </Box>
-        <Box width="large">
-          <Image fill="horizontal" src={process.env.PUBLIC_URL + "/undraw_Hello_qnas.svg"} />
-        </Box>
       </Box>
     </Main>
   )

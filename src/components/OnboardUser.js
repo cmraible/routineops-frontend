@@ -28,24 +28,27 @@ const OnboardUser = ({ goToOnboardOrg, isFetching, user, saveUser }) => {
         <Spinner isFetching={isFetching} />
       </Box>
 
-      <Box direction="row-responsive" align="center" justify="start" fill="horizontal" gap="xlarge">
-          <Box width="large">
+      <Box direction="row-responsive" flex={false} align="center" justify="start" fill="horizontal" gap="xlarge">
+          <Box width="large" flex={false}>
             <Heading level={3}>Tell us about yourself.</Heading>
             <Form
               value={value}
               onChange={ nextValue => setValue(nextValue)}
               onSubmit={handleSubmit}
             >
-              <FormField label="First Name" name="first_name" required>
-                <TextInput name="first_name" />
-              </FormField>
-              <FormField label="Last Name" name="last_name" required>
-                <TextInput name="last_name" />
-              </FormField>
-              <FormField label="Phone Number" name="phone">
-                <TextInput name="phone" />
-              </FormField>
-              <Button fill align="center" type="submit" label="Continue" size="large" icon={<LinkNext />} reverse primary />
+              <Box flex={false}>
+                <FormField label="First Name" name="first_name" required>
+                  <TextInput name="first_name" />
+                </FormField>
+                <FormField label="Last Name" name="last_name" required>
+                  <TextInput name="last_name" />
+                </FormField>
+                <FormField label="Phone Number" name="phone">
+                  <TextInput name="phone" />
+                </FormField>
+                <Button fill align="center" type="submit" label="Continue" size="large" icon={<LinkNext />} reverse primary />
+              </Box>
+              
             </Form>
           </Box>
           <Box width="large">
