@@ -51,9 +51,6 @@ const OnboardUser = ({ goToOnboardOrg, isFetching, user, saveUser }) => {
               
             </Form>
           </Box>
-          <Box width="large">
-            <Image src={process.env.PUBLIC_URL + "/undraw_profile_6l1l.svg"} />
-          </Box>
       </Box>
     </Main>
   )
