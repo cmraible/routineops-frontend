@@ -18,7 +18,6 @@ import Role from './Role';
 import Roles from './Roles';
 import Settings from './Settings';
 import Signup from './Signup';
-import SignupSuccess from './SignupSuccess';
 import Task from './Task';
 import Tasks from './Tasks';
 import Users from './Users';
@@ -63,8 +62,8 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
         <Switch>
             <Route exact path="/" component={Login} />
-            <Route exact path="/signup/1/" component={Signup} />
-            <Route exact path="/signup/2/:email" component={SignupSuccess} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/signup/?email=adfasd" />
             <Route exact path="/forgot" component={Forgot} />
             <Route exact path="/forgotsuccess" component={ForgotSuccess} />
             <Route exact path="/reset/:uid/:token" component={ForgotReset} />

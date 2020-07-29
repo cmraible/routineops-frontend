@@ -32,7 +32,6 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
         <Heading size="large">Welcome.</Heading>
         <Spinner isFetching={isFetching} />
       </Box>
-      <Box direction="row-responsive" animation={{type: 'slideLeft', duration: 300, size: 'large'}} align="center" justify="start" fill="horizontal" gap="xlarge">
         <Box width="large" flex={false}>
           <Heading level={3}>Tell us about your Organization.</Heading>
           <Form
@@ -57,13 +56,10 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
                 ]}
               />
             </FormField>
-            <Box>
-            <Button fill align="center" type="submit" label="Continue" size="large" icon={<LinkNext />} reverse primary />
+            <Button fill="horizontal" align="center" type="submit" label="Continue" size="large" icon={<LinkNext />} reverse primary />
 
-            </Box>
           </Form>
         </Box>
-      </Box>
     </Main>
   )
 }

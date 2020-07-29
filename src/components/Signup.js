@@ -2,16 +2,17 @@ import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'gr
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { signup } from '../actions/auth.actions';
-import Error from './Error';
 import Spinner from './Spinner';
 import EmailField from './EmailField';
 import { Mixpanel } from '../mixpanel';
+import queryString from 'query-string';
 
 
-const Signup = ({ match, signup, signupErrors, isFetching }) => {
+const Signup = ({ location, signup, signupErrors, isFetching }) => {
+
+  const q = queryString.parse(location.search)
+  const email = q.email
   
-  const email = match.params.email
-
   const [value, setValue] = useState({
     email: (email) ? email : '',
     password1: '',
@@ -49,10 +50,8 @@ const Signup = ({ match, signup, signupErrors, isFetching }) => {
         <Heading size="large">Welcome.</Heading>
         <Spinner isFetching={isFetching} error={signupErrors} />
       </Box>
-      <Error message={signupErrors} />
-      <Text size="small" color="status-error">{}</Text>
-      <Box direction="row-responsive" flex={false} align="center" justify="start" fill="horizontal" gap="xlarge">
-        <Box width="large">
+      <Text size="small" color="status-error">{signupErrors}</Text>
+        <Box width="large" flex={false}>
           <Heading level={3}>Create an account.</Heading>
           <Form
             value={value}
@@ -60,7 +59,6 @@ const Signup = ({ match, signup, signupErrors, isFetching }) => {
             onSubmit={handleSubmit}
             validate="submit"
           >
-            <Box flex={false}>
             <EmailField required={true} />
             <FormField name="password1" label="Create Password" required validate={validatePassword} > 
               <TextInput name="password1" type="password" />
@@ -76,9 +74,7 @@ const Signup = ({ match, signup, signupErrors, isFetching }) => {
             <Box direction="row" gap="medium" pad="small">
               <Button type="submit" primary label="Sign up" size="large" disabled={isFetching || value.password1 !== value.password2} />
             </Box>
-            </Box>
           </Form>
-        </Box>
       </Box>
     </Main>
   )

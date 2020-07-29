@@ -22,7 +22,7 @@ const Login = ({ login, loginError, isFetching }) => {
         <Heading size="large">Hello.</Heading>
         <Spinner isFetching={isFetching} error={loginError} />
       </Box>
-      <Text margin={{bottom: "large"}}>New to Routine Ops? <Anchor href="/signup/1/">Sign up</Anchor> here.</Text>
+      <Text margin={{bottom: "large"}}>New to Routine Ops? <Anchor href="/signup">Sign up</Anchor> here.</Text>
 
       <Box direction="row-responsive" flex={false} align="center" justify="start" fill="horizontal" gap="xlarge">
         <Box width="large">
