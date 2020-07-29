@@ -24,6 +24,16 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const loginSuccess = (token, user) => {
   // Save the token to localstorage
   window.localStorage.setItem('routineops-token', token)
+  Mixpanel.identify(user.id)
+  Mixpanel.people.set({
+    '$first_name': (user.first_name) ? user.first_name : '',
+    '$last_name': (user.last_name) ? user.last_name : '',
+    '$email': user.email,
+    '$phone': (user.phone) ? user.phone : '',
+    'organization': user.organization,
+    'onboard_complete': user.onboard_complete
+
+  })
   return {
       type: LOGIN_SUCCESS,
       token: token,
@@ -55,13 +65,6 @@ export const login = (email, password) => ((dispatch) => {
   .then( (response) => {
     dispatch(loginSuccess(response.data.key, response.data.user))
     dispatch(getOrg(response.data.user.organization))
-    Mixpanel.identify(response.data.user.id)
-    Mixpanel.people.set({
-      '$email': response.data.user.email,
-      'organization': response.data.user.organization,
-      'onboard_complete': response.data.user.onboard_complete
-
-    })
   })
   .catch( (error) => {
     console.log(error)
