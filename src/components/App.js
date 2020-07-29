@@ -27,16 +27,18 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
   // Renders different routers depending on application state.
   // Particularly, is user logged in? Has organization been fully onboarded?
 
+  const APP_ID = process.env.REACT_APP_INTERCOM_APP_ID
+
   if (isLoggedIn) {
     window.Intercom("boot", {
-      app_id: "mvss2n71",
+      app_id: APP_ID,
       name: "{{ user.first_name|escapejs }}", // Full name
       email: "{{ user.email|escapejs }}", // Email address
       created_at: "{{ user.date_joined|date:'U' }}" // Signup date as a Unix timestamp
     });
   } else {
     window.Intercom("boot", {
-      app_id: "mvss2n71"
+      app_id: APP_ID
     });
   }
 
