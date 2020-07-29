@@ -2,7 +2,6 @@ import { Anchor, Box, Button, Form, FormField, Heading, Main, Text, TextInput } 
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions/auth.actions';
-import Error from './Error';
 import Spinner from './Spinner';
 import { Mixpanel } from '../mixpanel';
 
@@ -24,14 +23,14 @@ const Login = ({ login, loginError, isFetching }) => {
       </Box>
       <Text margin={{bottom: "large"}}>New to Routine Ops? <Anchor href="/signup">Sign up</Anchor> here.</Text>
 
-      <Box direction="row-responsive" flex={false} align="center" justify="start" fill="horizontal" gap="xlarge">
         <Box width="large">
-          
-          <Error message={loginError} />
+                    
           <Form
             onSubmit={handleSubmit}
           >
             <Box flex={false} gap="small">
+              <Text size="small" color="status-error">{loginError}</Text>
+
               <FormField name="email" label="Email Address" required>
                 <TextInput name="email" />
               </FormField>
@@ -48,7 +47,6 @@ const Login = ({ login, loginError, isFetching }) => {
             
           </Form>
         </Box>
-      </Box>
     </Main>
   )
 }
