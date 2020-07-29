@@ -27,6 +27,19 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
   // Renders different routers depending on application state.
   // Particularly, is user logged in? Has organization been fully onboarded?
 
+  if (isLoggedIn) {
+    window.Intercom("boot", {
+      app_id: "mvss2n71",
+      name: "{{ user.first_name|escapejs }}", // Full name
+      email: "{{ user.email|escapejs }}", // Email address
+      created_at: "{{ user.date_joined|date:'U' }}" // Signup date as a Unix timestamp
+    });
+  } else {
+    window.Intercom("boot", {
+      app_id: "mvss2n71"
+    });
+  }
+
   const onboardComplete = (user.onboard_complete && organization.onboard_complete) || false
 
   if (isLoggedIn && !onboardComplete) {
