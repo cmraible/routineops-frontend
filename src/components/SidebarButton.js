@@ -10,7 +10,7 @@ const SidebarButton = ({ onClick, icon, label, active }) => {
       <Box
         align="center"
         direction="row"
-        gap="large"
+        gap="medium"
         pad="small"
       >
         {icon}

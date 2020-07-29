@@ -1,6 +1,6 @@
-import { Box, CheckBox, Footer, Nav, Text } from 'grommet';
-import { Logout, SettingsOption } from 'grommet-icons';
-import React, { useState } from 'react';
+import { Nav } from 'grommet';
+import { Logout, SettingsOption, Actions } from 'grommet-icons';
+import React from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth.actions';
 import {
@@ -9,30 +9,25 @@ import {
 } from '../actions/ui.actions';
 import SidebarButton from './SidebarButton';
 
-const SidebarFooter = ({logout, user, toggleDarkMode, darkMode }) => {
+const SidebarFooter = ({logout, user, toggleDarkMode, darkMode, afterClick }) => {
 
-  const [checked, setChecked] = useState(darkMode)
-  const onChange = event => {
-    toggleDarkMode()
-    return setChecked(event.target.checked);
-  };
-
+  const handleClick = (callback) => {
+    callback();
+    if (afterClick) {
+      afterClick();
+    }
+  }
 
   return (
-      <Footer> 
         <Nav gap="small">
-          <Box direction="row" justify="between" papd="small">
-            <CheckBox toggle checked={checked} onChange={onChange} />
-            <Text>Dark Mode</Text>
-          </Box>
+          <SidebarButton icon={<Actions />} label="Dark Mode" onClick={ () => handleClick(toggleDarkMode)} />
           {
             (user.is_org_admin && 
-              <SidebarButton icon={<SettingsOption />} label="Settings" onClick={() => goToSettings() } />
+              <SidebarButton icon={<SettingsOption />} label="Settings" onClick={() => handleClick(goToSettings)} />
             )
           }
-          <SidebarButton icon={<Logout />} label="Logout" onClick={() => logout() } />
+          <SidebarButton icon={<Logout />} label="Logout" onClick={ () => handleClick(logout)} />
         </Nav>
-      </Footer>
   )
 };
 

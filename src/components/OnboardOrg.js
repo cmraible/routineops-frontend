@@ -57,7 +57,6 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
               />
             </FormField>
             <Button fill="horizontal" align="center" type="submit" label="Continue" size="large" icon={<LinkNext />} reverse primary />
-
           </Form>
         </Box>
     </Main>

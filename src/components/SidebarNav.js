@@ -12,20 +12,27 @@ import {
 } from '../actions/ui.actions';
 import SidebarButton from './SidebarButton';
 
-const SidebarNav = ({goToTasks, goToCalendar, goToUsers, goToDashboard, goToRoles, goToHome, pathname, user }) => {
+const SidebarNav = ({goToTasks, goToCalendar, goToUsers, goToDashboard, goToRoles, goToHome, pathname, user, afterClick }) => {
+
+  const handleClick = (callback) => {
+    callback();
+    if (afterClick) {
+      afterClick();
+    }
+  }
 
   return (
         <Nav gap="small">
-          <SidebarButton icon={<Home />} active={(pathname === '/')} label="Home" onClick={() => goToHome() } /> 
+          <SidebarButton icon={<Home />} active={(pathname === '/')} label="Home" onClick={() => handleClick(goToHome) } /> 
           {
             (user.is_org_admin && 
-              <SidebarButton icon={<User />} label="Users" onClick={() => goToUsers() } />
+              <SidebarButton icon={<User />} label="Users" onClick={() => handleClick(goToUsers) } />
             )
           }
-          <SidebarButton icon={<Group />} active={(pathname === '/roles')} label="Roles" onClick={() => goToRoles() } />
-          <SidebarButton label="Tasks" icon={<Checkmark />} active={(pathname === '/tasks')} onClick={() => goToTasks() } /> 
-          <SidebarButton label="Calendar" icon={<Calendar />} active={(pathname === '/calendar')} onClick={() => goToCalendar()} />
-          <SidebarButton label="Dashboard" icon={<Dashboard />} active={(pathname === '/dashboard')} onClick={() => goToDashboard()} />
+          <SidebarButton icon={<Group />} active={(pathname === '/roles')} label="Roles" onClick={() => handleClick(goToRoles) } />
+          <SidebarButton label="Tasks" icon={<Checkmark />} active={(pathname === '/tasks')} onClick={() => handleClick(goToTasks) } /> 
+          <SidebarButton label="Calendar" icon={<Calendar />} active={(pathname === '/calendar')} onClick={() => handleClick(goToCalendar)} />
+          <SidebarButton label="Dashboard" icon={<Dashboard />} active={(pathname === '/dashboard')} onClick={() => handleClick(goToDashboard)} />
         </Nav>
   )
 };

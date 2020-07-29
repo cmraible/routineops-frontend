@@ -1,4 +1,4 @@
-import { Box, Button, DataTable, Heading, Text } from 'grommet';
+import { Box, Button, DataTable, Heading, Main, Text } from 'grommet';
 import { Add, Checkmark, Close } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -71,14 +71,14 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
 
 
   return (
-    <Box pad="medium" fill="vertical" overflow="auto" flex={true}>
+    <Main pad="medium">
       <Box direction="row" align="center" justify="between">
         <Box direction="row" align="center" gap="large">
           <Heading>Users</Heading>
           <Spinner isFetching={isFetching} />
         </Box>
         <Box>
-          <Button primary size="large" icon={<Add />} label="Add a user" onClick={onOpenAddUser} />
+          <Button primary icon={<Add />} label="Add a user" onClick={onOpenAddUser} />
         </Box>
       </Box>
       <DataTable 
@@ -89,7 +89,7 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
       />
       { openAddUser && (<AddUserOverlay onClose={onCloseAddUser} />) }
       { openUser && (<UserOverlay onClose={onCloseUser} user={openUser} />) }
-    </Box>
+    </Main>
     
   )
 
