@@ -1,14 +1,12 @@
-import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
-import React, { useState, useEffect } from 'react';
+import { Button, Form, FormField, Heading, TextInput } from 'grommet';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { saveUser } from '../actions/user.actions';
 import { getAllRoles } from '../reducers/reducers';
-import Spinner from './Spinner';
-import Error from './Error';
-import { Mixpanel } from '../mixpanel';
+import Page from '../components/Page';
 
 
-const Profile = ({ onSave, user, roles, isFetching, errors }) => {
+const Profile = ({ saveUser, user, isFetching }) => {
 
   const [ value, setValue ] = useState({
       id: user.id,
@@ -17,24 +15,15 @@ const Profile = ({ onSave, user, roles, isFetching, errors }) => {
       email: user.email
   });
 
-  useEffect(() => {
-    document.title = 'My Profile';
-    Mixpanel.track('Viewed profile page.');
-    window.Intercom('update');
-  }, []);
+  const handleSubmit = () => {
+    saveUser(value)
+  }
 
   return (
-    <Main pad="medium">
-      <Box direction="row" align="center" gap="large">
-        <Heading>Profile</Heading>
-        <Spinner isFetching={isFetching} errors={errors} />
-        <Error message={errors} />
-      </Box>
+    <Page title="Profile">
       <Heading level={3}>Basic Information</Heading>
       <Form
-        onSubmit={({value, touch}) => {
-          onSave(value)
-        }}
+        onSubmit={handleSubmit}
         value={value}
         onChange={ nextValue => setValue(nextValue) }
       >
@@ -49,7 +38,7 @@ const Profile = ({ onSave, user, roles, isFetching, errors }) => {
           </FormField>
         <Button label="Save" primary size="large" type="submit" disabled={isFetching} />
       </Form>
-    </Main>
+    </Page>
   )
 
 };
@@ -61,4 +50,4 @@ const mapStateToProps = state => ({
   errors: state.user.errors
 });
 
-export default connect(mapStateToProps, { onSave: saveUser })(Profile);
+export default connect(mapStateToProps, { saveUser })(Profile);

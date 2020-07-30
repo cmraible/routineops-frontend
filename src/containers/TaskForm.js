@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { deleteTask, getTask, saveTask } from '../actions/task.actions';
 import { goToTasks } from '../actions/ui.actions';
-import ConfirmDelete from './ConfirmDelete';
-import Spinner from './Spinner';
+import ConfirmDelete from '../components/ConfirmDelete';
+import Spinner from '../components/Spinner';
 
 
 const TaskForm = ({ task, saveTask, deleteTask, getTask, isFetching }) => {

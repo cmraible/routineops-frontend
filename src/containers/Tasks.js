@@ -1,4 +1,4 @@
-import { Box, Button, Form, Heading, List, Main, Text, TextInput } from 'grommet';
+import { Box, Button, Form, List, Text, TextInput } from 'grommet';
 import { Add, Checkmark } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -6,9 +6,7 @@ import { getRoles } from '../actions/role.actions';
 import { addTask, deleteTask, getTask, getTasks } from '../actions/task.actions';
 import { goToTask } from '../actions/ui.actions';
 import { getAllRoles, getAllTasks } from '../reducers/reducers';
-import Spinner from './Spinner';
-import Error from './Error';
-import { Mixpanel } from '../mixpanel';
+import Page from '../components/Page';
 
 
 const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetching, errors }) => {
@@ -26,12 +24,6 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetc
     getRoles()
   }, [getTasks, getRoles]);
 
-  useEffect(() => {
-    document.title = 'Tasks'
-    Mixpanel.track('Viewed tasks page.');
-    window.Intercom('update');
-  }, []);
-
   const renderChildren = (datum, index) => {
     return (
       <Box direction="row" align="center" gap="medium">
@@ -40,26 +32,23 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetc
     )
   }
 
+  const handleSubmit = ({value}) => {
+    addTask({
+      organization: organization.id,
+      name: value.name,
+      checks: [
+        {prompt: `Did you ${value.name.toLowerCase()}?`, resultType: 'BOOLEAN', organization: organization.id}
+      ]
+    });
+    setValue({name: ''});
+  }
+
   return (
-    <Main pad="medium">
+    <Page title="Tasks">
       <Box flex={false}>
-        <Box direction="row" align="center" gap="large">
-          <Heading>Tasks</Heading>
-          <Spinner isFetching={isFetching} error={errors} />
-        </Box>
-        <Error message={errors} />
-        <Box direction="column" gap="large">
+        <Box direction="column" gap="medium">
           <Form
-            onSubmit={({value, touch}) => {
-              addTask({
-                organization: organization.id,
-                name: value.name,
-                checks: [
-                  {prompt: `Did you ${value.name.toLowerCase()}?`, resultType: 'BOOLEAN', organization: organization.id}
-                ]
-              })
-              setValue({name: ''})
-            }}
+            onSubmit={handleSubmit}
             value={value}
             onChange={ nextValue => setValue(nextValue) }
           >
@@ -76,8 +65,7 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetc
           />
         </Box>
       </Box>
-      
-    </Main>
+    </Page>
   )
 
 };

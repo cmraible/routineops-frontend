@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { deleteRole, getRole, saveRole } from '../actions/role.actions';
 import { goToRoles } from '../actions/ui.actions';
-import ConfirmDelete from './ConfirmDelete';
-import Spinner from './Spinner';
-import Error from './Error';
+import ConfirmDelete from '../components/ConfirmDelete';
+import Spinner from '../components/Spinner';
+import Error from '../components/Error';
 
 const RoleForm = ({ role, getRole, deleteRole, saveRole, isFetching, errors, goToRoles }) => {
 

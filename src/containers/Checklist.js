@@ -20,7 +20,6 @@ const Checklist = ({ checks, taskInstance, completeTaskInstance, onComplete }) =
   const submitForm = (data) => {
     // Send to "complete checklist" API endpoint with all checks
     // Wait for response from server to close
-    console.log(data)
     const results = Object.keys(data).map((id) => {
       return {
         check: id,

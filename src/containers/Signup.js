@@ -2,8 +2,8 @@ import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'gr
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { signup } from '../actions/auth.actions';
-import Spinner from './Spinner';
-import EmailField from './EmailField';
+import Spinner from '../components/Spinner';
+import EmailField from '../components/EmailField';
 import { Mixpanel } from '../mixpanel';
 import queryString from 'query-string';
 

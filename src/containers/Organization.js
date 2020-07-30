@@ -2,7 +2,7 @@ import { Box, Button, CheckBoxGroup, Form, FormField, Heading, Main, Select, Tex
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getOrg, saveOrg } from '../actions/organization.actions';
-import Spinner from './Spinner';
+import Spinner from '../components/Spinner';
 
 const Organization = ({ onSave, getOrg, organization }) => {
 

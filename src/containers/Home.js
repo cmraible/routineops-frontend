@@ -1,5 +1,5 @@
 import { formatRelative, isBefore, isPast, parseISO } from 'date-fns';
-import { Box, Heading, List, Main, Text } from 'grommet';
+import { Box, Heading, List, Text } from 'grommet';
 import { Checkmark } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -8,21 +8,16 @@ import { getTaskInstances } from '../actions/taskInstance.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 import { getTaskInstancesForAssignee } from '../reducers/reducers';
 import TaskInstanceOverlay from './TaskInstanceOverlay';
-import { Mixpanel } from '../mixpanel';
+import Page from '../components/Page';
 
 const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances, getTasks, getTaskLayers }) => {
 
   useEffect(() => {
-    getTasks()
-    getTaskLayers()
-    getTaskInstances()
+    getTasks();
+    getTaskLayers();
+    getTaskInstances();
   }, [getTasks, getTaskLayers, getTaskInstances]);
 
-  useEffect(() => {
-    document.title = 'My tasks';
-    Mixpanel.track('Viewed my tasks page.');
-    window.Intercom('update');
-  }, []);
 
   const [openTaskInstance, setOpenTaskInstance] = useState()
 
@@ -31,8 +26,7 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
   const onCloseTaskInstance = () => setOpenTaskInstance(undefined);
 
   return (
-    <Main pad="medium" >
-      <Heading>My Tasks</Heading>
+    <Page title="My tasks">
       {
         (taskInstances &&
           <List 
@@ -82,7 +76,7 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
         )
       }
       
-    </Main>
+    </Page>
   )
 
 };

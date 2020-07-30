@@ -6,7 +6,7 @@ import { saveUser } from '../actions/user.actions';
 import { addUserRole, deleteUserRole } from '../actions/userRole.actions';
 import { getUserActiveRoles } from '../reducers/reducers';
 import { getAllRoles } from '../reducers/reducers';
-import Spinner from './Spinner';
+import Spinner from '../components/Spinner';
 
 
 const UserOverlay = ({ user, onClose, saveUser, isFetching, allRoles, rolesById, userRoles, addUserRole, deleteUserRole }) => {

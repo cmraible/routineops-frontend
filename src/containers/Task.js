@@ -6,7 +6,7 @@ import { getTask } from '../actions/task.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 import { goToTasks } from '../actions/ui.actions';
 import { getAllTaskLayers } from '../reducers/reducers';
-import BackButton from './BackButton';
+import BackButton from '../components/BackButton';
 import TaskChecks from './TaskChecks';
 import TaskForm from './TaskForm';
 import TaskLayers from './TaskLayers';

@@ -2,7 +2,7 @@ import { Anchor, Box, Button, Form, FormField, Heading, Main, Text, TextInput } 
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions/auth.actions';
-import Spinner from './Spinner';
+import Spinner from '../components/Spinner';
 import { Mixpanel } from '../mixpanel';
 
 const Login = ({ login, loginError, isFetching }) => {

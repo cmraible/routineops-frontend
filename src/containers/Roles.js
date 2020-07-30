@@ -1,13 +1,11 @@
-import { Box, Button, Form, Heading, List, Text, TextInput } from 'grommet';
+import { Box, Button, Form, List, Text, TextInput } from 'grommet';
 import { Add, User } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addRole, deleteRole, getRoles } from '../actions/role.actions';
 import { goToRole } from '../actions/ui.actions';
 import { getAllRoles } from '../reducers/reducers';
-import Spinner from './Spinner';
-import Error from './Error';
-import { Mixpanel } from '../mixpanel';
+import Page from '../components/Page';
 
 
 const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching, errors }) => {
@@ -20,38 +18,28 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching,
     getRoles();
   }, [getRoles]);
 
-  useEffect(() => {
-    document.title = 'Roles';
-    Mixpanel.track('Viewed roles page.');
-    window.Intercom('update');
-  }, []);
-
-  const renderChildren = (datum, index) => {
+  const renderRoles = (role, index) => {
     return (
       <Box direction="row" align="center" gap="medium">
-        <User /><Text>{datum.name}</Text>
+        <User /><Text>{role.name}</Text>
       </Box>
     )
   }
 
+  const handleSubmit = ({ value }) => {
+    addRole({
+      organization: organization.id,
+      name: value.name
+    });
+    setValue({name: ''});
+  }
+
   return (
-    <Box pad="medium" fill="vertical" overflow="auto" flex={true}>
+    <Page title="Roles">
       <Box flex={false}>
-        <Box direction="row" align="center" gap="large">
-          <Heading>Roles</Heading>
-          <Spinner isFetching={isFetching} />
-        </Box>
-        <Error message={errors} />
-        
-        <Box direction="column" gap="large">
+        <Box direction="column" gap="medium">
           <Form
-            onSubmit={({value, touch}) => {
-              addRole({
-                organization: organization.id,
-                name: value.name
-              })
-              setValue({name: ''})
-            }}
+            onSubmit={handleSubmit}
             value={value}
             onChange={ nextValue => setValue(nextValue) }
           >
@@ -63,13 +51,13 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching,
           <List
             primaryKey="name"
             data={roles}
-            children={renderChildren}
+            children={renderRoles}
             onClickItem={(event) => goToRole(event.item.id)}
           />
         </Box>
       </Box>
       
-    </Box>
+    </Page>
   )
 
 };

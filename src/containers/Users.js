@@ -1,15 +1,15 @@
-import { Box, Button, DataTable, Heading, Main, Text } from 'grommet';
+import { Box, Button, DataTable, Text } from 'grommet';
 import { Add, Checkmark, Close } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getUsers } from '../actions/user.actions';
 import { getAllUsers } from '../reducers/reducers';
-import Spinner from './Spinner';
 import AddUserOverlay from './AddUserOverlay';
 import UserOverlay from './UserOverlay';
 import { getUserRoles } from '../actions/userRole.actions';
 import { getRoles } from '../actions/role.actions';
 import { Mixpanel } from '../mixpanel';
+import Page from '../components/Page';
 
 const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
 
@@ -18,12 +18,6 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
     getRoles()
     getUserRoles()
   }, [getUsers, getRoles, getUserRoles]);
-
-  useEffect(() => {
-    document.title = 'Users'
-    Mixpanel.track('Viewed users page.');
-    window.Intercom('update');
-  }, []);
 
   const columns = [
     {
@@ -73,15 +67,9 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
 
 
   return (
-    <Main pad="medium">
-      <Box direction="row" align="center">
-        <Box direction="row" align="center" gap="medium">
-          <Heading>Users</Heading>
-          <Spinner isFetching={isFetching} />
-        </Box>
-        <Box>
-          <Button primary icon={<Add />} label="Add a user" onClick={onOpenAddUser} />
-        </Box>
+    <Page title="Users">
+      <Box fill={false}>
+        <Button primary icon={<Add />} label="Add" onClick={onOpenAddUser} />
       </Box>
       <DataTable 
         primaryKey="email"
@@ -91,7 +79,7 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
       />
       { openAddUser && (<AddUserOverlay onClose={onCloseAddUser} />) }
       { openUser && (<UserOverlay onClose={onCloseUser} user={openUser} />) }
-    </Main>
+    </Page>
     
   )
 

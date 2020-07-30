@@ -6,7 +6,7 @@ import { goToTour } from '../actions/ui.actions';
 import { saveOrg } from '../actions/organization.actions';
 import { Mixpanel } from '../mixpanel';
 
-import Spinner from './Spinner';
+import Spinner from '../components/Spinner';
 
 const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organization, goToTour }) => {
 

@@ -1,5 +1,5 @@
 import { toDate } from 'date-fns';
-import { Box, Heading, Main, Tab, Tabs } from 'grommet';
+import { Box, Tab, Tabs } from 'grommet';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getRoles } from '../actions/role.actions.js';
@@ -8,11 +8,8 @@ import { getTaskInstances } from '../actions/taskInstance.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 import { getAllTaskLayers } from '../reducers/reducers';
 import { getAllTaskInstances } from '../reducers/reducers.js';
-import MonthView from './MonthView.js';
-import WeekView from './WeekView.js';
-import { Mixpanel } from '../mixpanel';
-
-
+import WeekView from '../components/WeekView.js';
+import Page from '../components/Page';
 
 const Calendar = ({ getTaskLayers, getTaskInstances, getTasks, getRoles, organization, taskLayers, taskInstances, roles, tasks }) => {
 
@@ -23,28 +20,18 @@ const Calendar = ({ getTaskLayers, getTaskInstances, getTasks, getRoles, organiz
     getRoles()
   }, [getRoles, getTaskLayers, getTasks, getTaskInstances]);
 
-  useEffect(() => {
-    document.title = 'Calendar';
-    Mixpanel.track('Viewed calendar page.');
-    window.Intercom('update');
-  }, []);
-
   const today = toDate(new Date())
 
   return (
-    <Main pad="medium">
+    <Page title="Calendar">
       <Box flex={false}>
-        <Heading>Calendar</Heading>
         <Tabs alignControls="start">
           <Tab title="Week">
             <WeekView date={today} taskLayers={taskLayers} taskInstances={taskInstances} tasks={tasks} roles={roles} organization={organization} />
           </Tab>
-          <Tab title="Month">
-            <MonthView date={today} taskLayers={taskLayers} taskInstances={taskInstances} roles={roles} />
-          </Tab>
         </Tabs>
       </Box>
-    </Main>
+    </Page>
   )
 
 };

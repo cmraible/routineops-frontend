@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { saveTask } from '../actions/task.actions';
 import { addTaskLayer, saveTaskLayer } from '../actions/taskLayer.actions';
 import { getAllRoles, getAllTaskLayers } from '../reducers/reducers';
-import TaskLayerForm from './TaskLayerForm';
+import TaskLayerForm from '../components/TaskLayerForm';
 
 
 

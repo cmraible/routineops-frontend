@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { saveUser } from '../actions/user.actions';
 import { Mixpanel } from '../mixpanel';
 
-import Spinner from './Spinner';
+import Spinner from '../components/Spinner';
 
 
 const OnboardUser = ({ isFetching, user, saveUser }) => {

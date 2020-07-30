@@ -10,7 +10,7 @@ import {
   goToTasks,
   goToUsers
 } from '../actions/ui.actions';
-import SidebarButton from './SidebarButton';
+import SidebarButton from '../components/SidebarButton';
 
 const SidebarNav = ({goToTasks, goToCalendar, goToUsers, goToDashboard, goToRoles, goToHome, pathname, user, afterClick }) => {
 

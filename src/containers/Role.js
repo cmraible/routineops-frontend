@@ -6,7 +6,7 @@ import { getTask } from '../actions/task.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 import { goToRoles } from '../actions/ui.actions';
 import { getAllTaskLayers } from '../reducers/reducers';
-import BackButton from './BackButton';
+import BackButton from '../components/BackButton';
 import RoleForm from './RoleForm';
 import { Mixpanel } from '../mixpanel';
 

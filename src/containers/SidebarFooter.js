@@ -7,7 +7,7 @@ import {
   goToSettings,
   toggleDarkMode
 } from '../actions/ui.actions';
-import SidebarButton from './SidebarButton';
+import SidebarButton from '../components/SidebarButton';
 
 const SidebarFooter = ({logout, user, toggleDarkMode, darkMode, afterClick }) => {
 

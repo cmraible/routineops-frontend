@@ -27,6 +27,7 @@ const DefaultSidebar = () => {
                       elevation="medium"
                       pad="medium"
                       margin="small"
+                      background="white"
                     >
                       <Menu />
                     </Box>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './components/App';
+import App from './containers/App';
 import { ConnectedRouter } from 'connected-react-router';
 import configureStore from './configureStore';
 import history from './history';
@@ -29,7 +29,7 @@ const renderApp = () =>
   )
 
 if (process.env.NODE_ENV !== 'production' && module.hot) {
-  module.hot.accept('./components/App', renderApp)
+  module.hot.accept('./containers/App', renderApp)
 }
 
 renderApp()

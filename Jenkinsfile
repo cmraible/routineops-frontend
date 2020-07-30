@@ -39,7 +39,7 @@ pipeline {
         PUBLIC_URL = 'https://app.routineops.com'
         REACT_APP_API_HOST = 'https://api.routineops.com'
         REACT_APP_MIXPANEL_TOKEN = 'b45567f51a986e15b9ad852e97a9c048'
-        REACT_APP_STRIPE_PUB_KEY = 'pk_test_51H7n2QJaJXMgpjCHiyenC68DaC95suc9PeEep4MVx8mWGDOehWKiNOTbfYgaWc2xHDhr6Ku3yFbmWl708vG41BPW00wVhKjSKo'
+        REACT_APP_STRIPE_PUB_KEY = 'pk_live_51H7n2QJaJXMgpjCHrwQNn7YUVL6p9EwZjyQO4o1APaCJmaWFy92e7FaV18e7C791pC43QPxDROfQpM0MKAyFm0Yr00QBjvZ4DI'
         REACT_APP_INTERCOM_APP_ID = 'mvss2n71'
       }
       steps {

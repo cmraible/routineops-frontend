@@ -1,18 +1,10 @@
-import { Box, Button, CheckBoxGroup, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
+import { Box, Button, CheckBoxGroup, Form, FormField, Heading, Select, TextInput } from 'grommet';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getOrg, saveOrg } from '../actions/organization.actions';
-import Spinner from './Spinner';
-import Error from './Error';
-import { Mixpanel } from '../mixpanel';
+import Page from '../components/Page';
 
 const Settings = ({ onSave, getOrg, organization, isFetching, errors }) => {
-
-  useEffect(() => {
-    document.title = 'Settings';
-    Mixpanel.track('Viewed settings page.');
-    window.Intercom('update');
-  }, []);
 
   const weekdays = [
     'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
@@ -66,13 +58,8 @@ const Settings = ({ onSave, getOrg, organization, isFetching, errors }) => {
   }, [getOrg, organization.id]);
 
   return (
-    <Main pad="medium">
+    <Page title="Settings">
       <Box flex={false}>
-        <Box direction="row" align="center" gap="large">
-          <Heading level={1}>Settings</Heading>
-          <Spinner isFetching={isFetching} />
-        </Box>
-        <Error message={errors} />
         <Form
           onSubmit={({value, touch}) => {
             onSave(value)
@@ -122,7 +109,7 @@ const Settings = ({ onSave, getOrg, organization, isFetching, errors }) => {
         </Form>
       </Box>
       
-    </Main>
+    </Page>
   )
 
 };

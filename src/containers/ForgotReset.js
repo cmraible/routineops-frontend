@@ -2,8 +2,8 @@ import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'gr
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { reset } from '../actions/auth.actions';
-import Error from './Error';
-import Spinner from './Spinner';
+import Error from '../components/Error';
+import Spinner from '../components/Spinner';
 import { Mixpanel } from '../mixpanel';
 
 

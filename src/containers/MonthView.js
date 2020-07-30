@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 import { getAllRoles, getAllTaskLayers } from '../reducers/reducers';
-import MonthViewCell from './MonthViewCell';
+import MonthViewCell from '../components/MonthViewCell';
 
 
 

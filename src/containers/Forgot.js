@@ -3,10 +3,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { forgot } from '../actions/auth.actions';
 import { goToLogin } from '../actions/ui.actions';
-import Error from './Error';
-import Spinner from './Spinner';
-import BackButton from './BackButton';
-import EmailField from './EmailField';
+import Error from '../components/Error';
+import Spinner from '../components/Spinner';
+import BackButton from '../components/BackButton';
+import EmailField from '../components/EmailField';
 import { Mixpanel } from '../mixpanel';
 
 

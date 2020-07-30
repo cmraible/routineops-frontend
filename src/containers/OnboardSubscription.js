@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { goToSignup } from '../actions/ui.actions';
-import StripeCreditCardField from './StripeCreditCardField';
-import Spinner from './Spinner';
+import StripeCreditCardField from '../components/StripeCreditCardField';
+import Spinner from '../components/Spinner';
 
 const OnboardSubscription = ({ isFetching, darkMode }) => {
 

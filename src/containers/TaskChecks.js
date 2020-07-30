@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addCheck, deleteCheck, saveCheck } from '../actions/check.actions';
 import { getAllChecks, getAllRoles, getAllTaskLayers } from '../reducers/reducers';
-import CheckOverlay from './CheckOverlay';
+import CheckOverlay from '../components/CheckOverlay';
 
 
 const TaskChecks = ({ organization, task, addCheck, saveCheck, deleteCheck, allChecks }) => {
