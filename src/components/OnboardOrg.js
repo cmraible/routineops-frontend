@@ -2,13 +2,13 @@ import { Box, Button, Form, FormField, Heading, Main, Select, TextInput } from '
 import { LinkNext } from 'grommet-icons';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { goToHome } from '../actions/ui.actions';
+import { goToTour } from '../actions/ui.actions';
 import { saveOrg } from '../actions/organization.actions';
 import { Mixpanel } from '../mixpanel';
 
 import Spinner from './Spinner';
 
-const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organization, goToHome }) => {
+const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organization, goToTour }) => {
 
   useEffect(() => {
     Mixpanel.track('Viewed onboard organization page.');
@@ -23,7 +23,7 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
   const handleSubmit = ({value}) => {
     console.log(value);
     saveOrg(value);
-    goToHome()
+    goToTour()
   }
 
   return (
@@ -69,4 +69,4 @@ const mapStateToProps = state => ({
   organization: state.organization.organization
 });
 
-export default connect(mapStateToProps, { saveOrg, goToHome })(OnboardOrg);
+export default connect(mapStateToProps, { saveOrg, goToTour })(OnboardOrg);
