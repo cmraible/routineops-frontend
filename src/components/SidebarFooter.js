@@ -26,7 +26,14 @@ const SidebarFooter = ({logout, user, toggleDarkMode, darkMode, afterClick }) =>
               <SidebarButton icon={<SettingsOption />} label="Settings" onClick={() => handleClick(goToSettings)} />
             )
           }
-          <SidebarButton icon={<Logout />} label="Logout" onClick={ () => handleClick(logout)} />
+          <SidebarButton 
+            icon={<Logout />} 
+            label="Logout" 
+            onClick={ () => {
+              window.Intercom('shutdown');
+              handleClick(logout);
+            }}
+          />
         </Nav>
   )
 };
