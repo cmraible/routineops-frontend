@@ -72,8 +72,8 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
 
   return (
     <Main pad="medium">
-      <Box direction="row" align="center" justify="between">
-        <Box direction="row" align="center" gap="large">
+      <Box direction="row" align="center">
+        <Box direction="row" align="center" gap="medium">
           <Heading>Users</Heading>
           <Spinner isFetching={isFetching} />
         </Box>

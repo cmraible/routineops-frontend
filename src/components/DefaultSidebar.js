@@ -1,4 +1,4 @@
-import { Box, Button, Layer, Main, ResponsiveContext, Sidebar } from 'grommet';
+import { Box, Layer, Main, ResponsiveContext, Sidebar } from 'grommet';
 import { Close, Menu } from 'grommet-icons';
 import React, { useState } from 'react';
 import SidebarFooter from './SidebarFooter';
@@ -9,35 +9,42 @@ const DefaultSidebar = () => {
 
   const [open, setOpen] = useState(false);
 
-  const closeOverlay = () => {
-    setOpen(false)
-  }
-
-  const openOverlay = () => {
-    setOpen(true)
-  }
-
+  const closeOverlay = () => setOpen(false);
+  const openOverlay = () => setOpen(true)
 
   return (
     <ResponsiveContext.Consumer>
         {
           size => {
-            console.log(size);
             switch (size) {
               case 'small':
                 return (
                   <div>
-                    <Button
+                    <Box
                       style={{position: "absolute", right: 0}}
-                      icon={<Menu />}
                       onClick={openOverlay}
-                    />
+                      round="full"
+                      elevation="medium"
+                      pad="medium"
+                      margin="small"
+                    >
+                      <Menu />
+                    </Box>
                     {open && (
                       <Layer full onClickOutside={closeOverlay} onEsc={closeOverlay} >
-                        <Main fill="vertical">
+                        <Main fill="vertical" background="black">
                           <Box align="end">
-                            <Button icon={<Close />} onClick={closeOverlay} />
+                          <Box
+                              onClick={closeOverlay}
+                              round="full"
+                              elevation="medium"
+                              pad="medium"
+                              margin="small"
+                            >
+                              <Close />
+                            </Box>
                           </Box>
+                        
                           <Box pad="large" gap="xlarge">
                             <Box>
                               <UserMenu afterClick={closeOverlay} />

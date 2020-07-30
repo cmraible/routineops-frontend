@@ -34,6 +34,7 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
       window.Intercom("boot", {
         app_id: APP_ID,
         user_id: user.id,
+        user_hash: user.intercom_hash,
         phone: (user.phone) ? user.phone : '',
         name: `${user.first_name} ${user.last_name}`, // Full name
         email: user.email, // Email address
