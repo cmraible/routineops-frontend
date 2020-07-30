@@ -17,6 +17,14 @@ export const goToProfile = () => {
   }
 }
 
+export const GO_TO_TOUR = 'GO_TO_TOUR'
+export const goToTour = () => {
+  history.push('/?product_tour_id=140175')
+  return {
+    type: GO_TO_TOUR
+  }
+}
+
 export const GO_TO_CHECKOUT = 'GO_TO_CHECKOUT'
 export const goToCheckout = (email) => {
   history.push('/signup/2/' + email + '/')
