@@ -68,7 +68,7 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
 
   return (
     <Page title="Users">
-      <Box fill={false}>
+      <Box>
         <Button primary icon={<Add />} label="Add" onClick={onOpenAddUser} />
       </Box>
       <DataTable 
