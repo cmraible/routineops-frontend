@@ -38,7 +38,7 @@ const Dashboard = ({taskInstances}) => {
           <Stack anchor="center">
             <Meter type="circle" size="small" round={true} max={100} values={[onTimeValue]} />
             <Box align="center">
-              <Heading level={2}>{onTimeValue.value} || 100}%</Heading>
+              <Heading level={2}>{(onTimeValue.value || 100)}%</Heading>
             </Box>
           </Stack>
           <Text>On Time</Text>
