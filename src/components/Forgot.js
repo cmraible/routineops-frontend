@@ -13,7 +13,9 @@ import { Mixpanel } from '../mixpanel';
 const Forgot = ({forgot, isFetching, goToLogin}) => {
 
   useEffect(() => {
+    document.title = 'Forgot password';
     Mixpanel.track('Viewed forgot password page.');
+    window.Intercom('update');
   }, []);
 
   const handleSubmit = ({value}) => {

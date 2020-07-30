@@ -5,7 +5,9 @@ import { Mixpanel } from '../mixpanel';
 const Dashboard = () => {
 
   useEffect(() => {
-    Mixpanel.track('Viewed dashboard page.')
+    document.title = 'Dashboard';
+    Mixpanel.track('Viewed dashboard page.');
+    window.Intercom('update');
   }, []);
 
   return (

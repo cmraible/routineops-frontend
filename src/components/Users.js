@@ -20,7 +20,9 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
   }, [getUsers, getRoles, getUserRoles]);
 
   useEffect(() => {
-    Mixpanel.track('Viewed users page.')
+    document.title = 'Users'
+    Mixpanel.track('Viewed users page.');
+    window.Intercom('update');
   }, []);
 
   const columns = [

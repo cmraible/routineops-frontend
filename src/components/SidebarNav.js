@@ -1,5 +1,5 @@
 import { Nav } from 'grommet';
-import { Calendar, Checkmark, Dashboard, Group, Home, User } from 'grommet-icons';
+import { Calendar, Checkmark, Dashboard, Group, Task, User } from 'grommet-icons';
 import React from 'react';
 import { connect } from 'react-redux';
 import {
@@ -23,7 +23,7 @@ const SidebarNav = ({goToTasks, goToCalendar, goToUsers, goToDashboard, goToRole
 
   return (
         <Nav gap="small">
-          <SidebarButton icon={<Home />} active={(pathname === '/')} label="Home" onClick={() => handleClick(goToHome) } /> 
+          <SidebarButton icon={<Task />} active={(pathname === '/')} label="My Tasks" onClick={() => handleClick(goToHome) } /> 
           {
             (user.is_org_admin && 
               <SidebarButton icon={<User />} label="Users" onClick={() => handleClick(goToUsers) } />

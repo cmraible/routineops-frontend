@@ -18,7 +18,9 @@ const OnboardUser = ({ isFetching, user, saveUser }) => {
   })
 
   useEffect(() => {
+    document.title = 'Welcome';
     Mixpanel.track('Viewed onboard user page.');
+    window.Intercom('update');
   }, []);
 
   const handleSubmit = ({value}) => {

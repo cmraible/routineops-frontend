@@ -9,7 +9,9 @@ import { Mixpanel } from '../mixpanel';
 const Settings = ({ onSave, getOrg, organization, isFetching, errors }) => {
 
   useEffect(() => {
-    Mixpanel.track('Viewed settings page.')
+    document.title = 'Settings';
+    Mixpanel.track('Viewed settings page.');
+    window.Intercom('update');
   }, []);
 
   const weekdays = [

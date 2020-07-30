@@ -18,7 +18,9 @@ const Profile = ({ onSave, user, roles, isFetching, errors }) => {
   });
 
   useEffect(() => {
-    Mixpanel.track('Viewed profile page.')
+    document.title = 'My Profile';
+    Mixpanel.track('Viewed profile page.');
+    window.Intercom('update');
   }, []);
 
   return (

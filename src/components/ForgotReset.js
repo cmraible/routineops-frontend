@@ -1,15 +1,22 @@
 import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { reset } from '../actions/auth.actions';
 import Error from './Error';
 import Spinner from './Spinner';
+import { Mixpanel } from '../mixpanel';
 
 
 const ForgotReset = ({ match, isFetching, signupErrors, signupSuccess, reset }) => {
 
   const uid = match.params.uid
   const token = match.params.token
+
+  useEffect(() => {
+    document.title = 'Reset password';
+    Mixpanel.track('Viewed reset password page.');
+    window.Intercom('update');
+  }, []);
 
   return (
     <Main pad="xlarge">

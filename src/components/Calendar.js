@@ -24,7 +24,9 @@ const Calendar = ({ getTaskLayers, getTaskInstances, getTasks, getRoles, organiz
   }, [getRoles, getTaskLayers, getTasks, getTaskInstances]);
 
   useEffect(() => {
-    Mixpanel.track('Viewed calendar page.')
+    document.title = 'Calendar';
+    Mixpanel.track('Viewed calendar page.');
+    window.Intercom('update');
   }, []);
 
   const today = toDate(new Date())

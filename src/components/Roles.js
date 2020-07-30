@@ -17,11 +17,13 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching,
   });
 
   useEffect(() => {
-    getRoles()
+    getRoles();
   }, [getRoles]);
 
   useEffect(() => {
-    Mixpanel.track('Viewed roles page.')
+    document.title = 'Roles';
+    Mixpanel.track('Viewed roles page.');
+    window.Intercom('update');
   }, []);
 
   const renderChildren = (datum, index) => {

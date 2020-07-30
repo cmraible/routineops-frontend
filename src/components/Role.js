@@ -8,6 +8,7 @@ import { goToRoles } from '../actions/ui.actions';
 import { getAllTaskLayers } from '../reducers/reducers';
 import BackButton from './BackButton';
 import RoleForm from './RoleForm';
+import { Mixpanel } from '../mixpanel';
 
 
 const Role = ({ match, getRoles, getTaskLayers, rolesById, isFetching, errors }) => {
@@ -19,6 +20,12 @@ const Role = ({ match, getRoles, getTaskLayers, rolesById, isFetching, errors })
     getTaskLayers()
     getRoles()
   }, [getTaskLayers, getRoles]);
+
+  useEffect(() => {
+    document.title = (role) ? role.name : 'Role'
+    Mixpanel.track('Viewed role page.', {role_id: role.id});
+    window.Intercom('update');
+  }, [role]);
 
   return (
         <Main pad="medium">

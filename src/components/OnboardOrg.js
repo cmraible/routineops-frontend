@@ -11,7 +11,9 @@ import Spinner from './Spinner';
 const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organization, goToTour }) => {
 
   useEffect(() => {
+    document.title = 'Welcome';
     Mixpanel.track('Viewed onboard organization page.');
+    window.Intercom('update');
   }, []);
 
   const [value, setValue] = useState({

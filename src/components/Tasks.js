@@ -27,7 +27,9 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetc
   }, [getTasks, getRoles]);
 
   useEffect(() => {
-    Mixpanel.track('Viewed tasks page.')
+    document.title = 'Tasks'
+    Mixpanel.track('Viewed tasks page.');
+    window.Intercom('update');
   }, []);
 
   const renderChildren = (datum, index) => {

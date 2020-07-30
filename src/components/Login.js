@@ -12,7 +12,9 @@ const Login = ({ login, loginError, isFetching }) => {
   }
 
   useEffect(() => {
+    document.title = 'Login';
     Mixpanel.track('Viewed login page.');
+    window.Intercom('update');
   }, []);
 
   return (

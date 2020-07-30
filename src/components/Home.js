@@ -19,7 +19,9 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
   }, [getTasks, getTaskLayers, getTaskInstances]);
 
   useEffect(() => {
-    Mixpanel.track('Viewed user home page.')
+    document.title = 'My tasks';
+    Mixpanel.track('Viewed my tasks page.');
+    window.Intercom('update');
   }, []);
 
   const [openTaskInstance, setOpenTaskInstance] = useState()
@@ -30,7 +32,7 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
 
   return (
     <Main pad="medium" >
-      <Heading>Home</Heading>
+      <Heading>My Tasks</Heading>
       {
         (taskInstances &&
           <List 
@@ -64,6 +66,13 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
             }}
           />
         )
+      }
+
+      {
+        taskInstances.length === 0 && 
+          <Box pad="large">
+              <Heading level={3}>You don't have any tasks assigned.</Heading>
+          </Box>
       }
      
 
