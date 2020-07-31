@@ -18,6 +18,7 @@ import Role from './Role';
 import Roles from './Roles';
 import Settings from './Settings';
 import Signup from './Signup';
+import Subscription from './Subscription';
 import Task from './Task';
 import Tasks from './Tasks';
 import Users from './Users';
@@ -26,6 +27,7 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
 
   // Renders different routers depending on application state.
   // Particularly, is user logged in? Has organization been fully onboarded?
+  // # TODO: Need to refactor this. Messy entrypoint...
 
   useEffect(() => {
     const APP_ID = process.env.REACT_APP_INTERCOM_APP_ID
@@ -59,10 +61,10 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
   if (isLoggedIn && !onboardComplete) {
     return (
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
-      <Switch>
-        <Route path="/" component={Onboarding} />
-      </Switch>
-    </Grommet>
+        <Switch>
+          <Route path="/" component={Onboarding} />
+        </Switch>
+      </Grommet>
     )
   } else if (isLoggedIn && onboardComplete) {
     return (
@@ -80,6 +82,7 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
             <Route exact path="/tasks" component={Tasks} />
             <Route exact path="/task/:task_id" component={Task} />
             <Route exact path="/users" component={Users} />
+            <Route exact path="/subscription" component={Subscription} />
           </Box>
         </Switch>
       </Grommet>

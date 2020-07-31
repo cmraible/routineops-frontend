@@ -28,7 +28,7 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
     frequency: (taskLayer) ? taskLayer.frequency : undefined,
     byhour: (taskLayer) ? taskLayer.byhour : [],
     time: (taskLayer) ? taskLayer.time : '',
-    byweekday: (taskLayer) ? taskLayer.byweekday : undefined,
+    byweekday: (taskLayer.byweekday) ? taskLayer.byweekday : undefined,
     bymonthday: (taskLayer) ? taskLayer.bymonthday : undefined,
     bymonth: (taskLayer) ? taskLayer.bymonth : undefined,
   });

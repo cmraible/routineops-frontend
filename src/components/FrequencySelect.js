@@ -4,7 +4,7 @@ import React from 'react';
 
 const FrequencySelect = () => {
 
-  const frequency_options = ['Hourly', 'Daily', 'Weekly', 'Bi-Weekly', 'Monthly', 'Quarterly', 'Yearly']
+  const frequency_options = ['Hourly', 'Daily', 'Weekly', 'Bi-Weekly', 'Monthly', 'Yearly']
 
 
   return (
