@@ -11,6 +11,7 @@ import {
   goToUsers
 } from '../actions/ui.actions';
 import SidebarButton from '../components/SidebarButton';
+import { getLoggedInUser } from '../reducers/reducers';
 
 const SidebarNav = ({goToTasks, goToCalendar, goToUsers, goToDashboard, goToRoles, goToHome, pathname, user, afterClick }) => {
 
@@ -38,7 +39,7 @@ const SidebarNav = ({goToTasks, goToCalendar, goToUsers, goToDashboard, goToRole
 };
 
 const mapStateToProps = state => ({
-  user: state.user.user,
+  user: getLoggedInUser(state),
   pathname: state.router.location.pathname
 });
 

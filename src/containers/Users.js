@@ -1,4 +1,4 @@
-import { Box, Button, DataTable, Text } from 'grommet';
+import { Button, DataTable, Text } from 'grommet';
 import { Add, Checkmark, Close } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -38,7 +38,7 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
       header: <Text>Admin?</Text>,
       align: "center",
       render: datum => (
-        (datum) ? <Checkmark /> : <Close />
+        (datum.is_org_admin) ? <Checkmark /> : <Close />
       )
     },
     {
@@ -46,7 +46,7 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
       header: <Text>Active?</Text>,
       align: "center",
       render: datum => (
-        (datum) ? <Checkmark /> : <Close />
+        (datum.is_active) ? <Checkmark /> : <Close />
       )
     }
   ]
@@ -64,13 +64,10 @@ const Users = ({ getUsers, getRoles, getUserRoles, isFetching, users }) => {
   const onOpenUser = (event) => setUser(event.datum)
   const onCloseUser = () => setUser(undefined)
 
-
+  const cta_primary = (<Button primary icon={<Add />} fill={false} label="Invite your team" onClick={onOpenAddUser} />)
 
   return (
-    <Page title="Users">
-      <Box>
-        <Button primary icon={<Add />} label="Add" onClick={onOpenAddUser} />
-      </Box>
+    <Page title="Users" cta_primary={cta_primary}>
       <DataTable 
         primaryKey="email"
         data={users}

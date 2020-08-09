@@ -2,7 +2,7 @@ import { Button, Form, FormField, Heading, TextInput } from 'grommet';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { saveUser } from '../actions/user.actions';
-import { getAllRoles } from '../reducers/reducers';
+import { getAllRoles, getLoggedInUser } from '../reducers/reducers';
 import Page from '../components/Page';
 
 
@@ -44,7 +44,7 @@ const Profile = ({ saveUser, user, isFetching }) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.user.user,
+  user: getLoggedInUser(state),
   roles: getAllRoles(state),
   isFetching: state.user.isFetching,
   errors: state.user.errors

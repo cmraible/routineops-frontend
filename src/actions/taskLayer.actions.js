@@ -34,6 +34,7 @@ export const addTaskLayerFail = (error) => {
 }
 
 export const addTaskLayer = (taskLayer) => ((dispatch) => {
+  console.log(taskLayer)
   dispatch(addTaskLayerRequest())
 
   const client = getClient()

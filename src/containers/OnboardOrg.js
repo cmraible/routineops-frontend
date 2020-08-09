@@ -7,6 +7,7 @@ import { saveOrg } from '../actions/organization.actions';
 import { Mixpanel } from '../mixpanel';
 
 import Spinner from '../components/Spinner';
+import { getLoggedInUser } from '../reducers/reducers';
 
 const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organization, goToTour }) => {
 
@@ -67,7 +68,7 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
 
 const mapStateToProps = state => ({
   isFetching: state.auth.isFetching,
-  user: state.user.user,
+  user: getLoggedInUser(state),
   organization: state.organization.organization
 });
 

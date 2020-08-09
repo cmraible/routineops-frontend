@@ -27,11 +27,11 @@ const routineopsTheme = {
       },
       "text": {
         "dark": "#EEEEEE",
-        "light": "#000000"
+        "light": "#444444"
       },
       "text-strong": {
         "dark": "#FFFFFF",
-        "light": "#000000"
+        "light": "#222222"
       },
       "text-weak": {
         "dark": "#CCCCCC",

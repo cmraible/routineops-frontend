@@ -2,6 +2,7 @@ import { Box, Grommet } from 'grommet';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import { getLoggedInUser } from '../reducers/reducers';
 import routineopsTheme from '../routineopsTheme';
 import Calendar from './Calendar';
 import Dashboard from './Dashboard';
@@ -11,6 +12,7 @@ import ForgotReset from './ForgotReset';
 import ForgotResetSuccess from './ForgotResetSuccess';
 import ForgotSuccess from './ForgotSuccess';
 import Home from './Home';
+import Invitation from './Invitation';
 import Login from './Login';
 import Onboarding from './Onboarding';
 import Profile from './Profile';
@@ -56,7 +58,7 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
 
   
 
-  const onboardComplete = (user.onboard_complete && organization.onboard_complete) || false
+  const onboardComplete = (user && user.onboard_complete && organization.onboard_complete) || false
 
   if (isLoggedIn && !onboardComplete) {
     return (
@@ -98,6 +100,7 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
             <Route exact path="/forgotsuccess" component={ForgotSuccess} />
             <Route exact path="/reset/:uid/:token" component={ForgotReset} />
             <Route exact path="/resetsuccess" component={ForgotResetSuccess} />
+            <Route exact path="/invite/:invite_id" component={Invitation} />
             <Route component={Login} />
         </Switch>
       </Grommet>
@@ -110,7 +113,7 @@ const mapStateToProps = state => ({
   darkMode: state.ui.darkMode,
   theme: routineopsTheme,
   isLoggedIn: state.auth.isLoggedIn,
-  user: state.user.user
+  user: getLoggedInUser(state)
 });
 
 export default  withRouter( connect(mapStateToProps)(App) )

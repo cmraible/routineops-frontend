@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { getTasks } from '../actions/task.actions';
 import { getTaskInstances } from '../actions/taskInstance.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
-import { getTaskInstancesForAssignee } from '../reducers/reducers';
+import { getLoggedInUser, getTaskInstancesForAssignee } from '../reducers/reducers';
 import TaskInstanceOverlay from './TaskInstanceOverlay';
 import Page from '../components/Page';
 
@@ -61,7 +61,6 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
           />
         )
       }
-
       {
         taskInstances.length === 0 && 
           <Box pad="large">
@@ -76,6 +75,7 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
         )
       }
       
+      
     </Page>
   )
 
@@ -83,7 +83,7 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
 
 const mapStateToProps = state => ({
   organization: state.organization.organization,
-  user: state.user.user,
+  user: getLoggedInUser(state),
   taskInstances: getTaskInstancesForAssignee(state),
   taskLayers: state.taskLayers.byId,
   tasks: state.tasks.byId

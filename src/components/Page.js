@@ -1,9 +1,9 @@
-import { Main, Heading } from 'grommet';
+import { Box, Heading, Main } from 'grommet';
 import React, { useEffect } from 'react';
 import { Mixpanel } from '../mixpanel';
 
 
-const Page = ({ title, children }) => {
+const Page = ({ title, children, cta_primary }) => {
 
   useEffect(() => {
     document.title = title;
@@ -13,7 +13,10 @@ const Page = ({ title, children }) => {
 
   return (
     <Main pad="medium" direction="column" gap="medium">
-      <Heading margin={{vertical: "none"}}>{ title }</Heading>
+      <Box direction="row-responsive" justify="between" gap="medium" flex={false}>
+        <Heading margin={{vertical: "none"}}>{ title }</Heading>
+        { cta_primary }
+      </Box>
       {children}
     </Main>
   )

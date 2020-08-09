@@ -3,6 +3,7 @@ import { parseISO } from 'date-fns';
 import { combineReducers } from 'redux';
 import authReducer from './auth.reducers';
 import checkReducer, * as fromChecks from './check.reducers';
+import invitationReducer from './invitation.reducers';
 import organizationReducer from './organization.reducers';
 import roleReducer, * as fromRoles from './role.reducers';
 import taskReducer, * as fromTasks from './task.reducers';
@@ -17,6 +18,7 @@ import userRoleReducer, * as fromUserRoles from './userRole.reducers';
 const createRootReducer = history => combineReducers({
   auth: authReducer,
   checks: checkReducer,
+  invitation: invitationReducer,
   organization: organizationReducer,
   roles: roleReducer,
   router: connectRouter(history),
@@ -34,6 +36,9 @@ export default createRootReducer;
 export const getAllRoles = (state) =>
   fromRoles.getAllRoles(state.roles);
 
+export const getLoggedInUser = (state) =>
+  state.users.byId[state.user.user];
+
 export const getAllTasks = (state) =>
   fromTasks.getAllTasks(state.tasks);
 
@@ -44,7 +49,7 @@ export const getAllTaskInstances = (state) =>
   fromTaskInstances.getAllTaskInstances(state.taskInstances)
 
 export const getTaskInstancesForAssignee = (state) =>
-  fromTaskInstances.getTaskInstancesForAssignee(state.taskInstances, state.user.user)
+  fromTaskInstances.getTaskInstancesForAssignee(state.taskInstances, getLoggedInUser(state))
   .sort((a, b) => parseISO(a.due) - parseISO(b.due))
 
 export const getAllChecks = (state) =>

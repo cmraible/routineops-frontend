@@ -3,6 +3,7 @@ import { User } from 'grommet-icons';
 import React from 'react';
 import { connect } from 'react-redux';
 import { goToProfile } from '../actions/ui.actions';
+import { getLoggedInUser } from '../reducers/reducers';
 
 
 const UserMenu = ({ goToProfile, user, afterClick }) => {
@@ -29,7 +30,7 @@ const UserMenu = ({ goToProfile, user, afterClick }) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.user.user,
+  user: getLoggedInUser(state),
   isFetching: state.user.isFetching
 });
 

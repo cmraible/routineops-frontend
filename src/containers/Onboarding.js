@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import OnboardUser from './OnboardUser';
 import OnboardOrg from './OnboardOrg';
+import { getLoggedInUser } from '../reducers/reducers';
 
 const Onboarding = ({ organization, user, isFetching }) => {
   if (!user.onboard_complete) {
     return <OnboardUser />
-  } else if (!organization.onboard_complete) {
+  } else if (!organization.onboard_complete && user.is_org_admin === true) {
     return <OnboardOrg />
   } else {
     return <Redirect to="/" />
@@ -17,7 +18,7 @@ const Onboarding = ({ organization, user, isFetching }) => {
 
 const mapStateToProps = state => ({
   isFetching: state.auth.isFetching,
-  user: state.user.user,
+  user: getLoggedInUser(state),
   organization: state.organization.organization
 });
 

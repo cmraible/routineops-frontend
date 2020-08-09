@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Box, Heading, Meter, Stack, Text } from 'grommet';
 import Page from '../components/Page';
-import { getAllRoles, getAllTasks, getAllTaskInstances } from '../reducers/reducers';
+import { getAllRoles, getAllTasks, getAllTaskInstances, getLoggedInUser } from '../reducers/reducers';
 import { DateTime } from 'luxon';
 
 
@@ -61,7 +61,7 @@ const Dashboard = ({taskInstances}) => {
 
 const mapStateToProps = state => ({
   organization: state.organization.organization,
-  user: state.user.user,
+  user: getLoggedInUser(state),
   tasks: getAllTasks(state),
   roles: getAllRoles(state),
   taskInstances: getAllTaskInstances(state)

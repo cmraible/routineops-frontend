@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addRole, deleteRole, getRoles } from '../actions/role.actions';
 import { goToRole } from '../actions/ui.actions';
-import { getAllRoles } from '../reducers/reducers';
+import { getAllRoles, getLoggedInUser } from '../reducers/reducers';
 import Page from '../components/Page';
 
 
@@ -64,7 +64,7 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching,
 
 const mapStateToProps = state => ({
   organization: state.organization.organization,
-  user: state.user.user,
+  user: getLoggedInUser(state),
   roles: getAllRoles(state),
   isFetching: state.roles.isFetching,
   errors: state.roles.errors

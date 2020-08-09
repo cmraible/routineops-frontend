@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getRoles } from '../actions/role.actions';
 import { addTask, deleteTask, getTask, getTasks } from '../actions/task.actions';
 import { goToTask } from '../actions/ui.actions';
-import { getAllRoles, getAllTasks } from '../reducers/reducers';
+import { getAllRoles, getAllTasks, getLoggedInUser } from '../reducers/reducers';
 import Page from '../components/Page';
 
 
@@ -72,7 +72,7 @@ const Tasks = ({ organization, tasks, addTask, getTasks, getRoles, roles, isFetc
 
 const mapStateToProps = state => ({
   organization: state.organization.organization,
-  user: state.user.user,
+  user: getLoggedInUser(state),
   tasks: getAllTasks(state),
   roles: getAllRoles(state),
   isFetching: state.tasks.isFetching,

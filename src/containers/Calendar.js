@@ -6,7 +6,7 @@ import { getRoles } from '../actions/role.actions.js';
 import { getTasks } from '../actions/task.actions.js';
 import { getTaskInstances } from '../actions/taskInstance.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
-import { getAllTaskLayers } from '../reducers/reducers';
+import { getAllTaskLayers, getLoggedInUser } from '../reducers/reducers';
 import { getAllTaskInstances } from '../reducers/reducers.js';
 import WeekView from '../components/WeekView.js';
 import Page from '../components/Page';
@@ -42,7 +42,7 @@ const mapStateToProps = state => ({
   tasks: state.tasks.byId,
   taskLayers: getAllTaskLayers(state),
   taskInstances: getAllTaskInstances(state),
-  user: state.user.user
+  user: getLoggedInUser(state)
 });
 
 export default connect(mapStateToProps, {getTaskLayers, getTaskInstances, getRoles, getTasks})(Calendar);

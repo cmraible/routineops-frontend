@@ -14,12 +14,12 @@ import {
 } from '../actions/ui.actions';
 
 function user(state = false, action) {
+  console.log(action);
   switch (action.type) {
     case LOGIN_SUCCESS:
+      return action.user.id
     case SIGNUP_SUCCESS:
-      return action.user
-    case SAVE_USER_SUCCESS:
-      return action.user
+      return action.result
     case LOGOUT:
       return false
     default:
@@ -58,5 +58,6 @@ const userReducer = combineReducers({
   isFetching,
   errors
 })
+
 
 export default userReducer;

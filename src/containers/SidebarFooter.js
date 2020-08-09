@@ -8,6 +8,7 @@ import {
   toggleDarkMode
 } from '../actions/ui.actions';
 import SidebarButton from '../components/SidebarButton';
+import { getLoggedInUser } from '../reducers/reducers';
 
 const SidebarFooter = ({logout, user, toggleDarkMode, darkMode, afterClick }) => {
 
@@ -39,7 +40,7 @@ const SidebarFooter = ({logout, user, toggleDarkMode, darkMode, afterClick }) =>
 };
 
 const mapStateToProps = state => ({
-  user: state.user.user,
+  user: getLoggedInUser(state),
   pathname: state.router.location.pathname,
   darkMode: state.ui.darkMode
 });

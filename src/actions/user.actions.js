@@ -8,9 +8,10 @@ export const saveUserRequest = (user) => ({
 });
 
 export const SAVE_USER_SUCCESS = 'SAVE_USER_SUCCESS'
-export const saveUserSuccess = (user) => ({
+export const saveUserSuccess = (data) => ({
   type: SAVE_USER_SUCCESS,
-  user: user
+  entities: data.entities,
+  result: data.result
 });
 
 export const SAVE_USER_FAIL = 'SAVE_USER_FAIL'
@@ -27,7 +28,11 @@ export const saveUser = (user) => ((dispatch) => {
   return client.patch(
     '/users/' + user.id + '/', user
   )
-  .then( response => dispatch(saveUserSuccess(response.data)) )
+  .then( response => {
+    const user = new schema.Entity('users', {})
+    const normalizedData = normalize(response.data, user)
+    dispatch(saveUserSuccess(normalizedData));
+  } )
   .catch( error => {
     if (!error.response) {
       // No response from server

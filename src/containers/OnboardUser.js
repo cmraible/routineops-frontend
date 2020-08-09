@@ -6,6 +6,7 @@ import { saveUser } from '../actions/user.actions';
 import { Mixpanel } from '../mixpanel';
 
 import Spinner from '../components/Spinner';
+import { getLoggedInUser } from '../reducers/reducers';
 
 
 const OnboardUser = ({ isFetching, user, saveUser }) => {
@@ -58,7 +59,7 @@ const OnboardUser = ({ isFetching, user, saveUser }) => {
 
 const mapStateToProps = state => ({
   isFetching: state.auth.isFetching,
-  user: state.user.user,
+  user: getLoggedInUser(state),
   
 });
 

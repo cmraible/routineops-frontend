@@ -2,7 +2,9 @@ import history from '../history.js';
 import { getOrg } from './organization.actions';
 import { getClient } from '../apiClient';
 import { goToForgotSuccess, goToResetSuccess, goToOnboardUser } from './ui.actions';
+import { saveUserSuccess } from './user.actions';
 import { Mixpanel } from '../mixpanel';
+import { normalize, schema } from 'normalizr';
 
 export const LOGOUT = 'LOGOUT'
 export const logout = () => {
@@ -63,6 +65,10 @@ export const login = (email, password) => ((dispatch) => {
     }
   )
   .then( (response) => {
+    console.log(response.data)
+    const user = new schema.Entity('users', {})
+    const normalizedData = normalize(response.data.user, user)
+    dispatch(saveUserSuccess(normalizedData))
     dispatch(loginSuccess(response.data.key, response.data.user))
     dispatch(getOrg(response.data.user.organization))
   })
@@ -86,10 +92,11 @@ export const signupRequest = (user) => ({
 });
 
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
-export const signupSuccess = (user) => {
+export const signupSuccess = (data) => {
   return {
     type: SIGNUP_SUCCESS,
-    user: user
+    entities: data.entities,
+    result: data.result
   }
 }
 
@@ -111,16 +118,24 @@ export const signup = (user) => ((dispatch) => {
     '/accounts/register/', user
   )
   .then( response => {
-    dispatch(signupSuccess(response.data))
+    console.log(response)
+    const user = new schema.Entity('users', {})
+    const normalizedData = normalize(response.data.user, user)
+    dispatch(signupSuccess(normalizedData))
     dispatch(loginSuccess(response.data.key, response.data.user))
+    dispatch(getOrg(response.data.user.organization))
     dispatch(goToOnboardUser())
   })
   .catch( error => {
+    console.log(error)
     if (!error.response) {
       return dispatch(signupFail('Unable to connect to server.'))
     }
     if (error.response.data.email) {
       return dispatch(signupFail('User with that email address already exists.'))
+    }
+    if (error.response.data.invitation) {
+      return dispatch(signupFail('Invalid invitation.'));
     }
     return dispatch(signupFail('Something went wrong.'));
   } )
