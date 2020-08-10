@@ -20,21 +20,25 @@ const WeekView = ({ workingDays, interval, data }) => {
 
   const columns = [
     {
+      property: 'key',
+      primary: true,
       header: (<Box pad="small">Tasks</Box>),
       render: (instance) => (<Box pad="small">{(instance && instance.task) ? instance.task.name : ''}</Box>)
     },
     {
-      primary: true,
+      property: 'role',
       header: (<Box pad="small">Roles</Box>),
       render: (instance) => (<Box pad="small">{(instance && instance.role) ? instance.role.name :  ''}</Box>)
     },
     {
+      property: 'assignee',
       header: (<Box pad="small">Assignees</Box>),
       render: (instance) => (<Box pad="small">{(instance && instance.assignee) ? instance.assignee.first_name + " " + instance.assignee.last_name : '' }</Box>)
     },
     ...dates.map((date) => {
       const interval = Interval.fromDateTimes(date.startOf('day'), date.endOf('day'))
       return {
+        key: date.toFormat('EEE'),
         align: "center",
         property: date.toFormat('EEE'),
         header: <Box pad="small">{date.toFormat('EEEEE')}</Box>,
@@ -46,6 +50,8 @@ const WeekView = ({ workingDays, interval, data }) => {
 
     })
   ]
+
+  console.log(data);
 
   return (
     <Box fill>
@@ -61,7 +67,7 @@ const WeekView = ({ workingDays, interval, data }) => {
         <DataTable 
           columns={columns}
           data={data}
-          primary="key"
+          primaryKey="key"
           pad="none"
         />
       </ThemeContext.Extend>

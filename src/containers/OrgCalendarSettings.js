@@ -18,7 +18,7 @@ const OrgCalendarSettings = ( { organization, isFetching, saveOrg } ) => {
 
     return (
     <Box flex={false}>
-      <Heading margin="none" level={2}>Calendar Information</Heading>
+      <Heading margin="none" level={2}>Calendar Settings</Heading>
         <Form
           onSubmit={handleSubmit}
           value={value}

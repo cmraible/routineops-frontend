@@ -1,4 +1,4 @@
-import { Anchor, Box, Sidebar } from 'grommet';
+import { Box, Sidebar } from 'grommet';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getOrg, saveOrg } from '../actions/organization.actions';
@@ -7,7 +7,7 @@ import { Switch, Link, Route } from 'react-router-dom';
 import OrgCalendarSettings from './OrgCalendarSettings';
 import OrgContactInfo from './OrgContactInfo';
 
-const Organization = ({ onSave, getOrg, organization, isFetching, errors }) => {
+const Organization = ({ getOrg, organization }) => {
 
   useEffect(() => {
     getOrg(organization.id)
@@ -18,8 +18,8 @@ const Organization = ({ onSave, getOrg, organization, isFetching, errors }) => {
       <Box direction="row-responsive" fill="horizontal">
         <Sidebar pad="medium" border="right" width="small">
           <Box gap="medium">
-            <Anchor as={Link} to="/organization">Contact Info</Anchor>
-            <Anchor as={Link} to="/organization/calendar">Calendar</Anchor>
+            <Link to="/organization">Contact</Link>
+            <Link to="/organization/calendar">Calendar</Link>
           </Box>
         </Sidebar>
         <Box width="large" pad="medium">

@@ -20,7 +20,6 @@ import Role from './Role';
 import Roles from './Roles';
 import Organization from './Organization';
 import Signup from './Signup';
-import Subscription from './Subscription';
 import Task from './Task';
 import Tasks from './Tasks';
 import Users from './Users';
@@ -84,7 +83,6 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
             <Route exact path="/tasks" component={Tasks} />
             <Route exact path="/task/:task_id" component={Task} />
             <Route exact path="/users" component={Users} />
-            <Route exact path="/subscription" component={Subscription} />
           </Box>
         </Switch>
       </Grommet>

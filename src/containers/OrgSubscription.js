@@ -8,7 +8,7 @@ import StripeCreditCardField from '../components/StripeCreditCardField';
 import Page from '../components/Page';
 import PricingOption from '../components/PricingOption';
 
-const Subscription = ({ isFetching, darkMode }) => {
+const OrgSubscription = ({ isFetching, darkMode }) => {
 
   const stripe = useStripe();
   const elements = useElements();
@@ -94,4 +94,4 @@ const mapStateToProps = state => ({
   darkMode: state.ui.darkMode
 });
 
-export default connect(mapStateToProps, { goToSignup })(Subscription);
+export default connect(mapStateToProps, { goToSignup })(OrgSubscription);

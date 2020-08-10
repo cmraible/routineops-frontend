@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Box, DataTable, Select } from 'grommet';
+import { Checkmark, Close } from 'grommet-icons';
 import Page from '../components/Page';
 import { getRoles } from '../actions/role.actions';
 import { getUsers } from '../actions/user.actions';
@@ -70,10 +71,12 @@ const Dashboard = ({usersById, taskLayersById, rolesById, tasksById, getUsers, g
   const data = instances.map((instance) => {
     const taskLayer = taskLayersById[instance.taskLayer]
     return {
+      id: instance.id,
       role: rolesById[taskLayer.role],
       task: tasksById[taskLayer.task],
       assignee: usersById[instance.assignee],
-      due: DateTime.fromISO(instance.due)
+      due: DateTime.fromISO(instance.due),
+      completed: (instance.completed) ? DateTime.fromISO(instance.completed) : ''
     }
   });
 
@@ -99,25 +102,31 @@ const Dashboard = ({usersById, taskLayersById, rolesById, tasksById, getUsers, g
       } else {
         return true
       }
-    }); 
+    })
+    .sort((a, b) => a.due - b.due); 
 
 
     const columns = [
       {
+        property: "id",
+        primary: true,
         header: (<Box pad="small">Task</Box>),
         render: (instance) => (<Box pad="small">{ (instance && instance.task) ? instance.task.name : '' }</Box>)
       },
       {
+        property: "assignee",
         header: (<Box pad="small">Assignee</Box>),
-        render: (instance) => (<Box pad="small">{ (instance && instance.assignee) ? instance.assignee.name : '' }</Box>)
+        render: (instance) => (<Box pad="small">{ (instance && instance.assignee) ? instance.assignee.first_name + " " + instance.assignee.last_name : '' }</Box>)
       },
       {
+        property: "due",
         header: (<Box pad="small">Due Date</Box>),
-        render: (instance) => (<Box pad="small">{ (instance.completed) ? instance.completed : '' }</Box>)
+        render: (instance) => (<Box pad="small">{ (instance && instance.due) ? instance.due.toFormat('MM/dd/yyyy') : '' }</Box>)
       },
       {
+        property: "completed",
         header: (<Box pad="small">Status</Box>),
-        render: (instance) => (<Box pad="small">{ (instance.completed) ? instance.completed : '' }</Box>)
+        render: (instance) => (<Box pad="small">{ (instance.completed) ? <Checkmark /> : <Close /> }</Box>)
       },
 
     ]
@@ -181,6 +190,7 @@ const Dashboard = ({usersById, taskLayersById, rolesById, tasksById, getUsers, g
         <DataTable 
           data={filteredData}
           columns={columns}
+          primaryKey="id"
         />
       </Box>
     </Page>
