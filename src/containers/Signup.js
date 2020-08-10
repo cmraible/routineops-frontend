@@ -19,11 +19,12 @@ const Signup = ({ location, signup, signupErrors, isFetching }) => {
     password2: ''
   });
 
+  const title = 'Sign up';
   useEffect(() => {
-    document.title = 'Sign up';
+    document.title = title;
     Mixpanel.track('Viewed signup page.');
     window.Intercom('update');
-  });
+  }, [title]);
 
   const message = (value.password1 !== value.password2) ? "Passwords do not match." : undefined;
 

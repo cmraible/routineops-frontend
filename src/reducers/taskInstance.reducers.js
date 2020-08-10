@@ -86,4 +86,4 @@ export const getTaskInstancesForAssignee = (state, user) =>
     return state.byId[id]
   }).sort((a, b) => {
     return a.due - b.due
-  })
+  });

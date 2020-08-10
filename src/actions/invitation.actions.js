@@ -1,5 +1,6 @@
 import { schema, normalize } from 'normalizr';
 import { getClient } from '../apiClient.js';
+import { Mixpanel } from '../mixpanel';
 
 
 
@@ -37,6 +38,7 @@ export const addInvitation = (data) => ((dispatch) => {
     const invitation = new schema.Entity('invitations', {})
     const normalizedData = normalize(response.data, invitation)
     dispatch(addInvitationSuccess(normalizedData))
+    Mixpanel.track('Created an invitation.', { email: data.email_address })
   })
   .catch( error => {
     if (!error.response) {

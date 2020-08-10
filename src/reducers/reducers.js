@@ -46,20 +46,20 @@ export const getAllTaskLayers = (state) =>
   fromTaskLayers.getAllTaskLayers(state.taskLayers);
 
 export const getAllTaskInstances = (state) =>
-  fromTaskInstances.getAllTaskInstances(state.taskInstances)
+  fromTaskInstances.getAllTaskInstances(state.taskInstances);
 
 export const getTaskInstancesForAssignee = (state) =>
   fromTaskInstances.getTaskInstancesForAssignee(state.taskInstances, getLoggedInUser(state))
-  .sort((a, b) => parseISO(a.due) - parseISO(b.due))
+  .sort((a, b) => parseISO(a.due) - parseISO(b.due));
 
 export const getAllChecks = (state) =>
-  fromChecks.getAllChecks(state.checks)
+  fromChecks.getAllChecks(state.checks);
 
 export const getAllUsers = (state) =>
-  fromUsers.getAllUsers(state.users)
+  fromUsers.getAllUsers(state.users);
 
 export const getAllUserRoles = (state) =>
-  fromUserRoles.getAllUserRoles(state.userRoles)
+  fromUserRoles.getAllUserRoles(state.userRoles);
 
 export const getUserActiveRoles = (state) =>
-  fromUserRoles.getUserActiveRoles(state.userRoles, state.user.user)
+  fromUserRoles.getUserActiveRoles(state.userRoles, state.user.user);

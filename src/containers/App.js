@@ -18,7 +18,7 @@ import Onboarding from './Onboarding';
 import Profile from './Profile';
 import Role from './Role';
 import Roles from './Roles';
-import Settings from './Settings';
+import Organization from './Organization';
 import Signup from './Signup';
 import Subscription from './Subscription';
 import Task from './Task';
@@ -77,10 +77,10 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
             <Route exact path="/" component={Home} />
             <Route exact path="/calendar" component={Calendar} />
             <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/profile" component={Profile} />
+            <Route path="/profile" component={Profile} />
             <Route exact path="/roles" component={Roles} />
             <Route exact path="/roles/:role_id" component={Role} />
-            <Route exact path="/settings" component={Settings} />
+            <Route path="/organization" component={Organization} />
             <Route exact path="/tasks" component={Tasks} />
             <Route exact path="/task/:task_id" component={Task} />
             <Route exact path="/users" component={Users} />

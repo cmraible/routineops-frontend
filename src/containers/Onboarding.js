@@ -5,6 +5,7 @@ import OnboardUser from './OnboardUser';
 import OnboardOrg from './OnboardOrg';
 import { getLoggedInUser } from '../reducers/reducers';
 
+
 const Onboarding = ({ organization, user, isFetching }) => {
   if (!user.onboard_complete) {
     return <OnboardUser />

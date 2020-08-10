@@ -1,10 +1,10 @@
 import { Nav } from 'grommet';
-import { Logout, SettingsOption, Actions } from 'grommet-icons';
+import { Logout, Organization } from 'grommet-icons';
 import React from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth.actions';
 import {
-  goToSettings,
+  goToOrg,
   toggleDarkMode
 } from '../actions/ui.actions';
 import SidebarButton from '../components/SidebarButton';
@@ -21,13 +21,13 @@ const SidebarFooter = ({logout, user, toggleDarkMode, darkMode, afterClick }) =>
 
   return (
         <Nav gap="small">
-          <SidebarButton icon={<Actions />} label="Dark Mode" onClick={ () => handleClick(toggleDarkMode)} />
+          
           {
             (user.is_org_admin && 
-              <SidebarButton icon={<SettingsOption />} label="Settings" onClick={() => handleClick(goToSettings)} />
+              <SidebarButton icon={<Organization />} label="Organization" onClick={() => handleClick(goToOrg)} />
             )
           }
-          <SidebarButton 
+          <SidebarButton
             icon={<Logout />} 
             label="Logout" 
             onClick={ () => {
@@ -46,7 +46,7 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  goToSettings,
+  goToOrg,
   logout,
   toggleDarkMode
 })(SidebarFooter);

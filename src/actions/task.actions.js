@@ -1,5 +1,6 @@
 import { normalize, schema } from 'normalizr';
 import { getClient } from '../apiClient.js';
+import { Mixpanel } from '../mixpanel';
 
 
 export const ADD_TASK_REQUEST = 'ADD_TASK_REQUEST'
@@ -40,6 +41,8 @@ export const addTask = (task) => ((dispatch) => {
     const normalizedData = normalize(response.data, task)
     console.log(normalizedData)
     dispatch(addTaskSuccess(normalizedData))
+    Mixpanel.track('Added a task.', {name: task.name})
+
   })
   .catch( error => {
     if (!error.response) {
