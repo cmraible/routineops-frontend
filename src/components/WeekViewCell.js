@@ -1,6 +1,6 @@
 import { startOfToday } from 'date-fns';
 import { Box } from 'grommet';
-import { StatusCritical, StatusGood, StatusWarning, Subtract } from 'grommet-icons';
+import { Close, Checkmark, Subtract } from 'grommet-icons';
 import React from 'react';
 
 const WeekViewCell = ({ score, instances, date }) => {
@@ -15,31 +15,31 @@ const WeekViewCell = ({ score, instances, date }) => {
   if (completed && ontime && count) {
     return (
       <Box align="center" background="status-ok" fill pad="small">
-        <StatusGood color="white" />
+        <Checkmark color="white" />
       </Box>
     )
   } else if (completed && late) {
     return (
-      <Box align="center" background="status-ok" fill pad="small">
-        <StatusWarning color="status-critical" />
+      <Box align="center" fill pad="small">
+        <Checkmark color="status-critical" />
       </Box>
     )
   } else if (!completed && past) {
     return (
       <Box align="center" background="status-critical" fill pad="small">
-        <StatusCritical color="white" />
+        <Close color="white" />
       </Box>
     )
   } else if (count)  {
     return (
-      <Box align="center" background="status-warning" fill pad="small">
-        <Subtract />
+      <Box align="center" background="status-scheduled" fill pad="small">
+        <Subtract color="status-scheduled" />
       </Box>
     )
   } else {
     return (
-      <Box align="center" background="status-disabled" fill pad="small">
-        <Subtract />
+      <Box align="center" background="background" fill pad="small">
+        <Subtract color="background" />
       </Box>
     )
   }

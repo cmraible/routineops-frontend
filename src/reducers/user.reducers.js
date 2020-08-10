@@ -14,7 +14,6 @@ import {
 } from '../actions/ui.actions';
 
 function user(state = false, action) {
-  console.log(action);
   switch (action.type) {
     case LOGIN_SUCCESS:
       return action.user.id

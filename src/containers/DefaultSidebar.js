@@ -73,6 +73,7 @@ const DefaultSidebar = () => {
                     justify="between"
                     header={<UserMenu />}
                     footer={<SidebarFooter />}
+                    flex={false}
                   >
                     <SidebarNav />
                   </Sidebar> 

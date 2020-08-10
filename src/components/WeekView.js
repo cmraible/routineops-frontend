@@ -1,77 +1,145 @@
-import { eachDayOfInterval, endOfWeek, format, getDay, isSameDay, parseISO, startOfWeek } from 'date-fns';
-import { Box, DataTable, ThemeContext } from 'grommet';
-import React from 'react';
+import { Box, DataTable, Select, ThemeContext } from 'grommet';
+import React, { useState } from 'react';
 import WeekViewCell from './WeekViewCell';
+import { groups } from 'd3-array';
+import { DateTime, Interval } from 'luxon';
 
 
 
-const WeekView = ({ organization, tasks, taskInstances, taskLayers, roles, date }) => {
+const WeekView = ({ workingDays, interval, taskInstances, tasksById, rolesById, usersById, taskLayersById, roles, tasks, users }) => {
 
-  // object to map monday based to sunday based weekdays
-  const weekdayMapping = {
-      0: 1, // Monday
-      1: 2, // Tuesday
-      2: 3, // Wednesday
-      3: 4, // Thursday
-      4: 5, // Friday
-      5: 6, // Saturday
-      6: 0  // Sunday
+  // adjust this for your exact needs
+  function* days(interval) {
+    let cursor = interval.start.startOf("day");
+    while (cursor < interval.end) {
+      yield cursor;
+      cursor = cursor.plus({ days: 1 });
+    }
   }
-  const sundayWkst = weekdayMapping[organization.wkst]
-  const weekStart = startOfWeek(date, {weekStartsOn: sundayWkst})
-  const weekEnd = endOfWeek(date, {weekStartsOn: sundayWkst})
-  const weekInterval = {start: weekStart, end: weekEnd}
-  const workingDays = organization.working_days
-  const datesInInterval = eachDayOfInterval(weekInterval)
-  const workingDatesInInterval = datesInInterval.filter((datum) => {
-    return workingDays.some((workingDay) => weekdayMapping[workingDay] === getDay(datum))
-  })
 
-  const data = taskLayers.map((layer) => {
-    const role = roles[layer.role]
-    const task = tasks[layer.task]
+  const [roleFilters, setRoleFilters] = useState([])
+  const [taskFilters, setTaskFilters] = useState([])
+  const [assigneeFilters, setAssigneeFilters] = useState([])
+  console.log(roleFilters);
+  console.log(taskFilters);
+  console.log(assigneeFilters);
+
+  const dates = Array.from(days(interval));
+
+  const layers = groups(taskInstances, d => `${d.taskLayer}|${d.assignee}`)
+
+  const data = layers.map((layer) => {
+    const instances = layer[1]
+    const instance = instances[0]
+    const taskLayer = taskLayersById[instance.taskLayer]
     return {
-      task: (task) ? task.name : '',
-      role: (role) ? role.name : '',
-      id: layer.id
+      key: layer[0],
+      role: taskLayer.role,
+      task: taskLayer.task,
+      assignee: instance.assignee,
+      instances: instances
+    }
+  }).filter((instance) => {
+    if (roleFilters.length > 0) {
+      return roleFilters.some((role) => instance.role === role)
+    } else {
+      return true
     }
   })
-
-  console.log(data)
+  .filter((instance) => {
+    if (taskFilters.length > 0) {
+      return taskFilters.some((task) => instance.task === task)
+    } else {
+      return true
+    }
+  })
+  .filter((instance) => {
+    if (assigneeFilters.length > 0) {
+      return assigneeFilters.some((assignee) => instance.assignee === assignee)
+    } else {
+      return true
+    }
+  });
 
   const columns = [
     {
-      property: 'task',
-      header: <Box pad="small">Task</Box>,
-      render: (layer) => (<Box pad="small">{layer.task}</Box>)
+      header: (
+        <Select 
+          options={tasks} 
+          placeholder="Tasks" 
+          labelKey="name" 
+          plain
+          multiple
+          value={taskFilters}
+          onChange={({value, option}) => setTaskFilters(value)}
+          valueKey={{
+            key: 'id',
+            reduce: true
+          }}
+        />
+      ),
+      render: (instance) => (<Box wrap={false} pad="small">{tasksById[instance.task].name}</Box>)
     },
     {
-      property: 'role',
-      header: <Box pad="small">Role</Box>,
-      render: (layer) => (<Box pad="small">{layer.role}</Box>)
-
+      primary: true,
+      header: (
+        <Select 
+          options={roles} 
+          placeholder="Roles" 
+          labelKey="name" 
+          plain 
+          multiple
+          value={roleFilters}
+          onChange={({value, option}) => setRoleFilters(value)}
+          valueKey={{
+            key: 'id',
+            reduce: true
+          }}
+        />),
+      render: (instance) => (<Box pad="small">{rolesById[instance.role].name}</Box>)
     },
-    ...workingDatesInInterval.map((date) => {
-      const dateInstances = (taskInstances) ? taskInstances.filter((instance) => isSameDay(date, parseISO(instance.due))) : []
-      
+    {
+      header: (
+        <Select 
+          options={users} 
+          placeholder="Assignees" 
+          labelKey={(user) => (user) ? user.first_name + " " + user.last_name : ''} 
+          plain
+          multiple
+          value={assigneeFilters}
+          onChange={({value, option}) => setAssigneeFilters(value)}
+          valueKey={{
+            key: 'id',
+            reduce: true
+          }}
+        />
+      ),
+      render: (instance) => (<Box wrap={false} pad="small">{usersById[instance.assignee].first_name + " " + usersById[instance.assignee].last_name}</Box>)
+    },
+    ...dates.map((date) => {
+      const interval = Interval.fromDateTimes(date.startOf('day'), date.endOf('day'))
       return {
         align: "center",
-        property: format(date, 'EEE'),
-        header: <Box pad="small">{format(date, 'EEEEE')}</Box>,
-        render: (layer) => {
-          const cellInstances = dateInstances.filter((instance) => instance.taskLayer === layer.id)
-          return (<WeekViewCell taskLayer={layer} date={date} instances={cellInstances} />)
+        property: date.toFormat('EEE'),
+        header: <Box pad="small">{date.toFormat('EEEEE')}</Box>,
+        render: (instance) => {
+          const taskInstances = instance.instances.filter((instance) => interval.contains(DateTime.fromISO(instance.due)) )
+          return (<WeekViewCell date={date} instances={taskInstances} />)
         },
-
       }
+
     })
-    
   ]
 
   return (
     <Box fill>
       <ThemeContext.Extend 
         value={{
+          global: {
+            colors: {
+              "placeholder": "#444444"
+            }
+          },
           table: {
             header: {
               border: "gray"
@@ -85,6 +153,7 @@ const WeekView = ({ organization, tasks, taskInstances, taskLayers, roles, date 
         <DataTable 
           columns={columns}
           data={data}
+          primary="key"
           pad="none"
         />
       </ThemeContext.Extend>

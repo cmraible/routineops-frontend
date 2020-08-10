@@ -1,35 +1,60 @@
-import { toDate } from 'date-fns';
-import { Box, Tab, Tabs } from 'grommet';
-import React, { useEffect } from 'react';
+import { Box, Button, Text } from 'grommet';
+import { Next, Previous } from 'grommet-icons';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getRoles } from '../actions/role.actions.js';
-import { getTasks } from '../actions/task.actions.js';
+import { getRoles } from '../actions/role.actions';
+import { getUsers } from '../actions/user.actions';
+import { getTasks } from '../actions/task.actions';
 import { getTaskInstances } from '../actions/taskInstance.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
-import { getAllTaskLayers, getLoggedInUser } from '../reducers/reducers';
-import { getAllTaskInstances } from '../reducers/reducers.js';
-import WeekView from '../components/WeekView.js';
+import { getAllTaskLayers, getLoggedInUser, getAllTaskInstances, getAllTasks, getAllRoles, getAllUsers } from '../reducers/reducers';
+import WeekView from '../components/WeekView';
 import Page from '../components/Page';
+import { DateTime, Interval } from 'luxon';
 
-const Calendar = ({ getTaskLayers, getTaskInstances, getTasks, getRoles, organization, taskLayers, taskInstances, roles, tasks }) => {
+const Calendar = ({ organization, getTaskLayers, getTaskInstances, getTasks, getRoles, taskLayers, taskInstances, taskLayersById, rolesById, tasksById, roles, usersById, tasks, getUsers, users }) => {
 
   useEffect(() => {
     getTaskLayers()
     getTasks()
     getTaskInstances()
     getRoles()
-  }, [getRoles, getTaskLayers, getTasks, getTaskInstances]);
+    getUsers()
+  }, [getRoles, getTaskLayers, getTasks, getTaskInstances, getUsers]);
 
-  const today = toDate(new Date())
+  // Get today's date and set as the current date
+  const today = DateTime.local()
+  const [date, setDate] = useState(today.plus({days: 1}))
+  const interval = Interval.fromDateTimes(date.startOf('week'), date.endOf('week'))
+
+  // Functions for previous/next buttons
+  const previousWeek = () => setDate(date.minus({weeks: 1}))
+  const nextWeek = () => setDate(date.plus({weeks: 1}))
+
+  // Filter instances to those within the interval
+  const instances = taskInstances.filter((instance) => interval.contains(DateTime.fromISO(instance.due)))
 
   return (
     <Page title="Calendar">
-      <Box flex={false}>
-        <Tabs alignControls="start">
-          <Tab title="Week">
-            <WeekView date={today} taskLayers={taskLayers} taskInstances={taskInstances} tasks={tasks} roles={roles} organization={organization} />
-          </Tab>
-        </Tabs>
+      <Box direction="row" align="center" justify="end">
+        <Button icon={(<Previous />)} onClick={previousWeek} />
+        <Text>{interval.start.toFormat('LLL d, yyyy')}</Text>
+        <Button icon={(<Next />)} onClick={nextWeek} />
+      </Box>
+      <Box flex={false} direction="row">
+        <WeekView
+          interval={interval}
+          usersById={usersById}
+          taskLayersById={taskLayersById}
+          dates={interval.start}
+          workingDays={organization.working_days}
+          taskInstances={instances}
+          tasksById={tasksById}
+          rolesById={rolesById}
+          roles={roles}
+          tasks={tasks}
+          users={users}
+        />
       </Box>
     </Page>
   )
@@ -38,11 +63,16 @@ const Calendar = ({ getTaskLayers, getTaskInstances, getTasks, getRoles, organiz
 
 const mapStateToProps = state => ({
   organization: state.organization.organization,
-  roles: state.roles.byId,
-  tasks: state.tasks.byId,
+  roles: getAllRoles(state),
+  tasks: getAllTasks(state),
+  rolesById: state.roles.byId,
+  tasksById: state.tasks.byId,
   taskLayers: getAllTaskLayers(state),
+  taskLayersById: state.taskLayers.byId,
   taskInstances: getAllTaskInstances(state),
-  user: getLoggedInUser(state)
+  user: getLoggedInUser(state),
+  users: getAllUsers(state),
+  usersById: state.users.byId
 });
 
-export default connect(mapStateToProps, {getTaskLayers, getTaskInstances, getRoles, getTasks})(Calendar);
+export default connect(mapStateToProps, {getTaskLayers, getTaskInstances, getRoles, getTasks, getUsers})(Calendar);
