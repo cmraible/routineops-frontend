@@ -1,23 +1,21 @@
-import { Box, Sidebar } from 'grommet';
+import { Anchor, Box, Sidebar } from 'grommet';
 import React from 'react';
 import { connect } from 'react-redux';
-import { toggleDarkMode } from '../actions/ui.actions';
+import { goToProfile, goToProfileUI, toggleDarkMode } from '../actions/ui.actions';
 import { getAllRoles, getLoggedInUser } from '../reducers/reducers';
 import Page from '../components/Page';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import ProfileContactInfo from './ProfileContactInfo';
 import ProfileUI from './ProfileUI';
 
-
-const Profile = () => {
-
+const Profile = ({goToProfile, goToProfileUI}) => {
   return (
     <Page title="Profile">
       <Box direction="row-responsive" fill="horizontal">
         <Sidebar pad="medium" border="right" width="small">
           <Box gap="medium">
-            <Link to="/profile/">Contact Info</Link>
-            <Link to="/profile/ui">User Interface</Link>
+            <Anchor to="/profile/" onClick={goToProfile}>Contact Info</Anchor>
+            <Anchor to="/profile/ui" onClick={goToProfileUI}>User Interface</Anchor>
           </Box>
         </Sidebar>
         <Box width="large" pad="medium">
@@ -38,4 +36,4 @@ const mapStateToProps = state => ({
   darkMode: state.ui.darkMode
 });
 
-export default connect(mapStateToProps, { toggleDarkMode })(Profile);
+export default connect(mapStateToProps, { toggleDarkMode, goToProfile, goToProfileUI })(Profile);

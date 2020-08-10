@@ -17,6 +17,14 @@ export const goToProfile = () => {
   }
 }
 
+export const GO_TO_PROFILE_UI = 'GO_TO_PROFILE_UI'
+export const goToProfileUI = () => {
+  history.push('/profile/ui')
+  return {
+    type: GO_TO_PROFILE_UI
+  }
+}
+
 export const GO_TO_TOUR = 'GO_TO_TOUR'
 export const goToTour = () => {
   history.push('/?product_tour_id=140175')
@@ -135,6 +143,14 @@ export const goToOrg = () => {
   history.push('/organization')
   return {
     type: GO_TO_ORG
+  }
+}
+
+export const GO_TO_ORG_CALENDAR = 'GO_TO_ORG_CALENDAR'
+export const goToOrgCalendar = () => {
+  history.push('/organization/calendar')
+  return {
+    type: GO_TO_ORG_CALENDAR
   }
 }
 
