@@ -1,4 +1,4 @@
-import { FormField } from 'grommet';
+import { Box, FormField } from 'grommet';
 import React from 'react';
 import { CardElement } from '@stripe/react-stripe-js';
 
@@ -24,9 +24,12 @@ const StripeCreditCardField = ( {darkMode} ) => {
   };
 
   return (
-    <FormField label="Credit Card" gap="medium">
-      <CardElement options={options} />
-    </FormField>
+    <Box pad="small">
+      <FormField gap="medium">
+        <CardElement options={options} required />
+      </FormField>
+    </Box>
+    
   )
 }
 

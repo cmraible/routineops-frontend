@@ -146,6 +146,14 @@ export const goToOrg = () => {
   }
 }
 
+export const GO_TO_ORG_SUBSCRIPTION = 'GO_TO_ORG_SUBSCRIPTION'
+export const goToOrgSubscription = () => {
+  history.push('/organization/subscription')
+  return {
+    type: GO_TO_ORG_SUBSCRIPTION
+  }
+}
+
 export const GO_TO_ORG_CALENDAR = 'GO_TO_ORG_CALENDAR'
 export const goToOrgCalendar = () => {
   history.push('/organization/calendar')
