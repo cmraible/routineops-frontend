@@ -1,4 +1,4 @@
-import { Box, Button, CheckBox, Form, Heading, Text } from 'grommet';
+import { Box, Button, CheckBox, Form, Heading, Paragraph, Text } from 'grommet';
 import { Subtract, Add, LinkNext } from 'grommet-icons';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ import PricingOption from '../components/PricingOption';
 import { getAllUsers } from '../reducers/reducers';
 import { addSubscription } from '../actions/subscription.actions';
 
-const CreateSubscription = ({ isFetching, darkMode, organization, users, addSubscription }) => {
+const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, addSubscription }) => {
 
   
   const stripe = useStripe();
@@ -38,7 +38,7 @@ const CreateSubscription = ({ isFetching, darkMode, organization, users, addSubs
     }
   }
 
-  const currentSubscription = (organization.subscription) ? organization.subscription : "Starter" ;
+  const currentSubscription = (organization.subscription) ? organization.subscription : "Basic" ;
   const currentUsers = users.length ;
 
   const [selectedSubscription, setSelectedSubscription] = useState(currentSubscription);
@@ -46,7 +46,7 @@ const CreateSubscription = ({ isFetching, darkMode, organization, users, addSubs
   const [selectedBilling, setSelectedBilling] = useState("Yearly");
 
   const addSeat = () => setSelectedSeats(selectedSeats + 1);
-  const removeSeat = () => (selectedSeats > 1) ? setSelectedSeats(selectedSeats - 1) : setSelectedSeats(1);
+  const removeSeat = () => (selectedSeats > currentUsers) ? setSelectedSeats(selectedSeats - 1) : setSelectedSeats(currentUsers);
 
   const price = (selectedBilling === "Yearly" ) ? 
     plans[selectedSubscription][selectedBilling].price * selectedSeats * 12 : 
@@ -87,8 +87,13 @@ const CreateSubscription = ({ isFetching, darkMode, organization, users, addSubs
 
   return (
     <Box flex={false} gap="small">
-      <Heading margin="none" level={2}>Subscription</Heading>
+      <Heading margin="none" level={2}>Upgrade Subscription</Heading>
       <Heading margin="none" level={4}>1. Select your subscription and billing preferences:</Heading>
+      
+      <Box direction="row" justify="around" pad="medium">
+        <PricingOption label="Starter" price={0} selected={selectedSubscription === "Starter"} onClick={() => setSelectedSubscription("Starter")} />
+        <PricingOption label="Basic" price={plans["Basic"][selectedBilling].price} selected={selectedSubscription === "Basic"} onClick={() => setSelectedSubscription("Basic")} />
+      </Box>
       <Box direction="row" gap="small" align="center" justify="center">
         <Text>Monthly</Text>
         <CheckBox 
@@ -98,16 +103,13 @@ const CreateSubscription = ({ isFetching, darkMode, organization, users, addSubs
         />
         <Text>Yearly</Text>
       </Box>
-      <Box direction="row" justify="around" pad="medium">
-        <PricingOption label="Starter" price={0} selected={selectedSubscription === "Starter"} onClick={() => setSelectedSubscription("Starter")} />
-        <PricingOption label="Basic" price={plans["Basic"][selectedBilling].price} selected={selectedSubscription === "Basic"} onClick={() => setSelectedSubscription("Basic")} />
-      </Box>
       
       
       { // only show the checkout form if the current price > 0.
         price > 0 && (
         <Box gap="small">
           <Heading margin="none" level={4}>2. Select how many users you need:</Heading>
+          <Paragraph margin="none" color="text-xweak" size="small">You currently have {currentUsers} users in your organization.</Paragraph>
           <Box direction="row" align="center" justify="center" gap="medium">
             <Button icon={<Subtract />} primary primary onClick={removeSeat} />
             <Heading margin="none">{selectedSeats}</Heading>
@@ -152,4 +154,4 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, { 
   goToSignup,
   addSubscription
-})(CreateSubscription);
+})(OrgUpgradeSubscription);

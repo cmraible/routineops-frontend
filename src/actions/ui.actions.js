@@ -154,6 +154,22 @@ export const goToOrgSubscription = () => {
   }
 }
 
+export const GO_TO_ORG_UPGRADE_SUBSCRIPTION = 'GO_TO_ORG_UPGRADE_SUBSCRIPTION'
+export const goToOrgUpgradeSubscription = () => {
+  history.push('/organization/subscription/upgrade')
+  return {
+    type: GO_TO_ORG_UPGRADE_SUBSCRIPTION
+  }
+}
+
+export const GO_TO_ORG_CHANGE_SUBSCRIPTION = 'GO_TO_ORG_CHANGE_SUBSCRIPTION'
+export const goToOrgChangeSubscription = () => {
+  history.push('/organization/subscription/change')
+  return {
+    type: GO_TO_ORG_CHANGE_SUBSCRIPTION
+  }
+}
+
 export const GO_TO_ORG_CALENDAR = 'GO_TO_ORG_CALENDAR'
 export const goToOrgCalendar = () => {
   history.push('/organization/calendar')

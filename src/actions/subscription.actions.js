@@ -36,6 +36,76 @@ export const addSubscription = (subscription) => ((dispatch) => {
     });
 });
 
+export const UPDATE_SUBSCRIPTION_REQUEST = 'UPDATE_SUBSCRIPTION_REQUEST'
+export const updateSubscriptionRequest = () => ({
+  type: UPDATE_SUBSCRIPTION_REQUEST
+});
+
+export const UPDATE_SUBSCRIPTION_SUCCESS = 'UPDATE_SUBSCRIPTION_SUCCESS'
+export const updateSubscriptionSuccess = (organization) => ({
+  type: UPDATE_SUBSCRIPTION_SUCCESS,
+  org: organization
+});
+
+export const UPDATE_SUBSCRIPTION_FAIL = 'UPDATE_SUBSCRIPTION_FAIL'
+export const updateSubscriptionFail = (message) => {
+  return {
+    type: UPDATE_SUBSCRIPTION_FAIL,
+    message: message
+  }
+}
+
+export const updateSubscription = (subscription) => ((dispatch) => {
+    dispatch(updateSubscriptionRequest());
+
+    const client = getClient();
+
+    return client.post(
+        `/organizations/${subscription.organization}/update_subscription/`, subscription
+    )
+    .then( response => {
+        dispatch(updateSubscriptionSuccess(response.data));
+    })
+    .catch( error => {
+        dispatch(updateSubscriptionFail(error));
+    });
+});
+
+export const GET_UPCOMING_INVOICE_REQUEST = 'GET_UPCOMING_INVOICE_REQUEST'
+export const getUpcomingInvoiceRequest = () => ({
+  type: GET_UPCOMING_INVOICE_REQUEST
+});
+
+export const GET_UPCOMING_INVOICE_SUCCESS = 'GET_UPCOMING_INVOICE_SUCCESS'
+export const getUpcomingInvoiceSuccess = (invoice) => ({
+  type: GET_UPCOMING_INVOICE_SUCCESS,
+  invoice: invoice
+});
+
+export const GET_UPCOMING_INVOICE_FAIL = 'GET_UPCOMING_INVOICE_FAIL'
+export const getUpcomingInvoiceFail = (message) => {
+  return {
+    type: GET_UPCOMING_INVOICE_FAIL,
+    message: message
+  }
+}
+
+export const getUpcomingInvoice = ({data}) => ((dispatch) => {
+    dispatch(getUpcomingInvoiceRequest());
+
+    const client = getClient();
+
+    return client.post(
+        `/organizations/${data.organization}/upcoming_invoice/`, data
+    )
+    .then( response => {
+        dispatch(getUpcomingInvoiceSuccess(response.data));
+    })
+    .catch( error => {
+        dispatch(getUpcomingInvoiceFail(error));
+    });
+});
+
 export const GET_SUBSCRIPTION_REQUEST = 'GET_SUBSCRIPTION_REQUEST'
 export const getSubscriptionRequest = () => ({
   type: GET_SUBSCRIPTION_REQUEST
