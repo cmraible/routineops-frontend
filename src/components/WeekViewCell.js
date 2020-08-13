@@ -6,7 +6,7 @@ import React from 'react';
 const WeekViewCell = ({ score, instances, date }) => {
 
   const count = instances.length
-  const today = startOfToday
+  const today = startOfToday()
   const past = date < today
   const completed = instances.every((instance) => instance.completed)
   const ontime = instances.every((instance) => instance.completed < instance.due)
