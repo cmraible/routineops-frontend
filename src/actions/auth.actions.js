@@ -11,6 +11,7 @@ export const logout = () => {
   history.push('/');
   window.analytics.track('Logged out.');
   window.analytics.reset();
+  window.Intercom('shutdown');
   return {
     type: LOGOUT
   }
