@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { reset } from '../actions/auth.actions';
 import Error from '../components/Error';
 import Spinner from '../components/Spinner';
-import { Mixpanel } from '../mixpanel';
 
 
 const ForgotReset = ({ match, isFetching, signupErrors, signupSuccess, reset }) => {
@@ -14,8 +13,7 @@ const ForgotReset = ({ match, isFetching, signupErrors, signupSuccess, reset }) 
 
   useEffect(() => {
     document.title = 'Reset password';
-    Mixpanel.track('Viewed reset password page.');
-    window.Intercom('update');
+    window.analytics.page(document.title);
   }, []);
 
   return (

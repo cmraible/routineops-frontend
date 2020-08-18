@@ -30,7 +30,7 @@ const WeekViewCell = ({ score, instances, date }) => {
         <Close color="white" />
       </Box>
     )
-  } else if (count)  {
+  } else if (count) {
     return (
       <Box align="center" background="status-scheduled" fill pad="small">
         <Subtract color="status-scheduled" />

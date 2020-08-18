@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { signup } from '../actions/auth.actions';
 import Spinner from '../components/Spinner';
 import EmailField from '../components/EmailField';
-import { Mixpanel } from '../mixpanel';
 import { getInvitation } from '../actions/invitation.actions';
 
 
@@ -27,8 +26,7 @@ const Invite = ({ match, invitation, signup, signupErrors, isFetching, getInvita
 
   useEffect(() => {
     document.title = 'Sign up';
-    Mixpanel.track('Viewed signup page.');
-    window.Intercom('update');
+    window.analytics.page(document.title);
   });
 
   const message = (value.password1 !== value.password2) ? "Passwords do not match." : undefined;

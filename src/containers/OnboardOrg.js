@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { goToTour } from '../actions/ui.actions';
 import { saveOrg } from '../actions/organization.actions';
-import { Mixpanel } from '../mixpanel';
 
 import Spinner from '../components/Spinner';
 import { getLoggedInUser } from '../reducers/reducers';
@@ -12,9 +11,8 @@ import { getLoggedInUser } from '../reducers/reducers';
 const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organization, goToTour }) => {
 
   useEffect(() => {
-    document.title = 'Welcome';
-    Mixpanel.track('Viewed onboard organization page.');
-    window.Intercom('update');
+    document.title = 'Onboard Organization';
+    window.analytics.page(document.title);
   }, []);
 
   const [value, setValue] = useState({

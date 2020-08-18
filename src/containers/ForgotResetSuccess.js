@@ -1,7 +1,6 @@
 import { Anchor, Box, Heading, Main, Paragraph } from 'grommet';
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Mixpanel } from '../mixpanel';
 
 
 const ForgotResetSuccess = () => {
@@ -15,8 +14,7 @@ const ForgotResetSuccess = () => {
 
   useEffect(() => {
     document.title = 'Reset Password Success';
-    Mixpanel.track('Viewed reset password success page.');
-    window.Intercom('update');
+    window.analytics.page(document.title);
   }, []);
 
   const content = (

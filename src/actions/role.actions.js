@@ -1,6 +1,5 @@
 import { normalize, schema } from 'normalizr';
 import { getClient } from '../apiClient.js';
-import { Mixpanel } from '../mixpanel';
 
 
 export const ADD_ROLE_REQUEST = 'ADD_ROLE_REQUEST'
@@ -36,7 +35,7 @@ export const addRole = (role) => ((dispatch) => {
     const role = new schema.Entity('roles', {})
     const normalizedData = normalize(response.data, role)
     dispatch(addRoleSuccess(normalizedData))
-    Mixpanel.track('Added a role.', {name: role.name})
+    window.analytics.track('Added a role.', {name: role.name})
   })
   .catch( error => {
     if (!error.response) {

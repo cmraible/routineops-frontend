@@ -7,15 +7,13 @@ import Error from '../components/Error';
 import Spinner from '../components/Spinner';
 import BackButton from '../components/BackButton';
 import EmailField from '../components/EmailField';
-import { Mixpanel } from '../mixpanel';
 
 
 const Forgot = ({forgot, isFetching, goToLogin}) => {
 
   useEffect(() => {
     document.title = 'Forgot password';
-    Mixpanel.track('Viewed forgot password page.');
-    window.Intercom('update');
+    window.analytics.page(document.title);
   }, []);
 
   const handleSubmit = ({value}) => {

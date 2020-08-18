@@ -1,14 +1,12 @@
 import { Box, Heading, Main } from 'grommet';
 import React, { useEffect } from 'react';
-import { Mixpanel } from '../mixpanel';
 
 
 const Page = ({ title, children, cta_primary }) => {
 
   useEffect(() => {
     document.title = title;
-    Mixpanel.track(`Viewed ${title.toLowerCase()} page.`);
-    window.Intercom('update');
+    window.analytics.page(title);
   }, [title]);
 
   return (

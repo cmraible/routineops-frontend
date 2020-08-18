@@ -3,7 +3,6 @@ import { LinkNext } from 'grommet-icons';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { saveUser } from '../actions/user.actions';
-import { Mixpanel } from '../mixpanel';
 
 import Spinner from '../components/Spinner';
 import { getLoggedInUser } from '../reducers/reducers';
@@ -19,9 +18,8 @@ const OnboardUser = ({ isFetching, user, saveUser }) => {
   })
 
   useEffect(() => {
-    document.title = 'Welcome';
-    Mixpanel.track('Viewed onboard user page.');
-    window.Intercom('update');
+    document.title = 'Onboard User';
+    window.analytics.page(document.title);
   }, []);
 
   const handleSubmit = ({value}) => {

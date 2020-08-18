@@ -3,15 +3,14 @@ import { getOrg } from './organization.actions';
 import { getClient } from '../apiClient';
 import { goToForgotSuccess, goToResetSuccess, goToOnboardUser } from './ui.actions';
 import { saveUserSuccess } from './user.actions';
-import { Mixpanel } from '../mixpanel';
 import { normalize, schema } from 'normalizr';
 
 export const LOGOUT = 'LOGOUT'
 export const logout = () => {
   window.localStorage.removeItem('routineops-token')
   history.push('/');
-  Mixpanel.track('Logged out.');
-  Mixpanel.reset();
+  window.analytics.track('Logged out.');
+  window.analytics.reset();
   return {
     type: LOGOUT
   }
@@ -26,15 +25,34 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const loginSuccess = (token, user) => {
   // Save the token to localstorage
   window.localStorage.setItem('routineops-token', token)
-  Mixpanel.identify(user.id)
-  Mixpanel.people.set({
-    '$first_name': (user.first_name) ? user.first_name : '',
-    '$last_name': (user.last_name) ? user.last_name : '',
-    '$email': user.email,
-    '$phone': (user.phone) ? user.phone : '',
-    'organization': user.organization,
-    'onboard_complete': user.onboard_complete
-
+  window.analytics.identify(user.id, {
+    'firstName': user.first_name,
+    'lastName': user.last_name,
+    'name': user.first_name + ' ' + user.last_name,
+    'email': user.email,
+    'phone': user.phone,
+    'invitation': user.invitation,
+    'is_org_owner': user.is_org_owner,
+    'is_org_admin': user.is_org_admin,
+    'is_active': user.is_active,
+    'createdAt': user.date_joined,
+    'last_login': user.last_login,
+    'is_staff': user.is_staff,
+    'is_superuser': user.is_superuser,
+    'onboardComplete': user.onboard_complete,
+    'organization_id': user.organization,
+    'company': {
+      'id': user.organization,
+      'organization_id': user.organization
+    }
+  }, {
+    Intercom: {
+       user_hash: user.intercom_hash
+    }
+  });
+  window.analytics.group(user.organization, {
+    id: user.organization,
+    organization_id: user.organization
   })
   return {
       type: LOGIN_SUCCESS,
@@ -53,8 +71,6 @@ export const loginFail = (message) => {
 
 export const login = (email, password) => ((dispatch) => {
   dispatch(loginRequest())
-  Mixpanel.track('Login attempt.', {'email': email})
-
 
   const client = getClient()
 
@@ -93,6 +109,7 @@ export const signupRequest = (user) => ({
 
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
 export const signupSuccess = (data) => {
+
   return {
     type: SIGNUP_SUCCESS,
     entities: data.entities,
@@ -110,7 +127,6 @@ export const signupFail = (message) => {
 
 export const signup = (user) => ((dispatch) => {
   dispatch(signupRequest())
-  Mixpanel.track('Signup attempt.', { '$email': user.email })
 
   const client = getClient()
 
@@ -120,11 +136,47 @@ export const signup = (user) => ((dispatch) => {
   .then( response => {
     console.log(response)
     const user = new schema.Entity('users', {})
-    const normalizedData = normalize(response.data.user, user)
-    dispatch(signupSuccess(normalizedData))
-    dispatch(loginSuccess(response.data.key, response.data.user))
-    dispatch(getOrg(response.data.user.organization))
-    dispatch(goToOnboardUser())
+    const data = response.data.user
+    const normalizedData = normalize(data, user)
+    dispatch(signupSuccess(normalizedData));
+    window.analytics.alias(data.id)
+    window.analytics.identify(data.id, {
+      'firstName': data.first_name,
+      'lastName': data.last_name,
+      'name': data.first_name + ' ' + data.last_name,
+      'email': data.email,
+      'phone': data.phone,
+      'invitation': data.invitation,
+      'is_org_owner': data.is_org_owner,
+      'is_org_admin': data.is_org_admin,
+      'is_active': data.is_active,
+      'createdAt': data.date_joined,
+      'last_login': data.last_login,
+      'is_staff': data.is_staff,
+      'is_superuser': data.is_superuser,
+      'onboardComplete': data.onboard_complete,
+      'organization_id': data.organization,
+      'company': {
+        'id': data.organization,
+        'organization_id': data.organization
+      }
+    }, {
+      Intercom: {
+         user_hash: data.intercom_hash
+      }
+    });
+    window.analytics.group(data.organization, {
+      'organization_id': data.organization
+    })
+    if (response.data.user.is_org_owner) {
+      window.analytics.track('Account Created', {
+        context: {groupId: response.data.user.organization
+        }
+      });
+    }
+    dispatch(loginSuccess(response.data.key, response.data.user));
+    dispatch(getOrg(response.data.user.organization));
+    dispatch(goToOnboardUser());
   })
   .catch( error => {
     console.log(error)

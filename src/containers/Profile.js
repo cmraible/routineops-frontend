@@ -14,8 +14,8 @@ const Profile = ({goToProfile, goToProfileUI}) => {
       <Box direction="row-responsive" fill="horizontal">
         <Sidebar pad="medium" border="right" width="small">
           <Box gap="medium">
-            <Anchor to="/profile/" onClick={goToProfile}>Contact Info</Anchor>
-            <Anchor to="/profile/ui" onClick={goToProfileUI}>User Interface</Anchor>
+            <Anchor color="text" to="/profile/" onClick={goToProfile}>Contact Info</Anchor>
+            <Anchor color="text" to="/profile/ui" onClick={goToProfileUI}>User Interface</Anchor>
           </Box>
         </Sidebar>
         <Box width="large" pad="medium">
