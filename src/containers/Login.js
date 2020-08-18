@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions/auth.actions';
 import Spinner from '../components/Spinner';
-import { Mixpanel } from '../mixpanel';
 
 const Login = ({ login, loginError, isFetching }) => {
 
@@ -13,8 +12,7 @@ const Login = ({ login, loginError, isFetching }) => {
 
   useEffect(() => {
     document.title = 'Login';
-    Mixpanel.track('Viewed login page.');
-    window.Intercom('update');
+    window.analytics.page(document.title);
   }, []);
 
   return (

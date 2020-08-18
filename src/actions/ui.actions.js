@@ -170,6 +170,14 @@ export const goToOrgChangeSubscription = () => {
   }
 }
 
+export const GO_TO_ORG_CHANGE_PAYMENT_METHOD = 'GO_TO_ORG_CHANGE_PAYMENT_METHOD'
+export const goToOrgChangePaymentMethod = () => {
+  history.push('/organization/subscription/payment')
+  return {
+    type: GO_TO_ORG_CHANGE_PAYMENT_METHOD
+  }
+}
+
 export const GO_TO_ORG_CALENDAR = 'GO_TO_ORG_CALENDAR'
 export const goToOrgCalendar = () => {
   history.push('/organization/calendar')

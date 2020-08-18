@@ -15,16 +15,16 @@ const Organization = ({ getOrg, goToOrg, goToOrgCalendar, goToOrgSubscription, o
   useEffect(() => {
     getOrg(organization.id);
     getUsers();
-  }, [getOrg, organization.id, getUsers]);
+  }, [getOrg, organization.id]);
 
   return (
     <Page title="Organization">
       <Box direction="row-responsive" fill="horizontal">
         <Sidebar pad="medium" border="right" width="small">
           <Box gap="medium">
-            <Anchor to="/organization" onClick={goToOrg} >Contact</Anchor>
-            <Anchor to="/organization/calendar" onClick={goToOrgCalendar} >Calendar</Anchor>
-            <Anchor to="/organization/subscription" onClick={goToOrgSubscription} >Subscription</Anchor>
+            <Anchor color="text" to="/organization" onClick={goToOrg} >Contact</Anchor>
+            <Anchor color="text" to="/organization/calendar" onClick={goToOrgCalendar} >Calendar</Anchor>
+            <Anchor color="text" to="/organization/subscription" onClick={goToOrgSubscription} >Subscription</Anchor>
           </Box>
         </Sidebar>
         <Box width="large" pad="medium">

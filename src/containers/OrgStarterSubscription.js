@@ -1,12 +1,17 @@
 import { Box, Button,  Heading, Meter, Text } from 'grommet';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { goToOrgUpgradeSubscription } from '../actions/ui.actions';
 import { getAllUsers } from '../reducers/reducers';
-import { addSubscription } from '../actions/subscription.actions';
+import { getUsers } from '../actions/user.actions';
+import { getOrg } from '../actions/organization.actions';
 
-const OrgStarterSubscription = ({ isFetching, darkMode, organization, users, addSubscription }) => {
+const OrgStarterSubscription = ({ isFetching, darkMode, organization, users, getUsers, getOrg }) => {
 
+  useEffect(() => {
+    getOrg();
+    getUsers();
+  }, [getUsers, getOrg]);
 
   const subQuantity = 3;
   const meterColor = (users.length === 3) ? "status-critical" : "status-warning"
@@ -43,5 +48,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, { 
   goToOrgUpgradeSubscription,
-  addSubscription
+  getUsers,
+  getOrg
 })(OrgStarterSubscription);

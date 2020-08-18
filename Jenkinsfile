@@ -11,9 +11,8 @@ pipeline {
         REACT_APP_ENVIRONMENT = 'staging'
         PUBLIC_URL = 'https://staging.routineops.com'
         REACT_APP_API_HOST = 'https://staging.api.routineops.com'
-        REACT_APP_MIXPANEL_TOKEN = '966befb56ff67f672c98f97eb89d0597'
-        REACT_APP_STRIPE_PUB_KEY = 'pk_test_51H7n2QJaJXMgpjCHiyenC68DaC95suc9PeEep4MVx8mWGDOehWKiNOTbfYgaWc2xHDhr6Ku3yFbmWl708vG41BPW00wVhKjSKo'
-        REACT_APP_INTERCOM_APP_ID = 'sjblpngr'
+        REACT_APP_STRIPE_PUB_KEY = credentials('stripe-publishable-key-test')
+        REACT_APP_SEGMENT_WRITE_KEY = credentials('segment-write-key-staging')
       }
       steps {
         sh 'npm install && npm run build'
@@ -38,9 +37,8 @@ pipeline {
         REACT_APP_ENVIRONMENT = 'production'
         PUBLIC_URL = 'https://app.routineops.com'
         REACT_APP_API_HOST = 'https://api.routineops.com'
-        REACT_APP_MIXPANEL_TOKEN = 'b45567f51a986e15b9ad852e97a9c048'
-        REACT_APP_STRIPE_PUB_KEY = 'pk_live_51H7n2QJaJXMgpjCHrwQNn7YUVL6p9EwZjyQO4o1APaCJmaWFy92e7FaV18e7C791pC43QPxDROfQpM0MKAyFm0Yr00QBjvZ4DI'
-        REACT_APP_INTERCOM_APP_ID = 'mvss2n71'
+        REACT_APP_STRIPE_PUB_KEY = credentials('stripe-publishable-key-live')
+        REACT_APP_SEGMENT_WRITE_KEY = credentials('segment-write-key-prod')
       }
       steps {
         sh 'npm install && npm run build'

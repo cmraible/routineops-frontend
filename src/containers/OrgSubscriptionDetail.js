@@ -1,24 +1,36 @@
 import { Box, Button,  Heading, Meter, Paragraph, Text } from 'grommet';
 import { Edit, CreditCard, Close } from 'grommet-icons'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { goToOrgChangeSubscription } from '../actions/ui.actions';
+import { goToOrgChangeSubscription, goToOrgChangePaymentMethod } from '../actions/ui.actions';
 import { getAllUsers } from '../reducers/reducers';
-import { cancelSubscription } from '../actions/subscription.actions';
+import { cancelSubscription, getUpcomingInvoice } from '../actions/subscription.actions';
 import { DateTime } from 'luxon';
 
 
-const OrgStarterSubscription = ({ isFetching, organization, users, cancelSubscription, goToOrgChangeSubscription }) => {
+const OrgSubscriptionDetail = ({ isFetching, organization, users, cancelSubscription, goToOrgChangeSubscription, goToOrgChangePaymentMethod, getUpcomingInvoice, upcomingInvoice }) => {
+
   const subQuantity = organization.subscription.quantity;
+  const productName = organization.subscription.product_name;
+  const priceId = organization.subscription.price_id;
   const lastAmount = organization.subscription.last_amount;
   const lastPaid = DateTime.fromISO(organization.subscription.last_paid);
-  const upcomingAmount = organization.subscription.upcoming_amount;
-  const dueDate = DateTime.fromISO(organization.subscription.due);
+  const upcomingAmount = (upcomingInvoice) ? upcomingInvoice.next_invoice_sum/100 : undefined;
+  const dueDate = (upcomingInvoice) ? DateTime.fromSeconds(upcomingInvoice.invoice.next_payment_attempt) : undefined;
   const billingInterval = organization.subscription.billing_interval;
   const billing = (billingInterval === "year") ? "Yearly" : "Monthly";
-  const cardbrand = organization.subscription.cardbrand;
-  const cardlast4 = organization.subscription.cardlast4;
-  const meterColor = (users.length / subQuantity > 0.9) ? "status-critical" : "status-ok"
+  const cardbrand = organization.cardbrand;
+  const cardlast4 = organization.cardlast4;
+  const meterColor = (users.length / subQuantity > 0.9) ? "status-critical" : "status-ok";
+
+  useEffect(() => {
+    getUpcomingInvoice({
+      organization: organization.id,
+      quantity: subQuantity,
+      newPriceId: priceId
+    })
+  }, [organization, subQuantity, priceId, getUpcomingInvoice]);
+  
 
 
   return (
@@ -26,7 +38,7 @@ const OrgStarterSubscription = ({ isFetching, organization, users, cancelSubscri
       <Heading margin="none" level={2}>Subscription</Heading>
       <Box direction="row" align="center" justify="between">
         <Text>Current Plan:</Text>
-        <Text weight="bold">Basic</Text>
+        <Text weight="bold">{productName}</Text>
       </Box>
       <Box direction="row" align="center" justify="between">
         <Text>Billing Interval:</Text>
@@ -48,8 +60,8 @@ const OrgStarterSubscription = ({ isFetching, organization, users, cancelSubscri
         <Text weight="bold">${lastAmount} on {lastPaid.toFormat('MMMM dd, yyyy')}</Text>
       </Box>
       <Box direction="row" align="center" justify="between">
-        <Text>Next Payment:</Text>
-        <Text weight="bold">${upcomingAmount} on {dueDate.toFormat('MMMM dd, yyyy')}.</Text>
+        <Text>Next Payment Attempt:</Text>
+        <Text weight="bold">${(upcomingAmount) ? upcomingAmount : ''} on {(dueDate) ? dueDate.toFormat('MMMM dd, yyyy') : ''}</Text>
       </Box>  
       <Heading margin="none" level={2}>Actions</Heading>
       <Box direction="row" align="center" justify="between">
@@ -58,7 +70,7 @@ const OrgStarterSubscription = ({ isFetching, organization, users, cancelSubscri
       </Box>
       <Box direction="row" align="center" justify="between">
         <Paragraph color="text-xweak">Update the default payment method on file.</Paragraph>
-        <Button label="Change Credit Card" disabled={isFetching} icon={<CreditCard />} primary />
+        <Button label="Change Credit Card" disabled={isFetching} icon={<CreditCard />} primary onClick={goToOrgChangePaymentMethod} />
       </Box>
       <Box direction="row" align="center" justify="between">
         <Paragraph color="text-xweak">Cancel your subscription.</Paragraph>
@@ -71,11 +83,14 @@ const OrgStarterSubscription = ({ isFetching, organization, users, cancelSubscri
 
 const mapStateToProps = state => ({
   organization: state.organization.organization,
+  upcomingInvoice: state.organization.upcomingInvoice,
   isFetching: state.organization.isFetching,
   users: getAllUsers(state)
 });
 
 export default connect(mapStateToProps, { 
   goToOrgChangeSubscription,
+  goToOrgChangePaymentMethod,
+  getUpcomingInvoice,
   cancelSubscription
-})(OrgStarterSubscription);
+})(OrgSubscriptionDetail);

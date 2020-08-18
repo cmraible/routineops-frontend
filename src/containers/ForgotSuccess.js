@@ -1,14 +1,12 @@
 import { Box, Heading, Main, Paragraph } from 'grommet';
 import React, { useEffect } from 'react';
-import { Mixpanel } from '../mixpanel';
 
 
 const ForgotSuccess = () => {
 
   useEffect(() => {
     document.title = 'Forgot password success';
-    Mixpanel.track('Viewed forgot password success page.');
-    window.Intercom('update');
+    window.analytics.page(document.title);
   }, []);
 
   return (

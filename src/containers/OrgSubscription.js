@@ -5,6 +5,8 @@ import OrgUpgradeSubscription from './OrgUpgradeSubscription';
 import OrgChangeSubscription from './OrgChangeSubscription'; 
 import OrgStarterSubscription from './OrgStarterSubscription';
 import OrgSubscriptionDetail from './OrgSubscriptionDetail';
+import OrgChangePaymentMethod from './OrgChangePaymentMethod';
+
 import { Switch, Route } from 'react-router-dom';
 
 const OrgSubscription = ({ organization }) => {
@@ -14,6 +16,7 @@ const OrgSubscription = ({ organization }) => {
       <Switch>
         <Route exact path="/organization/subscription" component={OrgSubscriptionDetail} />
         <Route exact path="/organization/subscription/change" component={OrgChangeSubscription} />
+        <Route exact path="/organization/subscription/payment" component={OrgChangePaymentMethod} />
       </Switch>
     )
   } else {

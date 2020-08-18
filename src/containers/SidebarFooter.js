@@ -31,7 +31,6 @@ const SidebarFooter = ({logout, user, toggleDarkMode, darkMode, afterClick }) =>
             icon={<Logout />} 
             label="Logout" 
             onClick={ () => {
-              window.Intercom('shutdown');
               handleClick(logout);
             }}
           />

@@ -1,5 +1,5 @@
 import { Box, Grommet } from 'grommet';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { getLoggedInUser } from '../reducers/reducers';
@@ -29,33 +29,6 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
   // Renders different routers depending on application state.
   // Particularly, is user logged in? Has organization been fully onboarded?
   // # TODO: Need to refactor this. Messy entrypoint...
-
-  useEffect(() => {
-    const APP_ID = process.env.REACT_APP_INTERCOM_APP_ID
-
-    if (isLoggedIn) {
-      window.Intercom("boot", {
-        app_id: APP_ID,
-        user_id: user.id,
-        user_hash: user.intercom_hash,
-        phone: (user.phone) ? user.phone : '',
-        name: `${user.first_name} ${user.last_name}`, // Full name
-        email: user.email, // Email address
-        created_at: user.date_joined, // Signup date as a Unix timestamp,
-        company: {
-          company_id: organization.id,
-          created_at: organization.created,
-          name: organization.name
-        }
-      });
-    } else {
-      window.Intercom("boot", {
-        app_id: APP_ID
-      });
-    }
-  }, [isLoggedIn, organization, user]);
-
-  
 
   const onboardComplete = (user && user.onboard_complete && organization.onboard_complete) || false
 

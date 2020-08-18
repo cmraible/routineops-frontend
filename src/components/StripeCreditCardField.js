@@ -4,7 +4,7 @@ import { CardElement } from '@stripe/react-stripe-js';
 
 
 
-const StripeCreditCardField = ( {darkMode} ) => {
+const StripeCreditCardField = ( {darkMode, label} ) => {
 
   const options = {
     style: {
@@ -25,7 +25,7 @@ const StripeCreditCardField = ( {darkMode} ) => {
 
   return (
     <Box pad="small">
-      <FormField gap="medium">
+      <FormField gap="medium" label={(label) ? label : undefined}>
         <CardElement options={options} required />
       </FormField>
     </Box>

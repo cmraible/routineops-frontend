@@ -1,15 +1,15 @@
 import { Box, Button, CheckBox, Form, Heading, Paragraph, Text } from 'grommet';
 import { Subtract, Add, LinkNext } from 'grommet-icons';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { goToSignup } from '../actions/ui.actions';
 import StripeCreditCardField from '../components/StripeCreditCardField';
 import PricingOption from '../components/PricingOption';
 import { getAllUsers } from '../reducers/reducers';
-import { addSubscription } from '../actions/subscription.actions';
+import { addSubscription, previewUpcomingInvoice } from '../actions/subscription.actions';
 
-const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, addSubscription }) => {
+const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, addSubscription, previewUpcomingInvoice, previewInvoice}) => {
 
   
   const stripe = useStripe();
@@ -18,11 +18,11 @@ const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, add
   const plans = {
     "Basic": {
       "Monthly": {
-        "price": 19,
+        "price": 12,
         "price_id": "price_1HEgpKJaJXMgpjCHsuzaiRon"
       },
       "Yearly": {
-        "price": 14,
+        "price": 9,
         "price_id": "price_1HEgpKJaJXMgpjCHV7wI0XI3"
       }
     },
@@ -47,14 +47,6 @@ const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, add
 
   const addSeat = () => setSelectedSeats(selectedSeats + 1);
   const removeSeat = () => (selectedSeats > currentUsers) ? setSelectedSeats(selectedSeats - 1) : setSelectedSeats(currentUsers);
-
-  const price = (selectedBilling === "Yearly" ) ? 
-    plans[selectedSubscription][selectedBilling].price * selectedSeats * 12 : 
-    plans[selectedSubscription][selectedBilling].price * selectedSeats ;
-
-  const savings = (selectedBilling === "Yearly") ?
-    (plans[selectedSubscription]["Monthly"].price * 12 * selectedSeats) - price :
-    0 ;
 
   const handleSubmit = async ({value}) => {
     if (!stripe || !elements) {
@@ -85,6 +77,14 @@ const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, add
     }
   }
 
+  useEffect(() => {
+    previewUpcomingInvoice({
+      organization: organization.id,
+      quantity: selectedSeats,
+      newPriceId: plans[selectedSubscription][selectedBilling].price_id
+    })
+  }, [selectedSeats, selectedSubscription, selectedBilling, organization.id, previewUpcomingInvoice, plans]);
+
   return (
     <Box flex={false} gap="small">
       <Heading margin="none" level={2}>Upgrade Subscription</Heading>
@@ -104,14 +104,11 @@ const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, add
         <Text>Yearly</Text>
       </Box>
       
-      
-      { // only show the checkout form if the current price > 0.
-        price > 0 && (
         <Box gap="small">
           <Heading margin="none" level={4}>2. Select how many users you need:</Heading>
           <Paragraph margin="none" color="text-xweak" size="small">You currently have {currentUsers} users in your organization.</Paragraph>
           <Box direction="row" align="center" justify="center" gap="medium">
-            <Button icon={<Subtract />} primary primary onClick={removeSeat} />
+            <Button icon={<Subtract />} primary onClick={removeSeat} />
             <Heading margin="none">{selectedSeats}</Heading>
             <Button icon={<Add />} primary onClick={addSeat} />
           </Box>
@@ -126,26 +123,23 @@ const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, add
                 <LinkNext />
                 <Text>Subscription:</Text>
               </Box>
-              <Text>{selectedSeats} x {selectedSubscription} billed {selectedBilling} = ${price} {selectedBilling}</Text>
+              <Text>{selectedSeats} x {selectedSubscription} billed {selectedBilling} = ${previewInvoice.invoice.total/100} {selectedBilling}</Text>
               <Box direction="row" align="center" gap="medium">
                 <LinkNext />
-                <Text>Due Now: ${price}</Text>
+                <Text>Due Now: ${previewInvoice.invoice.total/100}</Text>
               </Box>
               <Button type="submit" label="Start Subscription" fill="horizontal" primary size="large" disabled={isFetching}/>
             </Box>
           </Form>
         </Box>
-        )
-      }
-      
     </Box>
-      
   )
 
 };
 
 const mapStateToProps = state => ({
   organization: state.organization.organization,
+  previewInvoice: state.organization.previewInvoice,
   isFetching: state.organization.isFetching,
   users: getAllUsers(state),
   darkMode: state.ui.darkMode
@@ -153,5 +147,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, { 
   goToSignup,
-  addSubscription
+  addSubscription,
+  previewUpcomingInvoice
 })(OrgUpgradeSubscription);

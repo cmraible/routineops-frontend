@@ -1,5 +1,5 @@
 import { getClient } from '../apiClient';
-import { saveOrgSuccess } from './organization.actions';
+import { goToOrgSubscription } from './ui.actions';
 
 export const ADD_SUBSCRIPTION_REQUEST = 'ADD_SUBSCRIPTION_REQUEST'
 export const addSubscriptionRequest = () => ({
@@ -30,6 +30,7 @@ export const addSubscription = (subscription) => ((dispatch) => {
     )
     .then( response => {
         dispatch(addSubscriptionSuccess(response.data));
+        dispatch(goToOrgSubscription())
     })
     .catch( error => {
         dispatch(addSubscriptionFail(error));
@@ -42,10 +43,12 @@ export const updateSubscriptionRequest = () => ({
 });
 
 export const UPDATE_SUBSCRIPTION_SUCCESS = 'UPDATE_SUBSCRIPTION_SUCCESS'
-export const updateSubscriptionSuccess = (organization) => ({
-  type: UPDATE_SUBSCRIPTION_SUCCESS,
-  org: organization
-});
+export const updateSubscriptionSuccess = (organization) => {
+  return ({
+    type: UPDATE_SUBSCRIPTION_SUCCESS,
+    org: organization
+  });
+};
 
 export const UPDATE_SUBSCRIPTION_FAIL = 'UPDATE_SUBSCRIPTION_FAIL'
 export const updateSubscriptionFail = (message) => {
@@ -60,11 +63,12 @@ export const updateSubscription = (subscription) => ((dispatch) => {
 
     const client = getClient();
 
-    return client.post(
+    return client.patch(
         `/organizations/${subscription.organization}/update_subscription/`, subscription
     )
     .then( response => {
         dispatch(updateSubscriptionSuccess(response.data));
+        dispatch(goToOrgSubscription)
     })
     .catch( error => {
         dispatch(updateSubscriptionFail(error));
@@ -90,7 +94,7 @@ export const getUpcomingInvoiceFail = (message) => {
   }
 }
 
-export const getUpcomingInvoice = ({data}) => ((dispatch) => {
+export const getUpcomingInvoice = (data) => ((dispatch) => {
     dispatch(getUpcomingInvoiceRequest());
 
     const client = getClient();
@@ -103,6 +107,41 @@ export const getUpcomingInvoice = ({data}) => ((dispatch) => {
     })
     .catch( error => {
         dispatch(getUpcomingInvoiceFail(error));
+    });
+});
+
+export const PREVIEW_UPCOMING_INVOICE_REQUEST = 'PREVIEW_UPCOMING_INVOICE_REQUEST'
+export const previewUpcomingInvoiceRequest = () => ({
+  type: PREVIEW_UPCOMING_INVOICE_REQUEST
+});
+
+export const PREVIEW_UPCOMING_INVOICE_SUCCESS = 'PREVIEW_UPCOMING_INVOICE_SUCCESS'
+export const previewUpcomingInvoiceSuccess = (invoice) => ({
+  type: PREVIEW_UPCOMING_INVOICE_SUCCESS,
+  invoice: invoice
+});
+
+export const PREVIEW_UPCOMING_INVOICE_FAIL = 'PREVIEW_UPCOMING_INVOICE_FAIL'
+export const previewUpcomingInvoiceFail = (message) => {
+  return {
+    type: PREVIEW_UPCOMING_INVOICE_FAIL,
+    message: message
+  }
+}
+
+export const previewUpcomingInvoice = (data) => ((dispatch) => {
+    dispatch(previewUpcomingInvoiceRequest());
+
+    const client = getClient();
+
+    return client.post(
+        `/organizations/${data.organization}/upcoming_invoice/`, data
+    )
+    .then( response => {
+        dispatch(previewUpcomingInvoiceSuccess(response.data));
+    })
+    .catch( error => {
+        dispatch(previewUpcomingInvoiceFail(error));
     });
 });
 
