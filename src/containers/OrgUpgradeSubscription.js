@@ -123,10 +123,10 @@ const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, add
                 <LinkNext />
                 <Text>Subscription:</Text>
               </Box>
-              <Text>{selectedSeats} x {selectedSubscription} billed {selectedBilling} = ${previewInvoice.invoice.total/100} {selectedBilling}</Text>
+              <Text>{selectedSeats} x {selectedSubscription} billed {selectedBilling} = ${(previewInvoice) ? previewInvoice.invoice.total/100 : 0} {selectedBilling}</Text>
               <Box direction="row" align="center" gap="medium">
                 <LinkNext />
-                <Text>Due Now: ${previewInvoice.invoice.total/100}</Text>
+                <Text>Due Now: ${(previewInvoice) ? previewInvoice.invoice.total/100 : 0}</Text>
               </Box>
               <Button type="submit" label="Start Subscription" fill="horizontal" primary size="large" disabled={isFetching}/>
             </Box>
