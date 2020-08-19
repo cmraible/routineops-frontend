@@ -12,12 +12,12 @@ import { addSubscription, previewUpcomingInvoice } from '../actions/subscription
 const plans = {
   "Basic": {
     "Monthly": {
-      "price": 12,
-      "price_id": "price_1HEgpKJaJXMgpjCHsuzaiRon"
+      "price": process.env.REACT_APP_BASIC_MONTHLY_PRICE,
+      "price_id": process.env.REACT_APP_BASIC_MONTHLY_PRICE_ID
     },
     "Yearly": {
-      "price": 9,
-      "price_id": "price_1HEgpKJaJXMgpjCHV7wI0XI3"
+      "price": process.env.REACT_APP_BASIC_YEARLY_PRICE,
+      "price_id": process.env.REACT_APP_BASIC_YEARLY_PRICE_ID
     }
   },
   "Starter": {
