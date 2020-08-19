@@ -9,9 +9,9 @@ import { getOrg } from '../actions/organization.actions';
 const OrgStarterSubscription = ({ isFetching, darkMode, organization, users, getUsers, getOrg }) => {
 
   useEffect(() => {
-    getOrg();
+    getOrg(organization.id);
     getUsers();
-  }, [getUsers, getOrg]);
+  }, [getUsers, getOrg, organization.id]);
 
   const subQuantity = 3;
   const meterColor = (users.length === 3) ? "status-critical" : "status-warning"
