@@ -9,34 +9,34 @@ import { getAllUsers } from '../reducers/reducers';
 import { previewUpcomingInvoice, updateSubscription } from '../actions/subscription.actions';
 import {DateTime} from 'luxon';
 
+const plans = {
+  "Basic": {
+    "Monthly": {
+      "price": 12,
+      "price_id": "price_1HEgpKJaJXMgpjCHsuzaiRon"
+    },
+    "Yearly": {
+      "price": 9,
+      "price_id": "price_1HEgpKJaJXMgpjCHV7wI0XI3"
+    }
+  },
+  "Starter": {
+    "Monthly": {
+      "price": 0,
+      "price_id": "starter"
+    },
+    "Yearly": {
+      "price": 0,
+      "price_id": "starter"
+    }
+  }
+}
+
 const OrgChangeSubscription = ({ isFetching, organization, users, previewUpcomingInvoice, updateSubscription, previewInvoice }) => {
 
   
   const stripe = useStripe();
   const elements = useElements();
-
-  const plans = {
-    "Basic": {
-      "Monthly": {
-        "price": 12,
-        "price_id": "price_1HEgpKJaJXMgpjCHsuzaiRon"
-      },
-      "Yearly": {
-        "price": 9,
-        "price_id": "price_1HEgpKJaJXMgpjCHV7wI0XI3"
-      }
-    },
-    "Starter": {
-      "Monthly": {
-        "price": 0,
-        "price_id": "starter"
-      },
-      "Yearly": {
-        "price": 0,
-        "price_id": "starter"
-      }
-    }
-  }
 
   const currentSubscription = (organization.subscription) ? "Basic" : "Basic" ;
   const currentUsers = users.length ;
@@ -71,7 +71,7 @@ const OrgChangeSubscription = ({ isFetching, organization, users, previewUpcomin
       quantity: selectedSeats,
       newPriceId: plans[selectedSubscription][selectedBilling].price_id
     })
-  }, [selectedSeats, selectedSubscription, selectedBilling, organization.id, plans, previewUpcomingInvoice]);
+  }, [selectedSeats, selectedSubscription, selectedBilling, organization.id, previewUpcomingInvoice]);
 
   const changes = (currentSubscription !== selectedSubscription || currentQuantity !== selectedSeats || currentBilling !== selectedBilling)
 
