@@ -9,34 +9,36 @@ import PricingOption from '../components/PricingOption';
 import { getAllUsers } from '../reducers/reducers';
 import { addSubscription, previewUpcomingInvoice } from '../actions/subscription.actions';
 
+const plans = {
+  "Basic": {
+    "Monthly": {
+      "price": 12,
+      "price_id": "price_1HEgpKJaJXMgpjCHsuzaiRon"
+    },
+    "Yearly": {
+      "price": 9,
+      "price_id": "price_1HEgpKJaJXMgpjCHV7wI0XI3"
+    }
+  },
+  "Starter": {
+    "Monthly": {
+      "price": 0,
+      "price_id": "starter"
+    },
+    "Yearly": {
+      "price": 0,
+      "price_id": "starter"
+    }
+  }
+}
+
 const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, addSubscription, previewUpcomingInvoice, previewInvoice}) => {
 
   
   const stripe = useStripe();
   const elements = useElements();
 
-  const plans = {
-    "Basic": {
-      "Monthly": {
-        "price": 12,
-        "price_id": "price_1HEgpKJaJXMgpjCHsuzaiRon"
-      },
-      "Yearly": {
-        "price": 9,
-        "price_id": "price_1HEgpKJaJXMgpjCHV7wI0XI3"
-      }
-    },
-    "Starter": {
-      "Monthly": {
-        "price": 0,
-        "price_id": "starter"
-      },
-      "Yearly": {
-        "price": 0,
-        "price_id": "starter"
-      }
-    }
-  }
+  
 
   const currentSubscription = (organization.subscription) ? organization.subscription : "Basic" ;
   const currentUsers = users.length ;
@@ -83,7 +85,7 @@ const OrgUpgradeSubscription = ({ isFetching, darkMode, organization, users, add
       quantity: selectedSeats,
       newPriceId: plans[selectedSubscription][selectedBilling].price_id
     })
-  }, [selectedSeats, selectedSubscription, selectedBilling, organization.id, previewUpcomingInvoice, plans]);
+  }, [selectedSeats, selectedSubscription, selectedBilling, previewUpcomingInvoice, organization.id]);
 
   return (
     <Box flex={false} gap="small">
