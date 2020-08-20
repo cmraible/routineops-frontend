@@ -43,6 +43,10 @@ pipeline {
         REACT_APP_API_HOST = 'https://api.routineops.com'
         REACT_APP_STRIPE_PUB_KEY = credentials('stripe-publishable-key-live')
         REACT_APP_SEGMENT_WRITE_KEY = credentials('segment-write-key-prod')
+        REACT_APP_BASIC_MONTHLY_PRICE = 12
+        REACT_APP_BASIC_MONTHLY_PRICE_ID = 'price_1HHuVxJaJXMgpjCHQ686k8rv'
+        REACT_APP_BASIC_YEARLY_PRICE = 9
+        REACT_APP_BASIC_YEARLY_PRICE_ID = 'price_1HHuVxJaJXMgpjCH2uCE9ywm'
       }
       steps {
         sh 'npm install && npm run build'
