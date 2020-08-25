@@ -23,21 +23,20 @@ const Task = ({ task, getRoles, getTaskLayers, taskLayers }) => {
   const [activeIndex, setActiveIndex] = useState([]);
 
   return (
-    <Box flex={false}> 
-      
-      <TaskForm  task={task} />
-      <Accordion
-        activeIndex={activeIndex}
-        onActive={newActiveIndex => setActiveIndex(newActiveIndex)}
-      >
-        <AccordionPanel header={<AccordionHeader active={activeIndex.includes(0)} label="Task Questions" />}>
-          <TaskChecks task={task} />
-        </AccordionPanel>
-        <AccordionPanel header={<AccordionHeader active={activeIndex.includes(1)} label="Roles Assigned" count={filteredTaskLayers.length} />}>
-          <TaskLayers task={task} />     
-        </AccordionPanel>
-      </Accordion>
-    </Box>
+      <Box flex={false}> 
+        <TaskForm  task={task} />
+        <Accordion
+          activeIndex={activeIndex}
+          onActive={newActiveIndex => setActiveIndex(newActiveIndex)}
+        >
+          <AccordionPanel header={<AccordionHeader active={activeIndex.includes(0)} label="Task Questions" />}>
+            <TaskChecks task={task} />
+          </AccordionPanel>
+          <AccordionPanel header={<AccordionHeader active={activeIndex.includes(1)} label="Roles Assigned" count={filteredTaskLayers.length} />}>
+            <TaskLayers task={task} />     
+          </AccordionPanel>
+        </Accordion>
+      </Box>    
   )
 };
 

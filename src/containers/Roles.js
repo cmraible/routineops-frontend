@@ -44,6 +44,7 @@ const Roles = ({ organization, roles, addRole, getRoles, isFetching, errors, mat
       organization: organization.id,
       name: value.name
     });
+    setSelected(roles.findIndex((role) => role.name === value.name))
     setValue({name: ''});
   }
 
@@ -55,29 +56,29 @@ const Roles = ({ organization, roles, addRole, getRoles, isFetching, errors, mat
 
 
   return (
-    <SplitPage title="Roles" detailView={detailView}>
-      <Box flex={false}>
-        <Box direction="column" margin={{top: "medium"}} gap="medium" width="large">
-            <Form
-              onSubmit={handleSubmit}
-              value={value}
-              onChange={ nextValue => setValue(nextValue) }
-            >
-                <InlineInput required name="name" placeholder="Type here and hit Enter to create a new role" />
-            </Form>
-            <List
-              primaryKey="name"
-              data={roles}
-              children={renderRoles}
-              itemProps={
-                selected >= 0 ? { [selected]: { background: 'brand' } } : undefined
-              }
-              onClickItem={(event) => {
-                setSelected(selected === event.index ? undefined : event.index);
-                goToRole(event.item.id);
-              }}
-            />
-          </Box>
+    <SplitPage title="Roles" detailView={detailView} detail={(role_id) ? true : false }>
+      <Box flex={false} direction="column">
+        <Box direction="column" margin={{top: "medium"}} gap="medium">
+          <Form
+            onSubmit={handleSubmit}
+            value={value}
+            onChange={ nextValue => setValue(nextValue) }
+          >
+            <InlineInput required name="name" placeholder="Type here to create a new role" />
+          </Form>
+          <List
+            primaryKey="name"
+            data={roles}
+            children={renderRoles}
+            itemProps={
+              selected >= 0 ? { [selected]: { background: 'brand' } } : undefined
+            }
+            onClickItem={(event) => {
+              setSelected(selected === event.index ? undefined : event.index);
+              goToRole(event.item.id);
+            }}
+          />
+        </Box>
       </Box>
     </SplitPage>
   )

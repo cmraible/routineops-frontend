@@ -12,7 +12,7 @@ import InlineInput from '../components/InlineInput';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 
 
-const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRoles, roles, isFetching, errors, getTaskLayers, taskLayers }) => {
+const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRoles, getTaskLayers, taskLayers }) => {
 
   const task_id = match.params.task_id;
 
@@ -39,7 +39,6 @@ const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRo
         </Box>
         <Text>{count}</Text>
       </Box>
-      
     )
   }
 
@@ -63,7 +62,7 @@ const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRo
   }
 
   return (
-    <SplitPage title="Tasks" detailView={detailView}>
+    <SplitPage title="Tasks" detailView={detailView} detail={(task_id) ? true : false}>
       <Box flex={false}>
         <Box direction="column" margin={{top: "medium"}} width="large" gap="medium">
           <Form
@@ -71,7 +70,7 @@ const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRo
             value={value}
             onChange={ nextValue => setValue(nextValue) }
           >
-            <InlineInput required name="name" placeholder="Type here and hit Enter to create a new task" />
+            <InlineInput required name="name" placeholder="Type here to create a new task" />
           </Form>
           <List
             primaryKey="name"
