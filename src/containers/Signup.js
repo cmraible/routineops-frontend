@@ -1,4 +1,4 @@
-import { Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
+import { Anchor, Box, Button, CheckBox, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { signup } from '../actions/auth.actions';
@@ -72,6 +72,10 @@ const Signup = ({ location, signup, signupErrors, isFetching }) => {
                 <Text color="status-error">{message}</Text>
               </Box>
             )}
+            <Box direction="row" gap="medium">
+              <CheckBox required/>
+              <Text size="small">By checking this box and creating an account, you are agreeing to our <Anchor href="https://routineops.com/privacy-policy">Privacy Policy</Anchor> and <Anchor href="https://routineops.com/terms-of-service">Terms of Service</Anchor>.</Text>
+            </Box>
             <Box direction="row" gap="medium" pad="small">
               <Button type="submit" primary label="Sign up" size="large" disabled={isFetching || value.password1 !== value.password2} />
             </Box>
