@@ -32,9 +32,10 @@ export const addUserRole = (userRole) => ((dispatch) => {
     '/userroles/', userRole
   )
   .then( response => {
-    const userrole = new schema.Entity('userroles', {})
-    const normalizedData = normalize(response.data, userrole)
-    dispatch(addUserRoleSuccess(normalizedData))
+    const userrole = new schema.Entity('userroles', {});
+    const normalizedData = normalize(response.data, userrole);
+    dispatch(addUserRoleSuccess(normalizedData));
+    window.analytics.track('Created a user role.');
   })
   .catch( error => {
     if (!error.response) {
@@ -121,7 +122,8 @@ export const saveUserRole = (userRole) => ((dispatch) => {
   .then( response => {
     const userrole = new schema.Entity('userroles', {})
     const normalizedData = normalize(response.data, userrole)
-    dispatch(saveUserRoleSuccess(normalizedData))
+    dispatch(saveUserRoleSuccess(normalizedData));
+
   })
   .catch( error => {
     if (!error.response) {
@@ -163,7 +165,8 @@ export const deleteUserRole = (userRole_id) => ((dispatch) => {
     '/userroles/' + userRole_id + '/',
   )
   .then( response => {
-    dispatch(deleteUserRoleSuccess(userRole_id))
+    dispatch(deleteUserRoleSuccess(userRole_id));
+    window.analytics.track('Deleted a user role.');
   })
   .catch( error => {
     console.log(error);

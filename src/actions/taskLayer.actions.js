@@ -46,6 +46,7 @@ export const addTaskLayer = (taskLayer) => ((dispatch) => {
     const taskLayer = new schema.Entity('taskLayers', {})
     const normalizedData = normalize(response.data, taskLayer)
     dispatch(addTaskLayerSuccess(normalizedData))
+    window.analytics.track('Created a task layer.');
   })
   .catch( error => dispatch(addTaskLayerFail(error)) )
 });
@@ -172,7 +173,8 @@ export const deleteTaskLayer = (taskLayer_id) => ((dispatch) => {
     '/tasklayers/' + taskLayer_id + '/',
   )
   .then( response => {
-    dispatch(deleteTaskLayerSuccess(taskLayer_id))
+    dispatch(deleteTaskLayerSuccess(taskLayer_id));
+    window.analytics.track('Deleted a task layer.')
   })
   .catch( error => dispatch(deleteTaskLayerFail(error)) )
 });

@@ -36,6 +36,7 @@ export const addCheck = (check) => ((dispatch) => {
     const check = new schema.Entity('checks', {})
     const normalizedData = normalize(response.data, check)
     dispatch(addCheckSuccess(normalizedData))
+    window.analytics.track('Added a check.')
   })
   .catch( error => {
     if (!error.response) {

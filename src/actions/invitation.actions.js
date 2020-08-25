@@ -78,6 +78,7 @@ export const getInvitation = (invite_uuid) =>  ((dispatch) => {
   )
   .then( response => {
     dispatch(getInvitationSuccess(response.data))
+    window.analytics.track('Clicked valid invite link.')
   })
   .catch( error => {
     console.log(error)

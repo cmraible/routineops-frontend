@@ -40,8 +40,7 @@ export const addTask = (task) => ((dispatch) => {
     const normalizedData = normalize(response.data, task)
     console.log(normalizedData)
     dispatch(addTaskSuccess(normalizedData))
-    window.analytics.track('Added a task.', {name: task.name})
-
+    window.analytics.track('Added a task.')
   })
   .catch( error => {
     if (!error.response) {
@@ -178,7 +177,8 @@ export const deleteTask = (task_id) => ((dispatch) => {
     '/tasks/' + task_id + '/',
   )
   .then( response => {
-    dispatch(deleteTaskSuccess(task_id))
+    dispatch(deleteTaskSuccess(task_id));
+    window.analytics.track('Deleted a task.');
   })
   .catch( error => {
     if (!error.response) {

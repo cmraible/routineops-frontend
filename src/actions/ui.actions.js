@@ -243,6 +243,9 @@ export const goToLayers = () => {
 }
 
 export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE'
-export const toggleDarkMode = () => ({
-  type: TOGGLE_DARK_MODE
-});
+export const toggleDarkMode = () => {
+  window.analytics.track('Toggled dark mode.');
+  return ({
+    type: TOGGLE_DARK_MODE
+  });
+};

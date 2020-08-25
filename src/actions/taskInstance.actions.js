@@ -174,7 +174,8 @@ export const completeTaskInstance = (taskInstance, results) => ((dispatch) => {
   .then( response => {
     const taskInstance = new schema.Entity('taskInstances')
     const normalizedData = normalize(response.data, taskInstance)
-    dispatch(completeTaskInstanceSuccess(normalizedData))
+    dispatch(completeTaskInstanceSuccess(normalizedData));
+    window.analytics.track('Completed a task.')
   })
   .catch( error => dispatch(completeTaskInstanceFail(error)) )
 });

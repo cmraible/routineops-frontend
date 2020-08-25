@@ -35,7 +35,7 @@ export const addRole = (role) => ((dispatch) => {
     const role = new schema.Entity('roles', {})
     const normalizedData = normalize(response.data, role)
     dispatch(addRoleSuccess(normalizedData))
-    window.analytics.track('Added a role.', {name: role.name})
+    window.analytics.track('Added a role.')
   })
   .catch( error => {
     if (!error.response) {

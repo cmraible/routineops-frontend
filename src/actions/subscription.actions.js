@@ -31,6 +31,7 @@ export const addSubscription = (subscription) => ((dispatch) => {
     .then( response => {
         dispatch(addSubscriptionSuccess(response.data));
         dispatch(goToOrgSubscription())
+        window.analytics.track('Started a subscription.');
     })
     .catch( error => {
         dispatch(addSubscriptionFail(error));
@@ -69,6 +70,7 @@ export const updateSubscription = (subscription) => ((dispatch) => {
     .then( response => {
         dispatch(updateSubscriptionSuccess(response.data));
         dispatch(goToOrgSubscription)
+        window.analytics.track('Updated subscription.');
     })
     .catch( error => {
         dispatch(updateSubscriptionFail(error));
@@ -210,6 +212,7 @@ export const cancelSubscription = (organization_id) => ((dispatch) => {
     )
     .then( response => {
         dispatch(cancelSubscriptionSuccess(response.data));
+        window.analytics.track('Canceled subscription.')
     })
     .catch( error => {
         dispatch(cancelSubscriptionFail(error));

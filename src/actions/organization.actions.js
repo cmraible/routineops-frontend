@@ -152,6 +152,7 @@ export const updateOrgPaymentMethod = (organization_id, newPaymentMethodId) => (
   .then( response => {
       dispatch(updateOrgPaymentMethodSuccess(response.data));
       dispatch(goToOrgSubscription());
+      window.analytics.track('Changed payment method.');
   } )
   .catch( error => {
     if (!error.response) {

@@ -88,6 +88,7 @@ export const login = (email, password) => ((dispatch) => {
     dispatch(saveUserSuccess(normalizedData))
     dispatch(loginSuccess(response.data.key, response.data.user))
     dispatch(getOrg(response.data.user.organization))
+    window.analytics.track("Logged in.")
   })
   .catch( (error) => {
     console.log(error)
@@ -228,6 +229,7 @@ export const forgot = (email) => ((dispatch) => {
   .then( (response) => {
     dispatch(forgotSuccess())
     dispatch(goToForgotSuccess())
+    window.analytics.track('Password reset link requested.', {email: email})
   })
   .catch( (error) => {
     if (!error.response) {
@@ -277,6 +279,7 @@ export const reset = (uid, token, password1, password2) => ((dispatch) => {
   .then( (response) => {
     dispatch(resetSuccess())
     dispatch(goToResetSuccess())
+    window.analytics.track('Reset password.')
   })
   .catch( (error) => {
     console.log(error);
