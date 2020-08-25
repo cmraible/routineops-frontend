@@ -1,50 +1,87 @@
-import { Box, Main } from 'grommet';
-import React, { useEffect } from 'react';
+import { Accordion, AccordionPanel, Box, Button, DataTable, Text } from 'grommet';
+import { Trash } from 'grommet-icons';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getRoles } from '../actions/role.actions';
-import { getTask } from '../actions/task.actions';
-import { getTaskLayers } from '../actions/taskLayer.actions';
-import { goToRoles } from '../actions/ui.actions';
-import { getAllTaskLayers } from '../reducers/reducers';
-import BackButton from '../components/BackButton';
+import { getAllTaskLayers, getAllUserRoles } from '../reducers/reducers';
+import { deleteUserRole } from '../actions/userRole.actions';
 import RoleForm from './RoleForm';
+import AccordionHeader from '../components/AccordionHeader';
 
 
-const Role = ({ match, getRoles, getTaskLayers, rolesById, isFetching, errors }) => {
-
-  const role_id = match.params.role_id
-  const role = rolesById[role_id]
-
-  useEffect(() => {
-    getTaskLayers()
-    getRoles()
-  }, [getTaskLayers, getRoles]);
+const Role = ({ role, isFetching, errors, taskLayers, tasksById, userRoles, usersById, deleteUserRole }) => {
 
   useEffect(() => {
     document.title = (role) ? role.name : 'Role'
     window.analytics.page('Role');
   }, [role]);
 
+  console.log(taskLayers);
+  const filteredTaskLayers = taskLayers.filter((layer) => layer.role === role.id);
+  const filteredUserRoles = userRoles.filter((userRole) => userRole.role === role.id);
+  console.log(filteredUserRoles);
+
+  const [activeIndex, setActiveIndex] = useState([]);
+
   return (
-        <Main pad="medium">
-          <Box flex={false}>
-            <BackButton onClick={goToRoles} label="Roles" />
-            <RoleForm role={role} isFetching={isFetching} errors={errors} />
-          </Box>   
-        </Main>
+    <Box flex={false}>
+      <RoleForm role={role} />
+      <Accordion 
+        multiple
+        activeIndex={activeIndex}
+        onActive={newActiveIndex => setActiveIndex(newActiveIndex)}
+      >
+        <AccordionPanel header={<AccordionHeader active={activeIndex.includes(0)} label="Users" count={filteredUserRoles.length} />}>
+          <DataTable 
+            data={filteredUserRoles}
+            columns={[
+              {
+                property: 'name',
+                header: <Text weight="bold">Name</Text>,
+                primary: true,
+                render: userRole => <Text>{usersById[userRole.user].first_name} {usersById[userRole.user].last_name}</Text>
+              },
+              {
+                header: '',
+                render: userRole => <Button icon={<Trash size="small" />} onClick={() => deleteUserRole(userRole.id)} />,
+                align: "end"
+              }
+            ]}
+          />
+        </AccordionPanel>
+        <AccordionPanel header={<AccordionHeader active={activeIndex.includes(1)} count={filteredTaskLayers.length} label="Recurring Tasks" />}>
+          <DataTable 
+            data={filteredTaskLayers}
+            columns={[
+              {
+                property: 'task',
+                header: <Text weight="bold">Task</Text>,
+                primary: true,
+                render: layer => <Text>{tasksById[layer.task].name}</Text>
+              },
+              {
+                property: 'frequency',
+                header: <Text weight="bold">Frequency</Text>,
+                render: layer => <Text>{layer.label}</Text>
+              }
+            ]}
+          />
+        </AccordionPanel>
+      </Accordion>
+    </Box>
   )
 
 };
 
 const mapStateToProps = (state) => ({
   rolesById: state.roles.byId,
+  usersById: state.users.byId,
+  userRoles: getAllUserRoles(state),
   taskLayers: getAllTaskLayers(state),
+  tasksById: state.tasks.byId,
   isFetching: state.roles.isFetching,
   errors: state.roles.errors
 })
 
 export default connect(mapStateToProps, {
-  getTask,
-  getTaskLayers,
-  getRoles
+  deleteUserRole
 })(Role)

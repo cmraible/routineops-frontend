@@ -1,4 +1,4 @@
-import { Box, Heading, List, Text } from 'grommet';
+import { Box, List, Text } from 'grommet';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { deleteTask, getTask, saveTask } from '../actions/task.actions';
@@ -9,38 +9,32 @@ import TaskLayerOverlay from './TaskLayerOverlay';
 const TaskLayers = ({ task, taskLayers, rolesById, allRoles }) => {
 
   const layers = (taskLayers) ? taskLayers.filter((layer) => layer.task === task.id) : [];
-  const roles = allRoles.map((id) => rolesById[id])
 
-    // Set up state for Check overlay
-    const [openRole, setOpenRole] = useState()
-    const onOpenRole = (event) => setOpenRole(event.item)
-    const onCloseRole = () => setOpenRole(undefined)
-
-    const roleLayer = (openRole) ? layers.find((layer) => layer.task === task.id && layer.role === openRole.id) : undefined
+  // Set up state for Schedule overlay
+  const [openLayer, setOpenLayer] = useState()
+  const onOpenLayer = (event) => setOpenLayer(event.item)
+  const onCloseLayer = () => setOpenLayer(undefined)
 
   return (
         <Box>
-          <Heading level={2}>Schedule</Heading>
           <List
-            data={roles}
-            children={(role) => {
-              const layer = layers.find((layer) => layer.task === task.id && layer.role === role.id)
+            data={layers}
+            children={(layer) => {
               return (
               <Box pad="medium" direction="row" justify="between">
-                <Text>{(role) ? role.name : ''}</Text>
-              <Text>{(layer) ? layer.label : ''}</Text>
+                <Text>{rolesById[layer.role].name}</Text>
+                <Text>{(layer) ? layer.label : ''}</Text>
               </Box>
             )
             }}
-            onClickItem={onOpenRole}
+            onClickItem={onOpenLayer}
           />
           {
-            openRole && (
+            openLayer && (
               <TaskLayerOverlay 
                 task={task}
-                role={openRole}
-                onClose={onCloseRole}
-                taskLayer={roleLayer}
+                onClose={onCloseLayer}
+                taskLayer={openLayer}
               />
             )
            }

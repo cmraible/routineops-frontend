@@ -1,30 +1,43 @@
-import { Box, Button, Form, List, Text, TextInput } from 'grommet';
-import { Add, User } from 'grommet-icons';
+import { Box, Form, List, Text } from 'grommet';
+import { User } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { addRole, deleteRole, getRoles } from '../actions/role.actions';
+import { addRole, getRoles } from '../actions/role.actions';
 import { goToRole } from '../actions/ui.actions';
-import { getAllRoles, getLoggedInUser } from '../reducers/reducers';
-import Page from '../components/Page';
+import { getAllRoles, getLoggedInUser, getAllUserRoles } from '../reducers/reducers';
+import SplitPage from '../components/SplitPage';
+import Role from './Role';
+import { getTaskLayers } from '../actions/taskLayer.actions';
+import { getUserRoles } from '../actions/userRole.actions';
+import InlineInput from '../components/InlineInput';
 
 
-const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching, errors }) => {
+const Roles = ({ organization, roles, addRole, getRoles, isFetching, errors, match, rolesById, getTaskLayers, getUserRoles, userRoles }) => {
+
+  const role_id = match.params.role_id
 
   const [value, setValue] = useState({
     name: ''
   });
 
   useEffect(() => {
+    getTaskLayers();
     getRoles();
-  }, [getRoles]);
+    getUserRoles();
+  }, [getRoles, getTaskLayers, getUserRoles]);
 
   const renderRoles = (role, index) => {
     return (
-      <Box direction="row" align="center" gap="medium">
-        <User /><Text>{role.name}</Text>
+      <Box direction="row" justify="between">
+        <Box direction="row" align="center" gap="medium">
+          <User /><Text>{role.name}</Text>
+        </Box>
+        <Text>{userRoles.filter((userRole) => userRole.role === role.id).length}</Text>
       </Box>
+      
     )
   }
+  const [selected, setSelected] = React.useState(roles.findIndex((role) => role.id === role_id ));
 
   const handleSubmit = ({ value }) => {
     addRole({
@@ -34,30 +47,39 @@ const Roles = ({ organization, roles, addRole, getRoles, deleteRole, isFetching,
     setValue({name: ''});
   }
 
+  const detailView = (props) => {
+    return (role_id && 
+      <Role role={rolesById[role_id]} />
+    )
+  }
+
+
   return (
-    <Page title="Roles">
+    <SplitPage title="Roles" detailView={detailView}>
       <Box flex={false}>
-        <Box direction="column" gap="medium">
-          <Form
-            onSubmit={handleSubmit}
-            value={value}
-            onChange={ nextValue => setValue(nextValue) }
-          >
-            <Box direction="row" gap="small">
-              <TextInput required name="name" placeholder="New role" />
-              <Button type="submit" size="small" primary icon={<Add />} />
-            </Box>
-          </Form>
-          <List
-            primaryKey="name"
-            data={roles}
-            children={renderRoles}
-            onClickItem={(event) => goToRole(event.item.id)}
-          />
-        </Box>
+        <Box direction="column" margin={{top: "medium"}} gap="medium" width="large">
+            <Form
+              onSubmit={handleSubmit}
+              value={value}
+              onChange={ nextValue => setValue(nextValue) }
+            >
+                <InlineInput required name="name" placeholder="Type here and hit Enter to create a new role" />
+            </Form>
+            <List
+              primaryKey="name"
+              data={roles}
+              children={renderRoles}
+              itemProps={
+                selected >= 0 ? { [selected]: { background: 'brand' } } : undefined
+              }
+              onClickItem={(event) => {
+                setSelected(selected === event.index ? undefined : event.index);
+                goToRole(event.item.id);
+              }}
+            />
+          </Box>
       </Box>
-      
-    </Page>
+    </SplitPage>
   )
 
 };
@@ -66,8 +88,15 @@ const mapStateToProps = state => ({
   organization: state.organization.organization,
   user: getLoggedInUser(state),
   roles: getAllRoles(state),
+  userRoles: getAllUserRoles(state),
+  rolesById: state.roles.byId,
   isFetching: state.roles.isFetching,
   errors: state.roles.errors
 });
 
-export default connect(mapStateToProps, {addRole: addRole, getRoles: getRoles, deleteRole: deleteRole })(Roles);
+export default connect(mapStateToProps, {
+  addRole, 
+  getRoles, 
+  getTaskLayers,
+  getUserRoles
+ })(Roles);

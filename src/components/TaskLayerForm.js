@@ -1,4 +1,4 @@
-import { Box, Button, Form } from 'grommet';
+import { Box, Button, Form, FormField, Select } from 'grommet';
 import React, { useState } from 'react';
 import RRule from 'rrule';
 import FrequencySelect from './FrequencySelect';
@@ -9,7 +9,7 @@ import MonthMultipleSelect from './MonthMultipleSelect';
 import TimeMaskedInput from './TimeMaskedInput';
 import { DateTime } from 'luxon';
 
-const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunction, role, successFunction }) => {
+const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunction, role, successFunction, roles }) => {
 
   const hourStart = DateTime.local().setZone('utc', { keepLocalTime: true }).startOf('hour').toJSDate()
   const dayEnd = DateTime.local().setZone('utc', { keepLocalTime: true }).endOf('day').toJSDate()
@@ -18,11 +18,10 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
   const quarterEnd = DateTime.local().setZone('utc', { keepLocalTime: true}).endOf('quarter').toJSDate()
   const tz = DateTime.local().zoneName
 
-
   const [value, setValue] = useState({
     id: (taskLayer) ? taskLayer.id : null,
     organization: organization.id,
-    role: (taskLayer) ? taskLayer.role : role.id || '',
+    role: (taskLayer) ? taskLayer.role : undefined,
     task: task.id,
     label: (taskLayer) ? taskLayer.label : '',
     frequency: (taskLayer) ? taskLayer.frequency : undefined,
@@ -220,6 +219,19 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
           }}
         >
           <Box gap="medium" fill>
+            <FormField label="Role">
+              <Select
+                name="role" 
+                options={roles}
+                placeholder="Select a role"
+                labelKey="name"
+                valueKey={{
+                  key: 'id',
+                  reduce: true
+                }}
+              />
+            </FormField>
+
             <FrequencySelect />
             { (value.label === 'Hourly' && (<Box gap="small"><HourMultipleSelect /> <WeekdayMultipleSelect /></Box>)) }
             { (value.label === 'Daily' &&  (<Box gap="small"><WeekdayMultipleSelect /> <TimeMaskedInput /></Box>)) }

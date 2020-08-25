@@ -9,7 +9,9 @@ import TaskLayerForm from '../components/TaskLayerForm';
 
 
 
-const TaskLayerOverlay = ({ organization, taskLayer, task, role, onClose, addTaskLayer, saveTaskLayer }) => {
+const TaskLayerOverlay = ({ organization, taskLayer, task, rolesById, roles, onClose, addTaskLayer, saveTaskLayer }) => {
+
+  const role = (taskLayer) ? rolesById[taskLayer.role] : undefined;
 
   return (
     <Layer
@@ -30,8 +32,9 @@ const TaskLayerOverlay = ({ organization, taskLayer, task, role, onClose, addTas
             <TaskLayerForm 
               organization={organization}
               task={task}
-              role={role}
               taskLayer={taskLayer}
+              role={role}
+              roles={roles}
               addFunction={addTaskLayer}
               saveFunction={saveTaskLayer}
               successFunction={onClose}
@@ -48,8 +51,9 @@ const TaskLayerOverlay = ({ organization, taskLayer, task, role, onClose, addTas
 const mapStateToProps = state => ({
   organization: state.organization.organization,
   roles: getAllRoles(state),
+  rolesById: state.roles.byId,
   taskLayers: getAllTaskLayers(state),
-  tasks: state.tasks.byId
+  tasks: state.tasks.byId,
 })
 
 export default connect(mapStateToProps, {

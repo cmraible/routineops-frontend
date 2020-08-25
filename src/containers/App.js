@@ -16,11 +16,9 @@ import Invitation from './Invitation';
 import Login from './Login';
 import Onboarding from './Onboarding';
 import Profile from './Profile';
-import Role from './Role';
 import Roles from './Roles';
 import Organization from './Organization';
 import Signup from './Signup';
-import Task from './Task';
 import Tasks from './Tasks';
 import Users from './Users';
 
@@ -51,10 +49,10 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route path="/profile" component={Profile} />
             <Route exact path="/roles" component={Roles} />
-            <Route exact path="/roles/:role_id" component={Role} />
+            <Route exact path="/roles/:role_id" component={Roles} />
             <Route path="/organization" component={Organization} />
             <Route exact path="/tasks" component={Tasks} />
-            <Route exact path="/task/:task_id" component={Task} />
+            <Route exact path="/task/:task_id" component={Tasks} />
             <Route exact path="/users" component={Users} />
           </Box>
         </Switch>

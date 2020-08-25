@@ -1,10 +1,10 @@
-import { Box, Button, Form, Heading, List, Text, TextInput } from 'grommet';
-import { Add } from 'grommet-icons';
+import { Box, Form, List, Text } from 'grommet';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addCheck, deleteCheck, saveCheck } from '../actions/check.actions';
 import { getAllChecks, getAllRoles, getAllTaskLayers } from '../reducers/reducers';
 import CheckOverlay from '../components/CheckOverlay';
+import InlineInput from '../components/InlineInput';
 
 
 const TaskChecks = ({ organization, task, addCheck, saveCheck, deleteCheck, allChecks }) => {
@@ -26,7 +26,16 @@ const TaskChecks = ({ organization, task, addCheck, saveCheck, deleteCheck, allC
 
   return (
     <Box>
-      <Heading level={2}>Checks</Heading>
+      <List
+        primaryKey="name"
+        data={checks}
+        children={(datum, index) => (
+          <Box direction="row" align="center">
+            <Text>{index+1}. {datum.prompt}</Text>
+          </Box>
+        )}
+        onClickItem={onOpenCheck}
+      />
       <Form
         onSubmit={({value, touch}) => {
           addCheck(value)
@@ -35,21 +44,11 @@ const TaskChecks = ({ organization, task, addCheck, saveCheck, deleteCheck, allC
         value={checkValue}
         onChange={ nextValue => setCheckValue(nextValue) }
       >
-        <Box direction="row" gap="small" margin={{bottom: "medium"}}>
-          <TextInput required name="prompt" placeholder="Add a check" />              
-          <Button type="submit" size="small" primary icon={<Add />} />
+        <Box direction="row" pad={{horizontal: "medium"}} align="center">
+          <Text color="text-xweak">{checks.length + 1}.</Text><InlineInput required name="prompt" placeholder="Type here and hit Enter to add a question." />              
         </Box>
       </Form>
-      <List
-        primaryKey="name"
-        data={checks}
-        children={(datum, index) => (
-          <Box direction="row" align="center" gap="medium">
-            <Text>{index+1}. {datum.prompt}</Text>
-          </Box>
-        )}
-        onClickItem={onOpenCheck}
-      />
+      
       {
         openCheck && (
           <CheckOverlay organization={organization} check={openCheck} onDelete={deleteCheck} onClose={onCloseCheck} onSave={saveCheck} />

@@ -1,39 +1,44 @@
-import { Box, Main } from 'grommet';
-import React, { useEffect } from 'react';
+import { Accordion, AccordionPanel, Box } from 'grommet';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getRoles } from '../actions/role.actions';
 import { getTask } from '../actions/task.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
-import { goToTasks } from '../actions/ui.actions';
 import { getAllTaskLayers } from '../reducers/reducers';
-import BackButton from '../components/BackButton';
 import TaskChecks from './TaskChecks';
 import TaskForm from './TaskForm';
 import TaskLayers from './TaskLayers';
+import AccordionHeader from '../components/AccordionHeader'
 
 
-const Task = ({ match, tasksById, getTask, getRoles, getTaskLayers }) => {
-
-  const task_id = match.params.task_id
-  const task = tasksById[task_id]
+const Task = ({ task, getRoles, getTaskLayers, taskLayers }) => {
 
   useEffect(() => {
-    getTask(task_id)
-    getTaskLayers()
-    getRoles()
-  }, [getTask, getTaskLayers, getRoles, task_id]);
+    getTaskLayers();
+    getRoles();
+  }, [getTaskLayers, getRoles]);
+
+  const filteredTaskLayers = taskLayers.filter(layer => layer.task === task.id)
+
+  const [activeIndex, setActiveIndex] = useState([]);
 
   return (
-    <Main pad="medium">
-      <Box flex={false}> 
-        <BackButton onClick={goToTasks} label="Tasks" />
-        <TaskForm  task={task} />
-        <TaskChecks task={task} />
-        <TaskLayers task={task} />       
-      </Box>
-    </Main>
+    <Box flex={false}> 
+      
+      <TaskForm  task={task} />
+      <Accordion
+        activeIndex={activeIndex}
+        onActive={newActiveIndex => setActiveIndex(newActiveIndex)}
+      >
+        <AccordionPanel header={<AccordionHeader active={activeIndex.includes(0)} label="Task Questions" />}>
+          <TaskChecks task={task} />
+        </AccordionPanel>
+        <AccordionPanel header={<AccordionHeader active={activeIndex.includes(1)} label="Roles Assigned" count={filteredTaskLayers.length} />}>
+          <TaskLayers task={task} />     
+        </AccordionPanel>
+      </Accordion>
+    </Box>
   )
-
 };
 
 const mapStateToProps = (state) => ({
