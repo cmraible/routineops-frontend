@@ -15,12 +15,12 @@ const TaskForm = ({ task, saveTask, deleteTask, getTask, isFetching }) => {
     id: task.id,
     name: task.name,
     description: (task && task.description) ? task.description : ''
-  })
+  });
 
   // Set up state for Schedule overlay
-  const [openLayer, setOpenLayer] = useState()
-  const onOpenLayer = () => setOpenLayer(true)
-  const onCloseLayer = () => setOpenLayer(undefined)
+  const [openLayer, setOpenLayer] = useState();
+  const onOpenLayer = () => setOpenLayer(true);
+  const onCloseLayer = () => setOpenLayer(undefined);
 
   useEffect(() => {
     setTaskValue({
@@ -31,7 +31,7 @@ const TaskForm = ({ task, saveTask, deleteTask, getTask, isFetching }) => {
   }, [setTaskValue, task]);
 
   // Setup state for delete confirm overlay
-  const [openDelete, setOpenDelete] = useState()
+  const [openDelete, setOpenDelete] = useState();
   const onOpenDelete = (event) => setOpenDelete(true);
   const onCloseDelete = () => setOpenDelete(undefined);
 

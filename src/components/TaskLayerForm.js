@@ -9,7 +9,7 @@ import MonthMultipleSelect from './MonthMultipleSelect';
 import TimeMaskedInput from './TimeMaskedInput';
 import { DateTime } from 'luxon';
 
-const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunction, role, successFunction, roles }) => {
+const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunction, successFunction, roles }) => {
 
   const hourStart = DateTime.local().setZone('utc', { keepLocalTime: true }).startOf('hour').toJSDate()
   const dayEnd = DateTime.local().setZone('utc', { keepLocalTime: true }).endOf('day').toJSDate()
@@ -33,7 +33,7 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
   });
 
   const addOrSave = (data) => {
-    (taskLayer) ? saveFunction(data) : addFunction(data);
+    (taskLayer && taskLayer.role) ? saveFunction(data) : addFunction(data);
   }
   
   const submitForm = (value) => {

@@ -10,9 +10,10 @@ import Role from './Role';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 import { getUserRoles } from '../actions/userRole.actions';
 import InlineInput from '../components/InlineInput';
+import { getUsers } from '../actions/user.actions';
 
 
-const Roles = ({ organization, roles, addRole, getRoles, isFetching, errors, match, rolesById, getTaskLayers, getUserRoles, userRoles }) => {
+const Roles = ({ organization, roles, addRole, getRoles, getUsers, match, rolesById, getTaskLayers, getUserRoles, userRoles }) => {
 
   const role_id = match.params.role_id
 
@@ -23,8 +24,9 @@ const Roles = ({ organization, roles, addRole, getRoles, isFetching, errors, mat
   useEffect(() => {
     getTaskLayers();
     getRoles();
+    getUsers();
     getUserRoles();
-  }, [getRoles, getTaskLayers, getUserRoles]);
+  }, [getRoles, getTaskLayers, getUserRoles, getUsers]);
 
   const renderRoles = (role, index) => {
     return (
@@ -103,5 +105,6 @@ export default connect(mapStateToProps, {
   addRole, 
   getRoles, 
   getTaskLayers,
-  getUserRoles
+  getUserRoles,
+  getUsers
  })(Roles);

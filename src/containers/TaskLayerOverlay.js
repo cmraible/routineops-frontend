@@ -11,7 +11,7 @@ import TaskLayerForm from '../components/TaskLayerForm';
 
 const TaskLayerOverlay = ({ organization, taskLayer, task, rolesById, roles, onClose, addTaskLayer, saveTaskLayer }) => {
 
-  const role = (taskLayer) ? rolesById[taskLayer.role] : undefined;
+  const role = (taskLayer && taskLayer.role) ? rolesById[taskLayer.role] : undefined;
 
   return (
     <Layer
