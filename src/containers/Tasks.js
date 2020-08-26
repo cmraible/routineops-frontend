@@ -64,7 +64,7 @@ const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRo
   return (
     <SplitPage title="Tasks" detailView={detailView} detail={(task_id) ? true : false}>
       <Box flex={false}>
-        <Box direction="column" margin={{top: "medium"}} width="large" gap="medium">
+        <Box direction="column" margin={{top: "medium"}} width="large">
           <Form
             onSubmit={handleSubmit}
             value={value}
@@ -72,6 +72,10 @@ const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRo
           >
             <InlineInput required name="name" placeholder="Type here to create a new task" />
           </Form>
+          <Box margin={{top: "medium"}} pad={{horizontal: "medium"}} direction="row" align="center" justify="between">
+            <Text margin={{left: "large"}} weight="bold" size="small">Name</Text>
+            <Text weight="bold" size="small"># Roles Assigned</Text>
+          </Box>
           <List
             primaryKey="name"
             data={tasks}

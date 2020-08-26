@@ -58,7 +58,7 @@ const Roles = ({ organization, roles, addRole, getRoles, isFetching, errors, mat
   return (
     <SplitPage title="Roles" detailView={detailView} detail={(role_id) ? true : false }>
       <Box flex={false} direction="column">
-        <Box direction="column" margin={{top: "medium"}} gap="medium">
+        <Box direction="column" margin={{top: "medium"}}>
           <Form
             onSubmit={handleSubmit}
             value={value}
@@ -66,6 +66,10 @@ const Roles = ({ organization, roles, addRole, getRoles, isFetching, errors, mat
           >
             <InlineInput required name="name" placeholder="Type here to create a new role" />
           </Form>
+          <Box margin={{top: "medium"}} pad={{horizontal: "medium"}} direction="row" align="center" justify="between">
+            <Text margin={{left: "large"}} weight="bold" size="small">Name</Text>
+            <Text weight="bold" size="small"># Users Assigned</Text>
+          </Box>
           <List
             primaryKey="name"
             data={roles}
