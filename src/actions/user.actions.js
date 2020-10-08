@@ -43,6 +43,92 @@ export const saveUser = (user) => ((dispatch) => {
   })
 });
 
+export const UPDATE_USER_PHONE_REQUEST = 'UPDATE_USER_PHONE_REQUEST'
+export const updateUserPhoneRequest = (user, phone) => ({
+  type: updateUserPhoneRequest,
+  user: user,
+  phone: phone
+});
+
+export const UPDATE_USER_PHONE_SUCCESS = 'UPDATE_USER_PHONE_SUCCESS'
+export const updateUserPhoneSuccess = (data) => ({
+  type: UPDATE_USER_PHONE_SUCCESS,
+  entities: data.entities,
+  result: data.result
+});
+
+export const UPDATE_USER_PHONE_FAIL = 'UPDATE_USER_PHONE_FAIL'
+export const updateUserPhoneFail = (message) => ({
+  type: UPDATE_USER_PHONE_FAIL,
+  message: message
+});
+
+export const updateUserPhone = (user, phone) => ((dispatch) => {
+  dispatch(updateUserPhoneRequest(user, phone))
+
+  const client = getClient()
+
+  return client.patch(
+    '/users/' + user.id + '/phone/', {phone: phone}
+  )
+  .then( response => {
+    const user = new schema.Entity('users', {})
+    const normalizedData = normalize(response.data, user)
+    dispatch(updateUserPhoneSuccess(normalizedData));
+  } )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(updateUserPhoneFail('Unable to connect to server.'))
+    } else {
+      return dispatch(updateUserPhoneFail('Something went wrong.'));
+    }
+  })
+});
+
+export const VERIFY_USER_PHONE_REQUEST = 'VERIFY_USER_PHONE_REQUEST'
+export const verifyUserPhoneRequest = (user, phone, code) => ({
+  type: VERIFY_USER_PHONE_REQUEST,
+  user: user,
+  phone: phone
+});
+
+export const VERIFY_USER_PHONE_SUCCESS = 'VERIFY_USER_PHONE_SUCCESS'
+export const verifyUserPhoneSuccess = (data) => ({
+  type: VERIFY_USER_PHONE_SUCCESS,
+  entities: data.entities,
+  result: data.result
+});
+
+export const VERIFY_USER_PHONE_FAIL = 'VERIFY_USER_PHONE_FAIL'
+export const verifyUserPhoneFail = (message) => ({
+  type: VERIFY_USER_PHONE_FAIL,
+  message: message
+});
+
+export const verifyUserPhone = (user, phone, code) => ((dispatch) => {
+  dispatch(verifyUserPhoneRequest(user, phone, code))
+
+  const client = getClient()
+
+  return client.post(
+    '/users/' + user.id + '/verifyphone/', {to: phone, check: code}
+  )
+  .then( response => {
+    const user = new schema.Entity('users', {})
+    const normalizedData = normalize(response.data, user)
+    dispatch(verifyUserPhoneSuccess(normalizedData));
+  } )
+  .catch( error => {
+    if (!error.response) {
+      // No response from server
+      dispatch(verifyUserPhoneFail('Unable to connect to server.'))
+    } else {
+      return dispatch(verifyUserPhoneFail('Something went wrong.'));
+    }
+  })
+});
+
 
 export const GET_USERS_REQUEST = 'GET_USERS_REQUEST'
 export const getUsersRequest = () => ({

@@ -68,10 +68,13 @@ const Roles = ({ organization, roles, addRole, getRoles, getUsers, match, rolesB
           >
             <InlineInput required name="name" placeholder="Type here to create a new role" />
           </Form>
-          <Box margin={{top: "medium"}} pad={{horizontal: "medium"}} direction="row" align="center" justify="between">
-            <Text margin={{left: "large"}} weight="bold" size="small">Name</Text>
-            <Text weight="bold" size="small"># Users Assigned</Text>
-          </Box>
+          { (roles.length > 0 &&
+            <Box margin={{top: "medium"}} pad={{horizontal: "medium"}} direction="row" align="center" justify="between">
+              <Text margin={{left: "large"}} weight="bold" size="small">Role Name</Text>
+              <Text weight="bold" size="small"># Users Assigned</Text>
+            </Box>
+            )
+          }
           <List
             primaryKey="name"
             data={roles}

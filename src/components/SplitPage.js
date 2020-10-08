@@ -44,7 +44,7 @@ const SplitPage = ({ title, children, cta_primary, detailView, detail }) => {
                       {children}
                     </Box>
                     <Box width="50%" pad="medium">
-                      <Collapsible open="true">
+                      <Collapsible open={detail}>
                         {detailView()}
                       </Collapsible>
                     </Box>

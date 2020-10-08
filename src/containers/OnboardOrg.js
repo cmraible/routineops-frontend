@@ -18,11 +18,9 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
   const [value, setValue] = useState({
     id: organization.id,
     name: (organization.name) ? organization.name : '',
-    size: (organization.size) ? organization.size : ''
   });
-  
+
   const handleSubmit = ({value}) => {
-    console.log(value);
     saveOrg(value);
     goToTour()
   }
@@ -42,20 +40,6 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
           >
             <FormField label="Organization Name" name="name">
               <TextInput name="name" />
-            </FormField>
-            <FormField label="Organization Size" name="size">
-              <Select 
-                name="size"
-                options={
-                  [
-                    '1 - 10 employees',
-                    '10 - 50 employees', 
-                    '50 - 500 employees', 
-                    '500 - 2000 employees', 
-                    '2000 - 10,000 employees', 
-                    '10,000 + employees'
-                ]}
-              />
             </FormField>
             <Button fill="horizontal" align="center" type="submit" label="Continue" size="large" icon={<LinkNext />} reverse primary />
           </Form>

@@ -72,10 +72,13 @@ const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRo
           >
             <InlineInput required name="name" placeholder="Type here to create a new task" />
           </Form>
-          <Box margin={{top: "medium"}} pad={{horizontal: "medium"}} direction="row" align="center" justify="between">
-            <Text margin={{left: "large"}} weight="bold" size="small">Name</Text>
-            <Text weight="bold" size="small"># Roles Assigned</Text>
-          </Box>
+          {(tasks.length > 0 && 
+            <Box margin={{top: "medium"}} pad={{horizontal: "medium"}} direction="row" align="center" justify="between">
+              <Text margin={{left: "large"}} weight="bold" size="small">Name</Text>
+              <Text weight="bold" size="small"># Roles Assigned</Text>
+             </Box>
+            )}
+         
           <List
             primaryKey="name"
             data={tasks}

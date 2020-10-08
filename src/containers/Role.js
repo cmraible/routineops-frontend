@@ -21,51 +21,52 @@ const Role = ({ role, taskLayers, tasksById, userRoles, usersById, deleteUserRol
   const [activeIndex, setActiveIndex] = useState([]);
 
   return (
-      <Box flex={false}>
-        <RoleForm role={role} />
-        <Accordion 
-          multiple
-          activeIndex={activeIndex}
-          onActive={newActiveIndex => setActiveIndex(newActiveIndex)}
-        >
-          <AccordionPanel header={<AccordionHeader active={activeIndex.includes(0)} label="Users" count={filteredUserRoles.length} />}>
-            <DataTable 
-              data={filteredUserRoles}
-              columns={[
-                {
-                  property: 'name',
-                  header: <Text weight="bold">Name</Text>,
-                  primary: true,
-                  render: userRole => <Text>{usersById[userRole.user].first_name} {usersById[userRole.user].last_name}</Text>
-                },
-                {
-                  header: '',
-                  render: userRole => <Button icon={<Trash size="small" />} onClick={() => deleteUserRole(userRole.id)} />,
-                  align: "end"
-                }
-              ]}
-            />
-          </AccordionPanel>
-          <AccordionPanel header={<AccordionHeader active={activeIndex.includes(1)} count={filteredTaskLayers.length} label="Recurring Tasks" />}>
-            <DataTable 
-              data={filteredTaskLayers}
-              columns={[
-                {
-                  property: 'task',
-                  header: <Text weight="bold">Task</Text>,
-                  primary: true,
-                  render: layer => <Text>{tasksById[layer.task].name}</Text>
-                },
-                {
-                  property: 'frequency',
-                  header: <Text weight="bold">Frequency</Text>,
-                  render: layer => <Text>{layer.label}</Text>
-                }
-              ]}
-            />
-          </AccordionPanel>
-        </Accordion>
-      </Box>    
+    <Box flex={false}>
+      <RoleForm role={role} />
+      <Accordion 
+        multiple
+        activeIndex={activeIndex}
+        onActive={newActiveIndex => setActiveIndex(newActiveIndex)}
+      >
+        <AccordionPanel header={<AccordionHeader active={activeIndex.includes(0)} label="Users" count={filteredUserRoles.length} />}>
+          <DataTable 
+            data={filteredUserRoles}
+            columns={[
+              {
+                property: 'name',
+                header: <Text weight="bold">Name</Text>,
+                primary: true,
+                render: userRole => <Text>{usersById[userRole.user].first_name} {usersById[userRole.user].last_name}</Text>
+              },
+              {
+                header: '',
+                property: 'id',
+                render: userRole => <Button icon={<Trash size="small" />} onClick={() => deleteUserRole(userRole.id)} />,
+                align: "end"
+              }
+            ]}
+          />
+        </AccordionPanel>
+        <AccordionPanel header={<AccordionHeader active={activeIndex.includes(1)} count={filteredTaskLayers.length} label="Recurring Tasks" />}>
+          <DataTable 
+            data={filteredTaskLayers}
+            columns={[
+              {
+                property: 'task',
+                header: <Text weight="bold">Task</Text>,
+                primary: true,
+                render: layer => <Text>{tasksById[layer.task].name}</Text>
+              },
+              {
+                property: 'frequency',
+                header: <Text weight="bold">Frequency</Text>,
+                render: layer => <Text>{layer.label}</Text>
+              }
+            ]}
+          />
+        </AccordionPanel>
+      </Accordion>
+    </Box>    
   )
 
 };

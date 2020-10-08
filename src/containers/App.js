@@ -42,19 +42,19 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
     return (
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>
         <Switch>
-          <Box align="start" direction="row" fill>
-            <DefaultSidebar />
-            <Route exact path="/" component={Home} />
-            <Route exact path="/calendar" component={Calendar} />
-            <Route exact path="/dashboard" component={Dashboard} />
-            <Route path="/profile" component={Profile} />
-            <Route exact path="/roles" component={Roles} />
-            <Route exact path="/roles/:role_id" component={Roles} />
-            <Route path="/organization" component={Organization} />
-            <Route exact path="/tasks" component={Tasks} />
-            <Route exact path="/task/:task_id" component={Tasks} />
-            <Route exact path="/users" component={Users} />
-          </Box>
+            <Box align="start" direction="row" fill>
+              <DefaultSidebar />
+              <Route exact path="/" component={Home} />
+              <Route exact path="/calendar" component={Calendar} />
+              <Route exact path="/dashboard" component={Dashboard} />
+              <Route path="/profile" component={Profile} />
+              <Route exact path="/roles" component={Roles} />
+              <Route exact path="/roles/:role_id" component={Roles} />
+              <Route path="/organization" component={Organization} />
+              <Route exact path="/tasks" component={Tasks} />
+              <Route exact path="/task/:task_id" component={Tasks} />
+              <Route exact path="/users" component={Users} />
+            </Box>          
         </Switch>
       </Grommet>
     )
@@ -85,4 +85,6 @@ const mapStateToProps = state => ({
   user: getLoggedInUser(state)
 });
 
-export default  withRouter( connect(mapStateToProps)(App) )
+export default  withRouter( connect(mapStateToProps, {
+
+})(App) )

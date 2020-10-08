@@ -16,7 +16,7 @@ const UserMenu = ({ goToProfile, user, afterClick }) => {
   }
 
   return (
-    <Box margin={{bottom: "large"}} onClick={handleClick}>
+    <Box margin={{bottom: "large"}} onClick={handleClick} hoverIndicator>
         <Box align="center" direction="row" gap="small">
           <Avatar background="white" round="full" size="medium">
               <User color="brand" size="medium" />

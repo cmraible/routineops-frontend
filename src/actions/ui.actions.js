@@ -17,6 +17,14 @@ export const goToProfile = () => {
   }
 }
 
+export const GO_TO_VERIFY_PHONE = 'GO_TO_VERIFY_PHONE'
+export const goToVerifyPhone = () => {
+  history.push('/profile/verify/phone')
+  return {
+    type: GO_TO_VERIFY_PHONE
+  }
+}
+
 export const GO_TO_PROFILE_UI = 'GO_TO_PROFILE_UI'
 export const goToProfileUI = () => {
   history.push('/profile/ui')

@@ -28,9 +28,9 @@ const CalendarSettings = ( { organization, isFetching, saveOrg } ) => {
             onChange={ nextValue => setValue(nextValue) }
           >
             <FormField label="Organization Name">
-            <TextInput name="name" />
-          </FormField>
-          <FormField label="Address 1">
+              <TextInput name="name" />
+            </FormField>
+          {/* <FormField label="Address 1">
             <TextInput name="address1"/>
           </FormField>
           <FormField label="Address 2">
@@ -46,7 +46,7 @@ const CalendarSettings = ( { organization, isFetching, saveOrg } ) => {
             <FormField label="Zip">
               <TextInput name="zip"/>
             </FormField>
-          </Box>
+          </Box> */}
           <Button label="Save" primary size="large" type="submit" pad="small" disabled={isFetching} />
         </Form>
       </Box>
