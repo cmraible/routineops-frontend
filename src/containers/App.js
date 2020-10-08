@@ -54,7 +54,7 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
               <Route exact path="/tasks" component={Tasks} />
               <Route exact path="/task/:task_id" component={Tasks} />
               <Route exact path="/users" component={Users} />
-            </Box>          
+            </Box>
         </Switch>
       </Grommet>
     )

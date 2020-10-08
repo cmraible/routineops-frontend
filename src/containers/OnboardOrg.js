@@ -1,14 +1,14 @@
-import { Box, Button, Form, FormField, Heading, Main, Select, TextInput } from 'grommet';
+import { Box, Button, Form, FormField, Heading, Main, TextInput } from 'grommet';
 import { LinkNext } from 'grommet-icons';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { goToTour } from '../actions/ui.actions';
+import { goToHome } from '../actions/ui.actions';
 import { saveOrg } from '../actions/organization.actions';
 
 import Spinner from '../components/Spinner';
 import { getLoggedInUser } from '../reducers/reducers';
 
-const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organization, goToTour }) => {
+const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organization, goToHome }) => {
 
   useEffect(() => {
     document.title = 'Onboard Organization';
@@ -22,7 +22,7 @@ const OnboardOrg = ({ goToOnboardSubscription, isFetching, user, saveOrg, organi
 
   const handleSubmit = ({value}) => {
     saveOrg(value);
-    goToTour()
+    goToHome()
   }
 
   return (
@@ -54,4 +54,4 @@ const mapStateToProps = state => ({
   organization: state.organization.organization
 });
 
-export default connect(mapStateToProps, { saveOrg, goToTour })(OnboardOrg);
+export default connect(mapStateToProps, { saveOrg, goToHome })(OnboardOrg);
