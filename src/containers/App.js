@@ -64,7 +64,6 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
         <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path="/signup/?email=adfasd" />
             <Route exact path="/forgot" component={Forgot} />
             <Route exact path="/forgotsuccess" component={ForgotSuccess} />
             <Route exact path="/reset/:uid/:token" component={ForgotReset} />

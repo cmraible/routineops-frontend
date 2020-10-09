@@ -1,8 +1,7 @@
-import { Anchor, Box, Button, Form, FormField, Heading, Main, Text, TextInput } from 'grommet';
+import { Anchor, Box, Button, Form, FormField, Image, Main, Text, TextInput } from 'grommet';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions/auth.actions';
-import Spinner from '../components/Spinner';
 
 const Login = ({ login, loginError, isFetching }) => {
 
@@ -16,37 +15,35 @@ const Login = ({ login, loginError, isFetching }) => {
   }, []);
 
   return (
-    <Main pad="xlarge">
-      <Box direction="row" align="center" gap="large">
-        <Heading size="large">Hello.</Heading>
-        <Spinner isFetching={isFetching} error={loginError} />
+    <Main pad={{vertical: "xlarge", horizontal: "medium"}} gap="large">
+      <Box height="xsmall" width="xsmall" alignSelf="center">
+        <Image src="/logo-square.png" fit="contain"/>
       </Box>
-      <Text margin={{bottom: "large"}}>New to Routine Ops? <Anchor href="/signup">Sign up</Anchor> here.</Text>
+      <Box>
+        <Form
+          onSubmit={handleSubmit}
+        >
+          <Box flex={false} gap="small">
+            <Text size="small" color="status-error">{loginError}</Text>
 
-        <Box width="large">
-                    
-          <Form
-            onSubmit={handleSubmit}
-          >
-            <Box flex={false} gap="small">
-              <Text size="small" color="status-error">{loginError}</Text>
-
-              <FormField name="email" label="Email Address" required>
-                <TextInput name="email" />
-              </FormField>
-              <FormField name="password" label="Password" required>
-                <TextInput name="password" type="password" />
-              </FormField>
-              <Box align="end">
-                <Anchor href="/forgot" size="small">Forgot password?</Anchor>
-              </Box>
-              <Box direction="row">
-                <Button fill type="submit" primary label="Login" size="large" disabled={isFetching} />
-              </Box>
+            <FormField name="email" label="Email Address" required>
+              <TextInput name="email" />
+            </FormField>
+            <FormField name="password" label="Password" required>
+              <TextInput name="password" type="password" />
+            </FormField>
+            <Box direction="row">
+              <Button fill type="submit" primary label="Login" size="large" disabled={isFetching} />
             </Box>
-            
-          </Form>
+          </Box>
+        </Form>
+      </Box>
+      <Box>
+        <Box direction="row" justify="center" gap="small">
+          <Anchor href="/forgot" size="small">Forgot password?</Anchor>
+          <Anchor href="/signup" size="small">Sign up for Routine Ops</Anchor>
         </Box>
+      </Box>
     </Main>
   )
 }

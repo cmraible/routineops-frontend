@@ -7,12 +7,12 @@ import {
 } from '../actions/ui.actions';
 
 
-function darkMode(state = false, action) {
+function darkMode(state = true, action) {
   switch (action.type) {
     case TOGGLE_DARK_MODE:
       return !state
     case LOGOUT:
-      return false
+      return true
     default:
       return state
   }
