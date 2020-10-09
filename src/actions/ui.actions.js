@@ -1,5 +1,13 @@
 import history from '../history.js';
 
+export const GO_BACK = 'GO_BACK'
+export const goBack = () => {
+  history.goBack()
+  return {
+    type: GO_BACK,
+  }
+}
+
 export const GO_TO_TASK = 'GO_TO_TASK'
 export const goToTask = (id) => {
   history.push(`/task/${id}`)

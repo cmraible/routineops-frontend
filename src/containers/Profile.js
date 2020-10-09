@@ -1,29 +1,24 @@
-import { Anchor, Box, Sidebar } from 'grommet';
+import { Anchor, Box, Button, Sidebar } from 'grommet';
 import React from 'react';
 import { connect } from 'react-redux';
-import { goToProfile, goToProfileUI, toggleDarkMode } from '../actions/ui.actions';
+import { goBack, goToProfile, goToProfileUI, toggleDarkMode } from '../actions/ui.actions';
 import { getAllRoles, getLoggedInUser } from '../reducers/reducers';
 import Page from '../components/Page';
 import { Route, Switch } from 'react-router-dom';
+import { Previous } from 'grommet-icons';
 import ProfileContactInfo from './ProfileContactInfo';
 import ProfileUI from './ProfileUI';
 
-const Profile = ({goToProfile, goToProfileUI}) => {
+
+const Profile = ({goToProfile, goToProfileUI, goBack}) => {
+
+  const secondary_action = (<Button plain icon={<Previous />} onClick={goBack} />)
+
   return (
-    <Page title="Profile">
-      <Box direction="row-responsive" fill="horizontal">
-        <Sidebar pad="medium" border="right" width="small">
-          <Box gap="medium">
-            <Anchor color="text" to="/profile/" onClick={goToProfile}>Contact Info</Anchor>
-            <Anchor color="text" to="/profile/ui" onClick={goToProfileUI}>User Interface</Anchor>
-          </Box>
-        </Sidebar>
-        <Box width="large" pad="medium">
-          <Switch>
-            <Route exact path="/profile" component={ProfileContactInfo} />
-            <Route path="/profile/ui" component={ProfileUI} />
-          </Switch>
-        </Box>
+    <Page title="Profile" secondary_action={secondary_action}>
+      <Box fill="horizontal" pad="medium" gap="xlarge">
+        <ProfileContactInfo />
+        <ProfileUI />
       </Box>
     </Page>
   )
@@ -36,4 +31,9 @@ const mapStateToProps = state => ({
   darkMode: state.ui.darkMode
 });
 
-export default connect(mapStateToProps, { toggleDarkMode, goToProfile, goToProfileUI })(Profile);
+export default connect(mapStateToProps, {
+  toggleDarkMode,
+  goBack,
+  goToProfile,
+  goToProfileUI
+})(Profile);

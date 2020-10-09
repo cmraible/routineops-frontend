@@ -27,13 +27,13 @@ const ProfileContactInfo = ({ saveUser, user, updateUserPhone, verifyUserPhone }
     verifyUserPhone(user, value.to, value.check);
   }
 
-  const phoneVerified = user.phonenumber && user.phonenumber.verified ? 
+  const phoneVerified = user.phonenumber && user.phonenumber.verified ?
     (<Button icon={<Checkmark size="small"/>} primary color="status-ok" round="full" disabled />) :
     (<Button icon={<Alert size="small"/>} primary color="status-warning" round="full" />)
 
   return (
     <Box gap="medium">
-      <Heading margin="none" level={3}>Contact Info</Heading>
+      <Heading margin="none" level={2}>Contact Info</Heading>
       <Box direction="row" align="center" justify="between">
         <Text>Name:</Text>
         <Text weight="bold">{user.first_name} {user.last_name}</Text>
@@ -56,7 +56,7 @@ const ProfileContactInfo = ({ saveUser, user, updateUserPhone, verifyUserPhone }
 
       {editPhone && <PhoneNumberModal initialValue={(user.phonenumber) ? user.phonenumber.number : ''} onSave={handleSavePhone} onClose={() => setEditPhone(false)} />}
       {verifyPhone && <VerifyPhoneNumberModal phoneNumber={verifyPhone} onSave={handleVerifyPhone} onClose={() => setVerifyPhone(false)} />}
-    
+
     </Box>
   )
 };
@@ -69,8 +69,8 @@ const mapStateToProps = state => ({
   darkMode: state.ui.darkMode
 });
 
-export default connect(mapStateToProps, { 
-  saveUser, 
-  updateUserPhone, 
-  verifyUserPhone 
+export default connect(mapStateToProps, {
+  saveUser,
+  updateUserPhone,
+  verifyUserPhone
 })(ProfileContactInfo);

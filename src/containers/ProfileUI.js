@@ -8,7 +8,7 @@ const ProfileUI = ({ darkMode, toggleDarkMode }) => {
 
   return (
     <Box gap="medium">
-      <Heading margin="none" level={3}>User Interface</Heading>
+      <Heading margin="none" level={2}>User Interface</Heading>
       <CheckBox toggle label={(darkMode) ? "Dark Mode On" : "Dark Mode Off" } onChange={toggleDarkMode} checked={darkMode} />
     </Box>
   )
