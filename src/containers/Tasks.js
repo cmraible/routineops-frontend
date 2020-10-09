@@ -10,6 +10,7 @@ import SplitPage from '../components/SplitPage';
 import Task from './Task';
 import InlineInput from '../components/InlineInput';
 import { getTaskLayers } from '../actions/taskLayer.actions';
+import UserMenu from './UserMenu';
 
 
 const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRoles, getTaskLayers, taskLayers }) => {
@@ -61,8 +62,11 @@ const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRo
     )
   }
 
+  const secondary_action = (<UserMenu />)
+
+
   return (
-    <SplitPage title="Tasks" detailView={detailView} detail={(task_id) ? true : false}>
+    <SplitPage title="Tasks" detailView={detailView} detail={(task_id) ? true : false} secondary_action={secondary_action}>
       <Box flex={false}>
         <Box direction="column" margin={{top: "medium"}} width="large">
           <Form
@@ -72,13 +76,13 @@ const Tasks = ({ match, tasksById, organization, tasks, addTask, getTasks, getRo
           >
             <InlineInput required name="name" placeholder="Type here to create a new task" />
           </Form>
-          {(tasks.length > 0 && 
+          {(tasks.length > 0 &&
             <Box margin={{top: "medium"}} pad={{horizontal: "medium"}} direction="row" align="center" justify="between">
               <Text margin={{left: "large"}} weight="bold" size="small">Name</Text>
               <Text weight="bold" size="small"># Roles Assigned</Text>
              </Box>
             )}
-         
+
           <List
             primaryKey="name"
             data={tasks}
@@ -110,10 +114,10 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addTask, 
-  getTasks, 
-  getTask, 
-  deleteTask, 
+  addTask,
+  getTasks,
+  getTask,
+  deleteTask,
   getRoles,
   getTaskLayers
 })(Tasks);

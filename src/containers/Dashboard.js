@@ -10,6 +10,7 @@ import { getTaskInstances } from '../actions/taskInstance.actions';
 import { getTaskLayers } from '../actions/taskLayer.actions';
 import { getLoggedInUser, getAllTaskInstances, getAllTasks, getAllRoles, getAllUsers } from '../reducers/reducers';
 import { DateTime, Interval } from 'luxon';
+import UserMenu from './UserMenu';
 
 
 
@@ -51,7 +52,7 @@ const Dashboard = ({usersById, taskLayersById, rolesById, tasksById, getUsers, g
       id: 4,
       label: 'Last 60 days',
       interval: Interval.fromDateTimes(today.minus({days: 60}), today)
-    }, 
+    },
     {
       id: 5,
       label: 'Last 90 days',
@@ -103,7 +104,7 @@ const Dashboard = ({usersById, taskLayersById, rolesById, tasksById, getUsers, g
         return true
       }
     })
-    .sort((a, b) => a.due - b.due); 
+    .sort((a, b) => a.due - b.due);
 
 
     const columns = [
@@ -131,8 +132,11 @@ const Dashboard = ({usersById, taskLayersById, rolesById, tasksById, getUsers, g
 
     ]
 
+  const secondary_action = (<UserMenu />)
+
+
   return (
-    <Page title="Dashboard">
+    <Page title="Dashboard" secondary_action={secondary_action}>
       <Box direction="row-responsive" justify="between" align="center" flex={false} fill={false}>
           <Select
             options={intervals}
@@ -147,9 +151,9 @@ const Dashboard = ({usersById, taskLayersById, rolesById, tasksById, getUsers, g
             }}
           />
           <Select
-            options={tasks} 
-            placeholder="Tasks" 
-            labelKey="name" 
+            options={tasks}
+            placeholder="Tasks"
+            labelKey="name"
             plain
             multiple
             value={taskFilters}
@@ -159,11 +163,11 @@ const Dashboard = ({usersById, taskLayersById, rolesById, tasksById, getUsers, g
               reduce: true
             }}
           />
-          <Select 
-            options={roles} 
-            placeholder="Roles" 
-            labelKey="name" 
-            plain 
+          <Select
+            options={roles}
+            placeholder="Roles"
+            labelKey="name"
+            plain
             multiple
             value={roleFilters}
             onChange={({value, option}) => setRoleFilters(value)}
@@ -172,10 +176,10 @@ const Dashboard = ({usersById, taskLayersById, rolesById, tasksById, getUsers, g
               reduce: true
             }}
           />
-          <Select 
-            options={users} 
-            placeholder="Assignees" 
-            labelKey={(user) => (user) ? user.first_name + " " + user.last_name : ''} 
+          <Select
+            options={users}
+            placeholder="Assignees"
+            labelKey={(user) => (user) ? user.first_name + " " + user.last_name : ''}
             plain
             multiple
             value={assigneeFilters}
@@ -187,7 +191,7 @@ const Dashboard = ({usersById, taskLayersById, rolesById, tasksById, getUsers, g
           />
       </Box>
       <Box direction="row-responsive" gap="medium" fill="horizontal">
-        <DataTable 
+        <DataTable
           data={filteredData}
           columns={columns}
           primaryKey="id"
@@ -212,9 +216,9 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-  getTaskLayers, 
-  getTaskInstances, 
-  getRoles, 
-  getTasks, 
+  getTaskLayers,
+  getTaskInstances,
+  getRoles,
+  getTasks,
   getUsers
 })(Dashboard);

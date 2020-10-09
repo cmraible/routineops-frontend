@@ -30,6 +30,8 @@ const App = ({ isLoggedIn, theme, darkMode, organization, user }) => {
 
   const onboardComplete = (user && user.onboard_complete && organization.onboard_complete) || false
 
+
+
   if (isLoggedIn && !onboardComplete) {
     return (
       <Grommet theme={theme} full themeMode={ darkMode ? "dark" : "light" }>

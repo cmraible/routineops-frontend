@@ -9,6 +9,7 @@ import { getTaskLayers } from '../actions/taskLayer.actions';
 import { getLoggedInUser, getTaskInstancesForAssignee } from '../reducers/reducers';
 import TaskInstanceOverlay from './TaskInstanceOverlay';
 import Page from '../components/Page';
+import UserMenu from './UserMenu';
 
 const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances, getTasks, getTaskLayers }) => {
 
@@ -25,11 +26,14 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
 
   const onCloseTaskInstance = () => setOpenTaskInstance(undefined);
 
+  const secondary_action = (<UserMenu />)
+
+
   return (
-    <Page title="My tasks">
+    <Page title="Today" secondary_action={secondary_action}>
       {
         (taskInstances &&
-          <List 
+          <List
             pad="none"
             data={taskInstances}
             onClickItem={onOpenTaskInstance}
@@ -62,20 +66,20 @@ const Home = ({ organization, tasks, taskInstances, taskLayers, getTaskInstances
         )
       }
       {
-        taskInstances.length === 0 && 
+        taskInstances.length === 0 &&
           <Box pad="large">
               <Heading level={3}>You don't have any tasks assigned.</Heading>
           </Box>
       }
-     
+
 
       {
         openTaskInstance && (
           <TaskInstanceOverlay taskInstance={openTaskInstance} onClose={onCloseTaskInstance} />
         )
       }
-      
-      
+
+
     </Page>
   )
 

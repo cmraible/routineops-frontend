@@ -1,16 +1,22 @@
-import { Box, Layer, Main, ResponsiveContext, Sidebar } from 'grommet';
-import { Close, Menu } from 'grommet-icons';
-import React, { useState } from 'react';
+import { Box, ResponsiveContext, Sidebar, Text } from 'grommet';
+import { Menu } from 'grommet-icons';
+import React from 'react';
 import SidebarFooter from './SidebarFooter';
+import {
+  goToCalendar,
+  goToDashboard,
+  goToHome,
+  goToRoles,
+  goToTasks,
+  goToUsers
+} from '../actions/ui.actions';
 import SidebarNav from './SidebarNav';
 import UserMenu from './UserMenu';
+import { Calendar, Checkmark, Dashboard, Group } from 'grommet-icons';
+import { connect } from 'react-redux';
 
-const DefaultSidebar = () => {
 
-  const [open, setOpen] = useState(false);
-
-  const closeOverlay = () => setOpen(false);
-  const openOverlay = () => setOpen(true)
+const DefaultSidebar = ({goToTasks, goToCalendar, goToUsers, goToDashboard, goToRoles, goToHome}) => {
 
   return (
     <ResponsiveContext.Consumer>
@@ -19,51 +25,35 @@ const DefaultSidebar = () => {
             switch (size) {
               case 'small':
                 return (
-                  <div>
                     <Box
-                      style={{position: "absolute", right: 0}}
-                      onClick={openOverlay}
-                      round="full"
-                      elevation="medium"
-                      pad="medium"
-                      margin="small"
-                      background="white"
+                      style={{position: "absolute", bottom: 0}}
+                      width="100%"
+                      pad={{bottom: "large"}}
+                      direction="row"
+                      justify="between"
+                      background="black"
                     >
-                      <Menu />
+                      <Box pad="medium" width="20%" align="center" onClick={goToUsers}>
+                        <Group />
+                        <Text size="xsmall">Team</Text>
+                      </Box>
+                      <Box pad="medium" width="20%" align="center" onClick={goToTasks}>
+                        <Checkmark />
+                        <Text size="xsmall">Tasks</Text>
+                      </Box>
+                      <Box pad="medium" width="20%" align="center" onClick={goToHome}>
+                        <Menu />
+                        <Text size="xsmall">Today</Text>
+                      </Box>
+                      <Box pad="medium" width="20%" align="center" onClick={goToCalendar}>
+                        <Calendar />
+                        <Text size="xsmall">Calendar</Text>
+                      </Box>
+                      <Box pad="medium" width="20%" align="center" onClick={goToDashboard}>
+                        <Dashboard />
+                        <Text size="xsmall">Dashboard</Text>
+                      </Box>
                     </Box>
-                    {open && (
-                      <Layer full onClickOutside={closeOverlay} onEsc={closeOverlay} >
-                        <Main fill="vertical" background="black">
-                          <Box align="end">
-                          <Box
-                              onClick={closeOverlay}
-                              round="full"
-                              elevation="medium"
-                              pad="medium"
-                              margin="small"
-                            >
-                              <Close />
-                            </Box>
-                          </Box>
-                        
-                          <Box pad="large" gap="xlarge">
-                            <Box>
-                              <UserMenu afterClick={closeOverlay} />
-                            </Box>
-                            <Box flex>
-                              <SidebarNav afterClick={closeOverlay} />
-                            </Box>
-                            <Box>
-                              <SidebarFooter afterClick={closeOverlay} />
-                            </Box>
-                          </Box>
-                        </Main>
-                      </Layer>
-                      )
-                    }
-                    
-                  </div>
-                  
                 )
               default:
                 return (
@@ -71,12 +61,12 @@ const DefaultSidebar = () => {
                     align="center"
                     background="black"
                     justify="between"
-                    header={<UserMenu />}
+                    header={<UserMenu showLabel />}
                     footer={<SidebarFooter />}
                     flex={false}
                   >
                     <SidebarNav />
-                  </Sidebar> 
+                  </Sidebar>
                 )
             }
           }
@@ -84,9 +74,20 @@ const DefaultSidebar = () => {
 
       </ResponsiveContext.Consumer>
   )
-  
 
-      
+
+
 };
 
-export default DefaultSidebar;
+const mapStateToProps = state => ({
+
+})
+
+export default connect(mapStateToProps, {
+  goToTasks,
+  goToCalendar,
+  goToHome,
+  goToUsers,
+  goToDashboard,
+  goToRoles
+})(DefaultSidebar);

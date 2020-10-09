@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   goToCalendar,
-  goToDashboard, 
+  goToDashboard,
   goToHome,
   goToRoles,
   goToTasks,
@@ -24,14 +24,14 @@ const SidebarNav = ({goToTasks, goToCalendar, goToUsers, goToDashboard, goToRole
 
   return (
         <Nav gap="small">
-          <SidebarButton icon={<Task />} active={(pathname === '/')} label="My Tasks" onClick={() => handleClick(goToHome) } /> 
+          <SidebarButton icon={<Task />} active={(pathname === '/')} label="My Tasks" onClick={() => handleClick(goToHome) } />
           {
-            (user.is_org_admin && 
-              <SidebarButton icon={<User />} label="Users" onClick={() => handleClick(goToUsers) } />
+            (user.is_org_admin &&
+              <SidebarButton icon={<User />} label="Team" onClick={() => handleClick(goToUsers) } />
             )
           }
           <SidebarButton icon={<Group />} active={(pathname === '/roles')} label="Roles" onClick={() => handleClick(goToRoles) } />
-          <SidebarButton label="Tasks" icon={<Checkmark />} active={(pathname === '/tasks')} onClick={() => handleClick(goToTasks) } /> 
+          <SidebarButton label="Tasks" icon={<Checkmark />} active={(pathname === '/tasks')} onClick={() => handleClick(goToTasks) } />
           <SidebarButton label="Calendar" icon={<Calendar />} active={(pathname === '/calendar')} onClick={() => handleClick(goToCalendar)} />
           <SidebarButton label="Dashboard" icon={<Dashboard />} active={(pathname === '/dashboard')} onClick={() => handleClick(goToDashboard)} />
         </Nav>

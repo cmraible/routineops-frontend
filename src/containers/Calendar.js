@@ -12,6 +12,7 @@ import WeekView from '../components/WeekView';
 import Page from '../components/Page';
 import { DateTime, Interval } from 'luxon';
 import { groups } from 'd3-array';
+import UserMenu from './UserMenu';
 
 const Calendar = ({ organization, getTaskLayers, getTaskInstances, getTasks, getRoles, taskLayers, taskInstances, taskLayersById, rolesById, tasksById, roles, usersById, tasks, getUsers, users }) => {
 
@@ -43,7 +44,7 @@ const Calendar = ({ organization, getTaskLayers, getTaskInstances, getTasks, get
 
   // Group by unique key composed of taskLayer and assignee ID
   const layers = groups(instances, d => `${d.taskLayer}|${d.assignee}`)
-  
+
   // Flatten data to represent rows for calendar view
   const data = layers.map((layer) => {
     const instances = layer[1]
@@ -80,15 +81,18 @@ const Calendar = ({ organization, getTaskLayers, getTaskInstances, getTasks, get
       } else {
         return true
       }
-    }); 
+    });
+
+  const secondary_action = (<UserMenu />)
+
 
   return (
-    <Page title="Calendar">
+    <Page title="Calendar" secondary_action={secondary_action}>
       <Box direction="row-responsive" justify="between" align="center" flex={false}>
-          <Select 
-            options={tasks} 
-            placeholder="Tasks" 
-            labelKey="name" 
+          <Select
+            options={tasks}
+            placeholder="Tasks"
+            labelKey="name"
             plain
             multiple
             value={taskFilters}
@@ -98,11 +102,11 @@ const Calendar = ({ organization, getTaskLayers, getTaskInstances, getTasks, get
               reduce: true
             }}
           />
-          <Select 
-            options={roles} 
-            placeholder="Roles" 
-            labelKey="name" 
-            plain 
+          <Select
+            options={roles}
+            placeholder="Roles"
+            labelKey="name"
+            plain
             multiple
             value={roleFilters}
             onChange={({value, option}) => setRoleFilters(value)}
@@ -111,10 +115,10 @@ const Calendar = ({ organization, getTaskLayers, getTaskInstances, getTasks, get
               reduce: true
             }}
           />
-          <Select 
-            options={users} 
-            placeholder="Assignees" 
-            labelKey={(user) => (user) ? user.first_name + " " + user.last_name : ''} 
+          <Select
+            options={users}
+            placeholder="Assignees"
+            labelKey={(user) => (user) ? user.first_name + " " + user.last_name : ''}
             plain
             multiple
             value={assigneeFilters}
@@ -124,14 +128,14 @@ const Calendar = ({ organization, getTaskLayers, getTaskInstances, getTasks, get
               reduce: true
             }}
           />
-        
+
         <Box direction="row" align="center" justify="end">
           <Button icon={(<Previous />)} onClick={previousWeek} />
           <Text>{interval.start.toFormat('LLL d, yyyy')}</Text>
           <Button icon={(<Next />)} onClick={nextWeek} />
         </Box>
       </Box>
-      
+
       <Box flex={false} direction="row">
         <WeekView
           interval={interval}
@@ -159,9 +163,9 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getTaskLayers, 
-  getTaskInstances, 
-  getRoles, 
-  getTasks, 
+  getTaskLayers,
+  getTaskInstances,
+  getRoles,
+  getTasks,
   getUsers
 })(Calendar);
