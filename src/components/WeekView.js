@@ -23,18 +23,18 @@ const WeekView = ({ workingDays, interval, data }) => {
       property: 'key',
       primary: true,
       header: (<Box pad="small">Tasks</Box>),
-      render: (instance) => (<Box pad="small">{(instance && instance.task) ? instance.task.name : ''}</Box>)
+      render: (instance) => (<Box pad="small" style={{whiteSpace: 'nowrap'}}>{(instance && instance.task) ? instance.task.name : ''}</Box>)
     },
-    {
-      property: 'role',
-      header: (<Box pad="small">Roles</Box>),
-      render: (instance) => (<Box pad="small">{(instance && instance.role) ? instance.role.name :  ''}</Box>)
-    },
-    {
-      property: 'assignee',
-      header: (<Box pad="small">Assignees</Box>),
-      render: (instance) => (<Box pad="small">{(instance && instance.assignee) ? instance.assignee.first_name + " " + instance.assignee.last_name : '' }</Box>)
-    },
+    // {
+    //   property: 'role',
+    //   header: (<Box pad="small">Roles</Box>),
+    //   render: (instance) => (<Box pad="small">{(instance && instance.role) ? instance.role.name :  ''}</Box>)
+    // },
+    // {
+    //   property: 'assignee',
+    //   header: (<Box pad="small">Assignees</Box>),
+    //   render: (instance) => (<Box pad="small">{(instance && instance.assignee) ? instance.assignee.first_name + " " + instance.assignee.last_name : '' }</Box>)
+    // },
     ...dates.map((date) => {
       const interval = Interval.fromDateTimes(date.startOf('day'), date.endOf('day'))
       return {
@@ -55,16 +55,16 @@ const WeekView = ({ workingDays, interval, data }) => {
 
   return (
     <Box fill>
-      <ThemeContext.Extend 
+      <ThemeContext.Extend
         value={{
           global: { colors: { "placeholder": "#444444" }},
-          table: { 
+          table: {
             header: { border: "gray" },
             body: { border: "gray" }
           }
         }}
       >
-        <DataTable 
+        <DataTable
           columns={columns}
           data={data}
           primaryKey="key"

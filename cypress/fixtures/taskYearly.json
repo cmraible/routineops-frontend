@@ -1,0 +1,35 @@
+{
+    "id": 6,
+    "account": 1,
+    "name": "Yearly Task",
+    "description": "This is a fake task",
+    "checks": [
+        {
+            "id": 6,
+            "task": 6,
+            "prompt": "Did you Fake Task?",
+            "resultType": "BOOLEAN",
+            "account": 1
+        }
+    ],
+    "layers": [
+        {
+            "id": 6,
+            "account": 1,
+            "role": 1,
+            "task": 6,
+            "recurrence": "DTSTART;TZID=America/Los_Angeles:20201216T235959\nRRULE:FREQ=MONTHLY;INTERVAL=3",
+            "label": "Yearly",
+            "time": null,
+            "frequency": 1,
+            "interval": 3,
+            "byhour": null,
+            "byweekday": null,
+            "bymonthday": [],
+            "byyearday": null,
+            "bysetpos": null,
+            "bymonth": [],
+            "dtstart": "2020-12-16T23:59:59.999000Z"
+        }
+    ]
+}

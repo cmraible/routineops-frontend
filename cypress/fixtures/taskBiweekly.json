@@ -1,0 +1,43 @@
+{
+    "id": 4,
+    "account": 1,
+    "name": "Biweekly Task",
+    "description": "This is a fake task",
+    "checks": [
+        {
+            "id": 4,
+            "task": 4,
+            "prompt": "Did you Fake Task?",
+            "resultType": "BOOLEAN",
+            "account": 1
+        }
+    ],
+    "layers": [
+        {
+            "id": 4,
+            "account": 1,
+            "role": 1,
+            "task": 4,
+            "recurrence": "DTSTART;TZID=America/Los_Angeles:20201214T000000\nRRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,TU,WE,TH,FR,SA,SU",
+            "label": "Bi-Weekly",
+            "time": null,
+            "frequency": 2,
+            "interval": 2,
+            "byhour": null,
+            "byweekday": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ],
+            "bymonthday": [],
+            "byyearday": null,
+            "bysetpos": null,
+            "bymonth": [],
+            "dtstart": "2020-12-14T00:00:00Z"
+        }
+    ]
+}

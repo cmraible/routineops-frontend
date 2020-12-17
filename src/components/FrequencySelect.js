@@ -2,21 +2,26 @@ import { FormField, Select } from 'grommet';
 import React from 'react';
 
 
-const FrequencySelect = () => {
+const FrequencySelect = ({ onChange }) => {
 
-  const frequency_options = ['Hourly', 'Daily', 'Weekly', 'Bi-Weekly', 'Monthly', 'Yearly']
-
+  const frequency_options = [
+    'Hourly',
+    'Daily',
+    'Weekly',
+    'Bi-Weekly',
+    'Monthly',
+    'Yearly'
+  ]
 
   return (
-    <FormField label="Frequency" name="label" required>
+    <FormField name="label" required fill="horizontal">
       <Select
         name="label"
-        label="frequency"
         options={frequency_options}
         placeholder="Select Frequency"
+        onChange={onChange || undefined}
       />
     </FormField>
-    
   )
 
 };

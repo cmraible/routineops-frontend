@@ -1,15 +1,18 @@
-import { Box, Grid, Heading, Main, ResponsiveContext, Text } from 'grommet';
+import { Box, Button, Heading, Main, ResponsiveContext } from 'grommet';
 import React, { useEffect } from 'react';
+import MobileHeader from './MobileHeader';
+import { LinkPrevious } from 'grommet-icons';
+import history from '../history';
 
 
-const Page = ({ title, children, primary_action, secondary_action }) => {
+const Page = ({ title, children, action, previous, pad }) => {
 
   useEffect(() => {
     document.title = title;
     window.analytics.page(title);
   }, [title]);
 
-  document.body.style = `background-color: black;`
+  document.body.style = `background-color: black`
 
   return (
     <ResponsiveContext.Consumer>
@@ -18,39 +21,44 @@ const Page = ({ title, children, primary_action, secondary_action }) => {
           switch (size) {
             case 'small':
               return (
-                <Main direction="column" background="background-back">
-                  <Box
-                    style={{position: "absolute", top: 0}}
-                    width="100%"
-                    pad="xsmall"
-                    direction="row"
-                    background="black"
-                  >
-                    <Grid
-                      fill
-                      rows={['100%']}
-                      columns={['1/4', '1/2', '1/4']}
-                      areas={[['secondary_action', 'title', 'primary_action']]}
-                    >
-                      <Box gridArea="secondary_action" align="start" justify="center" pad={{horizontal:"medium"}}>{secondary_action}</Box>
-                      <Box gridArea="title" align="center" justify="center"><Text weight="bold" margin="none" size="xlarge" textAlign="center">{ title}</Text></Box>
-                      <Box gridArea="primary_action" align="end" justify="center" pad={{horizontal:"medium"}}>{primary_action}</Box>
-                    </Grid>
-                  </Box>
-                  <Box margin={{top: "xlarge"}}>
+                <Main>
+                  <MobileHeader previous={previous} action={action} title={title} />
+                  <Box pad={pad || "none"}>
                     {children}
                   </Box>
+                  <Box pad="large" />
                 </Main>
               )
             default:
               return (
-                <Main pad="medium" direction="column" gap="medium">
-                  <Box direction="row-responsive" justify="between" gap="medium" flex={false}>
-                    <Heading margin={{vertical: "none"}}>{ title }</Heading>
-                    { primary_action }
-                  </Box>
+                <Box  direction="column" fill>
+                    <Box
+                      direction="row"
+                      pad={{horizontal: "small", vertical: "xsmall"}}
+                      justify="between"
+                      gap="medium"
+                      flex={false}
+                      background="background-contrast"
+                    >
+                      <Box direction="row" align="center" gap="small">
+                        {(previous &&
+                        <Box
+                          round="full"
+                          pad="small"
+                          hoverIndicator
+                          onClick={() => history.push(previous)}
+                          data-cy="previous"
+                        >
+                          <LinkPrevious />
+                        </Box>
+                        )}
+                        <Heading size="small" margin={{vertical: "none"}}>{ title }</Heading>
+                      </Box>
+                      <Button data-cy="action" primary {...action} />
+                    </Box>
+
                   {children}
-                </Main>
+                </Box>
               )
           }
         }

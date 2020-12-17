@@ -6,7 +6,7 @@ export const loadState = () => {
       }
       return JSON.parse(serializedState);
     } catch (err) {
-      return undefined;
+      // Ignore read errors
     }
 };
 
@@ -16,5 +16,5 @@ export const saveState = (state) => {
       localStorage.setItem('routineopsState', serializedState);
     } catch (err) {
       // Ignore write errors.
-    }
+   }
 };

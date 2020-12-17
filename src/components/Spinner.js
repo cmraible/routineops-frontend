@@ -3,11 +3,11 @@ import { Close, PowerCycle } from 'grommet-icons';
 import React from 'react';
 
 
-const Spinner = ({isFetching, error}) => {
+const Spinner = ({isFetching, error, color, pad, size}) => {
   if (isFetching) {
     return (
-      <Box animation="rotateRight" align="center">
-        <PowerCycle />
+      <Box animation="rotateRight" align="center" pad={pad || "none"}>
+        <PowerCycle color={color} size={size || "medium" } />
       </Box>
     )
   }
@@ -20,7 +20,7 @@ const Spinner = ({isFetching, error}) => {
     )
   }
   return null
-  
+
 };
 
 export default Spinner;

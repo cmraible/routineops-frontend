@@ -1,9 +1,8 @@
 import { FormField, TextInput } from 'grommet';
 import React from 'react';
 
-const EmailField = ({ label, required, name }) => {
+const EmailField = ({ label, name, autoFocus, ...rest }) => {
 
-  const isRequired = (required) ? true : false;
   const fieldLabel = (label) ? label : 'Email Address';
   const fieldName = (name) ? name : 'email'
 
@@ -17,15 +16,21 @@ const EmailField = ({ label, required, name }) => {
       return true
     } else {
       return {
-        'message': 'Invalid email address',
+        'message': 'Enter a valid email address.',
         'status': 'error'
       }
     }
   }
 
   return (
-    <FormField name={fieldName} validate={validateEmailField} label={fieldLabel} required={isRequired} fill="horizontal">
-      <TextInput name={fieldName} />
+    <FormField
+      name={fieldName}
+      validate={validateEmailField}
+      label={fieldLabel}
+      fill="horizontal"
+      {...rest}
+    >
+      <TextInput autoFocus={autoFocus} name={fieldName} type="email" />
     </FormField>
   )
 }

@@ -3,7 +3,7 @@ import { Close } from 'grommet-icons';
 import React from 'react';
 import CheckForm from './CheckForm';
 
-const CheckOverlay = ({ organization, check, onClose, onDelete, onSave }) => {
+const CheckOverlay = ({ account, check, onClose, onDelete, onSave }) => {
 
   const onSubmit = (value) => {
     onSave(value)
@@ -16,16 +16,16 @@ const CheckOverlay = ({ organization, check, onClose, onDelete, onSave }) => {
   }
 
   return (
-    <Layer 
-      background="background" 
-      position="center" 
-      onClickOutside={onClose} 
+    <Layer
+      background="background"
+      position="center"
+      onClickOutside={onClose}
       onEsc={onClose}
     >
       <Box align="end" width="large">
        <Button icon={(<Close />)} onClick={onClose} />
       </Box>
-      <CheckForm organization={organization} check={check} onSubmit={onSubmit} onDelete={onDeleteCheck}/>
+      <CheckForm account={account} check={check} onSubmit={onSubmit} onDelete={onDeleteCheck}/>
     </Layer>
   )
 

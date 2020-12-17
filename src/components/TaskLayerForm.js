@@ -9,7 +9,7 @@ import MonthMultipleSelect from './MonthMultipleSelect';
 import TimeMaskedInput from './TimeMaskedInput';
 import { DateTime } from 'luxon';
 
-const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunction, successFunction, roles }) => {
+const TaskLayerForm = ({ account, task, taskLayer, saveFunction, addFunction, successFunction, roles }) => {
 
   const hourStart = DateTime.local().setZone('utc', { keepLocalTime: true }).startOf('hour').toJSDate()
   const dayEnd = DateTime.local().setZone('utc', { keepLocalTime: true }).endOf('day').toJSDate()
@@ -20,7 +20,7 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
 
   const [value, setValue] = useState({
     id: (taskLayer) ? taskLayer.id : null,
-    organization: organization.id,
+    account: account.id,
     role: (taskLayer) ? taskLayer.role : undefined,
     task: task.id,
     label: (taskLayer) ? taskLayer.label : '',
@@ -35,7 +35,7 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
   const addOrSave = (data) => {
     (taskLayer && taskLayer.role) ? saveFunction(data) : addFunction(data);
   }
-  
+
   const submitForm = (value) => {
     console.log(value);
     const time = (value.time) ? DateTime.fromFormat(value.time, 't').setZone('utc', {keepLocalTime: true}).toJSDate() : false;
@@ -221,7 +221,7 @@ const TaskLayerForm = ({ organization, task, taskLayer, saveFunction, addFunctio
           <Box gap="medium" fill>
             <FormField label="Role">
               <Select
-                name="role" 
+                name="role"
                 options={roles}
                 placeholder="Select a role"
                 labelKey="name"

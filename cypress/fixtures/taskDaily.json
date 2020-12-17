@@ -1,0 +1,43 @@
+{
+    "id": 2,
+    "account": 1,
+    "name": "Daily Task",
+    "description": "This is a fake task",
+    "checks": [
+        {
+            "id": 2,
+            "task": 2,
+            "prompt": "Did you Fake Task?",
+            "resultType": "BOOLEAN",
+            "account": 1
+        }
+    ],
+    "layers": [
+        {
+            "id": 2,
+            "account": 1,
+            "role": 1,
+            "task": 2,
+            "recurrence": "DTSTART;TZID=America/Los_Angeles:20201216T235959\nRRULE:FREQ=DAILY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",
+            "label": "Daily",
+            "time": "11:59 PM",
+            "frequency": 3,
+            "interval": 1,
+            "byhour": null,
+            "byweekday": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ],
+            "bymonthday": [],
+            "byyearday": null,
+            "bysetpos": null,
+            "bymonth": [],
+            "dtstart": "2020-12-16T23:59:59.999000Z"
+        }
+    ]
+}

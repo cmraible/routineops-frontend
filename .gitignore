@@ -11,6 +11,10 @@
 # production
 /build
 
+# Cypress videos and screenshots
+/cypress/videos
+/cypress/screenshots
+
 # misc
 .DS_Store
 .env
@@ -24,3 +28,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .vscode
+
+

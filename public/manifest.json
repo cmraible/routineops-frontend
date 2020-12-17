@@ -2,6 +2,7 @@
  "name": "RoutineOps",
  "display": "standalone",
  "theme_color": "#FFFFFF",
+ "scope": "/",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",

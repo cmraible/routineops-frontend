@@ -8,7 +8,7 @@ const AccordionHeader = ({ count, label, active, button }) => {
   const icon = (active) ? <Up /> : <Down /> ;
   const countElement = (count !== undefined) ? "(" + count + ")": '' ;
 
-  
+
   return (
       <Box direction="row" align="center" justify="between" pad={{horizontal: "medium"}}>
         <Box direction="row" align="center" gap="small">

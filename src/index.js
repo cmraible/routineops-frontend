@@ -1,19 +1,21 @@
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './containers/App';
-import { ConnectedRouter } from 'connected-react-router';
-import configureStore from './configureStore';
+import App from './app/App';
 import history from './history';
-import {Elements} from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
+import { loadState } from './localStorage';
+import configureAppStore from './store';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUB_KEY);
 
-const store = configureStore();
+const persistedState = loadState();
+const store = configureAppStore(persistedState);
 
 const renderApp = () =>
   render(
@@ -30,7 +32,7 @@ const renderApp = () =>
   )
 
 if (process.env.NODE_ENV !== 'production' && module.hot) {
-  module.hot.accept('./containers/App', renderApp)
+  module.hot.accept(['./app/App', './rootReducer', './defaultTheme'], renderApp)
 }
 
 renderApp()

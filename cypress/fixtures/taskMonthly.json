@@ -1,0 +1,50 @@
+{
+    "id": 5,
+    "account": 1,
+    "name": "Fake Task",
+    "description": "This is a fake task",
+    "checks": [
+        {
+            "id": 5,
+            "task": 5,
+            "prompt": "Did you Fake Task?",
+            "resultType": "BOOLEAN",
+            "account": 1
+        }
+    ],
+    "layers": [
+        {
+            "id": 5,
+            "account": 1,
+            "role": 1,
+            "task": 5,
+            "recurrence": "DTSTART;TZID=America/Los_Angeles:20201216T235959\nRRULE:FREQ=MONTHLY;INTERVAL=1;BYMONTHDAY=-1;BYMONTH=1,2,3,4,5,6,7,8,9,10,11,12",
+            "label": "Monthly",
+            "time": null,
+            "frequency": 1,
+            "interval": 1,
+            "byhour": null,
+            "byweekday": null,
+            "bymonthday": [
+                -1
+            ],
+            "byyearday": null,
+            "bysetpos": null,
+            "bymonth": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
+            ],
+            "dtstart": "2020-12-16T23:59:59.999000Z"
+        }
+    ]
+}

@@ -1,13 +1,14 @@
 const axios = require('axios').default;
 
-// Get API Token from localStorage
-const getToken = () => {
-    return window.localStorage.getItem('routineops-token')
-}
-
 // Get API host from env variable, then get api baseurl
-const host = process.env.REACT_APP_API_HOST
+let host
+if (window.Cypress) {
+  host = window.Cypress.env('REACT_APP_API_HOST')
+} else {
+  host = process.env.REACT_APP_API_HOST
+}
 const baseUrl = host + '/api'
+
 
 // Create axios client with baseUrl and auth headers above
  const baseConfig = {
@@ -15,20 +16,21 @@ const baseUrl = host + '/api'
   timeout: 20000,
 };
 
+console.log(`Initializing API client with baseUrl: ${baseUrl}`)
+
 
 // Returns config object w/ authorization headers incl.
-export const getAuthConfig = () => {
+export const getAuthConfig = (token) => {
   return {
-    headers: {'Authorization': 'Token ' + getToken() },
+    headers: {'Authorization': 'Token ' + token },
     ...baseConfig
   }
 }
 
 // Returns auth client if token available; else base client
-export const getClient = () => {
-    const token = getToken()
+export const getClient = (token) => {
     if (token) {
-        return axios.create(getAuthConfig())
+        return axios.create(getAuthConfig(token))
     } else {
         return axios.create(baseConfig)
     }

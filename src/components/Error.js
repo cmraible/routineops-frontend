@@ -1,30 +1,25 @@
-import { Box, Layer, Text } from 'grommet';
+import { Box, Text } from 'grommet';
 import React from 'react';
 
 
 const Error = ({ message }) => {
 
-  if (message) return (
-    <Layer
-      position="top"
-      modal={false}
-      margin={{vertical: "medium"}}
-      plain
-    >
-      
-      <Box 
-        background="status-critical"
-        direction="row"
-        elevation="medium"
-        round="medium"
-        gap="medium"
-        pad={{vertical: "small", horizontal: "medium"}}
+  if (message) {
+    return (
+      <Box
+        round={true}
+        pad="small"
+        border={{color: "status-critical"}}
+        background={{color: "status-critical", opacity: "weak"}}
       >
-        <Text>{(message) ? message : 'An error occurred.'}</Text>
+        <Text color="status-critical" textAlign="center"> { message }</Text>
       </Box>
-    </Layer>
-  )
-  else return null
+    )
+  } else {
+    return null;
+  }
+
+
 }
 
 export default Error

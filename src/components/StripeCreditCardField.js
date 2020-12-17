@@ -1,10 +1,13 @@
 import { Box, FormField } from 'grommet';
 import React from 'react';
 import { CardElement } from '@stripe/react-stripe-js';
+import { useSelector } from 'react-redux';
 
 
 
-const StripeCreditCardField = ( {darkMode, label} ) => {
+const StripeCreditCardField = ( {label} ) => {
+
+  const darkMode = useSelector(state => state.ui.darkMode)
 
   const options = {
     style: {
@@ -25,11 +28,11 @@ const StripeCreditCardField = ( {darkMode, label} ) => {
 
   return (
     <Box pad="small">
-      <FormField gap="medium" label={(label) ? label : undefined}>
+      <FormField pad="xsmall" gap="small" label={(label) ? label : undefined}>
         <CardElement options={options} required />
       </FormField>
     </Box>
-    
+
   )
 }
 

@@ -3,17 +3,17 @@ import {
   Button,
   Form,
   FormField,
-  Select, 
+  Select,
   TextInput
 } from 'grommet';
 import { Trash } from 'grommet-icons';
 import React, { useState } from 'react';
 
-const CheckForm = ({organization, check, onSubmit, onDelete }) => {
+const CheckForm = ({account, check, onSubmit, onDelete }) => {
 
   const [value, setValue] = useState({
     id: check.id,
-    organization: organization.id,
+    account: account.id,
     prompt: (check) ? check.prompt : '',
     resultType: (check) ? check.resultType : 'BOOLEAN',
     task: (check) ? check.task : undefined
@@ -30,7 +30,7 @@ const CheckForm = ({organization, check, onSubmit, onDelete }) => {
           <TextInput name="prompt" />
         </FormField>
         <FormField label="Result Type" fill="horizontal" >
-          <Select 
+          <Select
             name="resultType"
             options={[
               {
