@@ -1,4 +1,3 @@
-import history from './history';
 import { RRule } from 'rrule';
 import { DateTime } from 'luxon';
 
@@ -112,8 +111,6 @@ export const loginUser = (user, token) => {
             window.Intercom('shutdown');
         }
     }
-    history.push('/')
-
 }
 
 export const flattenErrors = (errors) => {

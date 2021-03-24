@@ -49,9 +49,9 @@ describe('User Edit Page', () => {
             }
             i++
         });
-        cy.intercept('PATCH', '**/api/users/1**', {
-            fixture: 'userEdited.json'
-        });
+        cy.intercept('PATCH', '**/api/users/1**', { fixture: 'userEdited.json' });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/userroles', {});
         cy.visit('users/1/edit');
 
         // Check the form is rendered
@@ -80,9 +80,9 @@ describe('User Edit Page', () => {
     });
 
     it('links back to the user page', () => {
-        cy.intercept('GET', '**/api/users/1', {
-            fixture: 'user.json'
-        });
+        cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/userroles', {});
         cy.visit('users/1/edit');
         cy.get('[data-cy="previous"]').click();
 
@@ -90,9 +90,7 @@ describe('User Edit Page', () => {
     })
 
     it('validates the email address', () => {
-        cy.intercept('GET', '**/api/users/1', {
-            fixture: 'user.json'
-        });
+        cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
         cy.visit('users/1/edit');
 
         // Check the form is rendered
@@ -104,13 +102,17 @@ describe('User Edit Page', () => {
     });
 
     it('displays field level API errors', () => {
-        cy.intercept('GET', '**/api/users/1', {
-            fixture: 'user.json'
+        cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
+        cy.intercept('PATCH', '**/api/users/1', {
+            body: { first_name: ["Ensure this field has no more than 150 characters."]},
+            statusCode: 400
         });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/userroles', {});
         cy.visit('users/1/edit');
 
         // Check the form is rendered
-        cy.get('input[name="first_name"]').clear().type('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+        cy.get('input[name="first_name"]').clear().type('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', {timeout: 1000000});
         cy.get('button[type="submit"]').click();
 
         cy.contains('Ensure this field has no more than 150 characters.');
@@ -118,13 +120,9 @@ describe('User Edit Page', () => {
     });
 
     it('shows network error message if unable to reach server (update)', () => {
-        cy.intercept('GET', '**/api/users/1', {
-            fixture: 'user.json'
-        });
+        cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
         cy.visit('users/1/edit');
-        cy.intercept('**/api/users/**', (req) => {
-            req.destroy();
-        });
+        cy.intercept('**/api/users/**', req => req.destroy());
         cy.get('input[name="first_name"]').click().type(' CHEESE', {force: true});
         cy.get('form#user-form').submit();
 
@@ -133,9 +131,7 @@ describe('User Edit Page', () => {
     });
 
     it('shows network error message if unable to reach server (fetch)', () => {
-        cy.intercept('**/api/users/**', (req) => {
-            req.destroy();
-        });
+        cy.intercept('**/api/users/**', req => req.destroy());
         cy.visit('/users/1/edit');
         cy.contains('Network Error')
             .should('be.visible');

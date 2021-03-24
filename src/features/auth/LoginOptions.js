@@ -7,10 +7,17 @@ import { Mail } from 'grommet-icons';
 import React from 'react';
 import AccountPage from '../../components/AccountPage';
 import GoogleLoginButton from '../../components/GoogleLoginButton';
-import history from '../../history';
-
+import { push } from 'connected-react-router';
+import { useDispatch, useSelector } from 'react-redux';
 
 const LoginOptions = () => {
+
+  const dispatch = useDispatch();
+  const pathname = useSelector(state => state.router.location.pathname);
+  console.log(pathname)
+  if (pathname !== '/') {
+    dispatch(push('/'));
+  }
 
   return (
     <AccountPage title="Login">
@@ -22,7 +29,7 @@ const LoginOptions = () => {
                 icon={<Mail />}
                 label="Sign in with Email"
                 gap="large"
-                onClick={() => history.push('/login/email')}
+                onClick={() => dispatch(push('/login/email'))}
             />
             <GoogleLoginButton />
         </Box>

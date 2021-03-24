@@ -1,0 +1,20 @@
+{
+    "key": "45a4b4251e286d9df51fdabad3d7e135f04ee9d1",
+    "user": {
+        "id": 2,
+        "email": "admin@routineops.com",
+        "phone": null,
+        "phonenumber": null,
+        "first_name": "",
+        "last_name": "",
+        "account": 2,
+        "is_account_admin": true,
+        "is_account_owner": true,
+        "is_active": true,
+        "last_login": "2021-03-23T01:47:18.064432Z",
+        "onboard_complete": null,
+        "date_joined": "2021-03-23T01:47:17.408559Z",
+        "intercom_hash": "8f1477749b531425e5a5f8b4efef74af5f835141831e631121a1346b1cae4351",
+        "password_bool": true
+    }
+}

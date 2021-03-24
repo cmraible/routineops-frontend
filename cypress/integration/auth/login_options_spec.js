@@ -2,7 +2,6 @@
 
 describe('Login Options page', () => {
     beforeEach(() => {
-        // cy.exec('npm run initdb')
         cy.visit('/login');
     });
 

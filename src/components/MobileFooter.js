@@ -7,7 +7,7 @@ const MobileFooter = ({children}) => {
     return (
         <>
             <Box
-                style={{position: 'absolute', bottom: 0}}
+                style={{position: 'fixed', bottom: 0, zIndex: 10}}
                 width="100%"
                 background="black"
                 direction="row"

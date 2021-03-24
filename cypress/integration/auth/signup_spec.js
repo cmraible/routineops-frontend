@@ -2,7 +2,6 @@
 
 describe('Signup page', () => {
     beforeEach(() => {
-        // cy.exec('npm run initdb')
         cy.visit('/signup');
     });
 
@@ -60,7 +59,10 @@ describe('Signup page', () => {
     });
 
     it('successfully signs up a new user', () => {
-        cy.exec('npm run resetdb');
+        cy.intercept('POST', '**/api/auth/register/', {
+            statusCode: 201,
+            fixture: 'signup.json'
+        });
         cy.get('input[name="email"]').type('admin@routineops.com');
         cy.get('input[name="password1"]').type('password1234');
         cy.get('input[name="password2"]').type('password1234');

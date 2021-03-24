@@ -2,7 +2,7 @@ import { Button } from 'grommet';
 import React from 'react';
 import Spinner from './Spinner';
 
-const SubmitButton = ({ label, loadingIndicator, size, color }) => {
+const SubmitButton = ({ label, loadingIndicator, size, color, disabled, ...rest }) => {
 
     if (!label) {
         label = 'Submit'
@@ -15,8 +15,9 @@ const SubmitButton = ({ label, loadingIndicator, size, color }) => {
             label={(loadingIndicator) ? '' : label}
             icon={<Spinner isFetching={loadingIndicator} />}
             type="submit"
-            disabled={loadingIndicator}
+            disabled={loadingIndicator || disabled}
             size={size || "large"}
+            {...rest}
         />
     )
 }

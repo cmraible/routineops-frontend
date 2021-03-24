@@ -1,16 +1,16 @@
 import { Box, Text } from 'grommet';
 import React from 'react';
-import history from '../history';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 
 const DesktopSidebarItem = ({ href, icon, label, active }) => {
 
+  const dispatch = useDispatch();
+
   return (
-    <Box
-      onClick={() => history.push(href)}
-      active={active}
-      fill="horizontal"
-    >
       <Box
+        onClick={() => dispatch(push(href))}
+
         align="center"
         direction="row"
         gap="medium"
@@ -22,7 +22,6 @@ const DesktopSidebarItem = ({ href, icon, label, active }) => {
         {icon}
         <Text size="large">{label}</Text>
       </Box>
-    </Box>
   )
 }
 

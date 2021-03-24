@@ -4,13 +4,14 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ListView from '../../components/ListView';
 import Spinner from '../../components/Spinner';
-import history from '../../history';
 import { deleteTask, fetchTasks, selectAllTasks, selectTaskById } from './tasksSlice';
+import { push } from 'connected-react-router';
 
 const TaskExcerpt = ({id}) => {
+  const dispatch = useDispatch()
   const task = useSelector(state => selectTaskById(state, id));
   return (
-    <Box align="start" pad="small" onClick={() => history.push(`/tasks/${id}`)}>
+    <Box align="start" pad="small" onClick={() => dispatch(push(`/tasks/${id}`))}>
       <Box direction="row" align="center" gap="medium">
         <Checkmark /><Text>{task.name}</Text>
       </Box>
@@ -39,7 +40,7 @@ const TaskActions = ({ id }) => {
       dropAlign={{top: 'top', right: 'right'}}
       justifyContent="end"
       items={[
-        { justify: 'center', gap: 'medium', icon: <Box pad="small"><Edit size="small" /></Box>, label: 'Edit', onClick: () => {history.push(`/tasks/${id}/edit`)}},
+        { justify: 'center', gap: 'medium', icon: <Box pad="small"><Edit size="small" /></Box>, label: 'Edit', onClick: () => {dispatch(push(`/tasks/${id}/edit`))}},
         { justify: 'center', gap: 'medium', icon: <Box pad="small"><Trash size="small" /></Box>, label: 'Delete', onClick: () => {handleDelete(id)}},
       ]}
     />
@@ -49,12 +50,14 @@ const TaskActions = ({ id }) => {
 
 const TaskList = () => {
 
+  const dispatch = useDispatch();
+
   return (
     <ListView
       title="Tasks"
       action={{
         icon: <Add />,
-        onClick: () => history.push('/tasks/add'),
+        onClick: () => dispatch(push('/tasks/add')),
         label: "Add Task"
       }}
       itemSelector={selectAllTasks}
@@ -65,7 +68,7 @@ const TaskList = () => {
         <Box gap="medium" align="center">
             <CircleInformation />
           <Text size="large">You don't have any tasks yet.</Text>
-          <Button size="large" icon={<Add/>} label="Add Task" onClick={() => history.push('/tasks/add')} />
+          <Button size="large" icon={<Add/>} label="Add Task" onClick={() => dispatch(push('/tasks/add'))} />
         </Box>
       )}
     />

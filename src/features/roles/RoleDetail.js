@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Error from '../../components/Error';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
-import history from '../../history';
+import { push } from 'connected-react-router';
 import { flattenErrors } from '../../utils';
 import { fetchRole, selectRoleById } from './rolesSlice';
 
@@ -59,7 +59,7 @@ const RoleDetail = ({match}) => {
       action={{
         icon: <Edit />,
         label: "Edit Role",
-        onClick: () => history.push(`/roles/${roleId}/edit`)
+        onClick: () => dispatch(push(`/roles/${roleId}/edit`))
       }}
       previous="/roles"
     >

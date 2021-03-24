@@ -15,7 +15,7 @@ const AppNavigation = () => {
   // Desktop and Tablet: Sidebar with the same navigation items
   // Also displays different options depending on Account.type
 
-  const pathname = useSelector(state => state.router.location.pathname)
+  const pathname = window.location.pathname
   const account = useSelector(selectUserAccount);
 
   const individualLinks = [

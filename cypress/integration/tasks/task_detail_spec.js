@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Task Detail Page', () => {
-    before(() => {
-        cy.login();
-    });
-
     beforeEach(() => {
         cy.login();
     });
@@ -12,14 +8,8 @@ describe('Task Detail Page', () => {
     const sizes = Cypress.config('sizes')
     sizes.forEach((size) => {
         it(`renders properly on ${size} screen`, () => {
-            cy.intercept('GET', '**/api/tasks/1', {
-                statusCode: 200,
-                fixture: 'taskHourly.json'
-            }).as('taskRequest');
-            cy.intercept('GET', '**/api/roles', {
-                fixture: 'roles.json',
-                statusCode: 200
-            });
+            cy.intercept('GET', '**/api/tasks/1', { fixture: 'taskHourly.json' }).as('taskRequest');
+            cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
             cy.viewport(size)
             cy.visit('/tasks/1');
 
@@ -37,28 +27,17 @@ describe('Task Detail Page', () => {
     });
 
     it('links back to tasks page', () => {
-        cy.intercept('GET', '**/api/tasks/1', {
-            statusCode: 200,
-            fixture: 'taskHourly.json'
-        }).as('taskRequest');
-        cy.intercept('GET', '**/api/roles', {
-            fixture: 'roles.json',
-            statusCode: 200
-        });
+        cy.intercept('GET', '**/api/tasks/', {body: {}});
+        cy.intercept('GET', '**/api/tasks/1', { fixture: 'taskHourly.json' }).as('taskRequest');
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.visit('/tasks/1')
         cy.get('[data-cy="previous"]').click();
         cy.location('pathname').should('eq', '/tasks');
     });
 
     it('links to edit page', () => {
-        cy.intercept('GET', '**/api/tasks/1', {
-            statusCode: 200,
-            fixture: 'taskHourly.json'
-        }).as('taskRequest');
-        cy.intercept('GET', '**/api/roles', {
-            fixture: 'roles.json',
-            statusCode: 200
-        });
+        cy.intercept('GET', '**/api/tasks/1', { fixture: 'taskHourly.json' }).as('taskRequest');
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.visit('/tasks/1')
         cy.get('[data-cy="action"]').click();
         cy.location('pathname').should('eq', '/tasks/1/edit');
@@ -73,6 +52,10 @@ describe('Task Detail Page', () => {
     });
 
     it('shows Not found if the task does not exist.', () => {
+        cy.intercept('GET', '**/api/tasks/**', {
+            statusCode: 404,
+            body: { detail: "Not found." }
+        });
         cy.visit('/tasks/9999');
         cy.contains('Not found')
             .should('be.visible');

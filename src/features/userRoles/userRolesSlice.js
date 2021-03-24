@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import { getClient } from '../../apiClient';
+import getClient from '../../apiClient';
 
 // Adapter to normalize and sort response data
 const userRolesAdapter = createEntityAdapter({
@@ -11,25 +11,22 @@ const initialState = userRolesAdapter.getInitialState({});
 
 
 // Async thunks to interact with API
-export const fetchUserRoles = createAsyncThunk('userRoles/fetchUserRoles', async (data, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const fetchUserRoles = createAsyncThunk('userRoles/fetchUserRoles', async (data, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get('/userroles/');
     return response.data
 });
 
-export const addNewUserRole = createAsyncThunk('userRoles/addNewUserRole', async (userRoleData, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const addNewUserRole = createAsyncThunk('userRoles/addNewUserRole', async (userRoleData, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.post('/userroles/', userRoleData)
     window.analytics.track('Created a user role.');
     return response.data
 })
 
-export const deleteUserRole = createAsyncThunk('userRoles/deleteUserRole', async (userRoleId, { getState, rejectWithValue }) => {
+export const deleteUserRole = createAsyncThunk('userRoles/deleteUserRole', async (userRoleId, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.delete(`/userroles/${userRoleId}/`)
         window.analytics.track('Deleted a user role.');
         if (response.status === 204) {

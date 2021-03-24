@@ -14,13 +14,13 @@ import Spinner from '../../components/Spinner';
 import SubmitButton from '../../components/SubmitButton';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
-import history from '../../history';
 import { flattenErrors, getDefaultTaskLayer } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
 import { fetchRoles } from '../roles/rolesSlice';
 import { fetchTask, updateTask } from './tasksSlice';
+import { push } from 'connected-react-router';
 
 
 const TaskEdit = ({ match, taskLayers }) => {
@@ -112,7 +112,7 @@ const TaskEdit = ({ match, taskLayers }) => {
     const resultAction = await dispatch(updateTask(taskData))
     if (updateTask.fulfilled.match(resultAction)) {
       setUpdateStatus('succeeded');
-      history.push(`/tasks/${taskId}`)
+      dispatch(push(`/tasks/${taskId}`))
     } else {
       setUpdateStatus('failed')
       if (resultAction.payload) {

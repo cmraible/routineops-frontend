@@ -1,10 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Task List Page', () => {
-    before(() => {
-        cy.login();
-    });
-
     beforeEach(() => {
         cy.login();
     });
@@ -12,10 +8,7 @@ describe('Task List Page', () => {
     const sizes = Cypress.config('sizes')
     sizes.forEach((size) => {
         it(`renders properly on ${size} screen`, () => {
-            cy.intercept('GET', '**/api/tasks', {
-                fixture: 'tasks.json',
-                statusCode: 200
-            });
+            cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' });
             cy.viewport(size)
             cy.visit('/tasks');
 
@@ -44,10 +37,7 @@ describe('Task List Page', () => {
     });
 
     it('links to the add task page', () => {
-        cy.intercept('GET', '**/api/tasks', {
-            fixture: 'tasks.json',
-            statusCode: 200
-        });
+        cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' });
         cy.visit('/tasks');
         // Click the add button
         cy.get('[data-cy="action"]').click();
@@ -56,10 +46,9 @@ describe('Task List Page', () => {
     });
 
     it('links to the task detail page', () => {
-        cy.intercept('GET', '**/api/tasks', {
-            fixture: 'tasks.json',
-            statusCode: 200
-        });
+        cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/tasks/1', { fixture: 'taskHourly.json' });
         cy.visit('/tasks');
         // Click the task item
         cy.contains('Hourly Task').click();
@@ -68,10 +57,9 @@ describe('Task List Page', () => {
     })
 
     it('links to edit task correctly', () => {
-        cy.intercept('GET', '**/api/tasks', {
-            fixture: 'tasks.json',
-            statusCode: 200
-        });
+        cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' });
+        cy.intercept('GET', '**/api/tasks/2', { fixture: 'taskDaily.json' });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.visit('/tasks');
         // Delete the role
         cy.get('#action-menu-2').click();
@@ -81,10 +69,7 @@ describe('Task List Page', () => {
     });
 
     it('deletes a task successfully', () => {
-        cy.intercept('GET', '**/api/tasks', {
-            fixture: 'tasks.json',
-            statusCode: 200
-        });
+        cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' });
         cy.intercept('DELETE', '**/api/tasks/2', {
             body: 2,
             statusCode: 204

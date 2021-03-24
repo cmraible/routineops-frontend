@@ -1,12 +1,11 @@
 import { Box } from 'grommet';
 import { Connect, ContactInfo, CreditCard, SettingsOption } from 'grommet-icons';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import Tab from './Tab';
 
 const DefaultTabs = () => {
 
-    const pathname = useSelector(state => state.router.location.pathname)
+    const pathname = window.location.pathname
 
     const individualTabs = [
         {icon: <ContactInfo />, title: 'My Profile', href: '/account/profile', active: (pathname === '/account/profile' || pathname === '/account')},

@@ -1,16 +1,17 @@
-import { Box, Form, FormField, TextInput, Heading, Text } from 'grommet';
+import { Box, Form, FormField, Text, TextInput } from 'grommet';
 import { StatusGood } from 'grommet-icons';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateUserPhone, verifyUserPhone, fetchUser } from '../features/users/usersSlice';
 import React, { useState } from 'react';
-import Modal from './Modal';
-import SubmitButton from './SubmitButton';
-import CancelButton from './CancelButton';
-import { selectLoggedInUser } from '../features/auth/authSlice';
-import PhoneInput from 'react-phone-number-input';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import './PhoneNumberModal.css';
-import { flattenErrors } from '../utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectLoggedInUser } from '../auth/authSlice';
+import { fetchUser, updateUserPhone, verifyUserPhone } from '../users/usersSlice';
+import { flattenErrors } from '../../utils';
+import CancelButton from '../../components/CancelButton';
+import Modal from '../../components/Modal';
+import './AccountPhoneNumber.css';
+import SubmitButton from '../../components/SubmitButton';
+import Error from '../../components/Error';
 
 
 const PhoneNumberModal = ({ close }) => {
@@ -21,6 +22,18 @@ const PhoneNumberModal = ({ close }) => {
   const [verifyCode, setVerifyCode] = useState();
   const [status, setStatus] = useState('idle');
   const [errors, setErrors] = useState({})
+
+  const validatePhone = () => {
+    if (!isValidPhoneNumber(phonenumber)) {
+      return 'Enter a valid phone number.'
+    }
+  }
+
+  const validateCode = () => {
+    if (verifyCode.code.length !== 6) {
+      return 'Invalid code.'
+    }
+  }
 
 
   const handleUpdatePhone = async () => {
@@ -44,6 +57,8 @@ const PhoneNumberModal = ({ close }) => {
       phone: phonenumber,
       code: parseInt(verifyCode.code)
     }
+    console.log(data)
+    setErrors({})
     setStatus('verify_pending')
     const resultAction = await dispatch(verifyUserPhone(data))
     if (verifyUserPhone.fulfilled.match(resultAction)) {
@@ -51,9 +66,10 @@ const PhoneNumberModal = ({ close }) => {
       dispatch(fetchUser(user.id))
       setTimeout(() => {
         close()
-      }, 3000)
+      }, 1500)
     } else {
       setStatus('verify_failed');
+      console.log(resultAction)
       if (resultAction.payload) {
         setErrors(flattenErrors(resultAction.payload))
       } else {
@@ -66,15 +82,30 @@ const PhoneNumberModal = ({ close }) => {
   if (status === 'idle' || status === 'update_pending' || status === 'update_failed') {
     content = (
       <>
-        <Heading margin="none" textAlign="center" fill level={2} size="small">Mobile Number</Heading>
         <Form
           onSubmit={handleUpdatePhone}
           errors={errors}
+          data-cy="mobile-number-form"
         >
-          <FormField pad={true}>
-            <PhoneInput value={phonenumber} onChange={setPhonenumber} defaultCountry="US" />
-          </FormField>
-          <Box justify="end" gap="large" direction="row">
+          <Box pad="small">
+            <Box gap="medium">
+              <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined } />
+              <FormField
+                pad={true}
+                validate={validatePhone}
+                name="phone"
+              >
+                <PhoneInput value={phonenumber} onChange={setPhonenumber} defaultCountry="US" />
+              </FormField>
+            </Box>
+          </Box>
+          <Box
+            justify="end"
+            gap="large"
+            direction="row"
+            background="background-contrast"
+            pad="small"
+          >
               <CancelButton onClick={close} />
               <SubmitButton label="Update" loadingIndicator={status === 'update_pending'} />
             </Box>
@@ -84,17 +115,27 @@ const PhoneNumberModal = ({ close }) => {
   } else if (status === 'verify' || status === 'verify_pending' || status === 'verify_failed') {
     content = (
       <>
-        <Heading margin="none" textAlign="center" fill level={2} size="small">Verification</Heading>
         <Form
           value={verifyCode}
           onChange={nextValue => setVerifyCode(nextValue)}
           onSubmit={handleVerifyPhone}
           errors={errors}
+          data-cy="verify-phone-code"
         >
-          <FormField label="Six Digit Code" >
-            <TextInput name="code" placeholder="XXXXXX" />
-          </FormField>
-          <Box justify="end" gap="large" direction="row">
+          <Box gap="medium">
+            <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined } />
+            <FormField label="Six Digit Code" name="code" validate={validateCode}>
+              <TextInput type="number" autoFocus name="code" placeholder="XXXXXX" />
+            </FormField>
+          </Box>
+
+          <Box
+            justify="end"
+            gap="large"
+            direction="row"
+            pad="small"
+            background="background-contrast"
+          >
               <CancelButton onClick={close} />
               <SubmitButton label="Verify" loadingIndicator={status === 'verify_pending'} />
             </Box>
@@ -104,8 +145,7 @@ const PhoneNumberModal = ({ close }) => {
   } else {
     content = (
       <>
-      <Heading margin="none" textAlign="center" fill level={2} size="small">Verification</Heading>
-      <Box direction="row" gap="medium" margin="medium" round="small" pad="small" background={{color: "status-ok", opacity: "weak"}}>
+      <Box direction="row" gap="medium" round="small" pad="medium" background={{color: "status-ok", opacity: "weak"}}>
           <StatusGood color="status-ok" /><Text>Phone number updated successfully!</Text>
       </Box>
       </>
@@ -113,7 +153,7 @@ const PhoneNumberModal = ({ close }) => {
   }
 
   return (
-    <Modal close={close}>
+    <Modal title="Mobile Number" close={close}>
       {content}
     </Modal>
   )

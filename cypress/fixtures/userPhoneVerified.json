@@ -1,0 +1,21 @@
+{
+    "id": 1,
+    "email": "chris@routineops.com",
+    "phone": null,
+    "phonenumber": {
+        "number": "+12154903329",
+        "primary": true,
+        "verified": true
+    },
+    "first_name": "Chris",
+    "last_name": "Raible",
+    "account": 1,
+    "is_account_admin": true,
+    "is_account_owner": true,
+    "is_active": true,
+    "last_login": "2020-12-18T23:43:50.585899Z",
+    "onboard_complete": "2020-12-19T00:14:41.247241Z",
+    "date_joined": "2020-12-18T23:04:43.799697Z",
+    "intercom_hash": "ca70bcf65d01fb8a7bf7f32f34f80731005b9d52fabe5ca2cc1e14c5a9141c85",
+    "password_bool": true
+}

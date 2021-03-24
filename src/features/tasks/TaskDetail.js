@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import Error from '../../components/Error';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
-import history from '../../history';
 import { flattenErrors } from '../../utils';
 import { fetchRoles, selectRoleById } from '../roles/rolesSlice';
 import { fetchTask, selectTaskById } from './tasksSlice';
+import { push } from 'connected-react-router';
+
 
 const TaskDetail = ({ match, taskLayers }) => {
   const dispatch = useDispatch()
@@ -78,7 +79,7 @@ const TaskDetail = ({ match, taskLayers }) => {
       title="Task"
       action={{
         icon: <Edit />,
-        onClick: () => history.push(`/tasks/${taskId}/edit`),
+        onClick: () => dispatch(push(`/tasks/${taskId}/edit`)),
         label: "Edit Task"
       }}
       previous="/tasks" >

@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getClient } from '../../apiClient';
+import getClient from '../../apiClient';
+import { push } from 'connected-react-router';
+
+
 
 // Adapter creates default 'entities' and 'ids' entries. Add additional params to state here.
 const initialState = {
@@ -8,10 +11,11 @@ const initialState = {
 };
 
 // Async thunks to interact with API
-export const login = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
+export const login = createAsyncThunk('auth/login', async (credentials, { dispatch, getState, rejectWithValue }) => {
     try {
-        const client = getClient();
+        const client = getClient(dispatch, getState);
         const response = await client.post('/auth/login/', credentials);
+        dispatch(push('/'));
         return response.data
     } catch (err) {
         if (!err.response) {
@@ -21,10 +25,9 @@ export const login = createAsyncThunk('auth/login', async (credentials, { reject
     }
 });
 
-export const changePassword = createAsyncThunk('auth/changePassword', async (passwords, { rejectWithValue, getState }) => {
+export const changePassword = createAsyncThunk('auth/changePassword', async (passwords, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token;
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.post('/auth/password/change/', passwords)
         return response.data
     } catch (err) {
@@ -35,9 +38,9 @@ export const changePassword = createAsyncThunk('auth/changePassword', async (pas
     }
 });
 
-export const loginWithGoogle = createAsyncThunk('auth/loginWithGoogle', async (code, { rejectWithValue }) => {
+export const loginWithGoogle = createAsyncThunk('auth/loginWithGoogle', async (code, { dispatch, getState, rejectWithValue }) => {
     try {
-        const client = getClient();
+        const client = getClient(dispatch, getState);
         const response = await client.post('/auth/google/', {code: code})
         return response.data
     } catch (err) {
@@ -48,10 +51,9 @@ export const loginWithGoogle = createAsyncThunk('auth/loginWithGoogle', async (c
     }
 });
 
-export const connectGoogle = createAsyncThunk('auth/connectGoogle', async (code, { getState, rejectWithValue }) => {
+export const connectGoogle = createAsyncThunk('auth/connectGoogle', async (code, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token;
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.post('/auth/google/connect/', {code: code})
         return response.data
     } catch (err) {
@@ -63,8 +65,9 @@ export const connectGoogle = createAsyncThunk('auth/connectGoogle', async (code,
 });
 
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-    const client = getClient();
+export const logout = createAsyncThunk('auth/logout', async (data, { dispatch, getState }) => {
+    dispatch(push('/'));
+    const client = getClient(dispatch, getState);
     const response = await client.post('/auth/logout/');
     window.localStorage.removeItem('routineops-token');
     window.localStorage.removeItem('routineopsState');
@@ -73,9 +76,9 @@ export const logout = createAsyncThunk('auth/logout', async () => {
     return response.data
 })
 
-export const signup = createAsyncThunk('auth/signup', async (data, { rejectWithValue }) => {
+export const signup = createAsyncThunk('auth/signup', async (data, { dispatch, getState, rejectWithValue }) => {
     try {
-        const client = getClient();
+        const client = getClient(dispatch, getState);
         const response = await client.post('/auth/register/', data)
         window.analytics.alias(response.data.user.id)
         if (response.data.user.is_account_owner) {
@@ -84,6 +87,7 @@ export const signup = createAsyncThunk('auth/signup', async (data, { rejectWithV
               }
             });
         }
+        dispatch(push('/'))
         return response.data
     } catch (err) {
         if (!err.response) {
@@ -94,9 +98,9 @@ export const signup = createAsyncThunk('auth/signup', async (data, { rejectWithV
 
 });
 
-export const resetPasswordRequest = createAsyncThunk('auth/resetPasswordRequest', async (email, {rejectWithValue}) => {
+export const resetPasswordRequest = createAsyncThunk('auth/resetPasswordRequest', async (email, { dispatch, getState, rejectWithValue }) => {
     try {
-        const client = getClient();
+        const client = getClient(dispatch, getState);
         const response = await client.post('/auth/password/reset/', {email: email})
         window.analytics.track('Password reset link requested.', {email: email})
         return response.data
@@ -109,9 +113,9 @@ export const resetPasswordRequest = createAsyncThunk('auth/resetPasswordRequest'
 
 })
 
-export const resetPassword = createAsyncThunk('auth/resetPassword', async (data, { rejectWithValue }) => {
+export const resetPassword = createAsyncThunk('auth/resetPassword', async (data, { dispatch, getState, rejectWithValue }) => {
     try {
-        const client = getClient();
+        const client = getClient(dispatch, getState);
         const response = await client.post('/auth/password/reset/confirm/', data)
         window.analytics.track('Reset password.')
         return response.data
@@ -137,6 +141,10 @@ export const authSlice = createSlice({
         [loginWithGoogle.fulfilled]: (state, action) => {
             state.token = action.payload.key
             state.userId = action.payload.user.id
+        },
+        [logout.rejected]: (state, action) => {
+            state.token = undefined
+            state.userId = undefined
         },
         [logout.fulfilled]: (state, action) => {
             state.token = undefined

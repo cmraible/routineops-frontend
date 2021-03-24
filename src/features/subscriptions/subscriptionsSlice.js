@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import { getClient } from '../../apiClient';
+import getClient from '../../apiClient';
 
 // Adapter to normalize and sort response data
 const subscriptionsAdapter = createEntityAdapter({
@@ -10,18 +10,25 @@ const subscriptionsAdapter = createEntityAdapter({
 const initialState = subscriptionsAdapter.getInitialState({});
 
 // Async thunks to interact with API
-export const addNewSubscription = createAsyncThunk('subscriptions/addNewSubscription', async (subscription) => {
-    const client = getClient();
-    const response = await client.post(
-        `/accounts/${subscription.account}/create_subscription/`,
-        subscription
-    );
-    window.analytics.track('Started a subscription.');
-    return response.data
+export const addNewSubscription = createAsyncThunk('subscriptions/addNewSubscription', async (subscription, { dispatch, getState, rejectWithValue }) => {
+    try {
+        const client = getClient(dispatch, getState);
+        const response = await client.post(
+            `/accounts/${subscription.account}/create_subscription/`,
+            subscription
+        );
+        window.analytics.track('Started a subscription.');
+        return response.data
+    } catch (err) {
+        if (!err.response) {
+            throw err
+        }
+        return rejectWithValue(err.response.data)
+    }
 });
 
-export const updateSubscription = createAsyncThunk('subscriptions/updateSubscription', async (subscription) => {
-    const client = getClient();
+export const updateSubscription = createAsyncThunk('subscriptions/updateSubscription', async (subscription, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.post(
         `/accounts/${subscription.account}/update_subscription/`, subscription
     );
@@ -29,32 +36,32 @@ export const updateSubscription = createAsyncThunk('subscriptions/updateSubscrip
     return response.data
 });
 
-export const getUpcomingInvoice = createAsyncThunk('subscriptions/getUpcomingInvoice', async (subscription) => {
-    const client = getClient();
-    const response = await client.post(
+export const getUpcomingInvoice = createAsyncThunk('subscriptions/getUpcomingInvoice', async (subscription, { dispatch, getState }) => {
+        const client = getClient(dispatch, getState);
+        const response = await client.post(
         `/accounts/${subscription.account}/upcoming_invoice/`, subscription
     )
     return response.data
 });
 
-export const previewUpcomingInvoice = createAsyncThunk('subscriptions/previewUpcomingInvoice', async (subscription) => {
-    const client = getClient();
+export const previewUpcomingInvoice = createAsyncThunk('subscriptions/previewUpcomingInvoice', async (data, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.post(
-        `/accounts/${subscription.account}/upcoming_invoice`
+        `/accounts/${data.account}/upcoming_invoice/`, data
     )
     return response.data
 });
 
-export const getSubscription = createAsyncThunk('subscriptions/getSubscription', async (accountId) => {
-    const client = getClient();
+export const getSubscription = createAsyncThunk('subscriptions/getSubscription', async (accountId, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get(
         `/accounts/${accountId}/subscription`
     )
     return response.data
 })
 
-export const cancelSubscription = createAsyncThunk('subscriptions/cancelSubscription', async (accountId) => {
-    const client = getClient();
+export const cancelSubscription = createAsyncThunk('subscriptions/cancelSubscription', async (accountId, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.delete(
         `/accounts/${accountId}/cancel_subscription`
     )

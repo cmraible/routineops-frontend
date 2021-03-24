@@ -1,16 +1,17 @@
-import { Box, Form, FormField, Heading, Text, TextInput } from 'grommet';
+import { Box, Form, FormField, Text, TextInput } from 'grommet';
 import { StatusGood } from 'grommet-icons';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CancelButton from '../../components/CancelButton';
 import Modal from '../../components/Modal';
+import Error from '../../components/Error';
 import SubmitButton from '../../components/SubmitButton';
 import { flattenErrors } from '../../utils';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { updateUser } from '../users/usersSlice';
 
 
-const AccountCreditCard = ({close}) => {
+const AccountProfileName = ({close}) => {
 
   const dispatch = useDispatch()
   const user = useSelector(selectLoggedInUser)
@@ -31,6 +32,7 @@ const AccountCreditCard = ({close}) => {
       setTimeout(() => close(), 1500)
     } else {
       setStatus('failed')
+      console.log(resultAction)
       if (resultAction.payload) {
         setErrors(flattenErrors(resultAction.payload))
       } else {
@@ -42,7 +44,7 @@ const AccountCreditCard = ({close}) => {
   let content
   if (status === 'success') {
     content = (
-      <Box direction="row" gap="medium" margin="medium" round="small" pad="small" background={{color: "status-ok", opacity: "weak"}}>
+      <Box direction="row" gap="medium" round="small" pad="medium" background={{color: "status-ok", opacity: "weak"}}>
           <StatusGood color="status-ok" /><Text>Name successfully updated.</Text>
       </Box>
     )
@@ -53,8 +55,10 @@ const AccountCreditCard = ({close}) => {
           onChange={nextValue => setValue(nextValue)}
           onSubmit={handleSubmit}
           errors={errors}
+          data-cy="name-form"
         >
-          <Box direction="row" gap="medium" fill="horizontal">
+          <Box direction="row-responsive" gap="medium" fill="horizontal" pad="small">
+            <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined } />
             <FormField fill name="first_name" label="First Name">
               <TextInput autoFocus name="first_name" />
             </FormField>
@@ -63,7 +67,7 @@ const AccountCreditCard = ({close}) => {
             </FormField>
           </Box>
 
-          <Box justify="end" gap="large" direction="row">
+          <Box pad="small" background="background-contrast" justify="end" gap="large" direction="row">
             <CancelButton onClick={close} />
             <SubmitButton label="Update" loadingIndicator={status === 'pending'} />
           </Box>
@@ -71,11 +75,10 @@ const AccountCreditCard = ({close}) => {
     )
   }
   return (
-    <Modal close={close}>
-      <Heading margin="none" textAlign="center" fill level={2} size="small">Edit Name</Heading>
+    <Modal title="Edit Name" close={close}>
       {content}
     </Modal>
   )
 };
 
-export default AccountCreditCard;
+export default AccountProfileName;

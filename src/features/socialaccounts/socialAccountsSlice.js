@@ -1,7 +1,7 @@
 
 
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import { getClient } from '../../apiClient';
+import getClient from '../../apiClient';
 
 
 const socialAccountsAdapter = createEntityAdapter({
@@ -10,9 +10,8 @@ const socialAccountsAdapter = createEntityAdapter({
 
 const initialState = socialAccountsAdapter.getInitialState({})
 
-export const fetchSocialAccounts = createAsyncThunk('socialAccounts/fetchSocialAccounts', async (id, { getState }) => {
-    const token = getState().auth.token;
-    const client = getClient(token);
+export const fetchSocialAccounts = createAsyncThunk('socialAccounts/fetchSocialAccounts', async (id, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get('auth/socialaccounts/')
     return response.data
 });

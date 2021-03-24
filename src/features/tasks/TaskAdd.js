@@ -13,13 +13,13 @@ import Page from '../../components/Page';
 import SubmitButton from '../../components/SubmitButton';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
-import history from '../../history';
 import { flattenErrors, getDefaultTaskLayer } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
 import { fetchRoles } from '../roles/rolesSlice';
 import { addNewTask } from '../tasks/tasksSlice';
+import { push, goBack } from 'connected-react-router';
 
 
 const AddTask = () => {
@@ -70,7 +70,7 @@ const AddTask = () => {
     const resultAction = await dispatch(addNewTask(taskData))
     if (addNewTask.fulfilled.match(resultAction)) {
       setRequestStatus('succeeded');
-      history.push('/tasks');
+      dispatch(push('/tasks'));
     } else {
       setRequestStatus('failed');
       if (resultAction.payload) {
@@ -150,7 +150,7 @@ const AddTask = () => {
               )}
             </Box>
             <Box direction="row" justify="end" gap="large">
-              <Button plain label="Cancel" onClick={() => history.goBack()} />
+              <Button plain label="Cancel" onClick={() => dispatch(goBack())} />
               <SubmitButton label="Save" loadingIndicator={requestStatus === 'pending'} />
             </Box>
         </Form>

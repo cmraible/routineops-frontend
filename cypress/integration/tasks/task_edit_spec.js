@@ -1,9 +1,6 @@
 /// <reference types="cypress" />
 
 describe('Task Edit Page', () => {
-    before(() => {
-        cy.login();
-    });
 
     beforeEach(() => {
         cy.login();
@@ -12,14 +9,8 @@ describe('Task Edit Page', () => {
     const sizes = Cypress.config('sizes')
     sizes.forEach((size) => {
         it(`renders properly on ${size} screen`, () => {
-            cy.intercept('GET', '**/api/tasks/1', {
-                statusCode: 200,
-                fixture: 'taskHourly.json',
-            }).as('taskRequest');
-            cy.intercept('GET', '**/api/roles', {
-                fixture: 'roles.json',
-                statusCode: 200,
-            });
+            cy.intercept('GET', '**/api/tasks/1', { fixture: 'taskHourly.json' }).as('taskRequest');
+            cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
             cy.viewport(size);
             cy.visit('/tasks/1/edit');
 
@@ -60,14 +51,8 @@ describe('Task Edit Page', () => {
             }
             i++
         });
-        cy.intercept('GET', '**/api/roles', {
-            fixture: 'roles.json',
-            statusCode: 200
-        });
-        cy.intercept('PATCH', '**/api/tasks/**', {
-            fixture: 'taskHourlyEdited.json',
-            statusCode: 200
-        }).as('updateRequest');
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('PATCH', '**/api/tasks/**', { fixture: 'taskHourlyEdited.json' }).as('updateRequest');
         cy.visit('/tasks/1/edit');
         // Check the name field
         cy.get('input[name="name"]').click().type(' Edited', {force: true})
@@ -86,14 +71,8 @@ describe('Task Edit Page', () => {
     });
 
     it('displays server validated errors', () => {
-        cy.intercept('GET', '**/api/tasks/1', {
-            statusCode: 200,
-            fixture: 'taskHourly.json',
-        }).as('taskRequest');
-        cy.intercept('GET', '**/api/roles', {
-            fixture: 'roles.json',
-            statusCode: 200,
-        });
+        cy.intercept('GET', '**/api/tasks/1', { fixture: 'taskHourly.json' }).as('taskRequest');
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.intercept('PATCH', '**/api/tasks/1**', {
             body: {"name":["Ensure this field has no more than 255 characters."]},
             statusCode: 400
@@ -109,34 +88,26 @@ describe('Task Edit Page', () => {
     });
 
     it('links back to task page', () => {
-        cy.intercept('GET', '**/api/tasks/1', {
-            statusCode: 200,
-            fixture: 'taskHourly.json'
-        }).as('taskRequest');
-        cy.intercept('GET', '**/api/roles', {
-            fixture: 'roles.json',
-            statusCode: 200
-        });
+        cy.intercept('GET', '**/api/tasks/1', { fixture: 'taskHourly.json' }).as('taskRequest');
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.visit('/tasks/1/edit')
         cy.get('[data-cy="previous"]').click();
         cy.location('pathname').should('eq', '/tasks/1');
     });
 
     it('shows Not found if the task does not exist.', () => {
+        cy.intercept('GET', '**/api/tasks/**', {
+            statusCode: 404,
+            body: {detail: "Not found."}
+        })
         cy.visit('/tasks/9999/edit');
         cy.contains('Not found')
             .should('be.visible');
     });
 
     it('shows network error message if unable to reach server (update)', () => {
-        cy.intercept('GET', '**/api/tasks/1', {
-            statusCode: 200,
-            fixture: 'taskHourly.json'
-        }).as('taskRequest');
-        cy.intercept('GET', '**/api/roles', {
-            fixture: 'roles.json',
-            statusCode: 200
-        });
+        cy.intercept('GET', '**/api/tasks/1', { fixture: 'taskHourly.json' }).as('taskRequest');
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.intercept('PATCH', '**/api/tasks/**', req => req.destroy());
         cy.visit('tasks/1/edit');
         cy.get('input[name="name"]').click().type(' CHEESE', {force: true});

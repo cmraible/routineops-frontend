@@ -1,10 +1,12 @@
 import React from 'react';
 import { Box, Text } from 'grommet'
 import { ThemeContext } from 'styled-components';
-import history from '../history';
-
+import { push } from 'connected-react-router';
+import { useDispatch } from 'react-redux';
 
 const DefaultTab = ({icon, title, href, active}) => {
+
+    const dispatch = useDispatch();
 
     return (
         <ThemeContext.Extend
@@ -23,7 +25,7 @@ const DefaultTab = ({icon, title, href, active}) => {
                     vertical: "small"
                 }}
                 hoverIndicator={true}
-                onClick={() => history.push(href)}
+                onClick={() => dispatch(push(href))}
             >
 
                     {icon}

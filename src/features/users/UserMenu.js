@@ -4,15 +4,14 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { logout } from '../auth/authSlice';
-import history from '../../history';
-
+import { push } from 'connected-react-router';
 
 const UserMenu = () => {
   const dispatch = useDispatch()
   const user = useSelector(selectLoggedInUser);
 
   const logoutAction = () => {
-    history.push('/')
+    dispatch(push('/'));
     dispatch(logout())
   }
 
@@ -24,7 +23,7 @@ const UserMenu = () => {
       ]}
       plain
       dropBackground="brand"
-      dropProps={{elevation: "none", round: "13px"}}
+      dropProps={{elevation: "none", round: "small"}}
       dropAlign={{"top": "bottom", "left": "left"}}
       size="small"
     >
@@ -35,6 +34,7 @@ const UserMenu = () => {
           background="black"
           gap="medium"
           pad="small"
+          round="small"
           fill="horizontal"
         >
           <Avatar size="36px" background="white">
@@ -43,7 +43,6 @@ const UserMenu = () => {
           <Text size="large">{user.first_name + ' ' + user.last_name}</Text>
         </Box>
       )
-
       }
 
       </Menu>

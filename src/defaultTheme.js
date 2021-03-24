@@ -46,7 +46,10 @@ const routineopsTheme = {
         "light": "#DDDDDD"
       },
       "placeholder": "#AAAAAA",
-      "selected": "#4065FF",
+      "selected": {
+        "light": "#4065FF",
+        "dark": "#3b93FF"
+      },
       "focus": "selected",
       "control": "brand",
       "active-background": "background-contrast",
@@ -174,10 +177,7 @@ const routineopsTheme = {
       "color": "border",
       "style": "dotted",
       "error": {
-        "color": {
-          "dark": "white",
-          "light": "status-critical"
-        }
+        "color": "status-critical"
       },
       "position": "inner",
       "side": "bottom",

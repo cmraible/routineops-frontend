@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Error from '../../components/Error';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
-import history from '../../history';
 import { fetchRoles, selectAllRoles, selectRoleById } from '../roles/rolesSlice';
 import { addNewUserRole, deleteUserRole, fetchUserRoles, selectActiveUserRolesForUser, selectUserRoleById } from '../userRoles/userRolesSlice';
 import { fetchUser, selectUserById } from '../users/usersSlice';
+import { push } from 'connected-react-router';
 
 const UserRoleExcerpt = ({ id }) => {
   const dispatch = useDispatch();
@@ -143,7 +143,7 @@ const UserDetail = ({ match, onClose }) => {
       previous="/users"
       action={{
         icon: <Edit />,
-        onClick: () => history.push(`/users/${userId}/edit`),
+        onClick: () => dispatch(push(`/users/${userId}/edit`)),
         label: "Edit User"
       }}
       pad="small"

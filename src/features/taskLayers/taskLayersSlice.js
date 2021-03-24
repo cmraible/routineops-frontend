@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import { getClient } from '../../apiClient';
+import getClient from '../../apiClient';
 
 // Adapter to normalize and sort response data
 const taskLayersAdapter = createEntityAdapter({
@@ -13,38 +13,33 @@ const initialState = taskLayersAdapter.getInitialState({
 });
 
 // Async thunks to interact with API
-export const fetchTaskLayers = createAsyncThunk('taskLayers/fetchTaskLayers', async (data, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const fetchTaskLayers = createAsyncThunk('taskLayers/fetchTaskLayers', async (data, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get('/tasklayers/');
     return response.data
 });
 
-export const fetchTaskLayer = createAsyncThunk('taskLayers/fetchTaskLayer', async (taskLayerId, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const fetchTaskLayer = createAsyncThunk('taskLayers/fetchTaskLayer', async (taskLayerId, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get(`/tasklayers/${taskLayerId}`);
     return response.data
 })
 
-export const addNewTaskLayer = createAsyncThunk('taskLayers/addNewTaskLayer', async (taskLayerData, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const addNewTaskLayer = createAsyncThunk('taskLayers/addNewTaskLayer', async (taskLayerData, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.post('/tasklayers/', taskLayerData)
     window.analytics.track('Created a task layer.')
     return response.data
 })
 
-export const updateTaskLayer = createAsyncThunk('taskLayers/updateTaskLayer', async (taskLayerData, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const updateTaskLayer = createAsyncThunk('taskLayers/updateTaskLayer', async (taskLayerData, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.patch(`/tasklayers/${taskLayerData.id}/`, taskLayerData)
     return response.data
 })
 
-export const deleteTaskLayer = createAsyncThunk('taskLayers/deleteTaskLayer', async (taskLayerId, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const deleteTaskLayer = createAsyncThunk('taskLayers/deleteTaskLayer', async (taskLayerId, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.delete(`/tasklayers/${taskLayerId}/`)
     window.analytics.track('Deleted a task layer.')
     return response.data

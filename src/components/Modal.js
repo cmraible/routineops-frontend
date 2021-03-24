@@ -1,42 +1,53 @@
 import React from 'react';
-import { Box, Layer } from 'grommet';
+import { Box, Layer, Heading } from 'grommet';
 import { LinkPrevious } from 'grommet-icons';
 
 
-const Modal = ({children, close}) => {
+const Modal = ({children, close, title}) => {
     return (
         <Layer
             modal={true}
             onEsc={close}
             onClickOutside={close}
-            plain
-            full
+            overflow="scroll"
+            responsive={true}
             animation="fadeIn"
-            style={{backdropFilter: 'blur(12px) brightness(50%)', WebkitBackdropFilter: 'blur(12px) brightness(50%)'}}
+            cy-data="modal"
         >
-            <Box justify="center" fill="vertical" pad="small">
-                <Box
-                    style={{position: "relative"}}
-                    width="large"
-                    pad={{horizontal: "medium", bottom: "medium"}}
-                    elevation="medium"
-                    gap="medium"
-                    round="small"
-                    alignSelf="center"
-                    justify="start"
-                    flex={false}
-                    background="background"
-                >
                     <Box
-                        style={{position: "absolute", top: 16, left: 16}}
-                        round="small"
-                        hoverIndicator
-                        pad="small" direction="row" alignSelf="start" onClick={close}>
-                        <LinkPrevious />
+                        direction="row"
+                        align="center"
+                        justify="center"
+                        pad="medium"
+                        gap="medium"
+                        fill="horizontal"
+                        round={{size: "small", corner: "top"}}
+                        background="background-contrast"
+                        style={{position: 'relative'}}
+                    >
+                        <Box
+                            style={{position: "absolute", left: "8px"}}
+                            round="small"
+                            hoverIndicator
+                            pad="small"
+                            onClick={close}
+                            data-cy="close-modal"
+                        >
+                            <LinkPrevious />
+                        </Box>
+                        <Heading
+                            margin="none"
+                            textAlign="center"
+                            fill
+                            level={2}
+                            size="small"
+                        >
+                            {title}
+                        </Heading>
                     </Box>
-                    {children}
-                </Box>
-            </Box>
+                    <Box>
+                     {children}
+                    </Box>
         </Layer>
     )
 }

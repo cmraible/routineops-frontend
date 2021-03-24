@@ -1,4 +1,8 @@
+import { logout } from './features/auth/authSlice';
+
 const axios = require('axios').default;
+
+
 
 // Get API host from env variable, then get api baseurl
 let host
@@ -18,21 +22,29 @@ const baseUrl = host + '/api'
 
 console.log(`Initializing API client with baseUrl: ${baseUrl}`)
 
+const getClient = (dispatch, getState) => {
+  const instance = axios.create(baseConfig)
 
-// Returns config object w/ authorization headers incl.
-export const getAuthConfig = (token) => {
-  return {
-    headers: {'Authorization': 'Token ' + token },
-    ...baseConfig
-  }
-}
-
-// Returns auth client if token available; else base client
-export const getClient = (token) => {
+  instance.interceptors.request.use((config) => {
+    const token = getState().auth.token
     if (token) {
-        return axios.create(getAuthConfig(token))
-    } else {
-        return axios.create(baseConfig)
+      config.headers.Authorization = `Token ${token}`
     }
+    return config
+  }, (error) => {
+    return Promise.reject(error);
+  });
+
+  instance.interceptors.response.use((response) => {
+    return response;
+  }, (error) => {
+    if (error.response && error.response.status === 401) {
+      console.log('logging out')
+      dispatch(logout());
+    }
+    return Promise.reject(error);
+  });
+  return instance
 }
 
+export default getClient;

@@ -3,11 +3,10 @@ import { Edit, CreditCard, Close } from 'grommet-icons'
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { DateTime } from 'luxon';
-import history from '../history';
 import { selectUserAccount } from '../features/accounts/accountsSlice';
 import { selectAllUsers } from '../features/users/usersSlice';
 import { previewUpcomingInvoice, cancelSubscription } from '../features/subscriptions/subscriptionsSlice';
-
+import { push } from 'connected-react-router';
 
 const AccountSubscriptionDetail = () => {
   const dispatch = useDispatch()
@@ -70,11 +69,11 @@ const AccountSubscriptionDetail = () => {
       <Heading margin="none" level={2}>Actions</Heading>
       <Box direction="row" align="center" justify="between">
         <Paragraph color="text-xweak">Change plans, add or remove users, or modify your billing interval.</Paragraph>
-        <Button label="Change Subscription" disabled={requestStatus === 'pending'} icon={<Edit />} primary onClick={() => history.push('/account/subscription/change')} />
+        <Button label="Change Subscription" disabled={requestStatus === 'pending'} icon={<Edit />} primary onClick={() => dispatch(push('/account/subscription/change'))} />
       </Box>
       <Box direction="row" align="center" justify="between">
         <Paragraph color="text-xweak">Update the default payment method on file.</Paragraph>
-        <Button label="Change Credit Card" disabled={requestStatus === 'pending'} icon={<CreditCard />} primary onClick={history.push('account/subscription/payment')} />
+        <Button label="Change Credit Card" disabled={requestStatus === 'pending'} icon={<CreditCard />} primary onClick={dispatch(push('account/subscription/payment'))} />
       </Box>
       <Box direction="row" align="center" justify="between">
         <Paragraph color="text-xweak">Cancel your subscription.</Paragraph>

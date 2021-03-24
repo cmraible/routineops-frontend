@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import { getClient } from '../../apiClient';
+import getClient from '../../apiClient';
 
 // Adapter to normalize and sort response data
 const tasksAdapter = createEntityAdapter({
@@ -10,17 +10,15 @@ const tasksAdapter = createEntityAdapter({
 const initialState = tasksAdapter.getInitialState({});
 
 // Async thunks to interact with API
-export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (data, { getState }) => {
-    const token = getState().auth.token;
-    const client = getClient(token);
+export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (data, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get('/tasks/');
     return response.data
 });
 
-export const fetchTask = createAsyncThunk('tasks/fetchTask', async (taskId, { getState, rejectWithValue }) => {
+export const fetchTask = createAsyncThunk('tasks/fetchTask', async (taskId, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token;
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.get(`/tasks/${taskId}`);
         return response.data
     } catch (err) {
@@ -31,10 +29,9 @@ export const fetchTask = createAsyncThunk('tasks/fetchTask', async (taskId, { ge
     }
 });
 
-export const addNewTask = createAsyncThunk('tasks/addNewTask', async (taskData, { getState, rejectWithValue }) => {
+export const addNewTask = createAsyncThunk('tasks/addNewTask', async (taskData, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token;
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.post('/tasks/', taskData)
         console.log(response)
         window.analytics.track('Added a task.')
@@ -48,10 +45,9 @@ export const addNewTask = createAsyncThunk('tasks/addNewTask', async (taskData, 
     }
 })
 
-export const updateTask = createAsyncThunk('tasks/updateTask', async (taskData, { getState, rejectWithValue }) => {
+export const updateTask = createAsyncThunk('tasks/updateTask', async (taskData, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token;
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.patch(`/tasks/${taskData.id}/`, taskData)
         window.analytics.track('Updated a task.')
         return response.data
@@ -63,10 +59,9 @@ export const updateTask = createAsyncThunk('tasks/updateTask', async (taskData, 
     }
 })
 
-export const deleteTask = createAsyncThunk('tasks/deleteTask', async (taskId, { getState, rejectWithValue }) => {
+export const deleteTask = createAsyncThunk('tasks/deleteTask', async (taskId, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token;
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.delete(`/tasks/${taskId}/`)
         window.analytics.track('Deleted a task.')
         if (response.status === 204) {

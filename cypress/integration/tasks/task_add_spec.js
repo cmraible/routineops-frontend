@@ -29,14 +29,8 @@ describe('Task Add Page', () => {
     });
 
     it('successfully adds a task (Hourly)', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
-        });
-        cy.intercept('GET', '**/api/tasks', {
-            statusCode: 200,
-            fixture: 'tasks.json'
-        }).as('taskRequest')
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' }).as('taskRequest')
         cy.intercept('POST', '**/api/tasks/**', {
             statusCode: 201,
             fixture: 'taskHourly.json'
@@ -64,14 +58,8 @@ describe('Task Add Page', () => {
     });
 
     it('successfully adds a task (Daily)', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
-        });
-        cy.intercept('GET', '**/api/tasks', {
-            statusCode: 200,
-            fixture: 'tasks.json'
-        }).as('taskRequest')
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' }).as('taskRequest')
         cy.intercept('POST', '**/api/tasks/**', {
             statusCode: 201,
             fixture: 'taskDaily.json'
@@ -99,14 +87,8 @@ describe('Task Add Page', () => {
     });
 
     it('successfully adds a task (Weekly)', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
-        });
-        cy.intercept('GET', '**/api/tasks', {
-            statusCode: 200,
-            fixture: 'tasks.json'
-        }).as('taskRequest')
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' }).as('taskRequest')
         cy.intercept('POST', '**/api/tasks/**', {
             statusCode: 201,
             fixture: 'taskWeekly.json'
@@ -134,14 +116,8 @@ describe('Task Add Page', () => {
     });
 
     it('successfully adds a task (Bi-Weekly)', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
-        });
-        cy.intercept('GET', '**/api/tasks', {
-            statusCode: 200,
-            fixture: 'tasks.json'
-        }).as('taskRequest')
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' }).as('taskRequest')
         cy.intercept('POST', '**/api/tasks/**', {
             statusCode: 201,
             fixture: 'taskBiweekly.json'
@@ -169,14 +145,8 @@ describe('Task Add Page', () => {
     });
 
     it('successfully adds a task (Monthly)', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
-        });
-        cy.intercept('GET', '**/api/tasks', {
-            statusCode: 200,
-            fixture: 'tasks.json'
-        }).as('taskRequest')
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' }).as('taskRequest')
         cy.intercept('POST', '**/api/tasks/**', {
             statusCode: 201,
             fixture: 'taskMonthly.json'
@@ -204,14 +174,8 @@ describe('Task Add Page', () => {
     });
 
     it('successfully adds a task (Yearly)', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
-        });
-        cy.intercept('GET', '**/api/tasks', {
-            statusCode: 200,
-            fixture: 'tasks.json'
-        }).as('taskRequest')
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/tasks', { fixture: 'tasks.json' }).as('taskRequest')
         cy.intercept('POST', '**/api/tasks/**', {
             statusCode: 201,
             fixture: 'taskMonthly.json'
@@ -239,10 +203,7 @@ describe('Task Add Page', () => {
     });
 
     it('requires the name field', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
-        });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.visit('/tasks/add');
         // Fill out and submit form
         cy.get('textarea[name="description"]').click().type('This is a fake task', {force:true});
@@ -255,10 +216,7 @@ describe('Task Add Page', () => {
     });
 
     it('requires the role field', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
-        });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.visit('/tasks/add');
         // Fill out and submit form
         cy.get('input[name="name"]').click().type('Fake Task', {force:true});
@@ -271,10 +229,7 @@ describe('Task Add Page', () => {
     });
 
     it('requires the frequency/label field', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
-        });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.visit('/tasks/add');
         // Fill out and submit form
         cy.get('input[name="name"]').click().type('Fake Task', {force:true});
@@ -282,20 +237,21 @@ describe('Task Add Page', () => {
         cy.get('input[name="role"]').click();
         cy.contains('CEO').should('be.visible').click();
         cy.get('form#task-form').submit();
-
         cy.contains('required')
     });
 
     it('links back to the Tasks page', () => {
+        cy.intercept('GET', '**/api/tasks**', {body: {}})
         cy.visit('/tasks/add');
         cy.get('[data-cy="previous"]').click();
         cy.location('pathname').should('eq', '/tasks');
     });
 
     it('displays server validated errors', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('POST', '**/api/tasks/**', {
+            body: {name: ["Ensure this field has no more than 255 characters."]},
+            statusCode: 400
         });
         cy.visit('/tasks/add');
         // Fill out and submit form
@@ -313,10 +269,7 @@ describe('Task Add Page', () => {
     });
 
     it('shows error message if unable to add task', () => {
-        cy.intercept('GET', '**/api/roles', {
-            statusCode: 200,
-            fixture: 'roles.json'
-        });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.intercept('**/api/tasks/**', req => req.destroy());
         cy.visit('/tasks/add');
         // Fill out and submit form

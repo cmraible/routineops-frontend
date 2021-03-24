@@ -1,0 +1,25 @@
+{
+    "id": 1,
+    "name": "Routine Ops",
+    "type": "Free",
+    "address1": "190 Ryland Street Apt 305",
+    "address2": null,
+    "city": "San Jose",
+    "state": "CA",
+    "zip": "95110",
+    "wkst": 1,
+    "working_days": [
+        0,
+        1,
+        2,
+        3,
+        4
+    ],
+    "size": null,
+    "onboard_complete": "2020-12-18T02:51:34.502066Z",
+    "subscription": null,
+    "stripe_payment_method_id": null,
+    "cardlast4": null,
+    "cardbrand": null,
+    "created": "2020-12-18T02:51:33.989164Z"
+}

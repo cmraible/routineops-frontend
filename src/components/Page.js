@@ -2,10 +2,12 @@ import { Box, Button, Heading, Main, ResponsiveContext } from 'grommet';
 import React, { useEffect } from 'react';
 import MobileHeader from './MobileHeader';
 import { LinkPrevious } from 'grommet-icons';
-import history from '../history';
-
+import { push } from 'connected-react-router';
+import { useDispatch } from 'react-redux';
 
 const Page = ({ title, children, action, previous, pad }) => {
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     document.title = title;
@@ -45,8 +47,9 @@ const Page = ({ title, children, action, previous, pad }) => {
                         <Box
                           round="full"
                           pad="small"
+                          animation="slideRight"
                           hoverIndicator
-                          onClick={() => history.push(previous)}
+                          onClick={() => dispatch(push(previous))}
                           data-cy="previous"
                         >
                           <LinkPrevious />
@@ -54,7 +57,7 @@ const Page = ({ title, children, action, previous, pad }) => {
                         )}
                         <Heading size="small" margin={{vertical: "none"}}>{ title }</Heading>
                       </Box>
-                      <Button data-cy="action" primary {...action} />
+                      {(action && <Button data-cy="action" primary {...action} /> )}
                     </Box>
 
                   {children}

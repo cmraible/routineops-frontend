@@ -2,7 +2,6 @@
 
 describe('Forgot password page', () => {
     beforeEach(() => {
-        // cy.exec('npm run initdb')
         cy.visit('/forgot');
     });
 

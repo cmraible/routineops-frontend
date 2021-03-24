@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import { getClient } from '../../apiClient';
+import getClient from '../../apiClient';
 
 // Adapter to normalize and sort response data
 const rolesAdapter = createEntityAdapter({
@@ -10,17 +10,15 @@ const rolesAdapter = createEntityAdapter({
 const initialState = rolesAdapter.getInitialState({});
 
 // Async thunks to interact with API
-export const fetchRoles = createAsyncThunk('roles/fetchRoles', async (data, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const fetchRoles = createAsyncThunk('roles/fetchRoles', async (data, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get('/roles/');
     return response.data
 });
 
-export const fetchRole = createAsyncThunk('roles/fetchRole', async (roleId, { getState, rejectWithValue }) => {
+export const fetchRole = createAsyncThunk('roles/fetchRole', async (roleId, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.get(`/roles/${roleId}/`);
         return response.data
     } catch (err) {
@@ -32,10 +30,9 @@ export const fetchRole = createAsyncThunk('roles/fetchRole', async (roleId, { ge
 
 })
 
-export const addNewRole = createAsyncThunk('roles/addNewRole', async (roleData, { getState, rejectWithValue }) => {
+export const addNewRole = createAsyncThunk('roles/addNewRole', async (roleData, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.post('/roles/', roleData)
         window.analytics.track('Added a role.')
         return response.data
@@ -47,10 +44,9 @@ export const addNewRole = createAsyncThunk('roles/addNewRole', async (roleData, 
     }
 })
 
-export const updateRole = createAsyncThunk('roles/updateRole', async (roleData, { getState, rejectWithValue }) => {
+export const updateRole = createAsyncThunk('roles/updateRole', async (roleData, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.patch(`/roles/${roleData.id}/`, roleData)
         return response.data
     } catch (err) {
@@ -61,10 +57,9 @@ export const updateRole = createAsyncThunk('roles/updateRole', async (roleData, 
     }
 });
 
-export const deleteRole = createAsyncThunk('roles/deleteRole', async (roleId, { getState, rejectWithValue }) => {
+export const deleteRole = createAsyncThunk('roles/deleteRole', async (roleId, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.delete(`/roles/${roleId}/`);
         window.analytics.track('Deleted a role.')
         if (response.status === 204) {

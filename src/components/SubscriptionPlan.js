@@ -1,11 +1,21 @@
 import React from 'react'
 import { Box, Heading, Text } from 'grommet'
 
-const SubscriptionPlan = ({title, subtitle, price, icon, selected, peruser, permonth}) => {
+const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, peruser, permonth, onClick}) => {
 
     return (
-        <Box pad="medium" round="medium" border={{color: selected ? "selected" : "border", size: "small"}} direction="row" justify="between" align="center">
-          <Box direction="row" align="center" gap="medium">
+        <Box
+          pad="medium"
+          hoverIndicator
+          round="medium"
+          border={{color: selected ? "selected" : "border", size: "small"}}
+          direction="row"
+          justify="between"
+          align="center"
+          data-cy={dataCY}
+          onClick={onClick}
+        >
+          <Box direction="row"  align="center" gap="medium">
             {icon}
             <Box>
               <Heading level={2} size="small">{title}</Heading>

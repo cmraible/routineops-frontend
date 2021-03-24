@@ -4,14 +4,15 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ListView from '../../components/ListView';
 import Spinner from '../../components/Spinner';
-import history from '../../history';
+import { push } from 'connected-react-router';
 import AddRoleForm from './RoleFormAdd';
 import { deleteRole, fetchRoles, selectAllRoles, selectRoleById } from './rolesSlice';
 
 const RoleExcerpt = ({id}) => {
   const role = useSelector(state => selectRoleById(state, id));
+  const dispatch = useDispatch();
   return (
-    <Box direction="row" justify="between" onClick={() => history.push(`/roles/${id}`)} pad="small">
+    <Box direction="row" justify="between" onClick={() => dispatch(push(`/roles/${id}`))} pad="small">
       <Box direction="row" align="center" gap="medium">
         <User /><Text>{role.name}</Text>
       </Box>
@@ -42,7 +43,7 @@ const RoleActions = ({ id }) => {
       dropAlign={{top: 'top', right: 'right'}}
       justifyContent="end"
       items={[
-        { justify: 'center', gap: 'medium', icon: <Box pad="small"><Edit size="small" /></Box>, label: 'Edit', onClick: () => {history.push(`/roles/${id}/edit`)}},
+        { justify: 'center', gap: 'medium', icon: <Box pad="small"><Edit size="small" /></Box>, label: 'Edit', onClick: () => {dispatch(push(`/roles/${id}/edit`))}},
         { justify: 'center', gap: 'medium', icon: <Box pad="small"><Trash size="small" /></Box>, label: 'Delete', onClick: () => {handleDelete(id)}},
       ]}
     />

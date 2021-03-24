@@ -13,9 +13,8 @@ import subscriptionReducer from './features/subscriptions/subscriptionsSlice';
 import invitationsReducer from './features/invitations/invitationsSlice';
 import userRolesReducer from './features/userRoles/userRolesSlice';
 import { connectRouter } from 'connected-react-router';
-import history from './history.js';
 
-const appReducer = combineReducers({
+const createRootReducer = (history) => combineReducers({
     auth: authReducer,
     checks: checksReducer,
     invitations: invitationsReducer,
@@ -30,13 +29,6 @@ const appReducer = combineReducers({
     ui: uiReducer,
     userRoles: userRolesReducer,
     users: usersReducer
-})
+});
 
-const rootReducer = (state, action) => {
-    if (action.type === 'auth/logout/fulfilled') {
-        state = undefined
-    }
-    return appReducer(state, action);
-}
-
-export default rootReducer;
+export default createRootReducer;

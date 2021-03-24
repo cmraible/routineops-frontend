@@ -1,15 +1,15 @@
 import React from 'react';
 import Page from '../../components/Page';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectTaskInstanceById } from './taskInstancesSlice';
 import { selectTaskLayerById } from '../taskLayers/taskLayersSlice';
 import { selectChecksForTask } from '../checks/checksSlice';
 import Checklist from '../checks/Checklist';
 import { selectTaskById } from '../tasks/tasksSlice';
-import history from '../../history';
+import { push } from 'connected-react-router';
 
 const TaskInstance = ({match}) => {
-
+    const dispatch = useDispatch()
     const { params } = match
     const { taskInstanceId } = params
     const taskInstance = useSelector(state => selectTaskInstanceById(state, taskInstanceId))
@@ -19,7 +19,7 @@ const TaskInstance = ({match}) => {
 
     return (
         <Page title={task.name} pad="medium">
-            <Checklist checks={checks} taskInstance={taskInstance} onComplete={() => history.push('/')} />
+            <Checklist checks={checks} taskInstance={taskInstance} onComplete={() => dispatch(push('/'))} />
         </Page>
     )
 }

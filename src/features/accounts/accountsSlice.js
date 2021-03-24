@@ -1,58 +1,47 @@
-import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import { getClient } from '../../apiClient';
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import getClient from '../../apiClient';
+import { cancelSubscription } from '../subscriptions/subscriptionsSlice';
 
 // Adapter to normalize and sort response data
-const accountsAdapter = createEntityAdapter({
-    sortComparer: (a, b) => b.id > a.id
-});
+const accountsAdapter = createEntityAdapter({});
 
 // Adapter creates default 'entities' and 'ids' entries. Add additional params to state here.
 const initialState = accountsAdapter.getInitialState({});
 
-export const fetchAccounts = createAsyncThunk('accounts/fetchAccounts', async (data, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
-    const response = await client.get('/accounts/');
-    return response.data
-});
-
-export const fetchAccount = createAsyncThunk('accounts/fetchAccount', async (accountId, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const fetchAccount = createAsyncThunk('accounts/fetchAccount', async (accountId, {dispatch, getState}) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get(`/accounts/${accountId}/`);
     return response.data
 });
 
-export const addNewAccount = createAsyncThunk('accounts/addNewAccount', async (accountData, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
-    const response = await client.post('/accounts/', accountData)
-    return response.data
+export const updateAccount = createAsyncThunk('accounts/updateAccount', async (accountData, { dispatch, getState, rejectWithValue }) => {
+    try {
+        const client = getClient(dispatch, getState);
+        const response = await client.patch(`/accounts/${accountData.id}/`, accountData)
+        window.analytics.group(accountData.id, {
+            'name': accountData.name,
+            'organization_id': accountData.id,
+            'createdAt': accountData.created
+        })
+        return response.data
+    } catch (err) {
+        if (!err.response) {
+            throw err
+        }
+        return rejectWithValue(err.response.data)
+    }
+
 });
 
-export const updateAccount = createAsyncThunk('accounts/updateAccount', async (accountData, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
-    const response = await client.patch(`/accounts/${accountData.id}/`, accountData)
-    window.analytics.group(accountData.id, {
-        'name': accountData.name,
-        'organization_id': accountData.id,
-        'createdAt': accountData.created
-    })
-    return response.data
-});
-
-export const fetchAccountSetupIntent = createAsyncThunk('accounts/fetchAccountSetupIntent', async (id, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const fetchAccountSetupIntent = createAsyncThunk('accounts/fetchAccountSetupIntent', async (id, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get(`/accounts/${id}/create_setup_intent/`)
     return response.data
 });
 
-export const updateAccounntPaymentMethod = createAsyncThunk('accounts/updateAccountPaymentMethod', async (data, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
-    const response = await client.get(`/accounts/${data.accountId}/update_default_payment_method/`, {
+export const updateAccountPaymentMethod = createAsyncThunk('accounts/updateAccountPaymentMethod', async (data, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
+    const response = await client.patch(`/accounts/${data.accountId}/update_default_payment_method/`, {
         newPaymentMethodId: data.newPaymentMethodId
     })
     window.analytics.track('Changed payment method.')
@@ -66,10 +55,16 @@ export const accountsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [fetchAccounts.fulfilled]: accountsAdapter.upsertMany,
         [fetchAccount.fulfilled]: accountsAdapter.upsertOne,
-        [addNewAccount.fulfilled]: accountsAdapter.addOne,
-        [updateAccount.fulfilled]: accountsAdapter.updateOne,
+        [cancelSubscription.fulfilled]: accountsAdapter.upsertOne,
+        [updateAccount.fulfilled]: (state, { payload }) => {
+            const { id, ...changes } = payload
+            accountsAdapter.updateOne(state, { id, changes });
+        },
+        [updateAccountPaymentMethod.fulfilled]: (state, { payload }) => {
+            const { id, ...changes } = payload
+            accountsAdapter.updateOne(state, { id, changes });
+        }
     }
 });
 

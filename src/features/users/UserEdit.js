@@ -6,9 +6,10 @@ import Error from '../../components/Error';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
 import SubmitButton from '../../components/SubmitButton';
-import history from '../../history';
 import { flattenErrors } from '../../utils';
 import { fetchUser, selectUserById, updateUser } from './usersSlice';
+import { push } from 'connected-react-router';
+
 
 const UserEdit = ({ match, onClose }) => {
   const dispatch = useDispatch()
@@ -48,7 +49,7 @@ const UserEdit = ({ match, onClose }) => {
     const resultAction = await dispatch(updateUser(value));
     if (updateUser.fulfilled.match(resultAction)) {
       setRequestStatus('succeeded');
-      history.push(`/users/${userId}`);
+      dispatch(push(`/users/${userId}`));
     } else {
       setRequestStatus('failed');
       if (resultAction.payload) {

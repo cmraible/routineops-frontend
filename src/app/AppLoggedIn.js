@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import NotFound from '../components/NotFound';
-import Account from '../features/accounts/AccountDetail';
+import Account from '../features/accounts/Account';
 // import Team from '../containers/Team';
 import RoleDetail from '../features/roles/RoleDetail';
 import RoleEdit from '../features/roles/RoleEdit';

@@ -1,18 +1,23 @@
-import { Box, Button } from 'grommet';
-import { Previous } from 'grommet-icons';
+import { Box } from 'grommet';
+import { LinkPrevious } from 'grommet-icons';
 import React from 'react';
 
 
-const BackButton = ({ onClick, label }) => {
+const BackButton = ({ label, ...rest }) => {
 
   return (
-    <Box align="start">
-      <Button
-        primary
-        icon={<Previous size="small" />}
-        onClick={onClick}
-        label={label}
-      />
+    <Box
+      {...rest}
+      hoverIndicator
+      round="small"
+      width="xxsmall"
+      height="xxsmall"
+      data-cy="back"
+      alignSelf="start"
+      align="center"
+      justify="center"
+    >
+      <LinkPrevious />
     </Box>
   )
 }

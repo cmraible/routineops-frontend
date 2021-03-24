@@ -1,16 +1,16 @@
-import { Box, Form, Heading, Text } from 'grommet';
+import { Box, Form, Text } from 'grommet';
 import { StatusGood } from 'grommet-icons';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CancelButton from '../../components/CancelButton';
+import Error from '../../components/Error';
 import Modal from '../../components/Modal';
 import PasswordField from '../../components/PasswordField';
 import SubmitButton from '../../components/SubmitButton';
 import { flattenErrors } from '../../utils';
-import { changePassword, selectLoggedInUser } from '../auth/authSlice';
+import { changePassword } from '../auth/authSlice';
+import { selectLoggedInUser } from '../auth/authSlice';
 import { fetchUser } from '../users/usersSlice';
-
-
 
 const ChangePassword = ({ close }) => {
 
@@ -29,7 +29,7 @@ const ChangePassword = ({ close }) => {
         if (changePassword.fulfilled.match(resultAction)) {
             setStatus('success');
             dispatch(fetchUser(user.id))
-            setTimeout(() => close(), 3000)
+            setTimeout(() => close(), 1500)
         } else {
             setStatus('failed')
             if (resultAction.payload) {
@@ -44,23 +44,31 @@ const ChangePassword = ({ close }) => {
     if (status === 'success') {
         content = (
             <Box gap="medium">
-                <Heading margin="none" textAlign="center" fill level={2} size="small">Change Password</Heading>
-                <Box direction="row" gap="medium" round="small" pad="small" background={{color: "status-ok", opacity: "weak"}}>
-                    <StatusGood color="status-ok" /><Text>Password successfully changed!</Text>
+                <Box direction="row" gap="medium" round="small" pad="medium" background={{color: "status-ok", opacity: "weak"}}>
+                    <StatusGood color="status-ok" /><Text>New password has been saved.</Text>
                 </Box>
             </Box>
         )
     } else {
         content = (
             <Box gap="medium">
-                <Heading margin="none" textAlign="center" fill level={2} size="small">Change Password</Heading>
                 <Form
                     errors={errors}
                     onSubmit={handleSubmit}
+                    data-cy="change-password-form"
                 >
-                    <PasswordField required label="New Password" name="new_password1" />
-                    <PasswordField required label="Confirm New Password" name="new_password2" />
-                    <Box justify="end" gap="large" direction="row">
+                    <Box pad="small" gap="medium">
+                        <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined } />
+                        <PasswordField required label="New Password" name="new_password1" />
+                        <PasswordField required label="Confirm New Password" name="new_password2" />
+                    </Box>
+                    <Box
+                        justify="end"
+                        gap="large"
+                        direction="row"
+                        background="background-contrast"
+                        pad="small"
+                    >
                         <CancelButton onClick={close} />
                         <SubmitButton label="Change Password" />
                     </Box>
@@ -70,7 +78,7 @@ const ChangePassword = ({ close }) => {
     }
 
     return (
-        <Modal close={close}>
+        <Modal title="Change Password" close={close}>
             {content}
         </Modal>
     )

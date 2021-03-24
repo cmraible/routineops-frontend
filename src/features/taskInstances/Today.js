@@ -8,8 +8,7 @@ import { selectLoggedInUser } from '../auth/authSlice';
 import { fetchTaskInstances, selectAllTaskInstances } from '../taskInstances/taskInstancesSlice';
 import { fetchTaskLayers, selectTaskLayerEntities } from '../taskLayers/taskLayersSlice';
 import { fetchTasks, selectTaskEntities } from '../tasks/tasksSlice';
-import history from '../../history';
-
+import { push } from 'connected-react-router';
 
 const Today = () => {
   const dispatch = useDispatch()
@@ -32,7 +31,7 @@ const Today = () => {
           <List
             pad="none"
             data={taskInstances}
-            onClickItem={({item}) => history.push(`/taskInstance/${item.id}`)}
+            onClickItem={({item}) => dispatch(push(`/taskInstance/${item.id}`))}
             children={(taskInstance) => {
               if (taskInstance) {
                 const taskLayer = taskLayerEntities[taskInstance.taskLayer]
@@ -66,7 +65,7 @@ const Today = () => {
         <Box gap="medium" pad="medium" align="center">
             <CircleInformation />
           <Text size="large">You don't have any tasks yet.</Text>
-          <Button size="large" icon={<Add/>} label="Add Task" onClick={() => history.push('/tasks/add')} />
+          <Button size="large" icon={<Add/>} label="Add Task" onClick={() => dispatch(push('/tasks/add'))} />
         </Box>
       }
 

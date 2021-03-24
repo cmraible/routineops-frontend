@@ -2,7 +2,6 @@
 
 describe('Login page', () => {
     beforeEach(() => {
-        // cy.exec('npm run initdb')
         cy.visit('/login/email');
     });
 
@@ -51,12 +50,6 @@ describe('Login page', () => {
                 .should('be.visible');
         });
     });
-
-    it('renders properly', () => {
-
-
-
-    })
 
     it('logs the user in with correct credentials', () => {
         cy.get('input[name="email"]').type('chris@routineops.com');

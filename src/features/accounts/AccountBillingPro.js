@@ -1,14 +1,37 @@
 import { Box } from 'grommet';
-import { Upgrade } from 'grommet-icons';
+import { Upgrade, Visa, Mastercard, Amex } from 'grommet-icons';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import EditDescription from '../../components/EditDescription';
 import SubscriptionPlan from '../../components/SubscriptionPlan';
 import AccountCreditCard from './AccountCreditCard';
 import AccountCancel from './AccountCancel';
+import { selectUserAccount } from './accountsSlice';
+
+
+
 const AccountBillingPro = () => {
 
-  const [CC, setCC] = useState(false)
-  const [cancel, setCancel] = useState(false)
+  const account = useSelector(selectUserAccount);
+
+  let ccIcon;
+  switch(account.cardbrand) {
+    case 'visa':
+      ccIcon = <Visa data-cy="visa" color='plain' />
+      break;
+    case 'mastercard':
+      ccIcon = <Mastercard data-cy="mastercard" color='plain' />
+      break;
+    case 'amex':
+      ccIcon = <Amex data-cy="amex" color='plain' />
+      break;
+    default:
+      ccIcon = account.cardbrand[0].toUpperCase() + account.cardbrand.slice(1)
+      break;
+  }
+
+  const [CC, setCC] = useState(false);
+  const [cancel, setCancel] = useState(false);
 
 
   return (
@@ -35,7 +58,11 @@ const AccountBillingPro = () => {
         <EditDescription
           size="large"
           title="Credit Card"
-          description="VISA xxxx 55555"
+          description={
+            <Box direction="row" gap="small">
+              {ccIcon} {'\u2022\u2022\u2022\u2022 ' + account.cardlast4}
+            </Box>
+          }
           onClick={() => setCC(true)}
         />
         <EditDescription

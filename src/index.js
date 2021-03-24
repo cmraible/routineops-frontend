@@ -5,17 +5,15 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './app/App';
-import history from './history';
 import { loadState } from './localStorage';
-import configureAppStore from './store';
-
+import configureStore, { history } from './configureStore';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUB_KEY);
 
-const persistedState = loadState();
-const store = configureAppStore(persistedState);
+const preloadedState = loadState();
+const store = configureStore(preloadedState);
 
 const renderApp = () =>
   render(

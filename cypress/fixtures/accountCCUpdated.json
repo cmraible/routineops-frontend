@@ -1,0 +1,41 @@
+{
+    "id": 1,
+    "name": "Routine Ops",
+    "type": "Pro",
+    "address1": "190 Ryland Street Apt 305",
+    "address2": null,
+    "city": "San Jose",
+    "state": "CA",
+    "zip": "95110",
+    "wkst": 0,
+    "working_days": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+    ],
+    "size": null,
+    "onboard_complete": "2020-12-22T19:52:36.754450Z",
+    "subscription": {
+        "subscription_id": "sub_IcVvu7ijY0EzCf",
+        "cancel_at_period_end": false,
+        "current_period_end": "2021-01-22T19:52:14Z",
+        "current_period_start": "2020-12-22T19:52:14Z",
+        "customer_id": "cus_IcVtI7migMIJuK",
+        "product_name": "Pro",
+        "price_id": "price_1I0DSEJaJXMgpjCHKENx2LFA",
+        "status": "active",
+        "billing_cycle_anchor": "2020-12-22T19:52:14Z",
+        "billing_interval": "month",
+        "last_amount": "5.00",
+        "last_paid": "2020-12-22T19:52:14Z",
+        "quantity": 1
+    },
+    "stripe_payment_method_id": "pm_1I1GuMJaJXMgpjCHDE2JZBkF",
+    "cardlast4": "4444",
+    "cardbrand": "mastercard",
+    "created": "2020-12-22T19:49:46.259254Z"
+}

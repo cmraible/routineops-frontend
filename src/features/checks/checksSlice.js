@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import { getClient } from '../../apiClient';
+import getClient from '../../apiClient';
 import { fetchTasks } from '../tasks/tasksSlice';
 
 // Adapter to normalize and sort response data
@@ -11,39 +11,34 @@ const checksAdapter = createEntityAdapter({
 const initialState = checksAdapter.getInitialState({});
 
 // Async thunks to interact with API
-export const fetchChecks = createAsyncThunk('checks/fetchChecks', async (data, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const fetchChecks = createAsyncThunk('checks/fetchChecks', async (data, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get('/checks/');
     return response.data
 });
 
-export const fetchCheck = createAsyncThunk('checks/fetchCheck', async (checkId, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const fetchCheck = createAsyncThunk('checks/fetchCheck', async (checkId, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get(`/checks/${checkId}/`);
     return response.data
 })
 
-export const addNewCheck = createAsyncThunk('checks/addNewCheck', async (checkData, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const addNewCheck = createAsyncThunk('checks/addNewCheck', async (checkData, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.post('/checks/', checkData)
     window.analytics.track('Added a check.')
     return response.data
 })
 
-export const updateCheck = createAsyncThunk('checks/updateCheck', async (checkData, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const updateCheck = createAsyncThunk('checks/updateCheck', async (checkData, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.patch(`/checks/${checkData.id}/`, checkData)
     window.analytics.track('Updated a check.')
     return response.data
 })
 
-export const deleteCheck = createAsyncThunk('checks/deleteCheck', async (checkId, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const deleteCheck = createAsyncThunk('checks/deleteCheck', async (checkId, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.delete(`/checks/${checkId}/`)
     window.analytics.track('Deleted a check.')
     return response.data

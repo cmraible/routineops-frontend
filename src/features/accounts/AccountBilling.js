@@ -1,26 +1,23 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import AccountBillingFree from './AccountBillingFree';
-import AccountBillingPro from './AccountBillingPro';
-import { selectUserAccount } from './accountsSlice';
+import { Box } from 'grommet';
+import { Route, Switch } from 'react-router-dom';
+import AccountBillingCurrent from './AccountBillingCurrent';
+import AccountBillingUpgradePro from './AccountBillingUpgradePro';
+import AccountBillingUpgradeTeam from './AccountBillingUpgradeTeam';
+
 
 const AccountBilling = () => {
-  const account = useSelector(selectUserAccount)
 
-  switch (account.type) {
-    case 'Free':
-      return (
-        <AccountBillingFree />
-      )
-    case 'Pro':
-      return (
-        <AccountBillingPro />
-      )
-    default:
-    return (
-      'hello'
-    )
-  }
+  return (
+    <Box>
+      <Switch>
+        <Route exact path="/account/billing" component={AccountBillingCurrent} />
+        <Route exact path="/account/billing/upgradePro" component={AccountBillingUpgradePro} />
+        <Route exact path="/account/billing/upgradeTeam" component={AccountBillingUpgradeTeam} />
+      </Switch>
+    </Box>
+
+  )
 };
 
 export default AccountBilling;

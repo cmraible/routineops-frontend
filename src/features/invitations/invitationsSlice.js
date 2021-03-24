@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import { getClient } from '../../apiClient';
+import getClient from '../../apiClient';
 
 // Adapter to normalize and sort response data
 const invitationsAdapter = createEntityAdapter({
@@ -12,17 +12,15 @@ const initialState = invitationsAdapter.getInitialState({});
 
 // Async thunks to interact with API
 
-export const fetchInvitation = createAsyncThunk('invitations/fetchInvitation', async (invitationId, { getState }) => {
-    const token = getState().auth.token
-    const client = getClient(token);
+export const fetchInvitation = createAsyncThunk('invitations/fetchInvitation', async (invitationId, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
     const response = await client.get(`/invitations/${invitationId}/`);
     return response.data
 });
 
-export const addNewInvitation = createAsyncThunk('invitations/addNewInvitation', async (invitationData, { getState, rejectWithValue }) => {
+export const addNewInvitation = createAsyncThunk('invitations/addNewInvitation', async (invitationData, { dispatch, getState, rejectWithValue }) => {
     try {
-        const token = getState().auth.token
-        const client = getClient(token);
+        const client = getClient(dispatch, getState);
         const response = await client.post('/invitations/', invitationData)
         window.analytics.track('Created an invitation', { email: invitationData.email_address })
         return response.data

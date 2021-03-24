@@ -22,7 +22,7 @@ const AccountDetail = () => {
             <Route exact path="/account/profile" component={AccountProfile} />
             <Route exact path="/account/connections" component={AccountConnections} />
             <Route exact path="/account/settings" component={AccountSettings} />
-            <Route exact path="/account/billing" component={AccountBilling} />
+            <Route path="/account/billing" component={AccountBilling} />
             <Route exact path="/account/billing/creditcard" component={AccountCreditCard} />
             <Route exact path="/account/billing/cancel" component={AccountCancel} />
           </Switch>

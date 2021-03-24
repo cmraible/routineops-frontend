@@ -11,6 +11,10 @@ describe('User Detail Page', () => {
             cy.intercept('GET', '**/api/users/1', {
                 fixture: 'user.json'
             });
+            cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+            cy.intercept('GET', '**/api/userroles/**', {
+                body: {}
+            });
             cy.viewport(size)
             cy.visit('/users/1');
 
@@ -32,11 +36,10 @@ describe('User Detail Page', () => {
     });
 
     it('successfully adds and deletes a userRole', () => {
-        cy.intercept('GET', '**/api/users/1', {
-            fixture: 'user.json'
-        });
-        cy.intercept('GET', '**/api/roles', {
-            fixture: 'roles.json'
+        cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/userroles/**', {
+            body: {}
         });
         cy.intercept('POST', '**/api/userroles/', {
             fixture: 'userRole.json',
@@ -67,43 +70,48 @@ describe('User Detail Page', () => {
     })
 
     it('links back to users page', () => {
-        cy.intercept('GET', '**/api/users/1', {
-            fixture: 'user.json'
-        });
+        cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
+        cy.intercept('GET', '**/users', { fixture: 'users.json' });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/userroles', {});
         cy.visit('/users/1')
         cy.get('[data-cy="previous"]').click();
         cy.location('pathname').should('eq', '/users');
     });
 
     it('links back to edit page', () => {
-        cy.intercept('GET', '**/api/users/1', {
-            fixture: 'user.json'
-        });
+        cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/userroles', {});
         cy.visit('/users/1')
         cy.get('[data-cy="action"]').click();
         cy.location('pathname').should('eq', '/users/1/edit');
     });
 
     it('shows error message if unable to fetch user', () => {
-        cy.intercept('**/api/users/**', (req) => {
-            req.destroy();
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/userroles/**', {
+            body: {}
         });
+        cy.intercept('GET', '**/api/users/**', req => req.destroy());
         cy.visit('/users/1');
         cy.contains('Network Error')
             .should('be.visible');
     });
 
     it('shows error message if unable to add user role', () => {
-        cy.intercept('POST', '**/api/userroles/**', (req) => {
-            req.destroy();
+        cy.intercept('GET', '**/api/users/1', {
+            fixture: 'user.json'
         });
-        cy.intercept('GET', '**/api/roles', {
-            fixture: 'roles.json'
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/userroles/**', {
+            body: {}
         });
+        cy.intercept('POST', '**/api/userroles/**', req => req.destroy());
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.visit('/users/1');
         cy.get('#role-select').click();
         cy.contains('CEO').should('be.visible').click();
-
         cy.contains('Network Error')
             .should('be.visible');
     });

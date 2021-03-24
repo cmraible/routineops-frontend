@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-const { PhoneNumberFormat } = require("google-libphonenumber");
-
 describe('Role List Page', () => {
     beforeEach(() => {
         cy.login();
@@ -10,10 +8,7 @@ describe('Role List Page', () => {
     const sizes = Cypress.config('sizes')
     sizes.forEach((size) => {
         it(`renders properly on ${size} screen`, () => {
-            cy.intercept('GET', '**/api/roles', {
-                fixture: 'roles.json',
-                statusCode: 200
-            });
+            cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
             cy.viewport(size);
 
             cy.visit('/roles');
@@ -81,10 +76,8 @@ describe('Role List Page', () => {
 
     it('links to edit role', () => {
         // Pre-populate a role
-        cy.intercept('GET', '**/api/roles', {
-            fixture: 'roles.json',
-            statusCode: 200
-        });
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/roles/1', { fixture: 'role.json' });
         cy.visit('/roles');
         // Delete the role
         cy.get('#action-menu-1').click();
@@ -95,8 +88,7 @@ describe('Role List Page', () => {
 
     it('shows No roles found if there are no roles', () => {
         cy.intercept('GET', '**/api/roles', {
-            body: {},
-            statusCode: 200
+            body: {}
         });
         cy.visit('/roles');
         // Check the "No Roles Found" message
@@ -104,12 +96,18 @@ describe('Role List Page', () => {
     });
 
     it('links back to the Team page', () => {
+        cy.intercept('GET', '**/api/roles', {
+            body: {}
+        });
         cy.visit('/roles');
         cy.get('[data-cy="previous"]').click();
         cy.location('pathname').should('eq', '/team');
     });
 
     it('requires the name field', () => {
+        cy.intercept('GET', '**/api/roles', {
+            body: {}
+        });
         cy.visit('/roles');
         cy.get('input[name="name"]').clear().type('{enter}');
         cy.contains('required');
@@ -118,7 +116,6 @@ describe('Role List Page', () => {
     it('shows error message if unable to add role', () => {
         cy.intercept('GET', '**/api/roles', {
             statusCode: 200,
-            body: {}
         })
         cy.intercept('POST', '**/api/roles', req => req.destroy())
         cy.visit('/roles');
