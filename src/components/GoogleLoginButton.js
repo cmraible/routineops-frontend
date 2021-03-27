@@ -1,4 +1,5 @@
-import { Button, Image } from 'grommet';
+import { Button } from 'grommet';
+import { Google } from 'grommet-icons';
 import React from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch } from 'react-redux';
@@ -8,7 +9,7 @@ import { loginWithGoogle } from '../features/auth/authSlice';
 const GoogleLoginButton = () => {
   const dispatch = useDispatch();
 
-  const icon = <Image size="xxsmall" src="/google/google_logo.svg" />
+  const icon = <Google color="plain" />
 
   const onSuccess = (res) => {
     console.log(res);
