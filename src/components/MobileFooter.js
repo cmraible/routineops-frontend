@@ -1,7 +1,9 @@
 import React from 'react';
 import { Box } from 'grommet';
+import MobileFooterItem from './MobileFooterItem';
 
-const MobileFooter = ({children}) => {
+
+const MobileFooter = ({links}) => {
     const standalone = window.navigator.standalone
     const padding = standalone ? {bottom: "34px", top: "small"} : "small"
     return (
@@ -15,7 +17,15 @@ const MobileFooter = ({children}) => {
                 pad={padding}
                 data-cy="site-navigation"
             >
-                {children}
+                {
+
+                    links.map((link) => {
+                        return (
+                            <MobileFooterItem key={link.label} {...link} />
+                        )
+                    })
+
+                }
             </Box>
 
         </>
