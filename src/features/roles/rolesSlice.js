@@ -1,5 +1,6 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
+import { logout } from '../auth/authSlice';
 
 // Adapter to normalize and sort response data
 const rolesAdapter = createEntityAdapter({
@@ -87,7 +88,9 @@ export const rolesSlice = createSlice({
             const { id, ...changes} = payload
             rolesAdapter.updateOne(state, {id, changes});
         },
-        [deleteRole.fulfilled]: rolesAdapter.removeOne
+        [deleteRole.fulfilled]: rolesAdapter.removeOne,
+        [logout.rejected]: rolesAdapter.removeAll,
+        [logout.fulfilled]: rolesAdapter.removeAll
     }
 });
 

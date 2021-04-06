@@ -1,5 +1,6 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
+import { logout } from '../auth/authSlice';
 
 // Adapter to normalize and sort response data
 const invitationsAdapter = createEntityAdapter({
@@ -41,6 +42,8 @@ export const invitationsSlice = createSlice({
     extraReducers: {
         [fetchInvitation.fulfilled]: invitationsAdapter.upsertOne,
         [addNewInvitation.fulfilled]: invitationsAdapter.addOne,
+        [logout.fulfilled]: invitationsAdapter.removeAll,
+        [logout.rejected]: invitationsAdapter.removeAll
     }
 });
 

@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <style>
-        @media (prefers-color-scheme: dark) {
-            path {
-                fill: white
-            }
-        }
-        @media (prefers-color-scheme: light) {
-            path {
-                fill: black
-            }
+        path {
+            fill: white
         }
     </style>
     <title>RoutineOpsLogo</title>

@@ -8,6 +8,8 @@ import { createBrowserHistory } from 'history';
 
 export const history = createBrowserHistory()
 
+console.log(createRootReducer)
+
 const configureStore = (preloadedState) => {
   const store = createStore(
     createRootReducer(history),

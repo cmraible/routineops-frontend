@@ -1,6 +1,7 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
 import { fetchTasks } from '../tasks/tasksSlice';
+import { logout } from '../auth/authSlice';
 
 // Adapter to normalize and sort response data
 const checksAdapter = createEntityAdapter({
@@ -65,6 +66,8 @@ export const checksSlice = createSlice({
         [addNewCheck.fulfilled]: checksAdapter.addOne,
         [updateCheck.fulfilled]: checksAdapter.updateOne,
         [deleteCheck.fulfilled]: checksAdapter.removeOne,
+        [logout.fulfilled]: checksAdapter.removeAll,
+        [logout.rejected]: checksAdapter.removeAll
     }
 });
 

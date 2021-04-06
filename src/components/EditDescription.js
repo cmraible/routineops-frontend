@@ -35,7 +35,7 @@ const EditDescription = ({title, dataCY, description, onClick, size, verifiable,
                     data-cy={dataCY}
                 >
                     {editIcon}
-                    {description}
+                    <Text size={size || "medium"}>{description}</Text>
                 </Box>
             </Box>
 

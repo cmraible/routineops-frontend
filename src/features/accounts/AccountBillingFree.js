@@ -19,15 +19,6 @@ const AccountBillingFree = () => {
         selected
       />
       <SubscriptionPlan
-        title="Upgrade to Pro"
-        subtitle="Extra features for power users"
-        icon={<Upgrade />}
-        price={5}
-        permonth
-        dataCY="upgrade-pro"
-        onClick={() => dispatch(push('/account/billing/upgradePro'))}
-      />
-      <SubscriptionPlan
         title="Upgrade to Team"
         subtitle="Pro features for everyone"
         icon={<Upgrade />}

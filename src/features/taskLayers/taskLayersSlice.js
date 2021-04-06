@@ -1,5 +1,6 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
+import { logout } from '../auth/authSlice';
 
 // Adapter to normalize and sort response data
 const taskLayersAdapter = createEntityAdapter({
@@ -61,6 +62,8 @@ export const taskLayersSlice = createSlice({
         [addNewTaskLayer.fulfilled]: taskLayersAdapter.addOne,
         [updateTaskLayer.fulfilled]: taskLayersAdapter.updateOne,
         [deleteTaskLayer.fulfilled]: taskLayersAdapter.removeOne,
+        [logout.fulfilled]: taskLayersAdapter.removeAll,
+        [logout.rejected]: taskLayersAdapter.removeAll
     }
 });
 

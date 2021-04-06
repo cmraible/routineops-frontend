@@ -1,36 +1,70 @@
-import { Box } from 'grommet';
-import { Upgrade } from 'grommet-icons';
+import { Box, Meter, Text } from 'grommet';
+import { FormEdit } from 'grommet-icons';
 import React, { useState } from 'react';
 import EditDescription from '../../components/EditDescription';
 import SubscriptionPlan from '../../components/SubscriptionPlan';
-import AccountCreditCard from './AccountCreditCard';
 import AccountCancel from './AccountCancel';
-const AccountBillingPro = () => {
+import AccountCreditCard from './AccountCreditCard';
+import AccountBillingModify from './AccountBillingModify';
+import { useSelector } from 'react-redux';
+import { selectUserAccount } from './accountsSlice';
+import { selectAllUsers } from '../users/usersSlice';
+
+
+const AccountBillingTeam = () => {
+
+  const account = useSelector(selectUserAccount);
+  const users = useSelector(selectAllUsers);
+
+  const usage = Math.round(users.length / account.subscription.quantity * 100)
+  const usageColor = usage < 90 ? "status-ok" : "status-warning"
+
 
   const [CC, setCC] = useState(false)
   const [cancel, setCancel] = useState(false)
-
+  const [modifySubscription, setModifySubscription] = useState(false)
 
   return (
-    <>
     <Box gap="large" width="large" pad="medium">
       <Box gap="medium">
+        <Text>Current Plan:</Text>
         <SubscriptionPlan
-          title="Pro"
+          title="Team"
           selected
-          subtitle="Extra features for power users"
-          price={5}
-          permonth
-        />
-        <SubscriptionPlan
-          title="Upgrade to Team"
           subtitle="Pro features for everyone"
-          icon={<Upgrade />}
           price={9}
+          quantity={account.subscription.quantity}
           permonth
           peruser
         />
       </Box>
+      <Box direction="row" align="center" justify="between" pad="medium">
+        <Box align="center">
+          <Meter
+            size="small"
+            background="background-contrast"
+            round
+            type="bar"
+            values={[{"value": usage, "color": usageColor}]}
+          />
+          <Text weight="bold">{users.length} / {account.subscription.quantity} user seats used.</Text>
+        </Box>
+        <Box
+            align="center"
+            justify="between"
+            pad="small"
+            hoverIndicator
+            round="small"
+            direction="row"
+            gap="medium"
+            onClick={() => setModifySubscription(true)}
+        >
+            <FormEdit />
+            <Text size="large">Add / Remove Seats</Text>
+        </Box>
+      </Box>
+
+
       <Box gap="large">
         <EditDescription
           size="large"
@@ -44,15 +78,11 @@ const AccountBillingPro = () => {
           description="Cancel Subscription"
           onClick={() => setCancel(true)} />
       </Box>
+      {(CC && <AccountCreditCard close={() => setCC(false)} />)}
+      {(cancel && <AccountCancel close={() => setCancel(false)} />)}
+      {(modifySubscription && <AccountBillingModify close={() => setModifySubscription(false) } />)}
     </Box>
-
-    {(CC && <AccountCreditCard close={() => setCC(false)} />)}
-    {(cancel && <AccountCancel close={() => setCancel(false)} />)}
-
-
-
-      </>
   )
 };
 
-export default AccountBillingPro;
+export default AccountBillingTeam;

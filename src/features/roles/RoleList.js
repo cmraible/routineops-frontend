@@ -5,14 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import ListView from '../../components/ListView';
 import Spinner from '../../components/Spinner';
 import { push } from 'connected-react-router';
-import AddRoleForm from './RoleFormAdd';
+import AddRoleForm from './AddRoleForm';
 import { deleteRole, fetchRoles, selectAllRoles, selectRoleById } from './rolesSlice';
 
 const RoleExcerpt = ({id}) => {
   const role = useSelector(state => selectRoleById(state, id));
   const dispatch = useDispatch();
   return (
-    <Box direction="row" justify="between" onClick={() => dispatch(push(`/roles/${id}`))} pad="small">
+    <Box direction="row" fill justify="stretch" onClick={() => dispatch(push(`/roles/${id}`))} pad="small">
       <Box direction="row" align="center" gap="medium">
         <User /><Text>{role.name}</Text>
       </Box>
@@ -55,12 +55,12 @@ const RoleList = () => {
   return (
     <ListView
       title="Roles"
-      previous='/team'
       itemSelector={selectAllRoles}
       fetchAction={fetchRoles}
       renderItem={(role) => (<RoleExcerpt id={role.id} key={role.id} />)}
-      header={<AddRoleForm />}
+      header={<Box pad={{vertical: "medium", horizontal: "small"}}><AddRoleForm /></Box>}
       listActions={(item) => (<RoleActions key={item.id} id={item.id} />)}
+      pad="none"
       empty={
         <Box pad="small" round="small" align="center" border={{color: "status-critical", size: "small"}} background={{color: "status-critical", opacity: "weak"}}>
           No roles found.

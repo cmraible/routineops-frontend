@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectAllRoles } from './rolesSlice';
 
 
-const RoleSelect = ({ placeholder, name, plain, required }) => {
+const RoleSelect = ({ placeholder, name, required }) => {
 
   const roles = useSelector(selectAllRoles);
 

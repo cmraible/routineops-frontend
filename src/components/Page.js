@@ -39,7 +39,9 @@ const Page = ({ title, children, action, previous, pad }) => {
                       pad={{horizontal: "small", vertical: "xsmall"}}
                       justify="between"
                       gap="medium"
+                      fill="horizontal"
                       flex={false}
+                      height="xxsmall"
                       background="background-contrast"
                     >
                       <Box direction="row" align="center" gap="small">
@@ -59,7 +61,6 @@ const Page = ({ title, children, action, previous, pad }) => {
                       </Box>
                       {(action && <Button data-cy="action" primary {...action} /> )}
                     </Box>
-
                   {children}
                 </Box>
               )

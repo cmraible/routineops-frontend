@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import NotFound from '../components/NotFound';
 import Account from '../features/accounts/Account';
-// import Team from '../containers/Team';
 import DesktopSidebar from '../components/DesktopSidebar';
 import MobileFooter from '../components/MobileFooter';
 import RoleDetail from '../features/roles/RoleDetail';
@@ -42,8 +41,8 @@ const AppLoggedIn = () => {
   const teamLinks = [
     {label: 'Tasks', icon: <Checkmark />, href: '/tasks', active: (pathname.startsWith('/tasks'))},
     {label: 'Home', icon: <Home />, href: '/', active: (pathname === '/')},
-    {label: 'Roles', icon: <Group />, href: '/roles', active: (pathname.startsWith('/roles'))},
-    {label: 'Team', icon: <Organization />, href: '/team', active: (pathname.startsWith('/team'))},
+    {label: 'Team', icon: <Group />, href: '/roles', active: (pathname.startsWith('/roles'))},
+    {label: 'Account', icon: <Organization />, href: '/account', active: (pathname.startsWith('/team'))},
   ]
 
   const links = (account && account.type === 'Team') ? teamLinks : individualLinks;

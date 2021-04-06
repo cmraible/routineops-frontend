@@ -1,6 +1,6 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
-import { login, loginWithGoogle } from '../auth/authSlice';
+import { login, loginWithGoogle, logout } from '../auth/authSlice';
 
 // Adapter to normalize and sort response data
 const usersAdapter = createEntityAdapter({
@@ -84,7 +84,9 @@ export const usersSlice = createSlice({
         },
         [loginWithGoogle.fulfilled]: (state, action) => {
             usersAdapter.upsertOne(state, action.payload.user)
-        }
+        },
+        [logout.fulfilled]: usersAdapter.removeAll,
+        [logout.rejected]: usersAdapter.removeAll
     }
 });
 

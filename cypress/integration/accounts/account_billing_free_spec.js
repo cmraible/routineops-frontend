@@ -13,20 +13,8 @@ describe('Account Billing Free Page', () => {
             cy.title().should('eq', 'Account')
 
             cy.contains('Free').should('be.visible');
-            cy.contains('Upgrade to Pro').should('be.visible');
             cy.contains('Upgrade to Team').should('be.visible');
         });
-    });
-
-    it('links to upgrade Pro page', () => {
-        cy.intercept('GET', '**/api/accounts/1**', { fixture: 'accountFree.json'});
-        cy.login();
-        cy.visit('/account/billing')
-        // Check page title
-        cy.title().should('eq', 'Account')
-
-        cy.contains('Upgrade to Pro').should('be.visible').click();
-        cy.location('pathname').should('eq', '/account/billing/upgradePro');
     });
 
     it('links to upgrade Team page', () => {

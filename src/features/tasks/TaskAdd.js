@@ -39,7 +39,8 @@ const AddTask = () => {
     description: '',
     account: user.account,
     bymonthday: [],
-    bymonth: []
+    bymonth: [],
+    role: account.type === 'Free' ? 1 : ''
   });
 
   const handleSubmit = async () => {
@@ -81,6 +82,9 @@ const AddTask = () => {
     }
   }
 
+  console.log(formValue)
+
+
   return (
     <Page
       title="Add Task"
@@ -111,11 +115,16 @@ const AddTask = () => {
               <InlineInput autoFocus name="name" placeholder="Task Name" size="xxlarge" required />
               <InlineTextArea placeholder="Task Description" name="description" size="medium" />
             </Box>
-            <Box flex={false}>
-              <Box align="center" justify="stretch" gap="small" direction="row">
-                <Text style={{'whiteSpace': 'nowrap'}}>Assigned to</Text><RoleSelect placeholder="Select Role" required plain />
-              </Box>
-            </Box>
+            {
+              account.type !== 'Free' && (
+                <Box flex={false}>
+                  <Box align="center" justify="stretch" gap="small" direction="row">
+                    <Text style={{'whiteSpace': 'nowrap'}}>Assigned to</Text><RoleSelect placeholder="Select Role" required />
+                  </Box>
+                </Box>
+              )
+            }
+
             <Box flex={false} gap="medium">
               <Box align="center" justify="between" gap="small" direction="row">
                 <Text>Repeats</Text><FrequencySelect onChange={({value}) => {

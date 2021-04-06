@@ -1,5 +1,6 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
+import { logout } from '../auth/authSlice';
 
 // Adapter to normalize and sort response data
 const subscriptionsAdapter = createEntityAdapter({
@@ -27,13 +28,21 @@ export const addNewSubscription = createAsyncThunk('subscriptions/addNewSubscrip
     }
 });
 
-export const updateSubscription = createAsyncThunk('subscriptions/updateSubscription', async (subscription, { dispatch, getState }) => {
-    const client = getClient(dispatch, getState);
-    const response = await client.post(
-        `/accounts/${subscription.account}/update_subscription/`, subscription
-    );
-    window.analytics.track('Updated subscription.')
-    return response.data
+export const updateSubscription = createAsyncThunk('subscriptions/updateSubscription', async (subscription, { dispatch, getState, rejectWithValue }) => {
+    try {
+        const client = getClient(dispatch, getState);
+        const response = await client.patch(
+            `/accounts/${subscription.account}/update_subscription/`, subscription
+        );
+        window.analytics.track('Updated subscription.')
+        return response.data
+    } catch (err) {
+        if (!err.response) {
+            throw err
+        }
+        return rejectWithValue(err.response.data)
+    }
+
 });
 
 export const getUpcomingInvoice = createAsyncThunk('subscriptions/getUpcomingInvoice', async (subscription, { dispatch, getState }) => {
@@ -77,6 +86,8 @@ export const subscriptionsSlice = createSlice({
     extraReducers: {
         [addNewSubscription.fulfilled]: subscriptionsAdapter.addOne,
         [updateSubscription.fulfilled]: subscriptionsAdapter.upsertOne,
+        [logout.fulfilled]: subscriptionsAdapter.removeAll,
+        [logout.rejected]: subscriptionsAdapter.removeAll
     }
 });
 

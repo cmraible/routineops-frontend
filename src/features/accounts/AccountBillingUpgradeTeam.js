@@ -25,6 +25,8 @@ const AccountBillingUpgradeTeam = ({ close }) => {
     const [invoiceStatus, setInvoiceStatus] = useState('idle')
     const [previewInvoice, setPreviewInvoice] = useState(false);
 
+    console.log(previewInvoice)
+
     const stripe = useStripe();
     const elements = useElements();
 
@@ -118,7 +120,7 @@ const AccountBillingUpgradeTeam = ({ close }) => {
                 <Box pad="medium" gap="medium">
                     {(previewInvoice && previewInvoice.lines.data.map(line => {
                         return (
-                            <Box direction="row" align="center" gap="xsmall">
+                            <Box direction="row" align="center" gap="xsmall" key={line.id}>
                                 <FormNextLink /> {`${line.description}: $${(line.amount/100).toFixed(2)}`}
                             </Box>
                         )

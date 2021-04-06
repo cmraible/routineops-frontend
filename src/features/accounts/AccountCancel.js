@@ -51,7 +51,7 @@ const AccountCancel = ({ close }) => {
           <FormField name="cancel" validate={validateCancel}>
             <TextInput name="cancel" autoFocus placeholder="CANCEL"/>
           </FormField>
-          <Box justify="end" gap="large" direction="row">
+          <Box justify="end" gap="large" direction="row" pad="small">
             <CancelButton onClick={close} label="Close" />
             <SubmitButton loadingIndicator={status === 'pending'} color="status-critical" size="large" disabled={value.cancel !== 'CANCEL'} label="Cancel" />
           </Box>

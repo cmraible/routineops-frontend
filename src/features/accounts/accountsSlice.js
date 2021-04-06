@@ -1,6 +1,8 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
-import { cancelSubscription } from '../subscriptions/subscriptionsSlice';
+import { addNewSubscription, updateSubscription, cancelSubscription } from '../subscriptions/subscriptionsSlice';
+import { logout } from '../auth/authSlice';
+
 
 // Adapter to normalize and sort response data
 const accountsAdapter = createEntityAdapter({});
@@ -57,6 +59,8 @@ export const accountsSlice = createSlice({
     extraReducers: {
         [fetchAccount.fulfilled]: accountsAdapter.upsertOne,
         [cancelSubscription.fulfilled]: accountsAdapter.upsertOne,
+        [updateSubscription.fulfilled]: accountsAdapter.upsertOne,
+        [addNewSubscription.fulfilled]: accountsAdapter.upsertOne,
         [updateAccount.fulfilled]: (state, { payload }) => {
             const { id, ...changes } = payload
             accountsAdapter.updateOne(state, { id, changes });
@@ -64,7 +68,9 @@ export const accountsSlice = createSlice({
         [updateAccountPaymentMethod.fulfilled]: (state, { payload }) => {
             const { id, ...changes } = payload
             accountsAdapter.updateOne(state, { id, changes });
-        }
+        },
+        [logout.fulfilled]: accountsAdapter.removeAll,
+        [logout.rejected]: accountsAdapter.removeAll
     }
 });
 

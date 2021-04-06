@@ -2,6 +2,7 @@
 
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
+import { logout } from '../auth/authSlice';
 
 
 const socialAccountsAdapter = createEntityAdapter({
@@ -21,7 +22,9 @@ export const socialAccountsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [fetchSocialAccounts.fulfilled]: socialAccountsAdapter.setAll
+        [fetchSocialAccounts.fulfilled]: socialAccountsAdapter.setAll,
+        [logout.fulfilled]: socialAccountsAdapter.removeAll,
+        [logout.rejected]: socialAccountsAdapter.removeAll
     }
 });
 

@@ -23,7 +23,8 @@ describe('Upgrade to Team', () => {
         });
     });
 
-    it('successfully upgrades to team', () => {
+    it.only('successfully upgrades to team', () => {
+        cy.clock()
         cy.intercept('POST', '**/api/accounts/1/create_subscription', {
             fixture: 'accountTeam.json'
         });
@@ -38,6 +39,8 @@ describe('Upgrade to Team', () => {
         });
         cy.get('[data-cy="upgrade-form"]').submit();
         cy.get('[data-cy="success-message"]').contains('Account successfully upgraded');
+        cy.tick(10000)
+
     });
 
     it('displays API errors for failed credit card', () => {

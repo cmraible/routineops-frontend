@@ -1,7 +1,8 @@
 import React from 'react'
 import { Box, Heading, Text } from 'grommet'
+import { Close } from 'grommet-icons';
 
-const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, peruser, permonth, onClick}) => {
+const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, peruser, permonth, onClick, quantity}) => {
 
     return (
         <Box
@@ -9,7 +10,7 @@ const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, perus
           hoverIndicator
           round="medium"
           border={{color: selected ? "selected" : "border", size: "small"}}
-          direction="row"
+          direction="row-responsive"
           justify="between"
           align="center"
           data-cy={dataCY}
@@ -22,13 +23,39 @@ const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, perus
               <Text>{subtitle}</Text>
             </Box>
           </Box>
-          <Box align="center" width="xsmall">
-            <Box justify="end" direction="row" align="baseline">
-              <Text size="xsmall">$</Text>
-              <Text size="xxlarge">{price}</Text>
+          <Box direction="row" align="center" gap="medium" justify="center">
+            <Box align="center">
+              <Box justify="end" direction="row" align="baseline">
+                <Text size="xsmall">$</Text>
+                <Text size="xxlarge">{price}</Text>
+              </Box>
+              {(peruser && <Text size="xsmall">per user</Text>)}
             </Box>
-            {(peruser && <Text size="xsmall">per user</Text>)}
-            {(permonth && <Text size="xsmall">per month</Text>)}
+            {
+              quantity && (
+                <Box direction="row" align="center" gap="medium">
+                  <Box align="center">
+                    <Close />
+                  </Box>
+                  <Box align="center">
+                    <Box justify="end" direction="row" align="baseline">
+                      <Text size="xxlarge">{quantity}</Text>
+                    </Box>
+                    <Text size="xsmall">users</Text>
+                  </Box>
+                  <Box align="center">
+                    <Text size="xlarge">=</Text>
+                  </Box>
+                  <Box align="center">
+                  <Box justify="end" direction="row" align="baseline">
+                    <Text size="xsmall">$</Text>
+                    <Text size="xxlarge">{price*quantity}</Text>
+                  </Box>
+                  <Text size="xsmall">per month</Text>
+                  </Box>
+                </Box>
+              )
+            }
           </Box>
         </Box>
     )
