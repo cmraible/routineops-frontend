@@ -1,5 +1,4 @@
 import { Box, Form, FormField, TextInput } from 'grommet';
-import { Checkmark } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Error from '../../components/Error';

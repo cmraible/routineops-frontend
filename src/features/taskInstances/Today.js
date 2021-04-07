@@ -57,6 +57,13 @@ const Today = () => {
                 )
               }
             }}
+            empty={(
+              <Box gap="medium" align="center" pad="medium">
+                <CircleInformation />
+                <Text size="large">You don't have any tasks yet.</Text>
+                <Button size="large" icon={<Add/>} label="Add Task" onClick={() => dispatch(push('/tasks/add'))} />
+              </Box>
+            )}
           />
         )
       }
