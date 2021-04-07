@@ -2,7 +2,7 @@ import React from 'react';
 import { FormEdit, FormAdd, StatusCritical, StatusGood } from 'grommet-icons';
 import { Box, Text } from 'grommet';
 
-const EditDescription = ({title, dataCY, description, onClick, size, verifiable, verified}) => {
+const EditDescription = ({title, dataCY, description, onClick, size, verifiable, verified, cardIcon}) => {
 
     let icon
     if (verifiable) {
@@ -35,7 +35,7 @@ const EditDescription = ({title, dataCY, description, onClick, size, verifiable,
                     data-cy={dataCY}
                 >
                     {editIcon}
-                    <Text size={size || "medium"}>{description}</Text>
+                    {cardIcon}<Text size={size || "medium"}>{description}</Text>
                 </Box>
             </Box>
 

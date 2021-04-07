@@ -1,5 +1,5 @@
 import { Box, Meter, Text } from 'grommet';
-import { FormEdit } from 'grommet-icons';
+import { FormEdit, Visa, Mastercard, Amex, CreditCard } from 'grommet-icons';
 import React, { useState } from 'react';
 import EditDescription from '../../components/EditDescription';
 import SubscriptionPlan from '../../components/SubscriptionPlan';
@@ -18,6 +18,17 @@ const AccountBillingTeam = () => {
 
   const usage = Math.round(users.length / account.subscription.quantity * 100)
   const usageColor = usage < 90 ? "status-ok" : "status-warning"
+
+  let cardIcon
+  if (account.cardbrand === 'visa') {
+    cardIcon = <Visa />
+  } else if (account.cardbrand === 'mastercard') {
+    cardIcon = <Mastercard />
+  } else if (account.cardbrand === 'amex') {
+    cardIcon = <Amex />
+  } else {
+    cardIcon = <CreditCard />
+  }
 
 
   const [CC, setCC] = useState(false)
@@ -69,7 +80,8 @@ const AccountBillingTeam = () => {
         <EditDescription
           size="large"
           title="Credit Card"
-          description="VISA xxxx 55555"
+          description={`\u2022\u2022\u2022\u2022 ${account.cardlast4}`}
+          cardIcon={cardIcon}
           onClick={() => setCC(true)}
         />
         <EditDescription
