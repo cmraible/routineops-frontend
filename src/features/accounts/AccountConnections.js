@@ -15,7 +15,6 @@ const AccountConnections = () => {
 
   const socialAccounts = useSelector(selectAllSocialAccounts)
   const dispatch = useDispatch()
-  console.log(socialAccounts)
 
   const [requestStatus, setRequestStatus] = useState('idle')
   const [errors, setErrors] = useState({})
@@ -39,7 +38,7 @@ const AccountConnections = () => {
       }
     }
     fetch()
-  }, [dispatch])
+  }, [dispatch, add]);
 
   let content
 
@@ -71,7 +70,11 @@ const AccountConnections = () => {
           />
         </Box>
         {content}
-        {(add && <AddSocialAccount close={() => setAdd(false)} />)}
+        {(add && <AddSocialAccount close={() => {
+          setTimeout(() => {
+            setAdd(false)
+          }, 2000)
+          }} />)}
       </Box>
 
 

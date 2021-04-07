@@ -6,7 +6,7 @@ import GoogleConnectButton from '../../components/GoogleConnectButton';
 
 const AddSocialAccount = ({close}) => {
     return (
-        <Layer
+    <Layer
       modal={true}
       onEsc={close}
       onClickOutside={close}
@@ -16,34 +16,30 @@ const AddSocialAccount = ({close}) => {
       style={{backdropFilter: 'blur(12px) brightness(50%)', WebkitBackdropFilter: 'blur(12px) brightness(50%)'}}
     >
       <Box justify="center" fill="vertical" pad="small">
-      <Box
-        style={{position: "relative"}}
-        width="large"
-        pad={{horizontal: "medium", bottom: "medium"}}
-        elevation="medium"
-        gap="medium"
-        round="small"
-        alignSelf="center"
-        justify="start"
-        flex={false}
-        background="background"
-        animation={{type: "slideUp", duration: 300}}
-      >
         <Box
-          style={{position: "absolute", top: 16, left: 16}}
+          style={{position: "relative"}}
+          width="large"
+          pad={{horizontal: "medium", bottom: "medium"}}
+          elevation="medium"
+          gap="medium"
           round="small"
-          hoverIndicator
-          pad="small" direction="row" alignSelf="start" onClick={close}>
-          <LinkPrevious />
+          alignSelf="center"
+          justify="start"
+          flex={false}
+          background="background"
+          animation={{type: "slideUp", duration: 300}}
+        >
+          <Box
+            style={{position: "absolute", top: 16, left: 16}}
+            round="small"
+            hoverIndicator
+            pad="small" direction="row" alignSelf="start" onClick={close}>
+            <LinkPrevious />
+          </Box>
+          <Heading margin="none" textAlign="center" fill level={2} size="small">Add Connection</Heading>
+          <GoogleConnectButton afterSuccess={() => close()} />
         </Box>
-        <Heading margin="none" textAlign="center" fill level={2} size="small">Add Connection</Heading>
-        <GoogleConnectButton />
       </Box>
-
-      </Box>
-
-
-
     </Layer>
     )
 }

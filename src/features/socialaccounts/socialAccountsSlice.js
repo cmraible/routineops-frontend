@@ -1,6 +1,6 @@
 
 
-import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
 import { logout } from '../auth/authSlice';
 

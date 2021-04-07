@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import config from '../config';
 import { connectGoogle } from '../features/auth/authSlice';
 
-const GoogleLoginButton = () => {
+const GoogleLoginButton = ({afterSuccess}) => {
   const dispatch = useDispatch();
 
   const icon = <Google color="plain" />
@@ -14,6 +14,7 @@ const GoogleLoginButton = () => {
   const onSuccess = (res) => {
     console.log(res);
     dispatch(connectGoogle(res.code))
+    afterSuccess()
   }
 
   const onFailure = (res) => {
