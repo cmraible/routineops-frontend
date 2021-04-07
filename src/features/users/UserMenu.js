@@ -40,7 +40,7 @@ const UserMenu = () => {
           <Avatar size="36px" background="white">
             <User />
           </Avatar>
-          <Text size="large">{user.first_name + ' ' + user.last_name}</Text>
+          <Text size="large">{(user.first_name && user.last_name) ? user.first_name + ' ' + user.last_name : user.email}</Text>
         </Box>
       )
       }
