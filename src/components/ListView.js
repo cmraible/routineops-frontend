@@ -6,7 +6,7 @@ import Error from './Error';
 import Page from './Page';
 import Spinner from './Spinner';
 
-const ListView = ({ title, action, previous, pad, itemSelector, fetchAction, renderItem, header, footer, listActions, empty }) => {
+const ListView = ({ title, action, previous, pad, itemSelector, onClickItem, fetchAction, renderItem, header, footer, listActions, empty }) => {
     const dispatch = useDispatch();
     const itemIds = useSelector(itemSelector);
 
@@ -43,6 +43,7 @@ const ListView = ({ title, action, previous, pad, itemSelector, fetchAction, ren
                     data={itemIds}
                     children={renderItem}
                     action={listActions}
+                    onClickItem={onClickItem}
                 />
             )
         } else {

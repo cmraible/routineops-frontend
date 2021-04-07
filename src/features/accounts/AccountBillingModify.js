@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../../components/Modal';
-import { push } from 'connected-react-router';
 import { Box, Button, Form, Text} from 'grommet';
 import { FormNextLink, Add, Subtract } from 'grommet-icons';
 import SubmitButton from '../../components/SubmitButton';

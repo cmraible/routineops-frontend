@@ -102,7 +102,7 @@ const UserDetail = ({ match, onClose }) => {
     content = (<Spinner pad="large" size="large" color="status-unknown" />)
   } else if (fetchStatus === 'succeeded') {
     content = (
-      <React.Fragment>
+      <Box pad="medium">
         <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined} />
         <Box direction="row" gap="medium" justify="between">
           <Heading level={2}>Roles</Heading>
@@ -127,7 +127,7 @@ const UserDetail = ({ match, onClose }) => {
           data={userRoles}
           children={(datum, index) => <UserRoleExcerpt id={datum.id} key={datum.id} />}
         />
-      </React.Fragment>
+      </Box>
     )
   } else if (fetchStatus === 'failed') {
     content = (

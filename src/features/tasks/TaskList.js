@@ -1,52 +1,11 @@
-import { Box, Button, Menu, Text } from 'grommet';
-import { Add, Checkmark, CircleInformation, Edit, More, Trash } from 'grommet-icons';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ListView from '../../components/ListView';
-import Spinner from '../../components/Spinner';
-import { deleteTask, fetchTasks, selectAllTasks, selectTaskById } from './tasksSlice';
 import { push } from 'connected-react-router';
-
-const TaskExcerpt = ({id}) => {
-  const dispatch = useDispatch()
-  const task = useSelector(state => selectTaskById(state, id));
-  return (
-    <Box align="start" pad="small" onClick={() => dispatch(push(`/tasks/${id}`))}>
-      <Box direction="row" align="center" gap="medium">
-        <Checkmark /><Text>{task.name}</Text>
-      </Box>
-    </Box>
-  )
-}
-
-const TaskActions = ({ id }) => {
-  const dispatch = useDispatch();
-
-  const [requestStatus, setRequestStatus] = useState('idle');
-
-  const handleDelete = async (id) => {
-    setRequestStatus('pending');
-    const resultAction = await dispatch(deleteTask(id))
-    if (!deleteTask.fulfilled.match(resultAction)) {
-      setRequestStatus('failed');
-      console.log(resultAction.error.message)
-    }
-  }
-
-  return (
-    <Menu
-      icon={(requestStatus === 'pending')? <Box pad="small"><Spinner isFetching={true} size="small" /></Box> : <Box pad="small"><More size="small" /></Box>}
-      id={`action-menu-${id}`}
-      dropAlign={{top: 'top', right: 'right'}}
-      justifyContent="end"
-      items={[
-        { justify: 'center', gap: 'medium', icon: <Box pad="small"><Edit size="small" /></Box>, label: 'Edit', onClick: () => {dispatch(push(`/tasks/${id}/edit`))}},
-        { justify: 'center', gap: 'medium', icon: <Box pad="small"><Trash size="small" /></Box>, label: 'Delete', onClick: () => {handleDelete(id)}},
-      ]}
-    />
-  )
-}
-
+import { Box, Button, Text } from 'grommet';
+import { Add, CircleInformation } from 'grommet-icons';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import ListView from '../../components/ListView';
+import TaskItem from './TaskItem';
+import { fetchTasks, selectAllTasks } from './tasksSlice';
 
 const TaskList = () => {
 
@@ -55,6 +14,7 @@ const TaskList = () => {
   return (
     <ListView
       title="Tasks"
+      pad="none"
       action={{
         icon: <Add />,
         onClick: () => dispatch(push('/tasks/add')),
@@ -62,8 +22,8 @@ const TaskList = () => {
       }}
       itemSelector={selectAllTasks}
       fetchAction={fetchTasks}
-      renderItem={(task) => (<TaskExcerpt id={task.id} key={task.id} />)}
-      listActions={(item) => (<TaskActions key={item.id} id={item.id} />)}
+      onClickItem={(datum, index) => dispatch(push(`/tasks/${datum.item.id}`))}
+      renderItem={(task) => (<TaskItem id={task.id} key={task.id} />)}
       empty={(
         <Box gap="medium" align="center">
             <CircleInformation />

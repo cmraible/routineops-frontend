@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import EmailField from '../../components/EmailField';
 import Error from '../../components/Error';
-import Page from '../../components/Page';
+import Modal from '../../components/Modal';
 import SubmitButton from '../../components/SubmitButton';
 import Success from '../../components/Success';
 import { flattenErrors } from '../../utils';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { addNewInvitation } from '../invitations/invitationsSlice';
 
-const AddUser = () => {
+const AddUser = ( { close } ) => {
   const dispatch = useDispatch()
   const user = useSelector(selectLoggedInUser)
   const account = user.account;
@@ -47,9 +47,8 @@ const AddUser = () => {
 
 
   return (
-    <Page
-      title="Invite User"
-      previous="/team"
+    <Modal
+      title="Invite User" close={close}
     >
       <Box flex={false} gap="medium" width="large" pad="small">
         <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined } />
@@ -70,7 +69,7 @@ const AddUser = () => {
           <SubmitButton label="Send Invitation" loadingIndicator={requestStatus === 'pending'} />
         </Form>
       </Box>
-    </Page>
+    </Modal>
   )
 
 };

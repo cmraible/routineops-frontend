@@ -7,6 +7,9 @@ import { flattenErrors } from '../../utils';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
 import UserItem from '../users/UserItem';
+import { push } from 'connected-react-router';
+import UserAdd from '../users/UserAdd';
+
 
 const AccountUsers = () => {
 
@@ -49,23 +52,25 @@ const AccountUsers = () => {
         <List
           data={users}
           children={(datum, index) => <UserItem user={datum} />}
+          onClickItem={(datum, index) => dispatch(push(`/users/${datum.item.id}`))}
         />
       )
     }
 
     return (
         <Box>
-        <Box align="end" pad="medium">
-          <Button
-            fill={false}
-            primary
-            size="large"
-            icon={<Add />}
-            label="Invite a user"
-            onClick={() => setAdd(true)}
-          />
-        </Box>
-        {content}
+          <Box align="end" pad="medium">
+            <Button
+              fill={false}
+              primary
+              size="large"
+              icon={<Add />}
+              label="Invite a user"
+              onClick={() => setAdd(true)}
+            />
+          </Box>
+          {content}
+          {(add && <UserAdd close={() => setAdd(false)} />)}
       </Box>
     )
 }

@@ -1,4 +1,4 @@
-import { Heading } from 'grommet';
+import { Box, Heading } from 'grommet';
 import { Edit } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,9 +42,9 @@ const RoleDetail = ({match}) => {
       content = (<Spinner pad="large" size="large" color="status-unknown" />)
   } else if (requestStatus === 'succeeded') {
       content = (
-        <React.Fragment>
+        <Box pad="medium">
           <Heading>{role.name}</Heading>
-        </React.Fragment>
+        </Box>
       )
   } else if (requestStatus === 'failed') {
       content = (

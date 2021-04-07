@@ -56,7 +56,7 @@ const TaskDetail = ({ match, taskLayers }) => {
     console.log(role)
     console.log(task)
     content = (
-      <React.Fragment>
+      <Box pad="medium">
         <Box border="bottom">
           <Heading margin="none">{task.name}</Heading>
           <Paragraph level={2} color="text-xweak">{task.description}</Paragraph>
@@ -65,7 +65,7 @@ const TaskDetail = ({ match, taskLayers }) => {
           <Text>Assigned to {role.name}</Text>
           <Text>Repeats {task.layers[0].label}</Text>
         </Box>
-      </React.Fragment>
+      </Box>
     )
   } else if (status === 'failed') {
     content = (
@@ -75,7 +75,6 @@ const TaskDetail = ({ match, taskLayers }) => {
 
   return (
     <Page
-      pad="small"
       title="Task"
       action={{
         icon: <Edit />,

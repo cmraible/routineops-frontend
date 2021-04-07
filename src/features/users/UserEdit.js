@@ -1,4 +1,4 @@
-import { Form, FormField, TextInput } from 'grommet';
+import { Box, Form, FormField, TextInput } from 'grommet';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import EmailField from '../../components/EmailField';
@@ -66,7 +66,7 @@ const UserEdit = ({ match, onClose }) => {
     content = (<Spinner pad="large" size="large" color="status-unknown" />)
   } else if (fetchStatus === 'succeeded') {
     content = (
-      <React.Fragment>
+      <Box pad="medium">
         <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined} />
         <Form
           id="user-form"
@@ -84,7 +84,7 @@ const UserEdit = ({ match, onClose }) => {
           <EmailField />
           <SubmitButton label="Save" loadingIndicator={requestStatus === 'pending'} />
         </Form>
-      </React.Fragment>
+      </Box>
     )
   } else if (fetchStatus === 'failed') {
     content = (<Error message={(fetchErrors && fetchErrors['non_field_errors']) ? fetchErrors['non_field_errors'] : undefined} />)

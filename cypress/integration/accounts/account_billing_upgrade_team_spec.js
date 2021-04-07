@@ -23,7 +23,7 @@ describe('Upgrade to Team', () => {
         });
     });
 
-    it.only('successfully upgrades to team', () => {
+    it('successfully upgrades to team', () => {
         cy.clock()
         cy.intercept('POST', '**/api/accounts/1/create_subscription', {
             fixture: 'accountTeam.json'

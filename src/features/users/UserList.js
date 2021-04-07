@@ -1,22 +1,10 @@
-import { Box, Text } from 'grommet';
-import { Add, User } from 'grommet-icons';
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import ListView from '../../components/ListView';
-import { fetchUsers, selectAllUsers, selectUserById } from './usersSlice';
 import { push } from 'connected-react-router';
-
-const UserExcerpt = ({id}) => {
-  const user = useSelector(state => selectUserById(state, id));
-  const dispatch = useDispatch();
-  return (
-    <Box direction="row" justify="between" onClick={() => dispatch(push(`/users/${id}`))} pad="small">
-      <Box direction="row" align="center" gap="medium">
-        <User /><Text>{user.first_name} {user.last_name}</Text>
-      </Box>
-    </Box>
-  )
-}
+import { Add } from 'grommet-icons';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import ListView from '../../components/ListView';
+import UserItem from './UserItem';
+import { fetchUsers, selectAllUsers } from './usersSlice';
 
 const UserList = () => {
 
@@ -33,7 +21,7 @@ const UserList = () => {
       }}
       itemSelector={selectAllUsers}
       fetchAction={fetchUsers}
-      renderItem={(user) => (<UserExcerpt id={user.id} key={user.id} />)}
+      renderItem={(user) => (<UserItem id={user.id} key={user.id} />)}
     />
   )
 };

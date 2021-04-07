@@ -2,14 +2,14 @@ import { Box } from 'grommet';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Page from '../../components/Page';
-import AccountProfile from './AccountProfile';
-import AccountUsers from './AccountUsers';
+import Tabs from '../../components/Tabs';
 import AccountBilling from './AccountBilling';
-import AccountSettings from './AccountSettings';
+import AccountCancel from './AccountCancel';
 import AccountConnections from './AccountConnections';
 import AccountCreditCard from './AccountCreditCard';
-import AccountCancel from './AccountCancel';
-import Tabs from '../../components/Tabs';
+import AccountProfile from './AccountProfile';
+import AccountSettings from './AccountSettings';
+import AccountUsers from './AccountUsers';
 
 const AccountDetail = () => {
 

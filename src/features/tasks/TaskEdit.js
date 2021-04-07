@@ -129,7 +129,7 @@ const TaskEdit = ({ match, taskLayers }) => {
     content = (<Spinner isFetching={true} pad="large" size="large" color="status-unknown" />)
   } else if (fetchStatus === 'succeeded') {
     content = (
-      <React.Fragment>
+      <Box pad="medium">
         <Error message={(updateErrors && updateErrors['non_field_errors']) ? updateErrors['non_field_errors'] : undefined} />
         <Form
           id="task-form"
@@ -182,7 +182,7 @@ const TaskEdit = ({ match, taskLayers }) => {
             </Box>
             <SubmitButton label="Save" loadingIndicator={updateStatus === 'pending'} />
         </Form>
-      </React.Fragment>
+      </Box>
     )
   } else if (fetchStatus === 'failed') {
     content = (

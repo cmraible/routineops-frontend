@@ -1,4 +1,4 @@
-import { Form, FormField, TextInput } from 'grommet';
+import { Box, Form, FormField, TextInput } from 'grommet';
 import { Checkmark } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -67,7 +67,7 @@ const RoleEdit = ({match}) => {
       content = (<Spinner pad="large" size="large" color="status-unknown" />)
   } else if (fetchStatus === 'succeeded') {
       content = (
-        <React.Fragment>
+        <Box pad="medium">
           <Error message={(updateErrors && updateErrors['non_field_errors']) ? updateErrors['non_field_errors'] : undefined} />
           <Form
             id="role-form"
@@ -81,7 +81,7 @@ const RoleEdit = ({match}) => {
             </FormField>
             <SubmitButton label="Save" loadingIndicator={updateStatus === 'pending'}  />
           </Form>
-        </React.Fragment>
+        </Box>
       )
   } else if (fetchStatus === 'failed') {
       content = (<Error message={(fetchErrors && fetchErrors['non_field_errors']) ? fetchErrors['non_field_errors'] : undefined} />)
@@ -92,11 +92,11 @@ const RoleEdit = ({match}) => {
       title="Role"
       pad="small"
       previous={`/roles/${roleId}`}
-      action={{
-        icon: <Checkmark />,
-        type: "submit",
-        form: "role-form"
-      }}
+      // action={{
+      //   icon: <Checkmark />,
+      //   type: "submit",
+      //   form: "role-form"
+      // }}
     >
       {content}
     </Page>

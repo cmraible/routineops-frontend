@@ -1,65 +1,25 @@
-import { Box, Menu, Text } from 'grommet';
-import { Edit, More, Trash, User } from 'grommet-icons';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ListView from '../../components/ListView';
-import Spinner from '../../components/Spinner';
 import { push } from 'connected-react-router';
+import { Box } from 'grommet';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import ListView from '../../components/ListView';
 import AddRoleForm from './AddRoleForm';
-import { deleteRole, fetchRoles, selectAllRoles, selectRoleById } from './rolesSlice';
+import RoleItem from './RoleItem';
+import { fetchRoles, selectAllRoles } from './rolesSlice';
 
-const RoleExcerpt = ({id}) => {
-  const role = useSelector(state => selectRoleById(state, id));
-  const dispatch = useDispatch();
-  return (
-    <Box direction="row" fill justify="stretch" onClick={() => dispatch(push(`/roles/${id}`))} pad="small">
-      <Box direction="row" align="center" gap="medium">
-        <User /><Text>{role.name}</Text>
-      </Box>
-    </Box>
-  )
-}
-
-const RoleActions = ({ id }) => {
-  const dispatch = useDispatch();
-
-  const [requestStatus, setRequestStatus] = useState('idle');
-
-
-  const handleDelete = async (id) => {
-    setRequestStatus('pending');
-    const resultAction = await dispatch(deleteRole(id))
-    if (!deleteRole.fulfilled.match(resultAction)) {
-      setRequestStatus('failed');
-      console.log(resultAction.error.message)
-    }
-  }
-
-  return (
-    <Menu
-      icon={(requestStatus === 'pending')? <Box pad="small"><Spinner isFetching={true} size="small" /></Box> : <Box pad="small"><More size="small" /></Box>}
-      className="action-menu"
-      id={`action-menu-${id}`}
-      dropAlign={{top: 'top', right: 'right'}}
-      justifyContent="end"
-      items={[
-        { justify: 'center', gap: 'medium', icon: <Box pad="small"><Edit size="small" /></Box>, label: 'Edit', onClick: () => {dispatch(push(`/roles/${id}/edit`))}},
-        { justify: 'center', gap: 'medium', icon: <Box pad="small"><Trash size="small" /></Box>, label: 'Delete', onClick: () => {handleDelete(id)}},
-      ]}
-    />
-  )
-}
 
 const RoleList = () => {
+  const dispatch = useDispatch()
 
   return (
     <ListView
       title="Roles"
+      onClickItem={(datum, index) => {console.log(datum); dispatch(push(`/roles/${datum.item.id}`))}}
       itemSelector={selectAllRoles}
       fetchAction={fetchRoles}
-      renderItem={(role) => (<RoleExcerpt id={role.id} key={role.id} />)}
+      renderItem={(role) => (<RoleItem id={role.id} key={role.id} />)}
       header={<Box pad={{vertical: "medium", horizontal: "small"}}><AddRoleForm /></Box>}
-      listActions={(item) => (<RoleActions key={item.id} id={item.id} />)}
+      //listActions={(item) => (<RoleActions key={item.id} id={item.id} />)}
       pad="none"
       empty={
         <Box pad="small" round="small" align="center" border={{color: "status-critical", size: "small"}} background={{color: "status-critical", opacity: "weak"}}>
