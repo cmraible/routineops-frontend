@@ -43,7 +43,7 @@ pipeline {
         REACT_APP_STRIPE_PUB_KEY = credentials('stripe-publishable-key-live')
         REACT_APP_SEGMENT_WRITE_KEY = credentials('segment-write-key-prod')
         REACT_APP_GOOGLE_CLIENT_ID = credentials('google-client-id-prod')
-        REACT_APP_TEAM_PRICE_ID = 'prod_JGDaVZcYDGpXQT'
+        REACT_APP_TEAM_PRICE_ID = 'price_1Idh9HJaJXMgpjCHNsSdPtk8'
       }
       steps {
         sh 'npm install && npm run build'
