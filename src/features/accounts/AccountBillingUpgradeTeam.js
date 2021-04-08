@@ -25,8 +25,6 @@ const AccountBillingUpgradeTeam = ({ close }) => {
     const [invoiceStatus, setInvoiceStatus] = useState('idle')
     const [previewInvoice, setPreviewInvoice] = useState(false);
 
-    console.log(previewInvoice)
-
     const stripe = useStripe();
     const elements = useElements();
 

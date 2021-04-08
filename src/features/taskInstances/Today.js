@@ -13,7 +13,6 @@ import { push } from 'connected-react-router';
 const Today = () => {
   const dispatch = useDispatch()
   const taskInstances = useSelector(selectAllTaskInstances);
-  console.log(taskInstances)
   const user = useSelector(selectLoggedInUser);
   const userInstances = taskInstances.filter((instance) => instance.assignee === user.id);
   const taskEntities = useSelector(selectTaskEntities)

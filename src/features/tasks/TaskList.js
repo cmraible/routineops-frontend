@@ -58,6 +58,11 @@ const TaskList = () => {
   return (
     <Page
       title={"Tasks"}
+      action={{
+        label: "Add Task",
+        icon: <Add />,
+        onClick: () => dispatch(push('tasks/add'))
+      }}
     >
       <Box>
         {content}
