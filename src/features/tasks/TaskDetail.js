@@ -16,6 +16,9 @@ const TaskDetail = ({ match }) => {
   const dispatch = useDispatch()
   const { taskId } = match.params;
 
+  console.log(match)
+  console.log(taskId)
+
   const task = useSelector(state => selectTaskById(state, taskId));
   const taskLayers = useSelector(state => selectTaskLayersForTask(state, taskId))
   const roles = useSelector(selectRoleEntities);
@@ -30,7 +33,7 @@ const TaskDetail = ({ match }) => {
       const taskAction = await dispatch(fetchTask(taskId));
       const roleAction = await dispatch(fetchRoles());
       const taskLayerAction = await dispatch(fetchTaskLayers());
-      if (fetchTask.fulfilled.match(taskAction) && fetchRoles.fulfilled.match(roleAction) && taskLayerAction.fulfilled.match(taskLayerAction)) {
+      if (fetchTask.fulfilled.match(taskAction) && fetchRoles.fulfilled.match(roleAction) && fetchTaskLayers.fulfilled.match(taskLayerAction)) {
           setStatus('succeeded');
       } else {
           setStatus('failed');
