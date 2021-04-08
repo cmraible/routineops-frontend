@@ -38,7 +38,7 @@ const TaskList = () => {
       // Display list of tasks
       var items = []
       taskIds.forEach((taskId) => {
-        items.push(<TaskItem id={taskId} />)
+        items.push(<TaskItem id={taskId} key={taskId} />)
       })
       content = <Box>{items}</Box>
     } else {

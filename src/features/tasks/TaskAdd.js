@@ -35,6 +35,9 @@ const AddTask = () => {
     dispatch(fetchRoles());
   }, [dispatch, user.account]);
 
+  console.log(roles)
+  console.log(defaultRole)
+
   const [requestStatus, setRequestStatus] = useState('idle');
   const [errors, setErrors] = useState({})
   const [formValue, setFormValue] = useState({
@@ -55,7 +58,7 @@ const AddTask = () => {
         layers: [
           {
             account: user.account,
-            role: formValue.role,
+            role: formValue.role || defaultRole,
             label: formValue.label,
             frequency: formValue.frequency,
             recurrence: formValue.recurrence,
@@ -84,9 +87,6 @@ const AddTask = () => {
       }
     }
   }
-
-  console.log(formValue)
-
 
   return (
     <Page
