@@ -1,4 +1,4 @@
-import { Anchor, Box, Form, Text } from 'grommet';
+import { Anchor, Box, Form } from 'grommet';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import AccountPage from '../../components/AccountPage';
@@ -48,8 +48,6 @@ const Login = () => {
           <SubmitButton label="Login" loadingIndicator={loginStatus === 'pending'} />
           <Box direction="row" justify="center" gap="small">
             <Anchor href="/forgot" size="small">Forgot password?</Anchor>
-            <Text>{'\u2022'}</Text>
-            <Anchor href="/signup" size="small">Sign up for Routine Ops</Anchor>
           </Box>
         </Box>
       </Form>

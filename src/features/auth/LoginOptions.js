@@ -1,14 +1,13 @@
+import { push } from 'connected-react-router';
 import {
-  Anchor,
   Box,
   Button
 } from 'grommet';
 import { Mail } from 'grommet-icons';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AccountPage from '../../components/AccountPage';
 import GoogleLoginButton from '../../components/GoogleLoginButton';
-import { push } from 'connected-react-router';
-import { useDispatch, useSelector } from 'react-redux';
 
 const LoginOptions = () => {
 
@@ -32,9 +31,6 @@ const LoginOptions = () => {
                 onClick={() => dispatch(push('/login/email'))}
             />
             <GoogleLoginButton />
-        </Box>
-        <Box direction="row" justify="center" gap="small">
-          <Anchor href="/signup" size="small">Sign up for Routine Ops</Anchor>
         </Box>
       </Box>
 

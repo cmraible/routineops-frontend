@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Error from '../../components/Error';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
-import { push } from 'connected-react-router';
+import { push, goBack } from 'connected-react-router';
 import { flattenErrors } from '../../utils';
 import { fetchRole, selectRoleById } from './rolesSlice';
 
@@ -61,7 +61,7 @@ const RoleDetail = ({match}) => {
         label: "Edit Role",
         onClick: () => dispatch(push(`/roles/${roleId}/edit`))
       }}
-      previous="/roles"
+      previous={() => dispatch(goBack())}
     >
       {content}
     </Page>

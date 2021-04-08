@@ -20,7 +20,7 @@ import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
 import { fetchRoles } from '../roles/rolesSlice';
 import { fetchTask, updateTask } from './tasksSlice';
-import { push } from 'connected-react-router';
+import { push, goBack } from 'connected-react-router';
 
 
 const TaskEdit = ({ match, taskLayers }) => {
@@ -200,7 +200,7 @@ const TaskEdit = ({ match, taskLayers }) => {
         type: "submit",
         form: "task-form"
       }}
-      previous={`/tasks/${taskId}`}
+      previous={() => dispatch(goBack())}
     >
       {content}
     </Page>

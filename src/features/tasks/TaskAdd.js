@@ -88,7 +88,7 @@ const AddTask = () => {
   return (
     <Page
       title="Add Task"
-      previous="/tasks"
+      previous={() => dispatch(goBack())}
       action={{
         icon: <Checkmark />,
         type: "submit",

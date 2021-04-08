@@ -1,6 +1,6 @@
-import React from 'react';
 import { Box, Text } from 'grommet';
-import { StatusGood, StatusInfo, StatusCritical } from 'grommet-icons'
+import { StatusCritical, StatusGood, StatusInfo, StatusWarning } from 'grommet-icons';
+import React from 'react';
 
 const Message = ({type, message, ...rest}) => {
 
@@ -14,6 +14,10 @@ const Message = ({type, message, ...rest}) => {
         case "error":
             icon = <StatusCritical color="status-critical" />
             background="status-critical"
+            break;
+        case "warning":
+            icon = <StatusWarning color="status-warning" />
+            background="status-warning"
             break;
         default:
             icon = <StatusInfo color="selected" />

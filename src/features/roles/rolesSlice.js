@@ -1,4 +1,4 @@
-import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
 import { logout } from '../auth/authSlice';
 
@@ -28,7 +28,6 @@ export const fetchRole = createAsyncThunk('roles/fetchRole', async (roleId, { di
         }
         return rejectWithValue(err.response.data)
     }
-
 })
 
 export const addNewRole = createAsyncThunk('roles/addNewRole', async (roleData, { dispatch, getState, rejectWithValue }) => {
@@ -72,7 +71,6 @@ export const deleteRole = createAsyncThunk('roles/deleteRole', async (roleId, { 
         }
         return rejectWithValue(err.response.data)
     }
-
 });
 
 // Create slice

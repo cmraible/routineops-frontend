@@ -1,4 +1,4 @@
-import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
 import { logout } from '../auth/authSlice';
 
@@ -77,3 +77,7 @@ export const {
     selectIds: selectTaskLayerIds,
     selectEntities: selectTaskLayerEntities
   } = taskLayersAdapter.getSelectors(state => state.taskLayers)
+
+export const selectTaskLayersForTask = (state, taskId) => {
+    return selectAllTaskLayers(state).filter((layer) => parseInt(layer.task) === parseInt(taskId));
+}

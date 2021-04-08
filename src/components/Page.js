@@ -1,13 +1,9 @@
 import { Box, Button, Heading, Main, ResponsiveContext } from 'grommet';
+import { LinkPrevious } from 'grommet-icons';
 import React, { useEffect } from 'react';
 import MobileHeader from './MobileHeader';
-import { LinkPrevious } from 'grommet-icons';
-import { push } from 'connected-react-router';
-import { useDispatch } from 'react-redux';
 
 const Page = ({ title, children, action, previous, pad }) => {
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     document.title = title;
@@ -24,7 +20,7 @@ const Page = ({ title, children, action, previous, pad }) => {
             case 'small':
               return (
                 <Main>
-                  <MobileHeader previous={previous} action={action} title={title} />
+                  <MobileHeader action={action} title={title} />
                   <Box pad={pad || "none"}>
                     {children}
                   </Box>
@@ -51,7 +47,7 @@ const Page = ({ title, children, action, previous, pad }) => {
                           pad="small"
                           animation="slideRight"
                           hoverIndicator
-                          onClick={() => dispatch(push(previous))}
+                          onClick={previous}
                           data-cy="previous"
                         >
                           <LinkPrevious />

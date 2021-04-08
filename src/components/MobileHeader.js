@@ -1,12 +1,8 @@
-import React from 'react';
 import { Box, Button, Grid, Text } from 'grommet';
 import { Previous } from 'grommet-icons';
-import { push } from 'connected-react-router';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 
 const MobileHeader = ({ action, previous, title}) => {
-
-    const dispatch = useDispatch();
 
     return (
         <>
@@ -28,7 +24,7 @@ const MobileHeader = ({ action, previous, title}) => {
                 <Box gridArea="previous" justify="center" align="start">
                     <Box
                         pad="small"
-                        onClick={() => dispatch(push(previous))}
+                        onClick={previous}
                         data-cy="previous"
                     >
                         <Previous />

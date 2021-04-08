@@ -1,31 +1,73 @@
-import { push } from 'connected-react-router';
-import { Box } from 'grommet';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import ListView from '../../components/ListView';
+import { Box, Text } from 'grommet';
+import { CircleInformation } from 'grommet-icons';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Message from '../../components/Message';
+import Page from '../../components/Page';
+import Spinner from '../../components/Spinner';
 import AddRoleForm from './AddRoleForm';
 import RoleItem from './RoleItem';
-import { fetchRoles, selectAllRoles } from './rolesSlice';
-
+import { fetchRoles, selectRoleIds } from './rolesSlice';
 
 const RoleList = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const roleIds = useSelector(selectRoleIds);
+
+  const [requestStatus, setRequestStatus] = useState('idle');
+
+  useEffect(() => {
+    const fetch = async () => {
+      setRequestStatus('pending');
+      const resultAction = await dispatch(fetchRoles())
+      if (fetchRoles.fulfilled.match(resultAction)) {
+        setRequestStatus('succeeded');
+      } else {
+        setRequestStatus('failed');
+      }
+    }
+    fetch()
+  }, [dispatch]);
+
+  let content
+  if (requestStatus === 'pending') {
+    // Display a spinner to indicate loading state
+    content = (<Spinner pad="large" size="large" color="status-unknown" />)
+  } else if (requestStatus === 'succeeded') {
+    if (roleIds.length > 0) {
+      // Display list of roles
+      var items = []
+      roleIds.forEach((roleId) => {
+        items.push(<RoleItem id={roleId} />)
+      });
+      content = <Box>{items}</Box>
+    } else {
+      // Display a message saying there are no roles
+      content = (
+        <Box gap="medium" align="center" pad="medium">
+            <CircleInformation />
+          <>
+          <Text size="large">You don't have any roles yet.</Text>
+          <Text size="medium">To create a role, type in the box above and hit enter.</Text>
+          </>
+        </Box>
+      )
+    }
+  } else if (requestStatus === 'failed') {
+    // Display an error message
+    content = <Message type="error" message="Unable to fetch roles." />
+  }
 
   return (
-    <ListView
-      title="Roles"
-      onClickItem={(datum, index) => {console.log(datum); dispatch(push(`/roles/${datum.item.id}`))}}
-      itemSelector={selectAllRoles}
-      fetchAction={fetchRoles}
-      renderItem={(role) => (<RoleItem id={role.id} key={role.id} />)}
-      header={<Box pad={{vertical: "medium", horizontal: "small"}}><AddRoleForm /></Box>}
-      //listActions={(item) => (<RoleActions key={item.id} id={item.id} />)}
-      pad="none"
-      empty={
-        <Box pad="small" round="small" align="center" border={{color: "status-critical", size: "small"}} background={{color: "status-critical", opacity: "weak"}}>
-          No roles found.
-        </Box>}
-    />
+    <Page
+      title={"Roles"}
+    >
+      <Box gap="medium">
+        {/* Header - Role Form */}
+        <Box pad="small"><AddRoleForm /></Box>
+        {/* Body - Role List */}
+        {content}
+      </Box>
+    </Page>
   )
 };
 

@@ -57,7 +57,7 @@ export const taskInstancesSlice = createSlice({
     reducers: {},
     extraReducers: {
         [fetchTaskInstances.fulfilled]: (state, action) => {
-            taskInstancesAdapter.upsertMany(state, action.payload)
+            taskInstancesAdapter.setAll(state, action.payload)
         },
         [fetchTaskInstance.fulfilled]: taskInstancesAdapter.upsertOne,
         [addNewTaskInstance.fulfilled]: taskInstancesAdapter.addOne,
