@@ -17,7 +17,7 @@ import { flattenErrors, getDefaultTaskLayer } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
-import { fetchRoles } from '../roles/rolesSlice';
+import { fetchRoles, selectRoleIds } from '../roles/rolesSlice';
 import { addNewTask } from '../tasks/tasksSlice';
 import { push, goBack } from 'connected-react-router';
 
@@ -25,7 +25,10 @@ import { push, goBack } from 'connected-react-router';
 const AddTask = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser)
+  const roles = useSelector(selectRoleIds);
   const account = useSelector(selectUserAccount);
+
+  const defaultRole = account.type === 'Free' ? roles[0] : '';
 
   useEffect(() => {
     dispatch(fetchAccount(user.account));
@@ -40,7 +43,7 @@ const AddTask = () => {
     account: user.account,
     bymonthday: [],
     bymonth: [],
-    role: account.type === 'Free' ? 1 : ''
+    role: defaultRole
   });
 
   const handleSubmit = async () => {
