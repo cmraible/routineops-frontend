@@ -6,7 +6,7 @@ import { selectTaskLayerById } from '../taskLayers/taskLayersSlice';
 import { selectChecksForTask } from '../checks/checksSlice';
 import Checklist from '../checks/Checklist';
 import { selectTaskById } from '../tasks/tasksSlice';
-import { push } from 'connected-react-router';
+import { push, goBack } from 'connected-react-router';
 
 const TaskInstance = ({match}) => {
     const dispatch = useDispatch()
@@ -18,7 +18,7 @@ const TaskInstance = ({match}) => {
     const checks = useSelector(state => selectChecksForTask(state, taskLayer.task))
 
     return (
-        <Page title={task.name} pad="medium">
+        <Page title={task.name} pad="medium" previous={() => dispatch(goBack())}>
             <Checklist checks={checks} taskInstance={taskInstance} onComplete={() => dispatch(push('/'))} />
         </Page>
     )

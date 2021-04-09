@@ -61,7 +61,8 @@ const TaskList = () => {
       action={{
         label: "Add Task",
         icon: <Add />,
-        onClick: () => dispatch(push('tasks/add'))
+        onClick: () => dispatch(push('tasks/add')),
+        primary: true
       }}
     >
       <Box>

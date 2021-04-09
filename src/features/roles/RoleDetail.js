@@ -59,7 +59,8 @@ const RoleDetail = ({match}) => {
       action={{
         icon: <Edit />,
         label: "Edit Role",
-        onClick: () => dispatch(push(`/roles/${roleId}/edit`))
+        onClick: () => dispatch(push(`/roles/${roleId}/edit`)),
+        primary: true
       }}
       previous={() => dispatch(goBack())}
     >

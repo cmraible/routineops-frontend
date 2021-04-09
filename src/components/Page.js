@@ -29,15 +29,19 @@ const Page = ({ title, children, action, previous, pad }) => {
               )
             default:
               return (
-                <Box  direction="column" fill>
+                <Box
+                  direction="column"
+                  fill
+                  style={{overflow: "scroll"}}
+                >
                     <Box
+                      style={{position: "sticky", top: 0, zIndex: 10}}
                       direction="row"
                       pad={{horizontal: "small", vertical: "xsmall"}}
                       justify="between"
                       gap="medium"
                       fill="horizontal"
                       flex={false}
-                      height="xxsmall"
                       background="background-contrast"
                     >
                       <Box direction="row" align="center" gap="small">
@@ -55,9 +59,12 @@ const Page = ({ title, children, action, previous, pad }) => {
                         )}
                         <Heading size="small" margin={{vertical: "none"}}>{ title }</Heading>
                       </Box>
-                      {(action && <Button data-cy="action" primary {...action} /> )}
+                      <Box>
+                       {(action && <Button data-cy="action" {...action} /> )}
+
+                      </Box>
                     </Box>
-                  {children}
+                      {children}
                 </Box>
               )
           }

@@ -93,7 +93,8 @@ const TaskDetail = ({ match }) => {
       action={{
         icon: <Edit />,
         onClick: () => dispatch(push(`/tasks/${taskId}/edit`)),
-        label: "Edit Task"
+        label: "Edit Task",
+        primary: true
       }}
       previous={() => dispatch(goBack())}
     >

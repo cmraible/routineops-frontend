@@ -4,6 +4,9 @@ const routineopsTheme = {
   "spacing": 24,
   "defaultMode": "light",
   "global": {
+    "edgeSize": {
+      "small": "8px"
+    },
     "colors": {
       "brand": {
         "dark": "#FFFFFF",
@@ -23,7 +26,7 @@ const routineopsTheme = {
       },
       "background-contrast": {
         "dark": "#FFFFFF11",
-        "light": "#11111111"
+        "light": "#efefef"
       },
       "text": {
         "dark": "#EEEEEE",

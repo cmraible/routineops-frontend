@@ -54,7 +54,7 @@ const AddTask = () => {
         name: formValue.name,
         description: formValue.description,
         account: user.account,
-        checks: [{prompt: `Did you ${formValue.name}?`, resultType: 'BOOLEAN', account: user.account}],
+        //checks: [{prompt: `Did you ${formValue.name}?`, resultType: 'BOOLEAN', account: user.account}],
         layers: [
           {
             account: user.account,

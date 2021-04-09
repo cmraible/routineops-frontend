@@ -10,7 +10,7 @@ import RoleDetail from '../features/roles/RoleDetail';
 import RoleEdit from '../features/roles/RoleEdit';
 import RoleList from '../features/roles/RoleList';
 import TaskInstance from '../features/taskInstances/TaskInstance';
-import Today from '../features/taskInstances/Today';
+import HomePage from '../features/taskInstances/Home';
 import TaskAdd from '../features/tasks/TaskAdd';
 import TaskDetail from '../features/tasks/TaskDetail';
 import TaskEdit from '../features/tasks/TaskEdit';
@@ -55,7 +55,7 @@ const AppLoggedIn = () => {
   const mainSwitch = (
       <Switch>
         <Route path="/account" component={Account} />
-        <Route path="/" component={Today} exact />
+        <Route path="/" component={HomePage} exact />
         <Route path="/roles" component={RoleList} exact />
         <Route path="/roles/:roleId" component={RoleDetail} exact />
         <Route path="/roles/:roleId/edit" component={RoleEdit} />
