@@ -1,4 +1,4 @@
-import { Anchor, Box, CheckBox, Form, FormField, Text } from 'grommet';
+import { Anchor, Box, CheckBox, Form, FormField, Text, TextInput } from 'grommet';
 import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,6 +31,8 @@ const Signup = ({ location, match }) => {
   const [signupStatus, setSignupStatus] = useState('idle');
   const [errors, setErrors] = useState({})
   const [value, setValue] = useState({
+    first_name: '',
+    last_name: '',
     email: (email) ? email : '',
     password1: '',
     password2: '',
@@ -58,7 +60,6 @@ const Signup = ({ location, match }) => {
             password: value.password1
           }));
           if (login.fulfilled.match(resultAction)) {
-            console.log(resultAction)
             loginUser(resultAction.payload.user, resultAction.payload.key)
           }
         } else {
@@ -84,8 +85,14 @@ const Signup = ({ location, match }) => {
           errors={errors}
           validate="submit"
         >
-          <Box flex={false} gap="medium">
-            <EmailField autoFocus required={true} />
+          <Box flex={false} gap="small">
+            <FormField name="first_name" label="First Name" required>
+              <TextInput autoFocus name="first_name" required />
+            </FormField>
+            <FormField name="last_name" label="Last Name" required>
+              <TextInput name="last_name" required />
+            </FormField>
+            <EmailField required={true} />
             <PasswordField name="password1" label="Create password" required />
             <PasswordField name="password2" label="Confirm password" required validate={false} />
             <Box direction="row" gap="medium">
