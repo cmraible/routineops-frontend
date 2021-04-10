@@ -128,7 +128,7 @@ const Home = () => {
                           name="users"
                           options={allUsers}
                           multiple
-                          labelKey={(option) => `${option.first_name} ${option.last_name}`}
+                          labelKey={(option) => option.first_name ? `${option.first_name} ${option.last_name}` : option.email}
                           valueKey={{key: 'id', reduce: true}}
                           placeholder="All Assignees"
                         />
