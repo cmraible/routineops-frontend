@@ -50,6 +50,8 @@ const AddTask = () => {
   });
 
   const handleSubmit = async () => {
+    const defaultDtStart = formValue.dtstart;
+    console.log(defaultDtStart);
     const taskData = {
         name: formValue.name,
         description: formValue.description,

@@ -7,6 +7,7 @@ import Error from '../../components/Error';
 import PasswordField from '../../components/PasswordField';
 import SubmitButton from '../../components/SubmitButton';
 import { flattenErrors, loginUser } from '../../utils';
+import { fetchAccount } from '../accounts/accountsSlice';
 import { login } from './authSlice';
 
 
@@ -21,7 +22,10 @@ const Login = () => {
     setErrors({});
     const resultAction = await dispatch(login(value));
     if (login.fulfilled.match(resultAction)) {
-      loginUser(resultAction.payload.user, resultAction.payload.key)
+      const fetchAccountResult = await fetchAccount(resultAction.payload.user.account);
+      if (fetchAccount.fulfilled.match(fetchAccountResult)) {
+        loginUser(resultAction.payload.user, resultAction.payload.key)
+      }
     } else {
       setLoginStatus('failed')
       if (resultAction.payload) {

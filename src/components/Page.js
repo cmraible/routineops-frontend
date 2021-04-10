@@ -29,15 +29,16 @@ const Page = ({ title, children, action, previous, pad }) => {
               )
             default:
               return (
-                <Box
+                <Main
                   direction="column"
-                  fill
-                  style={{overflow: "scroll"}}
+                  full
+                  style={{overflow: "hidden"}}
                 >
                     <Box
                       style={{position: "sticky", top: 0, zIndex: 10}}
                       direction="row"
                       pad={{horizontal: "small", vertical: "xsmall"}}
+                      elevation="xsmall"
                       justify="between"
                       gap="medium"
                       fill="horizontal"
@@ -65,7 +66,7 @@ const Page = ({ title, children, action, previous, pad }) => {
                       </Box>
                     </Box>
                       {children}
-                </Box>
+                </Main>
               )
           }
         }

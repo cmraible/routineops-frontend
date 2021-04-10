@@ -1,44 +1,72 @@
 import { push } from 'connected-react-router';
-import { Box, Button, Text } from 'grommet';
-import { Add, CircleInformation } from 'grommet-icons';
+import { Box, Button, CheckBox, Collapsible, Form, FormField, Heading, Select, Text } from 'grommet';
+import { Add, CircleInformation, Filter } from 'grommet-icons';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../../components/Message';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
+import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
+import { selectLoggedInUser } from '../auth/authSlice';
 import { fetchTaskLayers } from '../taskLayers/taskLayersSlice';
 import { fetchTasks } from '../tasks/tasksSlice';
+import { selectAllUsers } from '../users/usersSlice';
 import TaskInstanceItem from './TaskInstanceItem';
 import { fetchTaskInstances, selectAllTaskInstances } from './taskInstancesSlice';
 
 const Home = () => {
   const dispatch = useDispatch()
-  const taskInstances = useSelector(selectAllTaskInstances).sort((a, b) => {
+
+  const user = useSelector(selectLoggedInUser);
+  const account = useSelector(selectUserAccount);
+  const allUsers = useSelector(selectAllUsers);
+
+  const [requestStatus, setRequestStatus] = useState('idle');
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({
+    users: [user.id],
+    completed: true,
+    past_due: true
+  });
+
+  const taskInstances = useSelector(selectAllTaskInstances)
+    .filter((instance) => {
+      const now = DateTime.local()
+      if (!filters.completed && instance.completed) {
+        return false;
+      }
+      if (!filters.past_due && !instance.completed && DateTime.fromISO(instance.due) < now) {
+        return false;
+      }
+      if (filters.users.length > 0) {
+        if (!filters.users.includes(instance.assignee)) {
+          return false;
+        }
+      }
+      return true;
+    })
+    .sort((a, b) => {
     const aDue = DateTime.fromISO(a.due)
     const bDue = DateTime.fromISO(b.due)
     return aDue < bDue ? -1 : aDue > bDue ? 1 : 0;
   });
 
-  // const user = useSelector(selectLoggedInUser);
-
-
-  const [requestStatus, setRequestStatus] = useState('idle');
-
   useEffect(() => {
     const fetch = async () => {
       setRequestStatus('pending');
+      const accountAction = await dispatch(fetchAccount(user.account));
       const taskAction = await dispatch(fetchTasks());
       const taskLayerAction = await dispatch(fetchTaskLayers());
       const taskInstanceAction = await dispatch(fetchTaskInstances());
-      if (fetchTasks.fulfilled.match(taskAction) && fetchTaskLayers.fulfilled.match(taskLayerAction) && fetchTaskInstances.fulfilled.match(taskInstanceAction)) {
+      if (fetchTasks.fulfilled.match(taskAction) && fetchTaskLayers.fulfilled.match(taskLayerAction) && fetchTaskInstances.fulfilled.match(taskInstanceAction) && fetchAccount.fulfilled.match(accountAction)) {
         setRequestStatus('succeeded')
       } else {
         setRequestStatus('failed');
       }
     }
     fetch()
-  }, [dispatch]);
+  }, [dispatch, user.account]);
 
   let content
   if (requestStatus === 'pending') {
@@ -71,14 +99,64 @@ const Home = () => {
   return (
     <Page
       title="Home"
-      // action={{
-      //   icon: <Filter />,
-      //   primary: false
-      // }}
+      action={{
+        icon: <Filter />,
+        primary: false,
+        onClick: () => setShowFilters(!showFilters)
+      }}
     >
-      <Box flex={false}>
-        {content}
+      <Box flex="grow" direction="row" height="100%">
+        <Box fill="horizontal" flex style={{overflowY: "scroll"}} height="100%">
+          <Box flex={false}>
+            {content}
+          </Box>
+        </Box>
+        <Collapsible direction="horizontal" open={showFilters}>
+          <Box width="medium" fill="vertical" background="background-contrast" style={{position: "sticky", top: 0}}>
+            <Box border={{bottom: "small"}} pad="small">
+              <Heading size="xsmall" margin="xsmall" level={3}>Filters</Heading>
+            </Box>
+            <Form
+              value={filters}
+              onChange={nextValue => setFilters(nextValue)}
+            >
+              <Box pad="small" gap="medium" wrap="false">
+                  {
+                    (account && account.type === 'Team' && (
+                      <FormField name="user" label="Assignee" fill>
+                        <Select
+                          name="users"
+                          options={allUsers}
+                          multiple
+                          labelKey={(option) => `${option.first_name} ${option.last_name}`}
+                          valueKey={{key: 'id', reduce: true}}
+                          placeholder="All Assignees"
+                        />
+                      </FormField>
+                    ))
+                  }
+                  {/* {
+                    (account && account.type === 'Team' && (
+                      <FormField name="role" label="Role" fill>
+                        <Select
+                          name="role"
+                          options={allRoles}
+                          multiple
+                          labelKey="name"
+                          valueKey={{key: 'id', reduce: true}}
+                        />
+                      </FormField>
+                    ))
+                  } */}
+                  <CheckBox name="completed" label={<Text style={{whiteSpace: 'nowrap'}}>Show completed tasks</Text>} />
+                  <CheckBox name="past_due" label={<Text style={{whiteSpace: 'nowrap'}}>Show past due tasks</Text>} />
+              </Box>
+            </Form>
+
+          </Box>
+        </Collapsible>
       </Box>
+
 
 
 
