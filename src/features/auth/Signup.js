@@ -7,9 +7,9 @@ import EmailField from '../../components/EmailField';
 import Error from '../../components/Error';
 import PasswordField from '../../components/PasswordField';
 import SubmitButton from '../../components/SubmitButton';
-import { flattenErrors, loginUser } from '../../utils';
+import { flattenErrors } from '../../utils';
 import { fetchInvitation, selectInvitationById } from '../invitations/invitationsSlice';
-import { login, signup } from './authSlice';
+import { signup } from './authSlice';
 
 
 
@@ -53,16 +53,7 @@ const Signup = ({ location, match }) => {
         setSignupStatus('pending');
         setErrors({})
         const resultAction = await dispatch(signup(value));
-        if (signup.fulfilled.match(resultAction)) {
-          setSignupStatus('succeeded');
-          const resultAction = await dispatch(login({
-            email: value.email,
-            password: value.password1
-          }));
-          if (login.fulfilled.match(resultAction)) {
-            loginUser(resultAction.payload.user, resultAction.payload.key)
-          }
-        } else {
+        if (!signup.fulfilled.match(resultAction)) {
           setSignupStatus('failed')
           if (resultAction.payload) {
             // Request completed successfully but returned field errors
@@ -105,7 +96,6 @@ const Signup = ({ location, match }) => {
                   )}
                 />
               </FormField>
-
             </Box>
             <SubmitButton label="Sign Up" loadingIndicator={signupStatus === 'pending'} />
             <Box direction="row" justify="center" gap="small">

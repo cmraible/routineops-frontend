@@ -1,7 +1,7 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
 import { addNewSubscription, updateSubscription, cancelSubscription } from '../subscriptions/subscriptionsSlice';
-import { logout } from '../auth/authSlice';
+import { logout, selectIsLoggedIn } from '../auth/authSlice';
 
 
 // Adapter to normalize and sort response data
@@ -85,4 +85,10 @@ export const {
     selectEntities: selectAccountEntities,
   } = accountsAdapter.getSelectors(state => state.accounts);
 
-export const selectUserAccount = (state) => state.accounts.entities[state.users.entities[state.auth.userId].account];
+export const selectUserAccount = (state) => {
+    if (selectIsLoggedIn(state)) {
+        return state.accounts.entities[state.users.entities[state.auth.userId].account]
+    } else {
+        return null;
+    }
+};

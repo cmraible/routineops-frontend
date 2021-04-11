@@ -75,7 +75,7 @@ export const days = [
       },
 ]
 
-export const loginUser = (user, token) => {
+export const loginUser = (user) => {
     if (!window.Cypress) {
         window.analytics.identify(user.id, {
             'firstName': user.first_name,
@@ -107,9 +107,6 @@ export const loginUser = (user, token) => {
                 organization_id: user.account
             })
         window.analytics.track('Logged in.')
-        if (window.Intercom) {
-            window.Intercom('shutdown');
-        }
     }
 }
 

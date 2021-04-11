@@ -2,11 +2,11 @@ import React from 'react'
 import { Box, Heading, Text } from 'grommet'
 import { Close } from 'grommet-icons';
 
-const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, peruser, permonth, onClick, quantity}) => {
+const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, peruser, onClick, quantity, pad}) => {
 
     return (
         <Box
-          pad="medium"
+          pad={ pad || "medium"}
           hoverIndicator
           round="medium"
           border={{color: selected ? "selected" : "border", size: "small"}}
@@ -19,7 +19,7 @@ const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, perus
           <Box direction="row"  align="center" gap="medium">
             {icon}
             <Box>
-              <Heading level={2} size="small">{title}</Heading>
+              <Heading level={2} size="small" margin={{vertical: "small"}}>{title}</Heading>
               <Text>{subtitle}</Text>
             </Box>
           </Box>

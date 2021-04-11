@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
 import { push } from 'connected-react-router';
+import { loginUser } from '../../utils';
 
 
 
@@ -16,6 +17,7 @@ export const login = createAsyncThunk('auth/login', async (credentials, { dispat
         const client = getClient(dispatch, getState);
         const response = await client.post('/auth/login/', credentials);
         dispatch(push('/'));
+        loginUser(response.data.user);
         return response.data
     } catch (err) {
         if (!err.response) {
@@ -42,6 +44,7 @@ export const loginWithGoogle = createAsyncThunk('auth/loginWithGoogle', async (c
     try {
         const client = getClient(dispatch, getState);
         const response = await client.post('/auth/google/', {code: code})
+        loginUser(response.data.user);
         return response.data
     } catch (err) {
         if (!err.response) {
@@ -66,13 +69,15 @@ export const connectGoogle = createAsyncThunk('auth/connectGoogle', async (code,
 
 
 export const logout = createAsyncThunk('auth/logout', async (data, { dispatch, getState }) => {
-    dispatch(push('/'));
-    const client = getClient(dispatch, getState);
-    const response = await client.post('/auth/logout/');
     window.localStorage.removeItem('routineops-token');
     window.localStorage.removeItem('routineopsState');
     window.analytics.track('Logged out.');
+    window.Intercom('shutdown');
     window.analytics.reset();
+    dispatch(push('/'));
+    const client = getClient(dispatch, getState);
+    const response = await client.post('/auth/logout/');
+
     return response.data
 })
 
@@ -87,6 +92,7 @@ export const signup = createAsyncThunk('auth/signup', async (data, { dispatch, g
               }
             });
         }
+        loginUser(response.data.user);
         dispatch(push('/'))
         return response.data
     } catch (err) {
@@ -134,6 +140,10 @@ export const authSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
+        [signup.fulfilled]: (state, action) => {
+            state.token = action.payload.key
+            state.userId = action.payload.user.id
+        },
         [login.fulfilled]: (state, action) => {
             state.token = action.payload.key
             state.userId = action.payload.user.id

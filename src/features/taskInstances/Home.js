@@ -120,7 +120,7 @@ const Home = () => {
               value={filters}
               onChange={nextValue => setFilters(nextValue)}
             >
-              <Box pad="small" gap="medium" wrap="false">
+              <Box pad="small" gap="medium">
                   {
                     (account && account.type === 'Team' && (
                       <FormField name="user" label="Assignee" fill>

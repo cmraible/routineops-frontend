@@ -54,14 +54,11 @@ const AccountBillingUpgradeTeam = ({ close }) => {
             type: 'card',
             card: cardElement,
         });
-        console.log(error);
-        console.log(paymentMethod)
         if (error) {
             console.log(error)
             setStatus('idle-1')
             setErrors({'credit-card': error.message})
         } else {
-            console.log('no credit card errors')
             const subscriptionData = {
                 account: account.id,
                 paymentMethodId: paymentMethod.id,

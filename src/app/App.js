@@ -1,21 +1,43 @@
 import { Grommet } from 'grommet';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Spinner from '../components/Spinner';
 import defaultTheme from '../defaultTheme';
-import { selectIsLoggedIn } from '../features/auth/authSlice';
+import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSlice';
+import { selectIsLoggedIn, selectLoggedInUser } from '../features/auth/authSlice';
 import AppLoggedIn from './AppLoggedIn';
 import AppLoggedOut from './AppLoggedOut';
+import AppOnboarding from './AppOnboarding';
+
 
 const App = () => {
+
+  const dispatch = useDispatch()
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectLoggedInUser)
   const theme = defaultTheme
   const darkMode = useSelector(state => state.ui.darkMode)
+  const account = useSelector(selectUserAccount);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchAccount(user.account))
+    }
+  }, [dispatch, isLoggedIn, user]);
 
   let app
 
   if (isLoggedIn) {
-    app = <AppLoggedIn />
+    if (account) {
+      if (account.onboard_complete) {
+        app = <AppLoggedIn />
+      } else {
+        app = <AppOnboarding />
+      }
+    } else {
+      app = <Spinner isFetching={true} />
+    }
   } else {
     app = <AppLoggedOut />
   }
