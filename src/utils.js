@@ -2,9 +2,11 @@ import { RRule } from 'rrule';
 import { DateTime } from 'luxon';
 
 
+
 export const weekdays = [
     'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
 ]
+
 
 export const weekday_objs = [
     {
