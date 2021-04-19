@@ -137,8 +137,6 @@ export const formatHour = (hour) => {
     }
 }
 
-
-
 export const ordinal_suffix_of = (i) => {
     var j = i % 10,
         k = i % 100;
