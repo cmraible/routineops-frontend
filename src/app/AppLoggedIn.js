@@ -1,7 +1,7 @@
 import { Box, Grid, ResponsiveContext } from 'grommet';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import NotFound from '../components/NotFound';
 import Account from '../features/accounts/Account';
 import DesktopSidebar from '../components/DesktopSidebar';
@@ -69,6 +69,9 @@ const AppLoggedIn = () => {
         <Route path="/users/invite" component={UserAdd} exact />
         <Route path="/users/:userId" component={UserDetail} exact />
         <Route path="/users/:userId/edit" component={UserEdit} exact />
+        <Route path="/login">
+            <Redirect to="" />
+        </Route>
         <Route
           render={(props) => (
             <NotFound {...props} path="/" text="home" />
