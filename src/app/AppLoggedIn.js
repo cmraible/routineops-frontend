@@ -21,7 +21,7 @@ import UserEdit from '../features/users/UserEdit';
 import UserList from '../features/users/UserList';
 import { selectLoggedInUser } from '../features/auth/authSlice';
 import { selectUserAccount } from '../features/accounts/accountsSlice';
-import { Checkmark, Home, Group, User, Organization } from 'grommet-icons';
+import { ChatOption, Checkmark, Home, Group, User, Organization } from 'grommet-icons';
 
 import { fetchAccount } from '../features/accounts/accountsSlice';
 
@@ -89,7 +89,8 @@ const AppLoggedIn = () => {
               return (
                 <Box>
                   {mainSwitch}
-                  <MobileFooter links={links} />
+
+                  <MobileFooter links={[...links, {label: "Help", icon: <ChatOption />, id: "help-chat", active: false}]} />
                 </Box>
 
               )

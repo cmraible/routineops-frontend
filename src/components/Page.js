@@ -8,6 +8,17 @@ const Page = ({ title, children, action, previous, pad }) => {
   useEffect(() => {
     document.title = title;
     window.analytics.page(title);
+    window.analytics.ready(() => {
+      if (window.innerWidth < 768) {
+        window.Intercom('update', {
+          "hide_default_launcher": true
+        })
+      } else {
+        window.Intercom('update', {
+          "hide_default_launcher": false
+        })
+      }
+    });
   }, [title]);
 
   document.body.style = `background-color: black`

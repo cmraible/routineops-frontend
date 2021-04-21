@@ -3,7 +3,7 @@ import { Box, Text } from 'grommet';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 
-const MobileFooterItem = ({label, icon, href, active}) => {
+const MobileFooterItem = ({label, icon, href, active, ...rest}) => {
     const dispatch = useDispatch();
     return (
         <Box
@@ -13,6 +13,7 @@ const MobileFooterItem = ({label, icon, href, active}) => {
             width="20%"
             onClick={() => dispatch(push(href))}
             background={active ? "dark-1" : "false"}
+            {...rest}
         >
             {icon}
             <Text size="small">{label}</Text>
