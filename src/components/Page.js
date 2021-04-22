@@ -21,6 +21,7 @@ const Page = ({ title, children, action, previous, pad }) => {
     });
   }, [title]);
 
+
   document.body.style = `background-color: black`
 
   return (
