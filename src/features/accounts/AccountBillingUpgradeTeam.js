@@ -3,6 +3,7 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { goBack, push } from 'connected-react-router';
 import { Box, Button, Form, Heading, Text } from 'grommet';
 import { Add, FormNextLink, Subtract } from 'grommet-icons';
+import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import BackButton from '../../components/BackButton';
@@ -116,16 +117,23 @@ const AccountBillingUpgradeTeam = ({ close }) => {
                     {(previewInvoice && previewInvoice.lines.data.map(line => {
                         return (
                             <Box direction="row" align="center" gap="xsmall" key={line.id}>
-                                <FormNextLink /> {`${line.description}: $${(line.amount/100).toFixed(2)}`}
+                                <FormNextLink />{`${line.description}: $${(line.amount/100).toFixed(2)}`}
                             </Box>
                         )
                     }))}
                     <Box direction="row" align="center" gap="xsmall">
                         <FormNextLink />{`Due today: $${(previewInvoice.total/100).toFixed(2)}`}
                     </Box>
-                    <Box direction="row" align="center" gap="xsmall">
-                        <FormNextLink />{"$" + (previewInvoice.total/100).toFixed(2)} will be charged monthly to the credit card on file.
-                    </Box>
+                    {account.has_ever_had_subscription && (
+                        <Box direction="row" align="center" gap="xsmall">
+                            <FormNextLink />{"$" + (previewInvoice.total/100).toFixed(2)} will be charged monthly to the credit card on file.
+                        </Box>
+                    )}
+                    { !account.has_ever_had_subscription && (
+                        <Box direction="row" align="start" gap="xsmall">
+                            <FormNextLink />{`$${(quantity*9).toFixed(2)} will be charged monthly to the credit card on file starting ${DateTime.fromSeconds(previewInvoice.lines.data[0].period.end).toLocaleString()}.`}
+                        </Box>
+                    )}
                     <StripeCreditCardField autoFocus label="" />
                 </Box>
                 <Box justify="center" gap="large" direction="row" pad="small">

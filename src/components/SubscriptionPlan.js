@@ -2,7 +2,9 @@ import React from 'react'
 import { Box, Heading, Text } from 'grommet'
 import { Close } from 'grommet-icons';
 
-const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, peruser, onClick, quantity, pad}) => {
+const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, peruser, onClick, quantity, pad, trial}) => {
+
+  console.log(trial)
 
     return (
         <Box
@@ -18,12 +20,13 @@ const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, perus
         >
           <Box direction="row"  align="center" gap="medium">
             {icon}
-            <Box>
-              <Heading level={2} size="small" margin={{vertical: "small"}}>{title}</Heading>
+            <Box gap="small">
+              <Heading level={2} size="small" margin="none">{title}</Heading>
               <Text>{subtitle}</Text>
+              {trial && (<Box alignSelf="start" background="selected" round="small" pad={{horizontal: "small"}}><Text size="small" weight="bold">30 day free trial</Text></Box>)}
             </Box>
           </Box>
-          <Box direction="row" align="center" gap="medium" justify="center">
+          <Box direction="column" align="end" gap="medium" justify="center">
             <Box align="center">
               <Box justify="end" direction="row" align="baseline">
                 <Text size="xsmall">$</Text>
@@ -47,11 +50,11 @@ const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, perus
                     <Text size="xlarge">=</Text>
                   </Box>
                   <Box align="center">
-                  <Box justify="end" direction="row" align="baseline">
-                    <Text size="xsmall">$</Text>
-                    <Text size="xxlarge">{price*quantity}</Text>
-                  </Box>
-                  <Text size="xsmall">per month</Text>
+                    <Box justify="end" direction="row" align="baseline">
+                      <Text size="xsmall">$</Text>
+                      <Text size="xxlarge">{price*quantity}</Text>
+                    </Box>
+                    <Text size="xsmall">per month</Text>
                   </Box>
                 </Box>
               )

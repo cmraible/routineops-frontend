@@ -11,18 +11,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addNewSubscription, previewUpcomingInvoice } from '../subscriptions/subscriptionsSlice';
 import { selectUserAccount } from '../accounts/accountsSlice';
 import { flattenErrors } from '../../utils';
+import { DateTime } from 'luxon';
 
 const ConfirmSubscription = ({ quantity }) => {
 
     const dispatch = useDispatch();
     const account = useSelector(selectUserAccount);
 
-
     const [errors, setErrors] = useState();
     const [status, setStatus] = useState('idle');
     const [invoiceStatus, setInvoiceStatus] = useState('idle');
     const [invoice, setInvoice] = useState(null);
-
 
     const stripe = useStripe();
     const elements = useElements();
@@ -34,7 +33,7 @@ const ConfirmSubscription = ({ quantity }) => {
                 account: account.id,
                 quantity: quantity,
                 newPriceId: process.env.REACT_APP_TEAM_PRICE_ID
-            }))
+            }));
             unwrapResult(actionResult)
             setInvoiceStatus('idle');
             setInvoice(actionResult.payload.invoice)
@@ -79,8 +78,8 @@ const ConfirmSubscription = ({ quantity }) => {
 
     let content
     if (invoice) {
+        console.log(invoice)
         content = (
-
             <Form
                 data-cy="upgrade-form"
                 errors={errors}
@@ -90,16 +89,25 @@ const ConfirmSubscription = ({ quantity }) => {
                     {(invoice && invoice.lines.data.map(line => {
                         return (
                             <Box direction="row" align="start" gap="xsmall" key={line.id}>
-                                <FormNextLink /> <Text size="medium">{`${line.description}: $${(line.amount/100).toFixed(2)}`}</Text>
+                                <FormNextLink /><Text size="medium">{`${line.description}: $${(line.amount/100).toFixed(2)}`}</Text>
                             </Box>
                         )
                     }))}
                     <Box direction="row" align="start" gap="xsmall">
                         <FormNextLink /><Text>{`Due today: $${(invoice.total/100).toFixed(2)}`}</Text>
                     </Box>
-                    <Box direction="row" align="start" gap="xsmall">
-                        <FormNextLink /><Text>{`$${(invoice.total/100).toFixed(2)} will be charged monthly to the credit card on file.`}</Text>
-                    </Box>
+                    { account.has_ever_had_subscription && (
+                        <Box direction="row" align="start" gap="xsmall">
+                            <FormNextLink /><Text>{`$${(invoice.total/100).toFixed(2)} will be charged monthly to the credit card on file.`}</Text>
+                        </Box>
+                    )}
+
+                    { !account.has_ever_had_subscription && (
+                        <Box direction="row" align="start" gap="xsmall">
+                            <FormNextLink /><Text>{`$${(quantity*9).toFixed(2)} will be charged monthly to the credit card on file starting ${DateTime.fromSeconds(invoice.lines.data[0].period.end).toLocaleString()}.`}</Text>
+                        </Box>
+                    )}
+
                     <StripeCreditCardField autoFocus label="" />
                 </Box>
                 <Box justify="center" direction="row" pad="small">

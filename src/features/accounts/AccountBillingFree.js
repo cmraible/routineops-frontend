@@ -3,11 +3,12 @@ import { Upgrade } from 'grommet-icons';
 import React from 'react';
 import SubscriptionPlan from '../../components/SubscriptionPlan';
 import { push } from 'connected-react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserAccount } from './accountsSlice';
 
 const AccountBillingFree = () => {
 
-
+  const account = useSelector(selectUserAccount);
   const dispatch = useDispatch();
 
   return (
@@ -27,6 +28,7 @@ const AccountBillingFree = () => {
         peruser
         dataCY="upgrade-team"
         onClick={() => dispatch(push('/account/billing/upgradeTeam'))}
+        trial={!account.has_ever_had_subscription}
       />
     </Box>
   )
