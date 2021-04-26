@@ -61,7 +61,14 @@ export const taskInstancesSlice = createSlice({
         },
         [fetchTaskInstance.fulfilled]: taskInstancesAdapter.upsertOne,
         [addNewTaskInstance.fulfilled]: taskInstancesAdapter.addOne,
-        [updateTaskInstance.fulfilled]: taskInstancesAdapter.updateOne,
+        [updateTaskInstance.fulfilled]: (state, { payload}) => {
+            const { id, ...changes } = payload
+            taskInstancesAdapter.updateOne(state, {id, changes});
+        },
+        [completeTaskInstance.fulfilled]: (state, { payload}) => {
+            const { id, ...changes } = payload
+            taskInstancesAdapter.updateOne(state, {id, changes});
+        },
         [deleteTaskInstance.fulfilled]: taskInstancesAdapter.removeOne,
         [logout.fulfilled]: taskInstancesAdapter.removeAll,
         [logout.rejected]: taskInstancesAdapter.removeAll
