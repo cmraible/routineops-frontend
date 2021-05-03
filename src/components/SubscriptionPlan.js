@@ -2,9 +2,7 @@ import React from 'react'
 import { Box, Heading, Text } from 'grommet'
 import { Close } from 'grommet-icons';
 
-const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, peruser, onClick, quantity, pad, trial}) => {
-
-  console.log(trial)
+const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, peruser, permonth, peryear, onClick, quantity, pad, trial}) => {
 
     return (
         <Box
@@ -26,13 +24,14 @@ const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, perus
               {trial && (<Box alignSelf="start" background="selected" round="small" pad={{horizontal: "small"}}><Text size="small" weight="bold">30 day free trial</Text></Box>)}
             </Box>
           </Box>
-          <Box direction="column" align="end" gap="medium" justify="center">
+          <Box direction="row" align="end" gap="medium" justify="center">
             <Box align="center">
               <Box justify="end" direction="row" align="baseline">
                 <Text size="xsmall">$</Text>
                 <Text size="xxlarge">{price}</Text>
               </Box>
-              {(peruser && <Text size="xsmall">per user</Text>)}
+              {(permonth && <Text size="xsmall">per month</Text>)}
+              {(peryear && <Text size="xsmall">per year</Text>)}
             </Box>
             {
               quantity && (
@@ -54,7 +53,8 @@ const SubscriptionPlan = ({dataCY, title, subtitle, price, icon, selected, perus
                       <Text size="xsmall">$</Text>
                       <Text size="xxlarge">{price*quantity}</Text>
                     </Box>
-                    <Text size="xsmall">per month</Text>
+                    {(permonth && <Text size="xsmall">per month</Text>)}
+                    {(peryear && <Text size="xsmall">per year</Text>)}
                   </Box>
                 </Box>
               )

@@ -78,6 +78,14 @@ export const cancelSubscription = createAsyncThunk('subscriptions/cancelSubscrip
     return response.data
 })
 
+export const getPrice = createAsyncThunk('subscriptions/getPrice', async (priceId, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
+    const response = await client.get(
+        `/prices/${priceId}`
+    )
+    return response.data
+})
+
 // Create slice
 export const subscriptionsSlice = createSlice({
     name: 'subscription',

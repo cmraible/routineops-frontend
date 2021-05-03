@@ -3,7 +3,7 @@ import Modal from '../../components/Modal';
 import { Box, Button, Form, Text} from 'grommet';
 import { FormNextLink, Add, Subtract } from 'grommet-icons';
 import SubmitButton from '../../components/SubmitButton';
-import { previewUpcomingInvoice, updateSubscription } from '../subscriptions/subscriptionsSlice';
+import { previewUpcomingInvoice, updateSubscription, getPrice } from '../subscriptions/subscriptionsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserAccount } from './accountsSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -22,9 +22,19 @@ const AccountBillingModify = ({ close }) => {
     const [errors, setErrors] = useState({});
     const [invoiceStatus, setInvoiceStatus] = useState('idle')
     const [previewInvoice, setPreviewInvoice] = useState(false);
+    const [priceDetails, setPriceDetails] = useState(null);
 
     const stripe = useStripe();
     const elements = useElements();
+
+    useEffect(() => {
+        const fetchPrice = async () => {
+            const actionResult = await dispatch(getPrice(account.subscription.price_id));
+            unwrapResult(actionResult)
+            setPriceDetails(actionResult.payload)
+        }
+        fetchPrice()
+    }, [dispatch, account.subscription.price_id]);
 
     useEffect(() => {
         const fetchInvoice = async () => {
@@ -32,14 +42,14 @@ const AccountBillingModify = ({ close }) => {
             const actionResult = await dispatch(previewUpcomingInvoice({
                 account: account.id,
                 quantity: quantity,
-                newPriceId: process.env.REACT_APP_TEAM_PRICE_ID
+                newPriceId: account.subscription.price_id
             }))
             unwrapResult(actionResult);
             setInvoiceStatus('idle')
             setPreviewInvoice(actionResult.payload.invoice);
         }
         fetchInvoice()
-    }, [dispatch, quantity, account.id]);
+    }, [dispatch, quantity, account.id, account.subscription.price_id]);
 
     const handleSubmit = async () => {
         setStatus('pending');
@@ -48,7 +58,7 @@ const AccountBillingModify = ({ close }) => {
         }
         const subscriptionData = {
             account: account.id,
-            newPriceId: process.env.REACT_APP_TEAM_PRICE_ID,
+            newPriceId: account.subscription.price_id,
             quantity: quantity
         }
         const resultAction = await dispatch(updateSubscription(subscriptionData));
@@ -123,7 +133,7 @@ const AccountBillingModify = ({ close }) => {
                         }
                     </Box>
                     <Box direction="row" align="start" gap="xsmall">
-                        <FormNextLink />{"$" + (next_invoice_sum/100).toFixed(2)} will be charged monthly to the credit card on file.
+                        <FormNextLink />{`$${(next_invoice_sum/100).toFixed(2)} will be charged ${priceDetails.recurring.interval}ly to the credit card on file.`}
                     </Box>
                 </Box>
                 <Box justify="center" gap="large" direction="row" pad="small">

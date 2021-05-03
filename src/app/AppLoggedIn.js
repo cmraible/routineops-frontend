@@ -10,7 +10,7 @@ import RoleDetail from '../features/roles/RoleDetail';
 import RoleEdit from '../features/roles/RoleEdit';
 import RoleList from '../features/roles/RoleList';
 import TaskInstance from '../features/taskInstances/TaskInstance';
-import HomePage from '../features/taskInstances/Home';
+import Todo from '../features/taskInstances/Todo';
 import TaskAdd from '../features/tasks/TaskAdd';
 import TaskDetail from '../features/tasks/TaskDetail';
 import TaskEdit from '../features/tasks/TaskEdit';
@@ -21,7 +21,7 @@ import UserEdit from '../features/users/UserEdit';
 import UserList from '../features/users/UserList';
 import { selectLoggedInUser } from '../features/auth/authSlice';
 import { selectUserAccount } from '../features/accounts/accountsSlice';
-import { ChatOption, Checkmark, Home, Group, User, Organization } from 'grommet-icons';
+import { ChatOption, Checkmark, Group, Task, User, Organization } from 'grommet-icons';
 
 import { fetchAccount } from '../features/accounts/accountsSlice';
 
@@ -34,13 +34,13 @@ const AppLoggedIn = () => {
 
   const individualLinks = [
     {label: 'Tasks', icon: <Checkmark />, href: '/tasks', active: (pathname.startsWith('/tasks'))},
-    {label: 'Home', icon: <Home />, href: '/', active: (pathname === '/' || pathname === '')},
+    {label: 'To do', icon: <Task />, href: '/', active: (pathname === '/' || pathname === '')},
     {label: 'Account', icon: <User />, href: '/account', active: (pathname.startsWith('/account'))},
   ]
 
   const teamLinks = [
     {label: 'Tasks', icon: <Checkmark />, href: '/tasks', active: (pathname.startsWith('/tasks'))},
-    {label: 'Home', icon: <Home />, href: '/', active: (pathname === '/')},
+    {label: 'To do', icon: <Task />, href: '/', active: (pathname === '/')},
     {label: 'Team', icon: <Group />, href: '/roles', active: (pathname.startsWith('/roles'))},
     {label: 'Account', icon: <Organization />, href: '/account', active: (pathname.startsWith('/team'))},
   ]
@@ -55,7 +55,7 @@ const AppLoggedIn = () => {
   const mainSwitch = (
       <Switch>
         <Route path="/account" component={Account} />
-        <Route path="/" component={HomePage} exact />
+        <Route path="/" component={Todo} exact />
         <Route path="/roles" component={RoleList} exact />
         <Route path="/roles/:roleId" component={RoleDetail} exact />
         <Route path="/roles/:roleId/edit" component={RoleEdit} />

@@ -1,18 +1,21 @@
+import { unwrapResult } from '@reduxjs/toolkit';
 import { Box, Meter, Text } from 'grommet';
-import { FormEdit, Visa, Mastercard, Amex, CreditCard } from 'grommet-icons';
-import React, { useState } from 'react';
+import { Amex, CreditCard, FormEdit, Mastercard, Visa } from 'grommet-icons';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import EditDescription from '../../components/EditDescription';
 import SubscriptionPlan from '../../components/SubscriptionPlan';
+import { getPrice } from '../subscriptions/subscriptionsSlice';
+import { selectAllUsers } from '../users/usersSlice';
+import AccountBillingModify from './AccountBillingModify';
 import AccountCancel from './AccountCancel';
 import AccountCreditCard from './AccountCreditCard';
-import AccountBillingModify from './AccountBillingModify';
-import { useSelector } from 'react-redux';
 import { selectUserAccount } from './accountsSlice';
-import { selectAllUsers } from '../users/usersSlice';
 
 
 const AccountBillingTeam = () => {
 
+  const dispatch = useDispatch();
   const account = useSelector(selectUserAccount);
   const users = useSelector(selectAllUsers);
 
@@ -34,20 +37,34 @@ const AccountBillingTeam = () => {
   const [CC, setCC] = useState(false)
   const [cancel, setCancel] = useState(false)
   const [modifySubscription, setModifySubscription] = useState(false)
+  const [priceDetails, setPriceDetails] = useState(null);
+
+  useEffect(() => {
+      const fetchPrice = async () => {
+          const actionResult = await dispatch(getPrice(account.subscription.price_id));
+          unwrapResult(actionResult)
+          setPriceDetails(actionResult.payload)
+      }
+      fetchPrice()
+  }, [dispatch, account.subscription.price_id]);
 
   return (
     <Box gap="large" width="large" pad="medium">
       <Box gap="medium">
         <Text>Current Plan:</Text>
-        <SubscriptionPlan
-          title="Team"
-          selected
-          subtitle="Pro features for everyone"
-          price={9}
-          quantity={account.subscription.quantity}
-          permonth
-          peruser
-        />
+        {priceDetails && (
+          <SubscriptionPlan
+            title="Team"
+            selected
+            subtitle="Pro features for everyone"
+            price={priceDetails.unit_amount/100}
+            quantity={account.subscription.quantity}
+            permonth={priceDetails.recurring.interval === 'month'}
+            peryear={priceDetails.recurring.interval === 'year'}
+            peruser
+          />
+        )}
+
       </Box>
       <Box direction="row" align="center" justify="between" pad="medium">
         <Box align="center">

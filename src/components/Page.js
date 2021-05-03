@@ -3,7 +3,7 @@ import { LinkPrevious } from 'grommet-icons';
 import React, { useEffect } from 'react';
 import MobileHeader from './MobileHeader';
 
-const Page = ({ title, children, action, previous, pad }) => {
+const Page = ({ title, header, children, action, previous, pad }) => {
 
   useEffect(() => {
     document.title = title;
@@ -32,7 +32,7 @@ const Page = ({ title, children, action, previous, pad }) => {
             case 'small':
               return (
                 <Main>
-                  <MobileHeader action={action} title={title} />
+                  <MobileHeader action={action} title={title} header={header} />
                   <Box pad={pad || "none"}>
                     {children}
                   </Box>
@@ -70,7 +70,12 @@ const Page = ({ title, children, action, previous, pad }) => {
                           <LinkPrevious />
                         </Box>
                         )}
-                        <Heading size="small" margin={{vertical: "none"}}>{ title }</Heading>
+                        {!header && (
+                          <Heading size="small" margin={{vertical: "none"}}>{ title }</Heading>
+                        )}
+                        {header && (
+                          header
+                        )}
                       </Box>
                       <Box>
                        {(action && <Button data-cy="action" {...action} /> )}

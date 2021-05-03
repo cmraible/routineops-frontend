@@ -12,6 +12,7 @@ const AppOnboarding = () => {
     const account = useSelector(selectUserAccount);
 
     const [plan, setPlan] = useState(null);
+    const [price, setPrice] = useState(null);
     const [quantity, setQuantity] = useState(null);
 
     const selectFreePlan = async () => {
@@ -22,18 +23,23 @@ const AppOnboarding = () => {
         }))
         if (!updateAccount.fulfilled.match(resultAction)) {
             // somethings fucked, display an error
-
         }
     }
 
-    const selectTeamPlan = () => {
+    const selectTeamPlanMonthly = () => {
         setPlan('Team');
+        setPrice(process.env.REACT_APP_TEAM_PRICE_MONTHLY)
+    }
+
+    const selectTeamPlanYearly = () => {
+        setPlan('Team');
+        setPrice(process.env.REACT_APP_TEAM_PRICE_YEARLY)
     }
 
 
     let content
     if (!plan) {
-        content = <SelectPlan selectFreePlan={selectFreePlan} selectTeamPlan={selectTeamPlan} />
+        content = <SelectPlan selectFreePlan={selectFreePlan} selectTeamPlanMonthly={selectTeamPlanMonthly} selectTeamPlanYearly={selectTeamPlanYearly} />
     } else if (plan === 'Free') {
         content = null
     } else if (plan === 'Team') {
@@ -41,7 +47,7 @@ const AppOnboarding = () => {
         if (!quantity) {
             content = <SelectQuantity selectQuantity={(quantity) => setQuantity(quantity)} />
         } else {
-            content = <ConfirmSubscription quantity={quantity} />
+            content = <ConfirmSubscription quantity={quantity} price={price} />
         }
     }
 

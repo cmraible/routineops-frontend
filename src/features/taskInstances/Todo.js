@@ -15,7 +15,7 @@ import { selectAllUsers } from '../users/usersSlice';
 import TaskInstanceItem from './TaskInstanceItem';
 import { fetchTaskInstances, selectAllTaskInstances } from './taskInstancesSlice';
 
-const Home = () => {
+const Todo = () => {
   const dispatch = useDispatch()
 
   const user = useSelector(selectLoggedInUser);
@@ -24,6 +24,7 @@ const Home = () => {
 
   const [requestStatus, setRequestStatus] = useState('idle');
   const [showFilters, setShowFilters] = useState(false);
+  const [headerValue, setHeaderValue] = useState('Today')
   const [filters, setFilters] = useState({
     users: [user.id],
     completed: true,
@@ -43,6 +44,15 @@ const Home = () => {
         if (!filters.users.includes(instance.assignee)) {
           return false;
         }
+      }
+      if (headerValue === 'Today' && DateTime.fromISO(instance.due) > DateTime.local().endOf('day')) {
+        return false;
+      }
+      if (headerValue === 'This Week' && DateTime.fromISO(instance.due) > DateTime.local().endOf('week')) {
+        return false;
+      }
+      if (headerValue === 'This Month' && DateTime.fromISO(instance.due) > DateTime.local().endOf('month')) {
+        return false;
       }
       return true;
     })
@@ -95,10 +105,26 @@ const Home = () => {
     content = <Message type="error" message="Unable to fetch task instances." />
   }
 
+  const header = (
+    <Select
+      options={["Today", "This Week", "This Month"]}
+      plain
+      value={headerValue}
+      onChange={({option}) => setHeaderValue(option)}
+      valueLabel={
+        <Heading
+          style={{whiteSpace: 'nowrap'}}
+          size="small"
+          margin={{vertical: "none"}}
+        >{headerValue}</Heading>}
+    />
+  )
+
 
   return (
     <Page
-      title="Home"
+      title="Todo"
+      header={header}
       action={{
         icon: <Filter />,
         primary: false,
@@ -135,19 +161,6 @@ const Home = () => {
                       </FormField>
                     ))
                   }
-                  {/* {
-                    (account && account.type === 'Team' && (
-                      <FormField name="role" label="Role" fill>
-                        <Select
-                          name="role"
-                          options={allRoles}
-                          multiple
-                          labelKey="name"
-                          valueKey={{key: 'id', reduce: true}}
-                        />
-                      </FormField>
-                    ))
-                  } */}
                   <CheckBox name="completed" label={<Text style={{whiteSpace: 'nowrap'}}>Show completed tasks</Text>} />
                   <CheckBox name="past_due" label={<Text style={{whiteSpace: 'nowrap'}}>Show past due tasks</Text>} />
               </Box>
@@ -156,64 +169,9 @@ const Home = () => {
           </Box>
         </Collapsible>
       </Box>
-
-
-
-
-          {/* {
-        (userInstances &&
-          <List
-            pad="none"
-            data={taskInstances}
-            onClickItem={({item}) => dispatch(push(`/taskInstance/${item.id}`))}
-            children={(taskInstance) => {
-              if (taskInstance) {
-                const taskLayer = taskLayerEntities[taskInstance.taskLayer]
-                const task = (taskLayer) ? taskEntities[taskLayer.task] : undefined;
-                const completed = (taskInstance.completed) ? parseISO(taskInstance.completed) : undefined;
-                const due = parseISO(taskInstance.due)
-                let color
-                if (completed && isBefore(completed, due)) {
-                  color = "status-ok"
-                } else if (isPast(due)) {
-                  color = "status-critical"
-                } else {
-                  color = "background"
-                }
-                return (
-                <Box align="center" background={color} pad="small" margin="none" direction="row" justify="between">
-                  <Box>
-                   <Heading level={3}>{ (task) ? task.name : '' }</Heading>
-                  </Box>
-                  {(!completed && <Text>Due { formatRelative(parseISO(taskInstance.due), new Date()) }</Text>)}
-                  {(completed && <Checkmark size="large"  />)}
-                </Box>
-                )
-              }
-            }}
-            empty={(
-              <Box gap="medium" align="center" pad="medium">
-                <CircleInformation />
-                <Text size="large">You don't have any tasks yet.</Text>
-                <Button size="large" icon={<Add/>} label="Add Task" onClick={() => dispatch(push('/tasks/add'))} />
-              </Box>
-            )}
-          />
-        )
-      }
-      {
-        taskInstances.length === 0 &&
-        <Box gap="medium" pad="medium" align="center">
-            <CircleInformation />
-          <Text size="large">You don't have any tasks yet.</Text>
-          <Button size="large" icon={<Add/>} label="Add Task" onClick={() => dispatch(push('/tasks/add'))} />
-        </Box>
-      } */}
-
-
     </Page>
   )
 
 };
 
-export default Home;
+export default Todo;

@@ -11,23 +11,35 @@ import Message from '../../components/Message';
 import StripeCreditCardField from '../../components/StripeCreditCardField';
 import SubmitButton from '../../components/SubmitButton';
 import { flattenErrors } from '../../utils';
-import { addNewSubscription, previewUpcomingInvoice } from '../subscriptions/subscriptionsSlice';
+import { addNewSubscription, previewUpcomingInvoice, getPrice } from '../subscriptions/subscriptionsSlice';
 import { selectUserAccount } from './accountsSlice';
 
 
-const AccountBillingUpgradeTeam = ({ close }) => {
+const AccountBillingUpgradeTeam = ({ close, match }) => {
+    console.log(match)
 
     const dispatch = useDispatch();
     const account = useSelector(selectUserAccount);
+    const { price } = match.params
 
     const [quantity, setQuantity] = useState(2);
     const [status, setStatus] = useState('idle-0');
     const [errors, setErrors] = useState({});
     const [invoiceStatus, setInvoiceStatus] = useState('idle')
     const [previewInvoice, setPreviewInvoice] = useState(false);
+    const [priceDetails, setPriceDetails] = useState(null);
 
     const stripe = useStripe();
     const elements = useElements();
+
+    useEffect(() => {
+        const fetchPrice = async () => {
+            const actionResult = await dispatch(getPrice(price));
+            unwrapResult(actionResult)
+            setPriceDetails(actionResult.payload)
+        }
+        fetchPrice()
+    }, [dispatch, price]);
 
     useEffect(() => {
         const fetchInvoice = async () => {
@@ -35,14 +47,14 @@ const AccountBillingUpgradeTeam = ({ close }) => {
             const actionResult = await dispatch(previewUpcomingInvoice({
                 account: account.id,
                 quantity: quantity,
-                newPriceId: process.env.REACT_APP_TEAM_PRICE_ID
+                newPriceId: price
             }))
             unwrapResult(actionResult);
             setInvoiceStatus('idle')
             setPreviewInvoice(actionResult.payload.invoice);
         }
         fetchInvoice()
-    }, [dispatch, quantity, account.id]);
+    }, [dispatch, price, quantity, account.id]);
 
     const handleSubmit = async () => {
         setStatus('pending');
@@ -63,7 +75,7 @@ const AccountBillingUpgradeTeam = ({ close }) => {
             const subscriptionData = {
                 account: account.id,
                 paymentMethodId: paymentMethod.id,
-                priceId: process.env.REACT_APP_TEAM_PRICE_ID,
+                priceId: price,
                 quantity: quantity,
                 type: 'Team'
             }
@@ -126,12 +138,12 @@ const AccountBillingUpgradeTeam = ({ close }) => {
                     </Box>
                     {account.has_ever_had_subscription && (
                         <Box direction="row" align="center" gap="xsmall">
-                            <FormNextLink />{"$" + (previewInvoice.total/100).toFixed(2)} will be charged monthly to the credit card on file.
+                            <FormNextLink />{`$${(previewInvoice.total/100).toFixed(2)} will be charged ${priceDetails.recurring.interval}ly to the credit card on file.`}
                         </Box>
                     )}
                     { !account.has_ever_had_subscription && (
                         <Box direction="row" align="start" gap="xsmall">
-                            <FormNextLink />{`$${(quantity*9).toFixed(2)} will be charged monthly to the credit card on file starting ${DateTime.fromSeconds(previewInvoice.lines.data[0].period.end).toLocaleString()}.`}
+                            <FormNextLink />{`$${(quantity*priceDetails.unit_amount/100).toFixed(2)} will be charged ${priceDetails.recurring.interval}ly to the credit card on file starting ${DateTime.fromSeconds(previewInvoice.lines.data[0].period.end).toLocaleString()}.`}
                         </Box>
                     )}
                     <StripeCreditCardField autoFocus label="" />

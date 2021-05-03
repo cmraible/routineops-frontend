@@ -12,13 +12,15 @@ import { addNewSubscription, previewUpcomingInvoice } from '../subscriptions/sub
 import { selectUserAccount } from '../accounts/accountsSlice';
 import { flattenErrors } from '../../utils';
 import { DateTime } from 'luxon';
+import { getPrice } from '../subscriptions/subscriptionsSlice';
 
-const ConfirmSubscription = ({ quantity }) => {
+const ConfirmSubscription = ({ quantity, price }) => {
 
     const dispatch = useDispatch();
     const account = useSelector(selectUserAccount);
 
     const [errors, setErrors] = useState();
+    const [priceDetails, setPriceDetails] = useState(null);
     const [status, setStatus] = useState('idle');
     const [invoiceStatus, setInvoiceStatus] = useState('idle');
     const [invoice, setInvoice] = useState(null);
@@ -26,20 +28,30 @@ const ConfirmSubscription = ({ quantity }) => {
     const stripe = useStripe();
     const elements = useElements();
 
+
+    useEffect(() => {
+        const fetchPrice = async () => {
+            const actionResult = await dispatch(getPrice(price));
+            unwrapResult(actionResult)
+            setPriceDetails(actionResult.payload)
+        }
+        fetchPrice()
+    }, [dispatch, price]);
+
     useEffect(() => {
         const fetchInvoice = async () => {
             setInvoiceStatus('pending');
             const actionResult = await dispatch(previewUpcomingInvoice({
                 account: account.id,
                 quantity: quantity,
-                newPriceId: process.env.REACT_APP_TEAM_PRICE_ID
+                newPriceId: price
             }));
             unwrapResult(actionResult)
             setInvoiceStatus('idle');
             setInvoice(actionResult.payload.invoice)
         }
         fetchInvoice()
-    }, [dispatch, quantity, account.id]);
+    }, [dispatch, quantity, account.id, price]);
 
 
     const handleSubmit = async () => {
@@ -60,7 +72,7 @@ const ConfirmSubscription = ({ quantity }) => {
             const subscriptionData = {
                 account: account.id,
                 paymentMethodId: paymentMethod.id,
-                priceId: process.env.REACT_APP_TEAM_PRICE_ID,
+                priceId: price,
                 quantity: quantity,
                 type: 'Team'
             }
@@ -77,8 +89,9 @@ const ConfirmSubscription = ({ quantity }) => {
     }
 
     let content
-    if (invoice) {
+    if (invoice && priceDetails) {
         console.log(invoice)
+        console.log(priceDetails)
         content = (
             <Form
                 data-cy="upgrade-form"
@@ -98,13 +111,13 @@ const ConfirmSubscription = ({ quantity }) => {
                     </Box>
                     { account.has_ever_had_subscription && (
                         <Box direction="row" align="start" gap="xsmall">
-                            <FormNextLink /><Text>{`$${(invoice.total/100).toFixed(2)} will be charged monthly to the credit card on file.`}</Text>
+                            <FormNextLink /><Text>{`$${(invoice.total/100).toFixed(2)} will be charged ${priceDetails.recurring.interval}ly to the credit card on file.`}</Text>
                         </Box>
                     )}
 
                     { !account.has_ever_had_subscription && (
                         <Box direction="row" align="start" gap="xsmall">
-                            <FormNextLink /><Text>{`$${(quantity*9).toFixed(2)} will be charged monthly to the credit card on file starting ${DateTime.fromSeconds(invoice.lines.data[0].period.end).toLocaleString()}.`}</Text>
+                            <FormNextLink /><Text>{`$${(quantity*priceDetails.unit_amount/100).toFixed(2)} will be charged ${priceDetails.recurring.interval}ly to the credit card on file starting ${DateTime.fromSeconds(invoice.lines.data[0].period.end).toLocaleString()}.`}</Text>
                         </Box>
                     )}
 
