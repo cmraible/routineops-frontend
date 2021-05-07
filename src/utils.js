@@ -137,6 +137,8 @@ export const formatHour = (hour) => {
     }
 }
 
+
+
 export const ordinal_suffix_of = (i) => {
     var j = i % 10,
         k = i % 100;
@@ -163,129 +165,65 @@ export const formatMonthDay = (i) => {
     return ordinal_suffix_of(num);
 }
 
-export const getDefaultTaskLayer = (label, account) => {
-    const tz = DateTime.local().zoneName
-    const byweekday = account.working_days || [0,1,2,3,4,5,6]
+export const defaultTaskLayerParams = (label, account) => {
+    const byweekday = account.working_days.slice().sort((a, b) => a-b) || [0,1,2,3,4,5,6]
     const byhour = account.working_hours || [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
-    let rule
-    switch ( label ) {
+    const tz = DateTime.local().zoneName
+    switch (label) {
         case 'Hourly':
-            const hourStart = DateTime.local().setZone('utc', { keepLocalTime: true }).startOf('hour').toJSDate()
-            rule = new RRule({
+            return {
                 freq: RRule.HOURLY,
                 interval: 1,
-                dtstart: hourStart,
+                dtstart: DateTime.local().startOf('hour').setZone('utc', { keepLocalTime: true}).toJSDate(),
                 byweekday: byweekday,
                 byhour: byhour,
                 tzid: tz
-              })
-            return {
-                    label: 'Hourly',
-                    account: account.id,
-                    frequency: RRule.HOURLY,
-                    interval: 1,
-                    recurrence: rule.toString(),
-                    dtstart: hourStart,
-                    byhour: byhour,
-                    byweekday: byweekday,
-                    tzid: tz
             }
         case 'Daily':
-            const dailydtstart = DateTime.local().setZone('utc', { keepLocalTime: true }).endOf('day').toJSDate()
-            rule = new RRule({
+            return {
                 freq: RRule.DAILY,
                 interval: 1,
-                dtstart: dailydtstart,
-                tzid: tz,
-                byweekday: byweekday
-            })
-            return {
-                label: 'Daily',
-                account: account.id,
-                frequency: RRule.DAILY,
-                interval: 1,
-                recurrence: rule.toString(),
-                dtstart: dailydtstart,
+                dtstart: DateTime.local().endOf('day').setZone('utc', { keepLocalTime: true }).toJSDate(),
                 byweekday: byweekday,
-                time: '11:59 PM',
-                tzid: tz
+                tzid: tz,
             }
         case 'Weekly':
-            const weeklydtstart = DateTime.local().setZone('utc', { keepLocalTime: true }).startOf('week').toJSDate();
-            rule = new RRule({
+            return {
                 freq: RRule.WEEKLY,
                 interval: 1,
-                dtstart: weeklydtstart,
+                dtstart: DateTime.local().endOf('day').setZone('utc', { keepLocalTime: true}).toJSDate(),
                 tzid: tz,
-                byweekday: byweekday
-            })
-            return {
-                label: 'Weekly',
-                account: account.id,
-                frequency: RRule.WEEKLY,
-                interval: 1,
-                recurrence: rule.toString(),
-                dtstart: weeklydtstart,
-                byweekday: byweekday,
-                tzid: tz
-            };
+                byweekday: [byweekday[byweekday.length - 1]],
+                wkst: account.wkst
+            }
         case 'Bi-Weekly':
-            const biweeklydtstart = DateTime.local().setZone('utc', { keepLocalTime: true }).startOf('week').toJSDate() ;
-            rule = new RRule({
+            return {
                 freq: RRule.WEEKLY,
                 interval: 2,
-                dtstart: biweeklydtstart,
+                dtstart: DateTime.local().endOf('day').setZone('utc', {keepLocalTime: true}).toJSDate(),
                 tzid: tz,
-                byweekday: byweekday
-            })
-            return {
-                label: 'Bi-Weekly',
-                account: account.id,
-                frequency: RRule.WEEKLY,
-                interval: 2,
-                recurrence: rule.toString(),
-                dtstart: biweeklydtstart,
-                byweekday: byweekday,
-                tzid: tz
+                byweekday: [byweekday[byweekday.length - 1]],
+                wkst: account.wkst
             }
         case 'Monthly':
-            const monthlydtstart = DateTime.local().setZone('utc', { keepLocalTime: true }).endOf('day').toJSDate();
-            rule = new RRule({
+            return {
                 freq: RRule.MONTHLY,
                 interval: 1,
-                dtstart: monthlydtstart,
+                dtstart: DateTime.local().endOf('day').setZone('utc', { keepLocalTime: true}).toJSDate(),
                 tzid: tz,
                 bymonthday: [-1],
                 bymonth: [1,2,3,4,5,6,7,8,9,10,11,12]
-            })
-            return {
-                label: 'Monthly',
-                account: account.id,
-                frequency: RRule.MONTHLY,
-                interval: 1,
-                recurrence: rule.toString(),
-                dtstart: monthlydtstart,
-                bymonth: [1,2,3,4,5,6,7,8,9,10,11,12],
-                bymonthday: [-1],
             }
         case 'Yearly':
-            const yearlydtstart = DateTime.local().setZone('utc', { keepLocalTime: true }).endOf('day').toJSDate();
-            rule = new RRule({
-                freq: RRule.MONTHLY,
-                interval: 3,
-                dtstart: yearlydtstart,
-                tzid: tz
-            })
             return {
-                label: 'Yearly',
-                account: account.id,
-                frequency: RRule.MONTHLY,
-                interval: 3,
-                recurrence: rule.toString(),
-                dtstart: yearlydtstart,
-                tzid: tz
-            };
+                freq: RRule.YEARLY,
+                interval: 1,
+                dtstart: DateTime.local().endOf('day').setZone('utc', { keepLocalTime: true}).toJSDate(),
+                tzid: tz,
+                bymonthday: [-1],
+                bymonth: [12]
+            }
         default:
-            return false
+            return null
     }
 }

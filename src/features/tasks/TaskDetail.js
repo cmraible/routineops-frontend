@@ -7,6 +7,7 @@ import Error from '../../components/Error';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
 import { flattenErrors } from '../../utils';
+import { selectUserAccount } from '../accounts/accountsSlice';
 import { fetchRoles, selectRoleEntities } from '../roles/rolesSlice';
 import { fetchTaskLayers, selectTaskLayersForTask } from '../taskLayers/taskLayersSlice';
 import { fetchTask, selectTaskById } from './tasksSlice';
@@ -16,9 +17,7 @@ const TaskDetail = ({ match }) => {
   const dispatch = useDispatch()
   const { taskId } = match.params;
 
-  console.log(match)
-  console.log(taskId)
-
+  const account = useSelector(selectUserAccount)
   const task = useSelector(state => selectTaskById(state, taskId));
   const taskLayers = useSelector(state => selectTaskLayersForTask(state, taskId))
   const roles = useSelector(selectRoleEntities);
@@ -67,7 +66,7 @@ const TaskDetail = ({ match }) => {
       const role = roles[layer.role]
       layers.push(
           <Box gap="medium" pad={{vertical: "medium"}} key={layer.id}>
-            <Text>Assigned to {role.name}</Text>
+            {account.type === 'Team' && (<Text>Assigned to {role.name}</Text>)}
             <Text>Repeats {task.layers[0].label}</Text>
           </Box>
       )

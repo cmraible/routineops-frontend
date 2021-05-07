@@ -14,13 +14,15 @@ import Spinner from '../../components/Spinner';
 import SubmitButton from '../../components/SubmitButton';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
-import { flattenErrors, getDefaultTaskLayer } from '../../utils';
+import { flattenErrors, defaultTaskLayerParams } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
 import { fetchRoles } from '../roles/rolesSlice';
 import { fetchTask, updateTask } from './tasksSlice';
 import { push, goBack } from 'connected-react-router';
+import RRule from 'rrule';
+import { DateTime } from 'luxon';
 
 
 const TaskEdit = ({ match, taskLayers }) => {
@@ -29,7 +31,7 @@ const TaskEdit = ({ match, taskLayers }) => {
   const user = useSelector(selectLoggedInUser)
   const account = useSelector(selectUserAccount);
 
-  const [formValue, setFormValue] = useState({});
+  const [value, setValue] = useState({});
 
   const [fetchStatus, setFetchStatus] = useState('idle');
   const [updateStatus, setUpdateStatus] = useState('idle');
@@ -39,7 +41,8 @@ const TaskEdit = ({ match, taskLayers }) => {
   useEffect(() => {
     dispatch(fetchAccount(user.account))
     const setTaskValue = (value) => {
-      setFormValue({
+      console.log(value)
+      setValue({
         id: value.id,
         name: value.name,
         description: value.description,
@@ -80,15 +83,15 @@ const TaskEdit = ({ match, taskLayers }) => {
       }
     }
     fetch();
-  }, [dispatch, taskId, setFormValue, user.account]);
+  }, [dispatch, taskId, setValue, user.account]);
 
-  const handleSubmit = async ({value}) => {
+  const handleSubmit = async () => {
     const taskData = {
       id: value.id,
       name: value.name,
       description: value.description,
       account: user.account,
-      checks: formValue.checks,
+      checks: value.checks,
       layers: [
         {
           id: value.layers[0].id,
@@ -123,6 +126,53 @@ const TaskEdit = ({ match, taskLayers }) => {
     }
   }
 
+  const handleChange = (formValue) => {
+    if (formValue.label !== value.label) {
+      // user changed the frequency label
+      // get the default parameters, generate rrule
+      const params = defaultTaskLayerParams(formValue.label, account)
+      const rule = new RRule(params)
+      setValue({
+        ...value,
+        name: formValue.name,
+        description: formValue.description,
+        label: formValue.label,
+        bymonth: [],
+        byweekday: [],
+        byhour: [],
+        ...params,
+        recurrence: rule.toString(),
+        frequency: params['freq'],
+        time: DateTime.fromJSDate(params['dtstart']).toUTC().setZone('local', {keepLocalTime: true}).toFormat('HH:mm')
+      })
+    } else {
+      // user did not change the frequency label
+      // generate the rrule from user provided inputs
+      const defaultParams = defaultTaskLayerParams(formValue.label, account)
+      let { dtstart } = defaultParams || {dtstart: null}
+      if (['Daily', 'Weekly', 'Bi-Weekly'].includes(formValue.label)) {
+        // Time is an input. Calculate the proper dtstart based on user input
+        const hours = parseInt(formValue.time.split(':')[0])
+        const minutes = parseInt(formValue.time.split(':')[1])
+        dtstart = DateTime.local().set({hour: hours, minute: minutes, seconds: 0}).setZone('utc', {keepLocalTime: true}).toJSDate()
+        const params = {
+          ...defaultParams,
+          dtstart: dtstart,
+          byweekday: formValue.byweekday,
+          byhour: formValue.byhour,
+          bymonth: formValue.bymonth,
+          bymonthday: formValue.bymonthday
+        }
+        const rule = new RRule(params)
+        setValue({
+          ...value,
+          ...formValue,
+          recurrence: rule.toString()
+        });
+      }
+    }
+  }
+
   let content
 
   if (fetchStatus === 'pending') {
@@ -133,8 +183,8 @@ const TaskEdit = ({ match, taskLayers }) => {
         <Error message={(updateErrors && updateErrors['non_field_errors']) ? updateErrors['non_field_errors'] : undefined} />
         <Form
           id="task-form"
-          value={formValue}
-          onChange={ nextValue => setFormValue(nextValue)}
+          value={value}
+          onChange={handleChange}
           onSubmit={handleSubmit}
           errors={updateErrors}
         >
@@ -142,43 +192,55 @@ const TaskEdit = ({ match, taskLayers }) => {
               <InlineInput name="name" placeholder="Task Name" size="xxlarge" required />
               <InlineTextArea placeholder="Task Description" name="description" size="medium" />
             </Box>
-            <Box flex={false}>
-              <Box align="center" justify="stretch" gap="small" direction="row">
-                <Text style={{'whiteSpace': 'nowrap'}}>Assigned to</Text><RoleSelect placeholder="Select Role" name="role" required plain />
-              </Box>
-            </Box>
+            { // Only display the Role select if the account has a team subscription
+              account.type === 'Team' && (
+                <Box flex={false}>
+                  <Box align="center" justify="stretch" gap="small" direction="row">
+                    <Text style={{'whiteSpace': 'nowrap'}}>Assigned to</Text><RoleSelect placeholder="Select Role" name="role" required plain />
+                  </Box>
+                </Box>
+              )
+            }
+
             <Box flex={false} gap="medium">
               <Box align="center" justify="between" gap="small" direction="row">
-                <Text>Repeats</Text><FrequencySelect onChange={({value}) => {
-                  const newValue = getDefaultTaskLayer(value, account);
-                  setFormValue({...formValue, ...newValue})
-                }} />
+                <Text>Repeats</Text><FrequencySelect />
               </Box>
-              {formValue.label === 'Hourly' && (
-                <Box align="center" justify="between" gap="small" direction="row">
-                  <Text>from</Text><HourMultipleSelect value={formValue.byhour} />
-                </Box>
-              )}
-              {['Hourly', 'Daily', 'Weekly', 'Bi-Weekly'].some((frequency) => formValue.label === frequency) && (
-                <Box align="center" justify="between" gap="small" direction="row">
-                  <Text>on</Text><WeekdayMultipleSelect value={formValue.byweekday} />
-                </Box>
-              )}
-              {['Monthly', 'Yearly'].some((frequency) => formValue.label === frequency) && (
-                <Box align="center" gap="small" direction="row">
-                  <Text style={{'whiteSpace': 'nowrap'}}>on the</Text><MonthDayMultipleSelect value={formValue.bymonthday} /><Text style={{'whiteSpace': 'nowrap'}}>{(formValue.bymonthday.length > 1) ? 'days' : 'day'}</Text>
-                </Box>
-              )}
-              {['Monthly', 'Yearly'].some((frequency) => formValue.label === frequency) && (
-                <Box align="center" gap="small" direction="row">
-                  <Text>of</Text><MonthMultipleSelect value={formValue.bymonth} />
-                </Box>
-              )}
-              {['Daily', 'Weekly', 'Bi-Weekly'].some((frequency) => formValue.label === frequency) && (
-                <Box align="center" gap="small" direction="row">
-                  <Text>before</Text><TimeMaskedInput value={formValue.time} />
-                </Box>
-              )}
+              { // Display the hour multiple select only if the frequency is Hourly
+                value.label === 'Hourly' && (
+                  <Box align="center" justify="between" gap="small" direction="row">
+                    <Text>from</Text><HourMultipleSelect value={value.byhour} />
+                  </Box>
+                )
+              }
+              { // Display the Weekday select for hourly, daily, weekly, bi-weekly
+                ['Hourly', 'Daily', 'Weekly', 'Bi-Weekly'].some((frequency) => value.label === frequency) && (
+                  <Box align="center" justify="between" gap="small" direction="row">
+                    <Text>on</Text><WeekdayMultipleSelect value={value.byweekday} />
+                  </Box>
+                )
+              }
+              { // Display the month day select for monthly and yearly
+                ['Monthly', 'Yearly'].some((frequency) => value.label === frequency) && (
+                  <Box align="center" gap="small" direction="row">
+                    <Text style={{'whiteSpace': 'nowrap'}}>on the</Text><MonthDayMultipleSelect value={value.bymonthday} /><Text style={{'whiteSpace': 'nowrap'}}>{(value.bymonthday.length > 1) ? 'days' : 'day'}</Text>
+                  </Box>
+                )
+              }
+              { // Display the month multiple select only form monthly and yearly
+                ['Monthly', 'Yearly'].some((frequency) => value.label === frequency) && (
+                  <Box align="center" gap="small" direction="row">
+                    <Text>of</Text><MonthMultipleSelect value={value.bymonth} />
+                  </Box>
+                )
+              }
+              { // Display the time due only for daily, weekly, bi-weekly
+                ['Daily', 'Weekly', 'Bi-Weekly'].some((frequency) => value.label === frequency) && (
+                  <Box align="center" gap="small" direction="row">
+                    <Text>before</Text><TimeMaskedInput value={value.time} />
+                  </Box>
+                )
+              }
             </Box>
             <SubmitButton label="Save" loadingIndicator={updateStatus === 'pending'} />
         </Form>
