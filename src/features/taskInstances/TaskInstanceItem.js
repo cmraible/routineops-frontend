@@ -57,6 +57,7 @@ const TaskInstanceItem = ({id}) => {
                 gap="medium"
                 pad={{horizontal: "small"}}
                 fill
+                background={DateTime.fromISO(taskInstance.due) < DateTime.local() && !taskInstance.completed ? "status-critical" : "none" }
             >
                 <CheckBox
                     checked={checked}
