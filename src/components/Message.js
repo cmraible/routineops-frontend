@@ -2,7 +2,7 @@ import { Box, Text } from 'grommet';
 import { StatusCritical, StatusGood, StatusInfo, StatusWarning } from 'grommet-icons';
 import React from 'react';
 
-const Message = ({type, message, ...rest}) => {
+const Message = ({type, message, size, ...rest}) => {
 
     let icon;
     let background;
@@ -39,7 +39,7 @@ const Message = ({type, message, ...rest}) => {
             data-cy={`${type}-message`}
         >
             {icon}
-            <Text size="large">{message}</Text>
+            <Text size={size || "large"}>{message}</Text>
         </Box>
     )
 }
