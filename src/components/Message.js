@@ -33,6 +33,7 @@ const Message = ({type, message, size, ...rest}) => {
             align="center"
             pad="medium"
             round="small"
+            flex={false}
             background={{color: background, opacity: "weak"}}
             fill="horizontal"
             {...rest}

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AccountPage from '../../components/AccountPage';
 import EmailField from '../../components/EmailField';
-import Error from '../../components/Error';
+import Message from '../../components/Error';
 import PasswordField from '../../components/PasswordField';
 import SubmitButton from '../../components/SubmitButton';
 import { flattenErrors } from '../../utils';
@@ -65,10 +65,11 @@ const Signup = ({ location, match }) => {
         }
     }
   }
+  console.log(errors)
 
   return (
     <AccountPage title="Sign up">
-      <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined} />
+      <Message type="error" message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined} />
       <Form
           value={value}
           onChange={ nextValue => setValue(nextValue) }

@@ -11,13 +11,16 @@ const AccountPage = ({ title, hide_title, children, primary_action, secondary_ac
   }, [title]);
 
   return (
-    <Main gap="large" fill="vertical">
-      <Box pad={{top: "xlarge", horizontal: "medium"}} width="medium" alignSelf="start" border={{"side": "right"}} fill="vertical">
-        <Box height="xsmall" width="xsmall" alignSelf="center" style={{fill: "white"}}>
+    <Main gap="large" fill="vertical" flex={false}>
+      <Box pad="medium" flex={false} width="medium" alignSelf="start" border={{"side": "right"}} fill="vertical">
+        <Box height="xsmall" flex={false} width="xsmall" alignSelf="center" style={{fill: "white"}}>
           <Logo />
         </Box>
         <Heading level={2} size="xsmall" textAlign="center">{ title }</Heading>
-          { children }
+        <Box flex={false}>
+        { children }
+
+        </Box>
       </Box>
     </Main>
 
