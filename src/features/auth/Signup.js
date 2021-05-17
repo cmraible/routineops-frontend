@@ -16,6 +16,7 @@ const Signup = ({ location, match }) => {
   
   const dispatch = useDispatch();
 
+  
   const q = queryString.parse(location.search)
   const { inviteId } = match.params
   useEffect(() => {
