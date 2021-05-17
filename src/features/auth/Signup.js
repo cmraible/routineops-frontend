@@ -12,8 +12,8 @@ import { fetchInvitation, selectInvitationById } from '../invitations/invitation
 import { signup } from './authSlice';
 
 
-
 const Signup = ({ location, match }) => {
+  
   const dispatch = useDispatch();
 
   const q = queryString.parse(location.search)
@@ -25,7 +25,6 @@ const Signup = ({ location, match }) => {
   }, [dispatch, inviteId]);
 
   const invitation = useSelector(state => selectInvitationById(state, inviteId));
-
   const email = (invitation) ? invitation.email_address : q.email;
 
   const [signupStatus, setSignupStatus] = useState('idle');
