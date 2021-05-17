@@ -65,7 +65,6 @@ const Signup = ({ location, match }) => {
         }
     }
   }
-  console.log(errors)
 
   return (
     <AccountPage title="Sign up">
