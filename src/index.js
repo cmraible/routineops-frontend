@@ -14,6 +14,7 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUB_KEY);
 
 const preloadedState = loadState();
 const store = configureStore(preloadedState);
+console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
 
 const renderApp = () =>
   render(

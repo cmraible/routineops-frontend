@@ -18,7 +18,7 @@ const EditDescription = ({title, dataCY, description, onClick, size, verifiable,
             align="center"
             direction="row"
             justify="between"
-            pad="medium"
+            pad="small"
         >
             <Text size={size || "medium"} weight="bold">{title}</Text>
             <Box direction="row" align="center" justify="end" gap="medium">

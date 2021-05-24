@@ -8,7 +8,7 @@ const Description = ({title, description, size}) => {
             align="center"
             direction="row"
             justify="between"
-            pad={{vertical: "medium", horizontal: "medium"}}
+            pad="small"
         >
             <Text size={size || "medium"} weight="bold">{title}</Text>
             <Text margin={{horizontal: "small"}} size={size || "medium"}>{description}</Text>

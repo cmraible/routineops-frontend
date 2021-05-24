@@ -50,7 +50,6 @@ const Page = ({ title, header, children, action, previous, pad }) => {
                       style={{position: "sticky", top: 0, zIndex: 10}}
                       direction="row"
                       pad={{horizontal: "small", vertical: "xsmall"}}
-                      elevation="xsmall"
                       justify="between"
                       gap="medium"
                       fill="horizontal"
