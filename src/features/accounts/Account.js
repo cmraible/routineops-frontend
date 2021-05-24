@@ -16,7 +16,7 @@ const AccountDetail = () => {
   return (
     <Page title="Account" pad="none">
         <Tabs />
-        <Box>
+        <Box style={{overflowY: "scroll"}}>
           <Switch>
             <Route exact path="/account" component={AccountProfile} />
             <Route exact path="/account/profile" component={AccountProfile} />

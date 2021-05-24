@@ -1,4 +1,4 @@
-import { Box, CheckBox, Heading } from 'grommet';
+import { Box, Card, CardBody, CardHeader, CheckBox, Heading } from 'grommet';
 import { Moon, Sun } from 'grommet-icons';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,30 +29,42 @@ const AccountSettings = () => {
 
   return (
     <>
-      <Box pad="medium" width="large">
-        <Heading level={2}>User Interface Settings</Heading>
-          <CheckBox
-            data-cy="dark-mode-toggle"
-            toggle
-            label={darkLabel}
-            onChange={() => dispatch(toggleDarkMode())}
-            checked={darkMode}
-          />
-        <Heading level={2}>Calendar Settings</Heading>
-        <EditDescription
-          title="Weekstart"
-          description={weekdays[account.wkst]}
-          onClick={() => setWeekstart(true)}
-        />
-        <EditDescription
-          title="Working Days"
-          description={workingDaysDesc}
-          onClick={() => setWorkingDays(true)}
-        />
+      <Box pad="medium" fill="horizontal" gap="medium">
+        <Card elevation="none" border="border">
+          <CardHeader pad="small">
+            <Heading level={3} margin="none">User Interface Settings</Heading>
+          </CardHeader>
+          <CardBody pad="small" background="background-contrast">
+            <CheckBox
+              data-cy="dark-mode-toggle"
+              toggle
+              label={darkLabel}
+              onChange={() => dispatch(toggleDarkMode())}
+              checked={darkMode}
+            />
+          </CardBody>
+        </Card>
+        <Card elevation="none" border="border">
+          <CardHeader pad="small">        
+            <Heading level={3} margin="none">Calendar Settings</Heading>
+          </CardHeader>
+          <CardBody pad="small" background="background-contrast">
+            <EditDescription
+              title="Weekstart"
+              description={weekdays[account.wkst]}
+              onClick={() => setWeekstart(true)}
+            />
+            <EditDescription
+              title="Working Days"
+              description={workingDaysDesc}
+              onClick={() => setWorkingDays(true)}
+            />
+          </CardBody>
+        </Card>
+        
       </Box>
       {(workingDays && <AccountWorkingDays close={() => setWorkingDays(false)} />)}
       {(weekstart && <AccountWeekstart close={() => setWeekstart(false)} />)}
-
     </>
   )
 };
