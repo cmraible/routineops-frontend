@@ -8,7 +8,8 @@ import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSl
 import { selectIsLoggedIn, selectLoggedInUser } from '../features/auth/authSlice';
 import AppLoggedIn from './AppLoggedIn';
 import AppLoggedOut from './AppLoggedOut';
-import AppOnboarding from './AppOnboarding';
+import AppAccountOnboarding from './AppAccountOnboarding';
+import AppUserOnboarding from './AppUserOnboarding';
 
 
 const App = () => {
@@ -31,9 +32,13 @@ const App = () => {
   if (isLoggedIn) {
     if (account) {
       if (account.onboard_complete) {
-        app = <AppLoggedIn />
+        if (user.onboard_complete) {
+          app = <AppLoggedIn />
+        } else {
+          app = <AppUserOnboarding />
+        }
       } else {
-        app = <AppOnboarding />
+        app = <AppAccountOnboarding />
       }
     } else {
       app = <Spinner isFetching={true} />

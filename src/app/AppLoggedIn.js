@@ -64,7 +64,6 @@ const AppLoggedIn = () => {
         <Route path="/tasks/:taskId" component={TaskDetail} exact />
         <Route path="/tasks/:taskId/edit" component={TaskEdit} exact />
         <Route path="/taskInstance/:taskInstanceId" component={TaskInstance} exact />
-        {/* <Route path="/team" component={Team} exact /> */}
         <Route path="/users" component={UserList} exact />
         <Route path="/users/invite" component={UserAdd} exact />
         <Route path="/users/:userId" component={UserDetail} exact />
