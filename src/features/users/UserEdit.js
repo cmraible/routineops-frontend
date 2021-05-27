@@ -8,7 +8,7 @@ import Spinner from '../../components/Spinner';
 import SubmitButton from '../../components/SubmitButton';
 import { flattenErrors } from '../../utils';
 import { fetchUser, selectUserById, updateUser } from './usersSlice';
-import { push } from 'connected-react-router';
+import { push, goBack } from 'connected-react-router';
 
 
 const UserEdit = ({ match, onClose }) => {
@@ -94,7 +94,7 @@ const UserEdit = ({ match, onClose }) => {
   return (
     <Page
       title="Edit User"
-      previous={`/users/${userId}`}
+      previous={() => dispatch(goBack())}
       pad="small"
     >
       {content}
