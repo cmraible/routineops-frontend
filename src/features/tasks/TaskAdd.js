@@ -95,6 +95,7 @@ const AddTask = () => {
       const params = defaultTaskLayerParams(formValue.label, account)
       const rule = new RRule(params)
       setValue({
+        role: formValue.role,
         name: formValue.name,
         description: formValue.description,
         label: formValue.label,
@@ -104,7 +105,7 @@ const AddTask = () => {
         ...params,
         recurrence: rule.toString(),
         frequency: params['freq'],
-        time: DateTime.fromJSDate(params['dtstart']).toUTC().setZone('local', {keepLocalTime: true}).toFormat('HH:mm')
+        time: DateTime.fromJSDate(params['dtstart']).toUTC().setZone('local', {keepLocalTime: true}).toFormat('HH:mm'),
       })
     } else {
       // user did not change the frequency label
