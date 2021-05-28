@@ -13,14 +13,14 @@ const initialState = routinesAdapter.getInitialState({});
 // Async thunks to interact with API
 export const fetchRoutines = createAsyncThunk('routines/fetchRoutines', async (data, { dispatch, getState }) => {
     const client = getClient(dispatch, getState);
-    const response = await client.get('/tasks/');
+    const response = await client.get('/routines/');
     return response.data
 });
 
 export const fetchRoutine = createAsyncThunk('routines/fetchroutine', async (routineId, { dispatch, getState, rejectWithValue }) => {
     try {
         const client = getClient(dispatch, getState);
-        const response = await client.get(`/tasks/${routineId}`);
+        const response = await client.get(`/routines/${routineId}`);
         return response.data
     } catch (err) {
         if (!err.response) {
@@ -33,7 +33,7 @@ export const fetchRoutine = createAsyncThunk('routines/fetchroutine', async (rou
 export const addNewRoutine = createAsyncThunk('routines/addNewRoutine', async (routineData, { dispatch, getState, rejectWithValue }) => {
     try {
         const client = getClient(dispatch, getState);
-        const response = await client.post('/tasks/', routineData)
+        const response = await client.post('/routines/', routineData)
         console.log(response)
         window.analytics.track('Added a routine.')
         return response.data
@@ -49,7 +49,7 @@ export const addNewRoutine = createAsyncThunk('routines/addNewRoutine', async (r
 export const updateRoutine = createAsyncThunk('routines/updateRoutine', async (routineData, { dispatch, getState, rejectWithValue }) => {
     try {
         const client = getClient(dispatch, getState);
-        const response = await client.patch(`/tasks/${routineData.id}/`, routineData)
+        const response = await client.patch(`/routines/${routineData.id}/`, routineData)
         window.analytics.track('Updated a routine.')
         return response.data
     } catch (err) {
@@ -63,7 +63,7 @@ export const updateRoutine = createAsyncThunk('routines/updateRoutine', async (r
 export const deleteRoutine = createAsyncThunk('routines/deleteRoutine', async (routineId, { dispatch, getState, rejectWithValue }) => {
     try {
         const client = getClient(dispatch, getState);
-        const response = await client.delete(`/tasks/${routineId}/`)
+        const response = await client.delete(`/routines/${routineId}/`)
         window.analytics.track('Deleted a routine.')
         if (response.status === 204) {
             return routineId

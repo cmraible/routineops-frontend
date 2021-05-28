@@ -10,7 +10,7 @@ import Spinner from '../../components/Spinner';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { fetchTaskLayers } from '../taskLayers/taskLayersSlice';
-import { fetchTasks } from '../routines/routinessSlice';
+import { fetchRoutines } from '../routines/routinessSlice';
 import { selectAllUsers } from '../users/usersSlice';
 import TaskInstanceItem from './TaskInstanceItem';
 import { fetchTaskInstances, selectAllTaskInstances } from './taskInstancesSlice';
@@ -66,10 +66,10 @@ const Todo = () => {
     const fetch = async () => {
       setRequestStatus('pending');
       const accountAction = await dispatch(fetchAccount(user.account));
-      const taskAction = await dispatch(fetchTasks());
+      const routineAction = await dispatch(fetchRoutines());
       const taskLayerAction = await dispatch(fetchTaskLayers());
       const taskInstanceAction = await dispatch(fetchTaskInstances());
-      if (fetchTasks.fulfilled.match(taskAction) && fetchTaskLayers.fulfilled.match(taskLayerAction) && fetchTaskInstances.fulfilled.match(taskInstanceAction) && fetchAccount.fulfilled.match(accountAction)) {
+      if (fetchRoutines.fulfilled.match(routineAction) && fetchTaskLayers.fulfilled.match(taskLayerAction) && fetchTaskInstances.fulfilled.match(taskInstanceAction) && fetchAccount.fulfilled.match(accountAction)) {
         setRequestStatus('succeeded')
       } else {
         setRequestStatus('failed');
