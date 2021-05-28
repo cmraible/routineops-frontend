@@ -78,6 +78,6 @@ export const {
     selectEntities: selectTaskLayerEntities
   } = taskLayersAdapter.getSelectors(state => state.taskLayers)
 
-export const selectTaskLayersForTask = (state, taskId) => {
-    return selectAllTaskLayers(state).filter((layer) => parseInt(layer.task) === parseInt(taskId));
+export const selectTaskLayersForRoutine = (state, routineId) => {
+    return selectAllTaskLayers(state).filter((layer) => parseInt(layer.task) === parseInt(routineId));
 }

@@ -6,21 +6,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../../components/Message';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
-import TaskItem from './TaskItem';
-import { fetchTasks, selectTaskIds } from './tasksSlice';
+import RoutineItem from './RoutineItem';
+import { fetchRoutines, selectRoutineIds } from './routinessSlice';
 
-const TaskList = () => {
+const RoutineList = () => {
 
   const dispatch = useDispatch();
-  const taskIds = useSelector(selectTaskIds);
+  const routineIds = useSelector(selectRoutineIds);
 
   const [requestStatus, setRequestStatus] = useState('idle');
 
   useEffect(() => {
     const fetch = async () => {
       setRequestStatus('pending');
-      const resultAction = await dispatch(fetchTasks())
-      if (fetchTasks.fulfilled.match(resultAction)) {
+      const resultAction = await dispatch(fetchRoutines())
+      if (fetchRoutines.fulfilled.match(resultAction)) {
         setRequestStatus('succeeded')
       } else {
         setRequestStatus('failed');
@@ -34,34 +34,34 @@ const TaskList = () => {
     // Display a spinner to indicate loading state
     content = <Spinner pad="large" size="large" color="status-unknown" />
   } else if (requestStatus === 'succeeded') {
-    if (taskIds.length > 0) {
-      // Display list of tasks
+    if (routineIds.length > 0) {
+      // Display list of routines
       var items = []
-      taskIds.forEach((taskId) => {
-        items.push(<TaskItem id={taskId} key={taskId} />)
+      routineIds.forEach((routineId) => {
+        items.push(<RoutineItem id={routineId} key={routineId} />)
       })
       content = <Box>{items}</Box>
     } else {
-      // Display a message saying there are no tasks
+      // Display a message saying there are no routines
       content = (
         <Box gap="medium" align="center" pad="medium">
           <CircleInformation />
-          <Text size="large">You don't have any tasks yet.</Text>
-          <Button size="large" icon={<Add/>} label="Add Task" onClick={() => dispatch(push('/tasks/add'))} />
+          <Text size="large">You don't have any routines yet.</Text>
+          <Button size="large" icon={<Add/>} label="Add Routine" onClick={() => dispatch(push('/routines/add'))} />
         </Box>
       )
     }
   } else if (requestStatus === 'failed') {
-    content = <Message type="error" message="Unable to fetch tasks." />
+    content = <Message type="error" message="Unable to fetch routines." />
   }
 
   return (
     <Page
-      title={"Tasks"}
+      title={"Routines"}
       action={{
-        label: "Add Task",
+        label: "Add Routine",
         icon: <Add />,
-        onClick: () => dispatch(push('tasks/add')),
+        onClick: () => dispatch(push('routines/add')),
         primary: true
       }}
     >
@@ -72,4 +72,4 @@ const TaskList = () => {
   )
 };
 
-export default TaskList;
+export default RoutineList;

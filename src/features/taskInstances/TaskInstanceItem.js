@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTaskLayerById } from '../taskLayers/taskLayersSlice';
-import { selectTaskById } from '../tasks/tasksSlice';
+import { selectRoutineById } from '../routines/routinessSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { selectTaskInstanceById, completeTaskInstance, updateTaskInstance } from './taskInstancesSlice';
 
@@ -14,7 +14,7 @@ const TaskInstanceItem = ({id}) => {
     const dispatch = useDispatch();
     const taskInstance = useSelector(state => selectTaskInstanceById(state, id));
     const layer = useSelector(state => selectTaskLayerById(state, taskInstance.taskLayer))
-    const task = useSelector(state => selectTaskById(state, layer.task));
+    const routine = useSelector(state => selectRoutineById(state, layer.routine));
     const user = useSelector(selectLoggedInUser);
 
     const formattedDueDate = DateTime.fromISO(taskInstance.due).toLocaleString(DateTime.DATETIME_SHORT);
@@ -49,7 +49,7 @@ const TaskInstanceItem = ({id}) => {
 
 
     let content
-    if (task.type === 'TODO') {
+    if (routine.type === 'TODO') {
         content = (
             <Box
                 direction="row"
@@ -70,7 +70,7 @@ const TaskInstanceItem = ({id}) => {
                     fill="horizontal"
                     pad="small"
                 >
-                    <Text>{task.name}</Text>
+                    <Text>{routine.name}</Text>
                     <Text style={{whiteSpace: 'noWrap'}}>{formattedDueDate}</Text>
                 </Box>
             </Box>
@@ -90,9 +90,9 @@ const TaskInstanceItem = ({id}) => {
                     justify="between"
                     fill="horizontal"
                     pad="small"
-                    onClick={() => task.type !== 'TODO' ? dispatch(push(`/taskInstance/${id}`)) : void(0)}
+                    onClick={() => routine.type !== 'TODO' ? dispatch(push(`/taskInstance/${id}`)) : void(0)}
                 >
-                    <Text>{task.name}</Text>
+                    <Text>{routine.name}</Text>
                     <Text style={{whiteSpace: 'noWrap'}}>{formattedDueDate}</Text>
                 </Box>
             </Box>

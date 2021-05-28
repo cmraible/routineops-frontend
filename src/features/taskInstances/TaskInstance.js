@@ -3,9 +3,9 @@ import Page from '../../components/Page';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectTaskInstanceById } from './taskInstancesSlice';
 import { selectTaskLayerById } from '../taskLayers/taskLayersSlice';
-import { selectChecksForTask } from '../checks/checksSlice';
+import { selectChecksForRoutine } from '../checks/checksSlice';
 import Checklist from '../checks/Checklist';
-import { selectTaskById } from '../tasks/tasksSlice';
+import { selectRoutineById } from '../routines/routinessSlice';
 import { push, goBack } from 'connected-react-router';
 
 const TaskInstance = ({match}) => {
@@ -14,11 +14,11 @@ const TaskInstance = ({match}) => {
     const { taskInstanceId } = params
     const taskInstance = useSelector(state => selectTaskInstanceById(state, taskInstanceId))
     const taskLayer = useSelector(state => selectTaskLayerById(state, taskInstance.taskLayer))
-    const task = useSelector(state => selectTaskById(state, taskLayer.task))
-    const checks = useSelector(state => selectChecksForTask(state, taskLayer.task))
+    const routine = useSelector(state => selectRoutineById(state, taskLayer.routine))
+    const checks = useSelector(state => selectChecksForRoutine(state, taskLayer.routine))
 
     return (
-        <Page title={task.name} pad="medium" previous={() => dispatch(goBack())}>
+        <Page title={routine.name} pad="medium" previous={() => dispatch(goBack())}>
             <Checklist checks={checks} taskInstance={taskInstance} onComplete={() => dispatch(push('/'))} />
         </Page>
     )

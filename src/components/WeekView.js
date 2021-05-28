@@ -22,8 +22,8 @@ const WeekView = ({ workingDays, interval, data }) => {
     {
       property: 'key',
       primary: true,
-      header: (<Box pad="small">Tasks</Box>),
-      render: (instance) => (<Box pad="small" style={{whiteSpace: 'nowrap'}}>{(instance && instance.task) ? instance.task.name : ''}</Box>)
+      header: (<Box pad="small">Routines</Box>),
+      render: (instance) => (<Box pad="small" style={{whiteSpace: 'nowrap'}}>{(instance && instance.routine) ? instance.routine.name : ''}</Box>)
     },
     // {
     //   property: 'role',

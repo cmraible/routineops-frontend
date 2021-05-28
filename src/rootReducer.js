@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import uiReducer from './features/ui/uiSlice';
-import tasksReducer from './features/tasks/tasksSlice';
+import routinesReducer from './features/routines/routinessSlice';
 import checksReducer from './features/checks/checksSlice';
 import rolesReducer from './features/roles/rolesSlice';
 import usersReducer from './features/users/usersSlice';
@@ -23,7 +23,7 @@ const createRootReducer = (history) => combineReducers({
     subscriptions: subscriptionReducer,
     roles: rolesReducer,
     router: connectRouter(history),
-    tasks: tasksReducer,
+    routines: routinesReducer,
     taskInstances: taskInstancesReducer,
     taskLayers: taskLayersReducer,
     ui: uiReducer,
