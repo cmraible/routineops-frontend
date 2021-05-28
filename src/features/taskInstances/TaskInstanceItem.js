@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTaskLayerById } from '../taskLayers/taskLayersSlice';
-import { selectTaskById } from '../tasks/tasksSlice';
+import { selectTaskById } from '../routines/routinessSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { selectTaskInstanceById, completeTaskInstance, updateTaskInstance } from './taskInstancesSlice';
 

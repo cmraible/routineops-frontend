@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Box, Menu, Text } from 'grommet';
 import { Checkmark, FormEdit, FormTrash, More } from 'grommet-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectTaskById } from './tasksSlice';
+import { selectRoutineById } from './routinessSlice';
 import { push } from 'connected-react-router';
-import TaskDelete from './TaskDelete';
+import RoutineDelete from './RoutineDelete';
 
 
-const TaskItem = ({id}) => {
+const RoutineItem = ({id}) => {
     const dispatch = useDispatch();
-    const task = useSelector(state => selectTaskById(state, id));
+    const routine = useSelector(state => selectRoutineById(state, id));
 
     const [showDelete, setShowDelete] = useState(false);
 
@@ -28,9 +28,9 @@ const TaskItem = ({id}) => {
                 align="center"
                 gap="medium"
                 fill
-                onClick={() => dispatch(push(`/tasks/${id}`))}
+                onClick={() => dispatch(push(`/routines/${id}`))}
             >
-                <Checkmark /><Text>{task.name}</Text>
+                <Checkmark /><Text>{routine.name}</Text>
             </Box>
             <Menu
                 size="small"
@@ -38,14 +38,14 @@ const TaskItem = ({id}) => {
                 dropAlign={{"right": "right", "top": "bottom"}}
                 alignSelf="end"
                 items={[
-                    {label: "Edit", icon: <FormEdit />, gap: "small", onClick: () => dispatch(push(`/tasks/${id}/edit`))},
+                    {label: "Edit", icon: <FormEdit />, gap: "small", onClick: () => dispatch(push(`/routines/${id}/edit`))},
                     {label: "Delete", icon: <FormTrash />, gap: "small", size: "small", onClick: () => setShowDelete(true)}
                 ]}
             />
-            {(showDelete && <TaskDelete id={id} close={() => setShowDelete(false)} />)}
+            {(showDelete && <RoutineDelete id={id} close={() => setShowDelete(false)} />)}
 
         </Box>
     )
   }
 
-export default TaskItem;
+export default RoutineItem;

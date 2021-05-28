@@ -10,7 +10,7 @@ import Spinner from '../../components/Spinner';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { fetchTaskLayers } from '../taskLayers/taskLayersSlice';
-import { fetchTasks } from '../tasks/tasksSlice';
+import { fetchTasks } from '../routines/routinessSlice';
 import { selectAllUsers } from '../users/usersSlice';
 import TaskInstanceItem from './TaskInstanceItem';
 import { fetchTaskInstances, selectAllTaskInstances } from './taskInstancesSlice';

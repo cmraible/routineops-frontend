@@ -5,7 +5,7 @@ import { selectTaskInstanceById } from './taskInstancesSlice';
 import { selectTaskLayerById } from '../taskLayers/taskLayersSlice';
 import { selectChecksForTask } from '../checks/checksSlice';
 import Checklist from '../checks/Checklist';
-import { selectTaskById } from '../tasks/tasksSlice';
+import { selectTaskById } from '../routines/routinessSlice';
 import { push, goBack } from 'connected-react-router';
 
 const TaskInstance = ({match}) => {

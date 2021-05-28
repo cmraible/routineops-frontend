@@ -18,13 +18,13 @@ import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
 import { fetchRoles, selectRoleIds } from '../roles/rolesSlice';
-import { addNewTask } from '../tasks/tasksSlice';
+import { addNewRoutine } from './routinessSlice';
 import { push, goBack } from 'connected-react-router';
 import { RRule } from 'rrule';
 import { DateTime } from 'luxon';
 
 
-const AddTask = () => {
+const AddRoutine = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser)
   const roles = useSelector(selectRoleIds);
@@ -51,7 +51,7 @@ const AddTask = () => {
   });
 
   const handleSubmit = async () => {
-    const taskData = {
+    const routineData = {
         name: value.name,
         description: value.description,
         account: user.account,
@@ -74,16 +74,16 @@ const AddTask = () => {
     }
     setRequestStatus('pending');
     setErrors({});
-    const resultAction = await dispatch(addNewTask(taskData))
-    if (addNewTask.fulfilled.match(resultAction)) {
+    const resultAction = await dispatch(addNewRoutine(routineData))
+    if (addNewRoutine.fulfilled.match(resultAction)) {
       setRequestStatus('succeeded');
-      dispatch(push('/tasks'));
+      dispatch(push('/routines'));
     } else {
       setRequestStatus('failed');
       if (resultAction.payload) {
         setErrors(flattenErrors(resultAction.payload));
       } else {
-        setErrors({'non_field_errors': `Unable to add task: ${resultAction.error.message}`});
+        setErrors({'non_field_errors': `Unable to add routine: ${resultAction.error.message}`});
       }
     }
   }
@@ -149,12 +149,12 @@ const AddTask = () => {
 
   return (
     <Page
-      title="Add Task"
+      title="Add Routine"
       previous={() => dispatch(goBack())}
       action={{
         icon: <Checkmark />,
         type: "submit",
-        form: "task-form"
+        form: "routine-form"
       }}
     >
       <Box
@@ -167,15 +167,15 @@ const AddTask = () => {
         animation={{type: "slideUp", size: "small", duration: 200}}>
         <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined } />
         <Form
-          id='task-form'
+          id='routine-form'
           errors={errors}
           value={value}
           onChange={ nextValue => handleChange(nextValue) }
           onSubmit={handleSubmit}
         >
             <Box>
-              <InlineInput autoFocus name="name" placeholder="Task Name" size="xxlarge" required />
-              <InlineTextArea placeholder="Task Description" name="description" size="medium" />
+              <InlineInput autoFocus name="name" placeholder="Routine Name" size="xxlarge" required />
+              <InlineTextArea placeholder="Routine Description" name="description" size="medium" />
             </Box>
             { // Only display the Role select if the account has a team subscription
               account.type === 'Team' && (
@@ -238,4 +238,4 @@ const AddTask = () => {
   )
 };
 
-export default AddTask;
+export default AddRoutine;
