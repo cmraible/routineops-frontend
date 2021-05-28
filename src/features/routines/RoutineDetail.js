@@ -9,7 +9,7 @@ import Spinner from '../../components/Spinner';
 import { flattenErrors } from '../../utils';
 import { selectUserAccount } from '../accounts/accountsSlice';
 import { fetchRoles, selectRoleEntities } from '../roles/rolesSlice';
-import { fetchTaskLayers, selectTaskLayersForRoutine } from '../taskLayers/taskLayersSlice';
+import { fetchLayers, selectLayersForRoutine } from '../layers/layersSlice';
 import { fetchRoutine, selectRoutineById } from './routinessSlice';
 
 
@@ -19,7 +19,8 @@ const RoutineDetail = ({ match }) => {
 
   const account = useSelector(selectUserAccount)
   const routine = useSelector(state => selectRoutineById(state, routineId));
-  const taskLayers = useSelector(state => selectTaskLayersForRoutine(state, routineId))
+  const layers = useSelector(state => selectLayersForRoutine(state, routineId))
+  console.log(layers)
   const roles = useSelector(selectRoleEntities);
 
   const [status, setStatus] = useState('idle');
@@ -31,8 +32,8 @@ const RoutineDetail = ({ match }) => {
       setErrors({});
       const routineAction = await dispatch(fetchRoutine(routineId));
       const roleAction = await dispatch(fetchRoles());
-      const taskLayerAction = await dispatch(fetchTaskLayers());
-      if (fetchRoutine.fulfilled.match(routineAction) && fetchRoles.fulfilled.match(roleAction) && fetchTaskLayers.fulfilled.match(taskLayerAction)) {
+      const layerAction = await dispatch(fetchLayers());
+      if (fetchRoutine.fulfilled.match(routineAction) && fetchRoles.fulfilled.match(roleAction) && fetchLayers.fulfilled.match(layerAction)) {
           setStatus('succeeded');
       } else {
           setStatus('failed');
@@ -40,14 +41,14 @@ const RoutineDetail = ({ match }) => {
             setErrors(flattenErrors(routineAction.payload))
           } else if (roleAction.payload) {
             setErrors(flattenErrors(roleAction.payload))
-          } else if (taskLayerAction.payload) {
-            setErrors(flattenErrors(taskLayerAction.payload))
+          } else if (layerAction.payload) {
+            setErrors(flattenErrors(layerAction.payload))
           } else if (routineAction.error) {
             setErrors({'non_field_errors': routineAction.error.message})
           } else if (roleAction.error) {
             setErrors({'non_field_errors': roleAction.error.message})
-          } else if (taskLayerAction.error) {
-            setErrors({'non_field_errors': taskLayerAction.error.message})
+          } else if (layerAction.error) {
+            setErrors({'non_field_errors': layerAction.error.message})
           } else {
             setErrors({'non_field_errors': 'Unable to fetch routine.'})
           }
@@ -61,10 +62,11 @@ const RoutineDetail = ({ match }) => {
   if (status === 'pending') {
     content = (<Spinner pad="large" size="large" color="status-unknown" />)
   } else if (status === 'succeeded') {
-    var layers = []
-    taskLayers.forEach((layer) => {
+    var layerComponents = []
+    layers.forEach((layer) => {
+      console.log(layer)
       const role = roles[layer.role]
-      layers.push(
+      layerComponents.push(
           <Box gap="medium" pad={{vertical: "medium"}} key={layer.id}>
             {account.type === 'Team' && (<Text>Assigned to {role.name}</Text>)}
             <Text>Repeats {routine.layers[0].label}</Text>
@@ -77,7 +79,7 @@ const RoutineDetail = ({ match }) => {
           <Heading margin="none">{routine.name}</Heading>
           <Paragraph level={2} color="text-xweak">{routine.description}</Paragraph>
         </Box>
-        {layers}
+        {layerComponents}
       </Box>
     )
   } else if (status === 'failed') {

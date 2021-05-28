@@ -4,7 +4,7 @@ import { Tasks } from 'grommet-icons';
 import { DateTime } from 'luxon';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectTaskLayerById } from '../taskLayers/taskLayersSlice';
+import { selectLayerById } from '../layers/layersSlice';
 import { selectRoutineById } from '../routines/routinessSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { selectTaskInstanceById, completeTaskInstance, updateTaskInstance } from './taskInstancesSlice';
@@ -13,7 +13,7 @@ import { selectTaskInstanceById, completeTaskInstance, updateTaskInstance } from
 const TaskInstanceItem = ({id}) => {
     const dispatch = useDispatch();
     const taskInstance = useSelector(state => selectTaskInstanceById(state, id));
-    const layer = useSelector(state => selectTaskLayerById(state, taskInstance.taskLayer))
+    const layer = useSelector(state => selectLayerById(state, taskInstance.layer))
     const routine = useSelector(state => selectRoutineById(state, layer.routine));
     const user = useSelector(selectLoggedInUser);
 

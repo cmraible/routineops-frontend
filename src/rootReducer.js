@@ -6,7 +6,7 @@ import rolesReducer from './features/roles/rolesSlice';
 import usersReducer from './features/users/usersSlice';
 import authReducer from './features/auth/authSlice';
 import taskInstancesReducer from './features/taskInstances/taskInstancesSlice';
-import taskLayersReducer from './features/taskLayers/taskLayersSlice';
+import layersReducer from './features/layers/layersSlice';
 import accountsReducer from './features/accounts/accountsSlice';
 import socialAccountsReducer from './features/socialaccounts/socialAccountsSlice';
 import subscriptionReducer from './features/subscriptions/subscriptionsSlice';
@@ -25,7 +25,7 @@ const createRootReducer = (history) => combineReducers({
     router: connectRouter(history),
     routines: routinesReducer,
     taskInstances: taskInstancesReducer,
-    taskLayers: taskLayersReducer,
+    layers: layersReducer,
     ui: uiReducer,
     userRoles: userRolesReducer,
     users: usersReducer

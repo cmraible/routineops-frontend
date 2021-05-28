@@ -173,7 +173,7 @@ export const formatMonthDay = (i) => {
     return ordinal_suffix_of(num);
 }
 
-export const defaultTaskLayerParams = (label, account) => {
+export const defaultLayerParams = (label, account) => {
     const byweekday = account.working_days.slice().sort((a, b) => a-b) || [0,1,2,3,4,5,6]
     const byhour = account.working_hours || [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
     const tz = DateTime.local().zoneName

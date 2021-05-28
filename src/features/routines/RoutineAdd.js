@@ -13,7 +13,7 @@ import Page from '../../components/Page';
 import SubmitButton from '../../components/SubmitButton';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
-import { flattenErrors, defaultTaskLayerParams } from '../../utils';
+import { flattenErrors, defaultLayerParams } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
@@ -92,7 +92,7 @@ const AddRoutine = () => {
     if (formValue.label !== value.label) {
       // user changed the frequency label
       // get the default parameters, generate rrule
-      const params = defaultTaskLayerParams(formValue.label, account)
+      const params = defaultLayerParams(formValue.label, account)
       const rule = new RRule(params)
       setValue({
         role: formValue.role,
@@ -110,7 +110,7 @@ const AddRoutine = () => {
     } else {
       // user did not change the frequency label
       // generate rrule from user provided inputs
-      const defaultParams = defaultTaskLayerParams(formValue.label, account)
+      const defaultParams = defaultLayerParams(formValue.label, account)
       let { dtstart } = defaultParams || {dtstart: null}
       console.log(dtstart)
       if (['Daily', 'Weekly', 'Bi-Weekly'].includes(formValue.label)) {

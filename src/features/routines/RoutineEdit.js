@@ -14,7 +14,7 @@ import Spinner from '../../components/Spinner';
 import SubmitButton from '../../components/SubmitButton';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
-import { flattenErrors, defaultTaskLayerParams } from '../../utils';
+import { flattenErrors, defaultLayerParams } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
@@ -25,7 +25,7 @@ import RRule from 'rrule';
 import { DateTime } from 'luxon';
 
 
-const RoutineEdit = ({ match, taskLayers }) => {
+const RoutineEdit = ({ match, layers }) => {
   const dispatch = useDispatch()
   const { routineId } = match.params;
   const user = useSelector(selectLoggedInUser)
@@ -130,7 +130,7 @@ const RoutineEdit = ({ match, taskLayers }) => {
     if (formValue.label !== value.label) {
       // user changed the frequency label
       // get the default parameters, generate rrule
-      const params = defaultTaskLayerParams(formValue.label, account)
+      const params = defaultLayerParams(formValue.label, account)
       const rule = new RRule(params)
       setValue({
         ...value,
@@ -148,7 +148,7 @@ const RoutineEdit = ({ match, taskLayers }) => {
     } else {
       // user did not change the frequency label
       // generate the rrule from user provided inputs
-      const defaultParams = defaultTaskLayerParams(formValue.label, account)
+      const defaultParams = defaultLayerParams(formValue.label, account)
       let { dtstart } = defaultParams || {dtstart: null}
       if (['Daily', 'Weekly', 'Bi-Weekly'].includes(formValue.label)) {
         // Time is an input. Calculate the proper dtstart based on user input
