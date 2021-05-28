@@ -1,6 +1,6 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
-import { fetchRoutines } from '../routines/routinessSlice';
+import { fetchRoutines } from '../routines/routinesSlice';
 import { logout } from '../auth/authSlice';
 
 // Adapter to normalize and sort response data

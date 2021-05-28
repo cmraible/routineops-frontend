@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Menu, Text } from 'grommet';
 import { Checkmark, FormEdit, FormTrash, More } from 'grommet-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectRoutineById } from './routinessSlice';
+import { selectRoutineById } from './routinesSlice';
 import { push } from 'connected-react-router';
 import RoutineDelete from './RoutineDelete';
 

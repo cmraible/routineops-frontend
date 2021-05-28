@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../../components/Message';
 import Modal from '../../components/Modal';
-import { deleteRoutine, selectRoutineById } from './routinessSlice';
+import { deleteRoutine, selectRoutineById } from './routinesSlice';
 
 const RoutineDelete = ({ id, close }) => {
 

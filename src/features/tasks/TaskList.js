@@ -10,12 +10,12 @@ import Spinner from '../../components/Spinner';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { fetchLayers } from '../layers/layersSlice';
-import { fetchRoutines } from '../routines/routinessSlice';
+import { fetchRoutines } from '../routines/routinesSlice';
 import { selectAllUsers } from '../users/usersSlice';
-import TaskInstanceItem from './TaskInstanceItem';
-import { fetchTaskInstances, selectAllTaskInstances } from './taskInstancesSlice';
+import TaskItem from './TaskItem';
+import { fetchTasks, selectAllTasks } from './tasksSlice';
 
-const Todo = () => {
+const TaskList = () => {
   const dispatch = useDispatch()
 
   const user = useSelector(selectLoggedInUser);
@@ -31,27 +31,27 @@ const Todo = () => {
     past_due: true
   });
 
-  const taskInstances = useSelector(selectAllTaskInstances)
-    .filter((instance) => {
+  const tasks = useSelector(selectAllTasks)
+    .filter((task) => {
       const now = DateTime.local()
-      if (!filters.completed && instance.completed) {
+      if (!filters.completed && task.completed) {
         return false;
       }
-      if (!filters.past_due && !instance.completed && DateTime.fromISO(instance.due) < now) {
+      if (!filters.past_due && !task.completed && DateTime.fromISO(task.due) < now) {
         return false;
       }
       if (filters.users.length > 0) {
-        if (!filters.users.includes(instance.assignee)) {
+        if (!filters.users.includes(task.assignee)) {
           return false;
         }
       }
-      if (headerValue === 'Today' && DateTime.fromISO(instance.due) > DateTime.local().endOf('day')) {
+      if (headerValue === 'Today' && DateTime.fromISO(task.due) > DateTime.local().endOf('day')) {
         return false;
       }
-      if (headerValue === 'This Week' && DateTime.fromISO(instance.due) > DateTime.local().endOf('week')) {
+      if (headerValue === 'This Week' && DateTime.fromISO(task.due) > DateTime.local().endOf('week')) {
         return false;
       }
-      if (headerValue === 'This Month' && DateTime.fromISO(instance.due) > DateTime.local().endOf('month')) {
+      if (headerValue === 'This Month' && DateTime.fromISO(task.due) > DateTime.local().endOf('month')) {
         return false;
       }
       return true;
@@ -68,8 +68,8 @@ const Todo = () => {
       const accountAction = await dispatch(fetchAccount(user.account));
       const routineAction = await dispatch(fetchRoutines());
       const layerAction = await dispatch(fetchLayers());
-      const taskInstanceAction = await dispatch(fetchTaskInstances());
-      if (fetchRoutines.fulfilled.match(routineAction) && fetchLayers.fulfilled.match(layerAction) && fetchTaskInstances.fulfilled.match(taskInstanceAction) && fetchAccount.fulfilled.match(accountAction)) {
+      const taskAction = await dispatch(fetchTasks());
+      if (fetchRoutines.fulfilled.match(routineAction) && fetchLayers.fulfilled.match(layerAction) && fetchTasks.fulfilled.match(taskAction) && fetchAccount.fulfilled.match(accountAction)) {
         setRequestStatus('succeeded')
       } else {
         setRequestStatus('failed');
@@ -83,11 +83,11 @@ const Todo = () => {
     // Display a spinner to indicate loading state
     content = <Spinner pad="large" size="large" color="status-unknown" />
   } else if (requestStatus === 'succeeded') {
-    if (taskInstances.length > 0) {
-      // Display list of task instances
+    if (tasks.length > 0) {
+      // Display list of tasks
       var items = []
-      taskInstances.forEach((taskInstance) => {
-        items.push(<TaskInstanceItem id={taskInstance.id} key={taskInstance.id} />)
+      tasks.forEach((task) => {
+        items.push(<TaskItem id={task.id} key={task.id} />)
       });
       content = <Box>{items}</Box>
     } else {
@@ -102,7 +102,7 @@ const Todo = () => {
     }
   } else if (requestStatus === 'failed') {
     // Display an error message
-    content = <Message type="error" message="Unable to fetch task instances." />
+    content = <Message type="error" message="Unable to fetch tasks." />
   }
 
   const header = (
@@ -174,4 +174,4 @@ const Todo = () => {
 
 };
 
-export default Todo;
+export default TaskList;

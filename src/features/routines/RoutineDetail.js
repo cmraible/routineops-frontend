@@ -10,7 +10,7 @@ import { flattenErrors } from '../../utils';
 import { selectUserAccount } from '../accounts/accountsSlice';
 import { fetchRoles, selectRoleEntities } from '../roles/rolesSlice';
 import { fetchLayers, selectLayersForRoutine } from '../layers/layersSlice';
-import { fetchRoutine, selectRoutineById } from './routinessSlice';
+import { fetchRoutine, selectRoutineById } from './routinesSlice';
 
 
 const RoutineDetail = ({ match }) => {
