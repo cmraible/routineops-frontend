@@ -43,8 +43,8 @@ const WeekView = ({ workingDays, interval, data }) => {
         property: date.toFormat('EEE'),
         header: <Box pad="small">{date.toFormat('EEEEE')}</Box>,
         render: (instance) => {
-          const taskInstances = instance.instances.filter((instance) => interval.contains(DateTime.fromISO(instance.due)) )
-          return (<WeekViewCell date={date} instances={taskInstances} />)
+          const tasks = instance.instances.filter((instance) => interval.contains(DateTime.fromISO(instance.due)) )
+          return (<WeekViewCell date={date} instances={tasks} />)
         },
       }
 

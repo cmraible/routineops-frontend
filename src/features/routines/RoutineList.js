@@ -7,7 +7,7 @@ import Message from '../../components/Message';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
 import RoutineItem from './RoutineItem';
-import { fetchRoutines, selectRoutineIds } from './routinessSlice';
+import { fetchRoutines, selectRoutineIds } from './routinesSlice';
 
 const RoutineList = () => {
 

@@ -19,7 +19,7 @@ import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
 import { fetchRoles } from '../roles/rolesSlice';
-import { fetchRoutine, updateRoutine } from './routinessSlice';
+import { fetchRoutine, updateRoutine } from './routinesSlice';
 import { push, goBack } from 'connected-react-router';
 import RRule from 'rrule';
 import { DateTime } from 'luxon';

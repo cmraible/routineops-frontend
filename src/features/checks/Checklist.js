@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Box, Button, Form, List } from 'grommet';
 import Check from './Check';
-import { completeTaskInstance } from '../taskInstances/taskInstancesSlice';
+import { completeTask } from '../tasks/tasksSlice';
 
-const Checklist = ({ checks, taskInstance, onComplete }) => {
+const Checklist = ({ checks, task, onComplete }) => {
 
     const dispatch = useDispatch();
 
     const [value, setValue] = useState();
 
-    const disabled = (taskInstance.completed) ? true : false
+    const disabled = (task.completed) ? true : false
 
     const handleSubmit = ({ value }) => {
         const results = Object.keys(value).map((id) => {
@@ -19,7 +19,7 @@ const Checklist = ({ checks, taskInstance, onComplete }) => {
                 result: value[id]
             }
         })
-        dispatch(completeTaskInstance([taskInstance, results]));
+        dispatch(completeTask([task, results]));
         onComplete();
     }
 

@@ -5,44 +5,44 @@ import { DateTime } from 'luxon';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLayerById } from '../layers/layersSlice';
-import { selectRoutineById } from '../routines/routinessSlice';
+import { selectRoutineById } from '../routines/routinesSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
-import { selectTaskInstanceById, completeTaskInstance, updateTaskInstance } from './taskInstancesSlice';
+import { selectTaskById, completeTask, updateTask } from './tasksSlice';
 
 
-const TaskInstanceItem = ({id}) => {
+const TaskItem = ({id}) => {
     const dispatch = useDispatch();
-    const taskInstance = useSelector(state => selectTaskInstanceById(state, id));
-    const layer = useSelector(state => selectLayerById(state, taskInstance.layer))
+    const task = useSelector(state => selectTaskById(state, id));
+    const layer = useSelector(state => selectLayerById(state, task.layer))
     const routine = useSelector(state => selectRoutineById(state, layer.routine));
     const user = useSelector(selectLoggedInUser);
 
-    const formattedDueDate = DateTime.fromISO(taskInstance.due).toLocaleString(DateTime.DATETIME_SHORT);
+    const formattedDueDate = DateTime.fromISO(task.due).toLocaleString(DateTime.DATETIME_SHORT);
 
     const [requestStatus, setRequestStatus] = useState('idle');
 
-    const [checked, setChecked] = useState(taskInstance.completed ? true : false);
+    const [checked, setChecked] = useState(task.completed ? true : false);
 
     const onChange = async (event) => {
         setRequestStatus('pending');
         setChecked(event.target.checked)
         if (event.target.checked) {
             // Complete the task
-            const resultAction = await dispatch(completeTaskInstance([taskInstance, []]))
-            if (completeTaskInstance.fulfilled.match(resultAction)) {
+            const resultAction = await dispatch(completeTask([task, []]))
+            if (completeTask.fulfilled.match(resultAction)) {
                 setRequestStatus('succeeded');
             } else {
                 setRequestStatus('failed');
-                setChecked(taskInstance.completed ? true : false);
+                setChecked(task.completed ? true : false);
             }
         } else {
             // Un-Complete the task?
-            const resultAction = await dispatch(updateTaskInstance({...taskInstance, completed: null}))
-            if (updateTaskInstance.fulfilled.match(resultAction)) {
+            const resultAction = await dispatch(updateTask({...task, completed: null}))
+            if (updateTask.fulfilled.match(resultAction)) {
                 setRequestStatus('succeeded')
             } else {
                 setRequestStatus('failed');
-                setChecked(taskInstance.completed ? true : false)
+                setChecked(task.completed ? true : false)
             }
         }
     }
@@ -57,12 +57,12 @@ const TaskInstanceItem = ({id}) => {
                 gap="medium"
                 pad={{horizontal: "small"}}
                 fill
-                background={DateTime.fromISO(taskInstance.due) < DateTime.local() && !taskInstance.completed ? "status-critical" : "none" }
+                background={DateTime.fromISO(task.due) < DateTime.local() && !task.completed ? "status-critical" : "none" }
             >
                 <CheckBox
                     checked={checked}
                     onChange={onChange}
-                    disabled={requestStatus === 'pending' || user.id !== taskInstance.assignee}
+                    disabled={requestStatus === 'pending' || user.id !== task.assignee}
                 />
                 <Box
                     direction="row"
@@ -90,7 +90,7 @@ const TaskInstanceItem = ({id}) => {
                     justify="between"
                     fill="horizontal"
                     pad="small"
-                    onClick={() => routine.type !== 'TODO' ? dispatch(push(`/taskInstance/${id}`)) : void(0)}
+                    onClick={() => routine.type !== 'TODO' ? dispatch(push(`/tasks/${id}`)) : void(0)}
                 >
                     <Text>{routine.name}</Text>
                     <Text style={{whiteSpace: 'noWrap'}}>{formattedDueDate}</Text>
@@ -112,4 +112,4 @@ const TaskInstanceItem = ({id}) => {
     )
   }
 
-export default TaskInstanceItem;
+export default TaskItem;
