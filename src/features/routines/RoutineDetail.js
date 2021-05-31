@@ -1,4 +1,4 @@
-import { goBack, push } from 'connected-react-router';
+import { push } from 'connected-react-router';
 import { Box, Heading, Paragraph, Text } from 'grommet';
 import { Edit } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
@@ -97,7 +97,7 @@ const RoutineDetail = ({ match }) => {
         label: "Edit Routine",
         primary: true
       }}
-      previous={() => dispatch(goBack())}
+      previous={() => dispatch(push('/routines'))}
     >
       {content}
     </Page>

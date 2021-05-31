@@ -20,7 +20,7 @@ import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
 import { fetchRoles } from '../roles/rolesSlice';
 import { fetchRoutine, updateRoutine } from './routinesSlice';
-import { push, goBack } from 'connected-react-router';
+import { push } from 'connected-react-router';
 import RRule from 'rrule';
 import { DateTime } from 'luxon';
 
@@ -262,7 +262,7 @@ const RoutineEdit = ({ match, layers }) => {
         type: "submit",
         form: "routine-form"
       }}
-      previous={() => dispatch(goBack())}
+      previous={() => dispatch(push(`/routines/${routineId}`))}
     >
       {content}
     </Page>

@@ -18,10 +18,10 @@ describe('Forgot password page', () => {
             .should('have.attr', 'href', '/login')
             .should('be.visible');
 
-            // Check signup link
-            cy.contains('Sign up for Routine Ops')
-                .should('have.attr', 'href', '/signup')
-                .should('be.visible');
+            // // Check signup link
+            // cy.contains('Sign up for Routine Ops')
+            //     .should('have.attr', 'href', '/signup')
+            //     .should('be.visible');
 
             // Check email input
             cy.get('input[name="email"]')
@@ -57,6 +57,12 @@ describe('Forgot password page', () => {
     });
 
     it('submits the email address and succeeds', () => {
+        cy.intercept(
+            'POST', '**/api/auth/password/reset**', {
+                statusCode: 200,
+                body: {"detail":"Password reset e-mail has been sent."}
+            }
+        );
         // Type in a valid email address
         cy.get('input[name="email"]')
             .type('chris@routineops.com');
@@ -68,19 +74,6 @@ describe('Forgot password page', () => {
         // Assert the success message
         cy.contains('Great. If an account matches that email address, you should receive a reset link in a few minutes.');
     });
-
-    it('pretends to succeed for a non-existent email address', () => {
-        // Type in a valid email address
-        cy.get('input[name="email"]')
-            .type('test12345@routineops.com');
-
-        // Submit the form
-        cy.get('button[type="submit"]')
-            .click();
-
-        // Assert the success message
-        cy.contains('Great. If an account matches that email address, you should receive a reset link in a few minutes.');
-    })
 
     it('displays a loading indicator', () => {
         // Configure route with a delay

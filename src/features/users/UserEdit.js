@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import { Box, Form, FormField, TextInput } from 'grommet';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +9,6 @@ import Spinner from '../../components/Spinner';
 import SubmitButton from '../../components/SubmitButton';
 import { flattenErrors } from '../../utils';
 import { fetchUser, selectUserById, updateUser } from './usersSlice';
-import { push, goBack } from 'connected-react-router';
 
 
 const UserEdit = ({ match, onClose }) => {
@@ -94,7 +94,7 @@ const UserEdit = ({ match, onClose }) => {
   return (
     <Page
       title="Edit User"
-      previous={() => dispatch(goBack())}
+      previous={() => dispatch(push(`/users/${userId}`))}
       pad="small"
     >
       {content}

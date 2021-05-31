@@ -32,7 +32,7 @@ const Page = ({ title, header, children, action, previous, pad }) => {
             case 'small':
               return (
                 <Main>
-                  <MobileHeader action={action} title={title} header={header} />
+                  <MobileHeader action={action} title={title} header={header} previous={previous} />
                   <Box pad={pad || "none"}>
                     {children}
                   </Box>

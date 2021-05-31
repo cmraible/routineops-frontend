@@ -69,8 +69,8 @@ const ForgotReset = ({ match }) => {
           <SubmitButton label="Reset Password" loadingIndicator={requestStatus === 'pending'} />
           <Box direction="row" justify="center" gap="small">
             <Anchor href="/login" size="small">Back to Login</Anchor>
-            <Text>{'\u2022'}</Text>
-            <Anchor href="/signup" size="small">Sign up for Routine Ops</Anchor>
+            {/* <Text>{'\u2022'}</Text>
+            <Anchor href="/signup" size="small">Sign up for Routine Ops</Anchor> */}
           </Box>
         </Box>
       </Form>

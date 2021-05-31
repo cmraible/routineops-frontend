@@ -62,6 +62,7 @@ const AccountUsers = () => {
           <Box align="end" pad="medium">
             <Button
               fill={false}
+              data-cy="action"
               primary
               size="large"
               icon={<Add />}

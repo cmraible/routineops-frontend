@@ -1,5 +1,5 @@
 import { Box, Form, Text } from 'grommet';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import EmailField from '../../components/EmailField';
 import Error from '../../components/Error';
@@ -14,6 +14,23 @@ const AddUser = ( { close } ) => {
   const dispatch = useDispatch()
   const user = useSelector(selectLoggedInUser)
   const account = user.account;
+
+  useEffect(() => {
+    const title = "Invite User"
+    document.title = title;
+    window.analytics.page(title);
+    window.analytics.ready(() => {
+      if (window.innerWidth < 768) {
+        window.Intercom('update', {
+          "hide_default_launcher": true
+        })
+      } else {
+        window.Intercom('update', {
+          "hide_default_launcher": false
+        })
+      }
+    });
+  }, []);
 
   const [requestStatus, setRequestStatus] = useState('idle')
   const [success, setSuccess] = useState(undefined)
