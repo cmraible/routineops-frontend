@@ -16,7 +16,6 @@ import { selectUserAccount } from './accountsSlice';
 
 
 const AccountBillingUpgradeTeam = ({ close, match }) => {
-    console.log(match)
 
     const dispatch = useDispatch();
     const account = useSelector(selectUserAccount);

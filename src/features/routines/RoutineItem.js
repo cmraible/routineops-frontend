@@ -34,6 +34,7 @@ const RoutineItem = ({id}) => {
             </Box>
             <Menu
                 size="small"
+                data-cy={`action-menu-${id}`}
                 icon={<More />}
                 dropAlign={{"right": "right", "top": "bottom"}}
                 alignSelf="end"

@@ -19,10 +19,10 @@ describe('Login page', () => {
             .should('have.attr', 'href', '/forgot')
             .should('be.visible');
 
-            // Check signup link
-            cy.contains('Sign up for Routine Ops')
-                .should('have.attr', 'href', '/signup')
-                .should('be.visible');
+            // // Check signup link
+            // cy.contains('Sign up for Routine Ops')
+            //     .should('have.attr', 'href', '/signup')
+            //     .should('be.visible');
 
             // Check email input
             cy.get('input[name="email"]')
@@ -52,6 +52,7 @@ describe('Login page', () => {
     });
 
     it('logs the user in with correct credentials', () => {
+        cy.intercept('POST', '**/api/auth/login**', {fixture: 'loginResponse.json'});
         cy.get('input[name="email"]').type('chris@routineops.com');
         cy.get('input[name="password"]').type('password');
         cy.get('button[type="submit"]').click().should(() => {
@@ -62,6 +63,10 @@ describe('Login page', () => {
     });
 
     it('does not log user in with incorrect credentials', () => {
+        cy.intercept('POST', '**/api/auth/login**', {
+            statusCode: 400,
+            body: {"non_field_errors":["Unable to log in with provided credentials."]}
+        });
         cy.get('input[name="email"]').type('chris@routineops.com');
         cy.get('input[name="password"]').type('password12345');
         cy.get('button[type="submit"]').click();

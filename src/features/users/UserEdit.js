@@ -94,7 +94,7 @@ const UserEdit = ({ match, onClose }) => {
   return (
     <Page
       title="Edit User"
-      previous={() => dispatch(goBack())}
+      previous={() => dispatch(push(`/users/${userId}`))}
       pad="small"
     >
       {content}

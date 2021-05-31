@@ -151,7 +151,7 @@ const AddRoutine = () => {
   return (
     <Page
       title="Add Routine"
-      previous={() => dispatch(goBack())}
+      previous={() => dispatch(push(`/routines`))}
       action={{
         icon: <Checkmark />,
         type: "submit",

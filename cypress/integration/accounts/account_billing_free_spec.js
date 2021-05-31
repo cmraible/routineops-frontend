@@ -25,6 +25,6 @@ describe('Account Billing Free Page', () => {
         cy.title().should('eq', 'Account')
 
         cy.contains('Upgrade to Team').should('be.visible').click();
-        cy.location('pathname').should('eq', '/account/billing/upgradeTeam');
+        cy.location('pathname').should('contain', '/account/billing/upgradeTeam');
     });
 });

@@ -7,7 +7,7 @@ const dispatch = (action) => cy.window().its('store').then((store) => {
 // -- This is a parent command --
 Cypress.Commands.add("login", () => {
     cy.clearLocalStorage();
-    cy.intercept('**/api/auth/**').as('loginRequest');
+    cy.intercept('**/api/auth/login**', { fixture: 'loginResponse.json' }).as('loginRequest');
     cy.visit('/');
     dispatch(login({
         email: 'chris@routineops.com',

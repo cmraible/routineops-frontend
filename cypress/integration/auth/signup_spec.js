@@ -17,7 +17,7 @@ describe('Signup page', () => {
             // Check login link
             cy.contains('Login')
             .should('have.attr', 'href', '/login')
-            .should('be.visible');
+            .should('exist');
 
             // Check email input
             cy.get('input[name="email"]')
@@ -50,7 +50,7 @@ describe('Signup page', () => {
             // Check submit button
             cy.get('button[type="submit"]')
             .contains('Sign Up')
-            .should('be.visible');
+            .should('exist');
 
             // Check the logo
             cy.get('img[alt="logo-square"')
@@ -63,6 +63,8 @@ describe('Signup page', () => {
             statusCode: 201,
             fixture: 'signup.json'
         });
+        cy.get('input[name="first_name"]').type('FirstName');
+        cy.get('input[name="last_name"]').type('LastName');
         cy.get('input[name="email"]').type('admin@routineops.com');
         cy.get('input[name="password1"]').type('password1234');
         cy.get('input[name="password2"]').type('password1234');
@@ -78,6 +80,8 @@ describe('Signup page', () => {
     it('shows error message if server is not reachable', () => {
         cy.intercept('**/auth/register/', req => req.destroy())
 
+        cy.get('input[name="first_name"]').type('FirstName');
+        cy.get('input[name="last_name"]').type('LastName');
         cy.get('input[name="email"]').type('chris@routineops.com');
         cy.get('input[name="password1"]').type('password1234');
         cy.get('input[name="password2"]').type('password1234');
@@ -94,7 +98,8 @@ describe('Signup page', () => {
                 res.delay(1000);
             })
         })
-
+        cy.get('input[name="first_name"]').type('FirstName');
+        cy.get('input[name="last_name"]').type('LastName');
         cy.get('input[name="email"]').type('chris@routineops.com');
         cy.get('input[name="password1"]').type('password1234');
         cy.get('input[name="password2"]').type('password1234');
@@ -106,6 +111,12 @@ describe('Signup page', () => {
     });
 
     it('does not allow duplicate email addresses', () => {
+        cy.intercept('POST', '**/api/auth/register**', {
+            statusCode: 400,
+            body: {"email":["A user is already registered with this e-mail address."]}
+        })
+        cy.get('input[name="first_name"]').type('FirstName');
+        cy.get('input[name="last_name"]').type('LastName');
         cy.get('input[name="email"]').type('chris@routineops.com');
         cy.get('input[name="password1"]').type('password1234');
         cy.get('input[name="password2"]').type('password1234');
@@ -117,6 +128,8 @@ describe('Signup page', () => {
     });
 
     it('validates email before submitting', () => {
+        cy.get('input[name="first_name"]').type('FirstName');
+        cy.get('input[name="last_name"]').type('LastName');
         cy.get('input[name="email"]').type('chris@routineop');
         cy.get('input[name="password1"]').type('password1234');
         cy.get('input[name="password2"]').type('password1234');
@@ -128,6 +141,8 @@ describe('Signup page', () => {
     });
 
     it('validates password length before submitting', () => {
+        cy.get('input[name="first_name"]').type('FirstName');
+        cy.get('input[name="last_name"]').type('LastName');
         cy.get('input[name="email"]').type('chris@routineops.com');
         cy.get('input[name="password1"]').type('password');
         cy.get('input[name="password2"]').type('password');
@@ -139,6 +154,8 @@ describe('Signup page', () => {
     });
 
     it('validates password match before submitting', () => {
+        cy.get('input[name="first_name"]').type('FirstName');
+        cy.get('input[name="last_name"]').type('LastName');
         cy.get('input[name="email"]').type('chris@routineops.com');
         cy.get('input[name="password1"]').type('password1234');
         cy.get('input[name="password2"]').type('password12345');
@@ -150,6 +167,8 @@ describe('Signup page', () => {
     });
 
     it('validates disclaimer before submitting', () => {
+        cy.get('input[name="first_name"]').type('FirstName');
+        cy.get('input[name="last_name"]').type('LastName');
         cy.get('input[name="email"]').type('chris@routineops.com');
         cy.get('input[name="password1"]').type('password1234');
         cy.get('input[name="password2"]').type('password12345');

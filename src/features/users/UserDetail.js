@@ -8,7 +8,7 @@ import Spinner from '../../components/Spinner';
 import { fetchRoles, selectAllRoles, selectRoleById } from '../roles/rolesSlice';
 import { addNewUserRole, deleteUserRole, fetchUserRoles, selectActiveUserRolesForUser, selectUserRoleById } from '../userRoles/userRolesSlice';
 import { fetchUser, selectUserById } from '../users/usersSlice';
-import { push, goBack } from 'connected-react-router';
+import { push } from 'connected-react-router';
 
 const UserRoleExcerpt = ({ id }) => {
   const dispatch = useDispatch();
@@ -140,7 +140,7 @@ const UserDetail = ({ match, onClose }) => {
   return (
     <Page
       title={user.first_name + ' ' + user.last_name}
-      previous={() => dispatch(goBack())}
+      previous={() => dispatch(push('/account/users'))}
       action={{
         icon: <Edit />,
         onClick: () => dispatch(push(`/users/${userId}/edit`)),

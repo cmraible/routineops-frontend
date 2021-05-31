@@ -7,7 +7,7 @@ import Spinner from '../../components/Spinner';
 import SubmitButton from '../../components/SubmitButton';
 import { flattenErrors } from '../../utils';
 import { fetchRole, selectRoleById, updateRole } from './rolesSlice';
-import { goBack } from 'connected-react-router';
+import { push } from 'connected-react-router';
 
 const RoleEdit = ({match}) => {
   const dispatch = useDispatch();
@@ -91,7 +91,7 @@ const RoleEdit = ({match}) => {
     <Page
       title="Role"
       pad="small"
-      previous={() => dispatch(goBack())}
+      previous={() => dispatch(push(`/roles/${roleId}`))}
     >
       {content}
     </Page>

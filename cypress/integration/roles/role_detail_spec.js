@@ -10,6 +10,7 @@ describe('Role Detail Page', () => {
     sizes.forEach((size) => {
         it(`renders properly on ${size} screen`, () => {
             // Check the tab bar displays everything it should
+            cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
             cy.intercept('GET', '**/api/roles/1/', { fixture: 'role.json' });
             cy.viewport(size);
             cy.visit('/roles/1');
@@ -29,6 +30,7 @@ describe('Role Detail Page', () => {
     })
 
     it('links back to roles page', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('**/api/roles/1', { fixture: 'role.json' });
         cy.intercept('**/api/roles/', { fixture: 'roles.json' });
         cy.visit('/roles/1')
@@ -37,6 +39,7 @@ describe('Role Detail Page', () => {
     });
 
     it('links back to edit page', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('**/api/roles/1', { fixture: 'role.json' });
         cy.visit('/roles/1')
         cy.get('[data-cy="action"]').click();
@@ -44,6 +47,7 @@ describe('Role Detail Page', () => {
     });
 
     it('shows network error message if unable to reach server', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('**/api/roles/**', req => req.destroy());
         cy.visit('/roles/1');
         cy.contains('Network Error')
@@ -51,6 +55,7 @@ describe('Role Detail Page', () => {
     });
 
     it('shows Not found if the task does not exist.', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/roles/**', {
             statusCode: 404,
             body: {detail: "Not found."}

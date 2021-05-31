@@ -62,7 +62,7 @@ const RoleDetail = ({match}) => {
         onClick: () => dispatch(push(`/roles/${roleId}/edit`)),
         primary: true
       }}
-      previous={() => dispatch(goBack())}
+      previous={() => dispatch(push('/roles'))}
     >
       {content}
     </Page>
