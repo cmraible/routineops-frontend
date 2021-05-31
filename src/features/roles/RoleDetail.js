@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import { Box, Heading } from 'grommet';
 import { Edit } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
@@ -5,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Error from '../../components/Error';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
-import { push, goBack } from 'connected-react-router';
 import { flattenErrors } from '../../utils';
 import { fetchRole, selectRoleById } from './rolesSlice';
 
