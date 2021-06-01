@@ -37,6 +37,9 @@ const TaskList = () => {
       if (!filters.completed && task.completed) {
         return false;
       }
+      if (task.completed && DateTime.fromISO(task.due) < now) {
+        return false;
+      }
       if (!filters.past_due && !task.completed && DateTime.fromISO(task.due) < now) {
         return false;
       }
