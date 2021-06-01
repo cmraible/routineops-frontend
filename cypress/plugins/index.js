@@ -16,6 +16,7 @@
  * @type {Cypress.PluginConfig}
  */
 module.exports = (on, config) => {
+  require('@cypress/code-coverage/task')(on, config)
 
   // add other tasks to be registered here
 

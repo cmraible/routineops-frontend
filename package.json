@@ -39,7 +39,8 @@
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "start": "react-scripts start",
+    "start": "react-scripts -r @cypress/instrument-cra start",
+    "coverage": "open coverage/lcov-report/index.html",
     "build": "react-scripts build",
     "test": "npx cypress open",
     "eject": "react-scripts eject",
@@ -64,6 +65,8 @@
     ]
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.9.6",
+    "@cypress/instrument-cra": "^1.4.0",
     "cypress": "^7.4.0",
     "eslint-plugin-cypress": "^2.11.3",
     "install": "^0.13.0",
