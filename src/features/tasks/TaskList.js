@@ -134,8 +134,8 @@ const TaskList = () => {
         onClick: () => setShowFilters(!showFilters)
       }}
     >
-      <Box flex="grow" direction="row" height="100%">
-        <Box fill="horizontal" flex style={{overflowY: "scroll"}} height="100%">
+      <Box flex="grow" direction="row" style={{overflowY: "scroll"}} fill="vertical">
+        <Box fill="horizontal">
           <Box flex={false}>
             {content}
           </Box>
