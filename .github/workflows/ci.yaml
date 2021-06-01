@@ -17,3 +17,4 @@ jobs:
         uses: cypress-io/github-action@v2
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
+          REACT_APP_API_HOST: https://staging.api.routineops.com
