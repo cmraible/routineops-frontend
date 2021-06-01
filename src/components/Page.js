@@ -81,7 +81,9 @@ const Page = ({ title, header, children, action, previous, pad }) => {
 
                       </Box>
                     </Box>
+                    <Box>
                       {children}
+                    </Box>
                 </Main>
               )
           }

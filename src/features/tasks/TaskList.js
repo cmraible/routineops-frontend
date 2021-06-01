@@ -37,6 +37,9 @@ const TaskList = () => {
       if (!filters.completed && task.completed) {
         return false;
       }
+      if (task.completed && DateTime.fromISO(task.due) < now) {
+        return false;
+      }
       if (!filters.past_due && !task.completed && DateTime.fromISO(task.due) < now) {
         return false;
       }
@@ -131,8 +134,8 @@ const TaskList = () => {
         onClick: () => setShowFilters(!showFilters)
       }}
     >
-      <Box flex="grow" direction="row" height="100%">
-        <Box fill="horizontal" flex style={{overflowY: "scroll"}} height="100%">
+      <Box flex="grow" direction="row" style={{overflowY: "scroll"}} fill="vertical">
+        <Box fill="horizontal">
           <Box flex={false}>
             {content}
           </Box>
