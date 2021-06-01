@@ -99,7 +99,7 @@ describe('Account Profile Page', () => {
     });
 
     it('validates new passwords match', () => {
-        cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
+        cy.intercept('GET', '**api/accounts/1/', { fixture: 'accountFree.json' });
         cy.intercept('POST', '**api/auth/password/change**', {
             body: {"new_password2": ["The two password fields didn't match."]},
             statusCode: 400

@@ -19,6 +19,8 @@ describe('Account Billing Free Page', () => {
 
     it('links to upgrade Team page', () => {
         cy.intercept('GET', '**/api/accounts/1**', { fixture: 'accountFree.json'});
+        cy.intercept('GET', '**/prices/**', { fixture: 'fetchPrice.json'});
+        cy.intercept('POST', '**/upcoming_invoice**', { fixture: 'fetchUpcomingInvoice.json' });
         cy.login();
         cy.visit('/account/billing')
         // Check page title

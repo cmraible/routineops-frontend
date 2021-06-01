@@ -4,6 +4,9 @@
     "viewportHeight": 812,
     "watchForFileChanges": true,
     "sizes": ["iphone-6", "iphone-x", "macbook-13"],
+    "env": {
+        "REACT_APP_API_HOST": "http://localhost:8000"
+    },
     "defaultCommandTimeout": 4000,
     "videoCompression": false,
     "chromeWebSecurity": false

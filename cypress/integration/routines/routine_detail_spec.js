@@ -29,7 +29,7 @@ describe('Routine Detail Page', () => {
 
     it('links back to routines page', () => {
         cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
-        cy.intercept('GET', '**/api/routines/', {body: {}});
+        cy.intercept('GET', '**/api/routines/', {fixture: 'routines.json'});
         cy.intercept('GET', '**/api/routines/1', { fixture: 'routineHourly.json' }).as('routineRequest');
         cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.visit('/routines/1')
