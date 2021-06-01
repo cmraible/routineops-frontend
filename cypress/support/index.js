@@ -17,8 +17,6 @@
 import './commands'
 import '@cypress/code-coverage/support'
 
-require('@cypress/react/support')
-
 
 
 // Alternatively you can use CommonJS syntax:

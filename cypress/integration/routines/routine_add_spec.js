@@ -252,7 +252,8 @@ describe('Routine Add Page', () => {
 
     it('links back to the routines page', () => {
         cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
-        cy.intercept('GET', '**/api/routines**', {body: {}})
+        cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
+        cy.intercept('GET', '**/api/routines**', {fixture: 'routines.json'})
         cy.visit('/routines/add');
         cy.get('[data-cy="previous"]').click();
         cy.location('pathname').should('eq', '/routines');

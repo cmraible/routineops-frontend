@@ -27,7 +27,6 @@ describe('Upgrade to Team', () => {
     });
 
     it('successfully upgrades to team', () => {
-        cy.clock()
         cy.intercept('GET', '**/prices/**', { fixture: 'fetchPrice.json'});
         cy.intercept('POST', '**/upcoming_invoice**', { fixture: 'fetchUpcomingInvoice.json' });
         cy.intercept('GET', '**/accounts/**', {fixture: 'accountFree.json'});
@@ -45,7 +44,6 @@ describe('Upgrade to Team', () => {
         });
         cy.get('[data-cy="upgrade-form"]').submit();
         cy.get('[data-cy="success-message"]').contains('Account successfully upgraded');
-        cy.tick(10000)
 
     });
 
