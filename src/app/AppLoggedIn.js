@@ -1,29 +1,28 @@
 import { Box, Grid, ResponsiveContext } from 'grommet';
+import { ChatOption, Checkmark, Compliance, Group, Organization, User } from 'grommet-icons';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import NotFound from '../components/NotFound';
-import Account from '../features/accounts/Account';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import DesktopSidebar from '../components/DesktopSidebar';
 import MobileFooter from '../components/MobileFooter';
+import NotFound from '../components/NotFound';
+import Account from '../features/accounts/Account';
+import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSlice';
+import { selectLoggedInUser } from '../features/auth/authSlice';
 import RoleDetail from '../features/roles/RoleDetail';
 import RoleEdit from '../features/roles/RoleEdit';
 import RoleList from '../features/roles/RoleList';
-import Task from '../features/tasks/Task';
-import TaskList from '../features/tasks/TaskList';
 import RoutineAdd from '../features/routines/RoutineAdd';
 import RoutineDetail from '../features/routines/RoutineDetail';
 import RoutineEdit from '../features/routines/RoutineEdit';
 import RoutineList from '../features/routines/RoutineList';
+import Task from '../features/tasks/Task';
+import TaskList from '../features/tasks/TaskList';
 import UserAdd from '../features/users/UserAdd';
 import UserDetail from '../features/users/UserDetail';
 import UserEdit from '../features/users/UserEdit';
 import UserList from '../features/users/UserList';
-import { selectLoggedInUser } from '../features/auth/authSlice';
-import { selectUserAccount } from '../features/accounts/accountsSlice';
-import { ChatOption, Checkmark, Group, Notes, User, Organization } from 'grommet-icons';
 
-import { fetchAccount } from '../features/accounts/accountsSlice';
 
 const AppLoggedIn = () => {
   const dispatch = useDispatch()
@@ -34,13 +33,13 @@ const AppLoggedIn = () => {
 
   const individualLinks = [
     {label: 'Tasks', icon: <Checkmark />, href: '/', active: (pathname === '/' || pathname === '')},
-    {label: 'Routines', icon: <Notes />, href: '/routines', active: (pathname.startsWith('/routines'))},
+    {label: 'Routines', icon: <Compliance />, href: '/routines', active: (pathname.startsWith('/routines'))},
     {label: 'Account', icon: <User />, href: '/account', active: (pathname.startsWith('/account'))},
   ]
 
   const teamLinks = [
     {label: 'Tasks', icon: <Checkmark />, href: '/', active: (pathname === '/')},
-    {label: 'Routines', icon: <Notes />, href: '/routines', active: (pathname.startsWith('/routines'))},
+    {label: 'Routines', icon: <Compliance />, href: '/routines', active: (pathname.startsWith('/routines'))},
     {label: 'Team', icon: <Group />, href: '/roles', active: (pathname.startsWith('/roles'))},
     {label: 'Account', icon: <Organization />, href: '/account', active: (pathname.startsWith('/team'))},
   ]

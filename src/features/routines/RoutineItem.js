@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Box, Menu, Text } from 'grommet';
-import { Checkmark, FormEdit, FormTrash, More } from 'grommet-icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectRoutineById } from './routinesSlice';
 import { push } from 'connected-react-router';
+import { Box, Menu, Text } from 'grommet';
+import { Compliance, FormEdit, FormTrash, More } from 'grommet-icons';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import RoutineDelete from './RoutineDelete';
+import { selectRoutineById } from './routinesSlice';
 
 
 const RoutineItem = ({id}) => {
@@ -30,7 +30,7 @@ const RoutineItem = ({id}) => {
                 fill
                 onClick={() => dispatch(push(`/routines/${id}`))}
             >
-                <Checkmark /><Text>{routine.name}</Text>
+                <Compliance /><Text>{routine.name}</Text>
             </Box>
             <Menu
                 size="small"
