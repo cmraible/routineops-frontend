@@ -14,10 +14,10 @@ describe('Login Options page', () => {
             // Check page title
             cy.title().should('eq', 'Login')
 
-            // Check signup link
-            cy.contains('Sign up for Routine Ops')
-                .should('have.attr', 'href', '/signup')
-                .should('be.visible');
+            // // Check signup link
+            // cy.contains('Sign up for Routine Ops')
+            //     .should('have.attr', 'href', '/signup')
+            //     .should('be.visible');
 
             // Check the logo
             cy.get('img[alt="logo-square"')

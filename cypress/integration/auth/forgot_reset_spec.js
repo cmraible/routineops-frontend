@@ -19,10 +19,10 @@ describe('Reset password page', () => {
             .should('have.attr', 'href', '/login')
             .should('be.visible');
 
-            // Check signup link
-            cy.contains('Sign up for Routine Ops')
-                .should('have.attr', 'href', '/signup')
-                .should('be.visible');
+            // // Check signup link
+            // cy.contains('Sign up for Routine Ops')
+            //     .should('have.attr', 'href', '/signup')
+            //     .should('be.visible');
 
             // Check password inputs
             cy.get('input[name="new_password1"]')
@@ -68,6 +68,10 @@ describe('Reset password page', () => {
     });
 
     it('does not accept invalid token', () => {
+        cy.intercept('POST', '**/api/auth/password/reset/confirm**', {
+            statusCode: 400,
+            body: {"uid":["Invalid value"]}
+        });
 
         // Type in email and submit form
         cy.get('input[name="new_password1"]').type('password1234');

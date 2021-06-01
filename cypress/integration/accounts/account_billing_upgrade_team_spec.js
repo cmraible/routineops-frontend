@@ -10,7 +10,10 @@ describe('Upgrade to Team', () => {
     sizes.forEach((size) => {
         it(`renders properly on ${size} screen`, () => {
             cy.viewport(size);
-            cy.visit('/account/billing/upgradeTeam');
+            cy.intercept('GET', '**/prices/**', { fixture: 'fetchPrice.json'});
+            cy.intercept('POST', '**/upcoming_invoice**', { fixture: 'fetchUpcomingInvoice.json' });
+            cy.intercept('GET', '**/accounts/**', {fixture: 'accountFree.json'});
+            cy.visit('/account/billing/upgradeTeam/price_1IdVRJJaJXMgpjCHIyNe5LQU');
 
             // Check page title
             cy.title().should('eq', 'Account')
@@ -24,12 +27,14 @@ describe('Upgrade to Team', () => {
     });
 
     it('successfully upgrades to team', () => {
-        cy.clock()
+        cy.intercept('GET', '**/prices/**', { fixture: 'fetchPrice.json'});
+        cy.intercept('POST', '**/upcoming_invoice**', { fixture: 'fetchUpcomingInvoice.json' });
+        cy.intercept('GET', '**/accounts/**', {fixture: 'accountFree.json'});
         cy.intercept('POST', '**/api/accounts/1/create_subscription', {
             fixture: 'accountTeam.json'
         });
         cy.intercept('GET', '**elements.event.load**').as('stripe');
-        cy.visit('/account/billing/upgradeTeam');
+        cy.visit('/account/billing/upgradeTeam/price_1IdVRJJaJXMgpjCHIyNe5LQU');
         cy.contains('Continue').click();
         cy.wait('@stripe');
         cy.get('.__PrivateStripeElement > iframe')
@@ -39,17 +44,19 @@ describe('Upgrade to Team', () => {
         });
         cy.get('[data-cy="upgrade-form"]').submit();
         cy.get('[data-cy="success-message"]').contains('Account successfully upgraded');
-        cy.tick(10000)
 
     });
 
     it('displays API errors for failed credit card', () => {
+        cy.intercept('GET', '**/prices/**', { fixture: 'fetchPrice.json'});
+        cy.intercept('POST', '**/upcoming_invoice**', { fixture: 'fetchUpcomingInvoice.json' });
+        cy.intercept('GET', '**/accounts/**', {fixture: 'accountFree.json'});
         cy.intercept('POST', '**/api/accounts/1/create_subscription', {
             statusCode: 402,
             body: {'credit-card': ["Your card was declined."]}
         });
         cy.intercept('GET', '**elements.event.load**').as('stripe');
-        cy.visit('/account/billing/upgradeTeam');
+        cy.visit('/account/billing/upgradeTeam/price_1IdVRJJaJXMgpjCHIyNe5LQU');
         cy.contains('Continue').click();
         cy.wait('@stripe');
         cy.get('.__PrivateStripeElement > iframe')
@@ -62,11 +69,14 @@ describe('Upgrade to Team', () => {
     });
 
     it('requires the credit card number', () => {
+        cy.intercept('GET', '**/prices/**', { fixture: 'fetchPrice.json'});
+        cy.intercept('POST', '**/upcoming_invoice**', { fixture: 'fetchUpcomingInvoice.json' });
+        cy.intercept('GET', '**/accounts/**', {fixture: 'accountFree.json'});
         cy.intercept('POST', '**/api/accounts/1/create_subscription', {
             fixture: 'accountTeam.json'
         });
         cy.intercept('GET', '**elements.event.load**').as('stripe');
-        cy.visit('/account/billing/upgradeTeam');
+        cy.visit('/account/billing/upgradeTeam/price_1IdVRJJaJXMgpjCHIyNe5LQU');
         cy.contains('Continue').click();
         cy.wait('@stripe');
         cy.get('[data-cy="upgrade-form"]').submit();

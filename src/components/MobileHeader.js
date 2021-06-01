@@ -42,7 +42,7 @@ const MobileHeader = ({ action, previous, title, header}) => {
             </Box>
             {(action &&
                 <Box gridArea="action" align="end" justify="center">
-                    <Button {...action} label={undefined} data-cy="action" />
+                    <Button {...action} primary={false} label={undefined} data-cy="action" />
                 </Box>
             )}
             </Grid>

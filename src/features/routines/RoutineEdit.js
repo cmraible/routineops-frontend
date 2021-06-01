@@ -14,20 +14,20 @@ import Spinner from '../../components/Spinner';
 import SubmitButton from '../../components/SubmitButton';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
-import { flattenErrors, defaultTaskLayerParams } from '../../utils';
+import { flattenErrors, defaultLayerParams } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
 import { fetchRoles } from '../roles/rolesSlice';
-import { fetchTask, updateTask } from './tasksSlice';
-import { push, goBack } from 'connected-react-router';
+import { fetchRoutine, updateRoutine } from './routinesSlice';
+import { push } from 'connected-react-router';
 import RRule from 'rrule';
 import { DateTime } from 'luxon';
 
 
-const TaskEdit = ({ match, taskLayers }) => {
+const RoutineEdit = ({ match, layers }) => {
   const dispatch = useDispatch()
-  const { taskId } = match.params;
+  const { routineId } = match.params;
   const user = useSelector(selectLoggedInUser)
   const account = useSelector(selectUserAccount);
 
@@ -40,7 +40,7 @@ const TaskEdit = ({ match, taskLayers }) => {
 
   useEffect(() => {
     dispatch(fetchAccount(user.account))
-    const setTaskValue = (value) => {
+    const setRoutineValue = (value) => {
       console.log(value)
       setValue({
         id: value.id,
@@ -62,31 +62,31 @@ const TaskEdit = ({ match, taskLayers }) => {
     const fetch = async () => {
       setFetchStatus('pending');
       setFetchErrors({});
-      const taskAction = await dispatch(fetchTask(taskId));
+      const routineAction = await dispatch(fetchRoutine(routineId));
       const roleAction = await dispatch(fetchRoles());
-      if (fetchTask.fulfilled.match(taskAction) && fetchRoles.fulfilled.match(roleAction)) {
-        setTaskValue(taskAction.payload);
+      if (fetchRoutine.fulfilled.match(routineAction) && fetchRoles.fulfilled.match(roleAction)) {
+        setRoutineValue(routineAction.payload);
         setFetchStatus('succeeded');
       } else {
           setFetchStatus('failed');
-          if (taskAction.payload) {
-            setFetchErrors(flattenErrors(taskAction.payload))
+          if (routineAction.payload) {
+            setFetchErrors(flattenErrors(routineAction.payload))
           } else if (roleAction.payload) {
             setFetchErrors(flattenErrors(roleAction.payload))
-          } else if (taskAction.error) {
-            setFetchErrors({'non_field_errors': taskAction.error.message})
+          } else if (routineAction.error) {
+            setFetchErrors({'non_field_errors': routineAction.error.message})
           } else if (roleAction.error) {
             setFetchErrors({'non_field_errors': roleAction.error.message})
           } else {
-            setFetchErrors({'non_field_errors': 'Unable to fetch task.'})
+            setFetchErrors({'non_field_errors': 'Unable to fetch routine.'})
           }
       }
     }
     fetch();
-  }, [dispatch, taskId, setValue, user.account]);
+  }, [dispatch, routineId, setValue, user.account]);
 
   const handleSubmit = async () => {
-    const taskData = {
+    const routineData = {
       id: value.id,
       name: value.name,
       description: value.description,
@@ -112,10 +112,10 @@ const TaskEdit = ({ match, taskLayers }) => {
     }
     setUpdateStatus('pending');
     setUpdateErrors({});
-    const resultAction = await dispatch(updateTask(taskData))
-    if (updateTask.fulfilled.match(resultAction)) {
+    const resultAction = await dispatch(updateRoutine(routineData))
+    if (updateRoutine.fulfilled.match(resultAction)) {
       setUpdateStatus('succeeded');
-      dispatch(push(`/tasks/${taskId}`))
+      dispatch(push(`/routines/${routineId}`))
     } else {
       setUpdateStatus('failed')
       if (resultAction.payload) {
@@ -130,7 +130,7 @@ const TaskEdit = ({ match, taskLayers }) => {
     if (formValue.label !== value.label) {
       // user changed the frequency label
       // get the default parameters, generate rrule
-      const params = defaultTaskLayerParams(formValue.label, account)
+      const params = defaultLayerParams(formValue.label, account)
       const rule = new RRule(params)
       setValue({
         ...value,
@@ -148,7 +148,7 @@ const TaskEdit = ({ match, taskLayers }) => {
     } else {
       // user did not change the frequency label
       // generate the rrule from user provided inputs
-      const defaultParams = defaultTaskLayerParams(formValue.label, account)
+      const defaultParams = defaultLayerParams(formValue.label, account)
       let { dtstart } = defaultParams || {dtstart: null}
       if (['Daily', 'Weekly', 'Bi-Weekly'].includes(formValue.label)) {
         // Time is an input. Calculate the proper dtstart based on user input
@@ -182,15 +182,15 @@ const TaskEdit = ({ match, taskLayers }) => {
       <Box pad="medium">
         <Error message={(updateErrors && updateErrors['non_field_errors']) ? updateErrors['non_field_errors'] : undefined} />
         <Form
-          id="task-form"
+          id="routine-form"
           value={value}
           onChange={handleChange}
           onSubmit={handleSubmit}
           errors={updateErrors}
         >
             <Box>
-              <InlineInput name="name" placeholder="Task Name" size="xxlarge" required />
-              <InlineTextArea placeholder="Task Description" name="description" size="medium" />
+              <InlineInput name="name" placeholder="Routine Name" size="xxlarge" required />
+              <InlineTextArea placeholder="Routine Description" name="description" size="medium" />
             </Box>
             { // Only display the Role select if the account has a team subscription
               account.type === 'Team' && (
@@ -255,18 +255,18 @@ const TaskEdit = ({ match, taskLayers }) => {
   return (
     <Page
       pad="small"
-      title="Edit Task"
+      title="Edit Routine"
       actionn={{
         icon: <Checkmark />,
-        label: "Save Task",
+        label: "Save Routine",
         type: "submit",
-        form: "task-form"
+        form: "routine-form"
       }}
-      previous={() => dispatch(goBack())}
+      previous={() => dispatch(push(`/routines/${routineId}`))}
     >
       {content}
     </Page>
   )
 };
 
-export default TaskEdit;
+export default RoutineEdit;

@@ -1,6 +1,6 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
-import { fetchTasks } from '../tasks/tasksSlice';
+import { fetchRoutines } from '../routines/routinesSlice';
 import { logout } from '../auth/authSlice';
 
 // Adapter to normalize and sort response data
@@ -55,7 +55,7 @@ export const checksSlice = createSlice({
             state.status = 'succeeded'
             checksAdapter.upsertMany(state, action.payload)
         },
-        [fetchTasks.fulfilled]: (state, action) => {
+        [fetchRoutines.fulfilled]: (state, action) => {
             const checks = action.payload.reduce((acc, cur) => {
                 cur.checks.forEach(check => acc.push(check));
                 return acc
@@ -81,6 +81,6 @@ export const {
     selectIds: selectCheckIds
   } = checksAdapter.getSelectors(state => state.checks)
 
-export const selectChecksForTask = (state, taskId) => {
-    return selectAllChecks(state).filter(check => check.task === taskId)
+export const selectChecksForRoutine = (state, routineId) => {
+    return selectAllChecks(state).filter(check => check.routine === routineId)
 }

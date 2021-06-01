@@ -22,8 +22,8 @@ const WeekView = ({ workingDays, interval, data }) => {
     {
       property: 'key',
       primary: true,
-      header: (<Box pad="small">Tasks</Box>),
-      render: (instance) => (<Box pad="small" style={{whiteSpace: 'nowrap'}}>{(instance && instance.task) ? instance.task.name : ''}</Box>)
+      header: (<Box pad="small">Routines</Box>),
+      render: (instance) => (<Box pad="small" style={{whiteSpace: 'nowrap'}}>{(instance && instance.routine) ? instance.routine.name : ''}</Box>)
     },
     // {
     //   property: 'role',
@@ -43,8 +43,8 @@ const WeekView = ({ workingDays, interval, data }) => {
         property: date.toFormat('EEE'),
         header: <Box pad="small">{date.toFormat('EEEEE')}</Box>,
         render: (instance) => {
-          const taskInstances = instance.instances.filter((instance) => interval.contains(DateTime.fromISO(instance.due)) )
-          return (<WeekViewCell date={date} instances={taskInstances} />)
+          const tasks = instance.instances.filter((instance) => interval.contains(DateTime.fromISO(instance.due)) )
+          return (<WeekViewCell date={date} instances={tasks} />)
         },
       }
 

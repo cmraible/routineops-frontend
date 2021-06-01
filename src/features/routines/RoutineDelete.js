@@ -3,18 +3,18 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../../components/Message';
 import Modal from '../../components/Modal';
-import { deleteTask, selectTaskById } from './tasksSlice';
+import { deleteRoutine, selectRoutineById } from './routinesSlice';
 
-const TaskDelete = ({ id, close }) => {
+const RoutineDelete = ({ id, close }) => {
 
     const dispatch = useDispatch();
-    const task = useSelector(state => selectTaskById(state, id))
+    const routine = useSelector(state => selectRoutineById(state, id))
 
     const [errors, setErrors] = useState();
 
     const handleSubmit = async () => {
-        const resultAction = await dispatch(deleteTask(id));
-        if (deleteTask.fulfilled.match(resultAction)) {
+        const resultAction = await dispatch(deleteRoutine(id));
+        if (deleteRoutine.fulfilled.match(resultAction)) {
             close()
         } else {
             setErrors(true)
@@ -24,11 +24,11 @@ const TaskDelete = ({ id, close }) => {
     return (
         <Modal
             close={close}
-            title={`Are you sure you want to delete the task: ${task.name}?`}
+            title={`Are you sure you want to delete the routine: ${routine.name}?`}
         >
-            {(errors && <Message type="error" message="Unable to delete task at this time." />)}
+            {(errors && <Message type="error" message="Unable to delete routine at this time." />)}
             <Box width="large" pad="medium">
-                <Message type="warning" message="Deleting this task will also delete all past and future task instances associated with the task. This action cannot be undone." />
+                <Message type="warning" message="Deleting this routine will also delete all past and future tasks associated with the routine. This action cannot be undone." />
             </Box>
             <Box
                 direction="row"
@@ -45,7 +45,7 @@ const TaskDelete = ({ id, close }) => {
                     <Button
                         primary
                         size="large"
-                        label="Delete Task"
+                        label="Delete Routine"
                         onClick={handleSubmit}
                         color="status-critical"
                     />
@@ -54,4 +54,4 @@ const TaskDelete = ({ id, close }) => {
     )
 }
 
-export default TaskDelete;
+export default RoutineDelete;

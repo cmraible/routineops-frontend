@@ -9,7 +9,7 @@ import MonthMultipleSelect from './MonthMultipleSelect';
 import TimeMaskedInput from './TimeMaskedInput';
 import { DateTime } from 'luxon';
 
-const TaskLayerForm = ({ account, task, taskLayer, saveFunction, addFunction, successFunction, roles }) => {
+const LayerForm = ({ account, routine, layer, saveFunction, addFunction, successFunction, roles }) => {
 
   const hourStart = DateTime.local().setZone('utc', { keepLocalTime: true }).startOf('hour').toJSDate()
   const dayEnd = DateTime.local().setZone('utc', { keepLocalTime: true }).endOf('day').toJSDate()
@@ -19,21 +19,21 @@ const TaskLayerForm = ({ account, task, taskLayer, saveFunction, addFunction, su
   const tz = DateTime.local().zoneName
 
   const [value, setValue] = useState({
-    id: (taskLayer) ? taskLayer.id : null,
+    id: (layer) ? layer.id : null,
     account: account.id,
-    role: (taskLayer) ? taskLayer.role : undefined,
-    task: task.id,
-    label: (taskLayer) ? taskLayer.label : '',
-    frequency: (taskLayer) ? taskLayer.frequency : undefined,
-    byhour: (taskLayer) ? taskLayer.byhour : [],
-    time: (taskLayer) ? taskLayer.time : '',
-    byweekday: (taskLayer && taskLayer.byweekday) ? taskLayer.byweekday : [],
-    bymonthday: (taskLayer) ? taskLayer.bymonthday : undefined,
-    bymonth: (taskLayer) ? taskLayer.bymonth : undefined,
+    role: (layer) ? layer.role : undefined,
+    routine: routine.id,
+    label: (layer) ? layer.label : '',
+    frequency: (layer) ? layer.frequency : undefined,
+    byhour: (layer) ? layer.byhour : [],
+    time: (layer) ? layer.time : '',
+    byweekday: (layer && layer.byweekday) ? layer.byweekday : [],
+    bymonthday: (layer) ? layer.bymonthday : undefined,
+    bymonth: (layer) ? layer.bymonth : undefined,
   });
 
   const addOrSave = (data) => {
-    (taskLayer && taskLayer.role) ? saveFunction(data) : addFunction(data);
+    (layer && layer.role) ? saveFunction(data) : addFunction(data);
   }
 
   const submitForm = (value) => {
@@ -247,4 +247,4 @@ const TaskLayerForm = ({ account, task, taskLayer, saveFunction, addFunction, su
   )
 };
 
-export default TaskLayerForm;
+export default LayerForm;

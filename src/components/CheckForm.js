@@ -16,7 +16,7 @@ const CheckForm = ({account, check, onSubmit, onDelete }) => {
     account: account.id,
     prompt: (check) ? check.prompt : '',
     resultType: (check) ? check.resultType : 'BOOLEAN',
-    task: (check) ? check.task : undefined
+    routine: (check) ? check.routine : undefined
   })
 
   return (

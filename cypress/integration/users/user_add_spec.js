@@ -11,6 +11,7 @@ describe('User Add Page', () => {
     const sizes = Cypress.config('sizes')
     sizes.forEach((size) => {
         it(`renders properly on ${size} screen`, () => {
+            cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
             // Visit the invite page
             cy.viewport(size);
             cy.visit('/users/invite');
@@ -19,20 +20,25 @@ describe('User Add Page', () => {
             cy.title().should('eq', 'Invite User');
 
             // Check the action buttons are visible
-            cy.get('[data-cy="previous"]').should('be.visible');
+            cy.get('[data-cy="close-modal"]').should('be.visible');
 
             // Check the form is displaying properly
             cy.contains('Email Address').should('be.visible');
             cy.get('input[name="email_address"]').should('be.visible');
             cy.get('button[type="submit"]').should('be.visible');
 
-            // Check the tab bar displays everything it should
-            cy.get('[data-cy="site-navigation"]').should('be.visible');
+            // // Check the tab bar displays everything it should
+            // cy.get('[data-cy="site-navigation"]').should('be.visible');
 
         });
     });
 
     it('successfully creates a new invitation', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
+        cy.intercept('POST', '**/api/invitations**', { 
+            statusCode: 201,
+            body: {"uuid":"deddbf67-c486-4d4c-97dd-4bd899c684ab","sender":1,"email_address":"admin@routineops.com","account":1,"completed":null,"created":"2021-05-30T23:11:42.298307Z"}
+        });
         cy.visit('/users/invite');
         // Type in an email address
         cy.get('input[name="email_address"]').click().type('admin@routineops.com', {force: true});
@@ -40,13 +46,8 @@ describe('User Add Page', () => {
         cy.contains('Invite successfully sent to admin@routineops.com.');
     });
 
-    it('links back to the team page', () => {
-        cy.visit('/users/invite');
-        cy.get('[data-cy="previous"]').click();
-        cy.location('pathname').should('eq', '/team');
-    });
-
     it('validates the email address', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.visit('/users/invite');
         // Type in an email address
         cy.get('input[name="email_address"]').click().type('admin@routineops', {force: true});
@@ -55,6 +56,7 @@ describe('User Add Page', () => {
     });
 
     it('shows error message if unable to add the invitation', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('**/api/invitations/**', (req) => {
             req.destroy();
         });

@@ -8,6 +8,7 @@ describe('User Detail Page', () => {
     const sizes = Cypress.config('sizes')
     sizes.forEach((size) => {
         it(`renders properly on ${size} screen`, () => {
+            cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
             cy.intercept('GET', '**/api/users/1', {
                 fixture: 'user.json'
             });
@@ -36,6 +37,7 @@ describe('User Detail Page', () => {
     });
 
     it('successfully adds and deletes a userRole', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
         cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.intercept('GET', '**/api/userroles/**', {
@@ -70,16 +72,18 @@ describe('User Detail Page', () => {
     })
 
     it('links back to users page', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
         cy.intercept('GET', '**/users', { fixture: 'users.json' });
         cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.intercept('GET', '**/api/userroles', {});
         cy.visit('/users/1')
         cy.get('[data-cy="previous"]').click();
-        cy.location('pathname').should('eq', '/users');
+        cy.location('pathname').should('eq', '/account/users');
     });
 
     it('links back to edit page', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
         cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.intercept('GET', '**/api/userroles', {});
@@ -89,6 +93,7 @@ describe('User Detail Page', () => {
     });
 
     it('shows error message if unable to fetch user', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.intercept('GET', '**/api/userroles/**', {
             body: {}
@@ -100,6 +105,7 @@ describe('User Detail Page', () => {
     });
 
     it('shows error message if unable to add user role', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/users/1', {
             fixture: 'user.json'
         });

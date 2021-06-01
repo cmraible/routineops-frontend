@@ -3,7 +3,7 @@ import { Checkmark, Close, Subtract } from 'grommet-icons';
 import React from 'react';
 
 
-const MonthViewCell = ({ date, taskLayer, status }) => {
+const MonthViewCell = ({ date, layer, status }) => {
   
   switch(status) {
     case 'OK':

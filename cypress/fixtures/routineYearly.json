@@ -1,13 +1,13 @@
 {
     "id": 6,
     "account": 1,
-    "name": "Yearly Task",
-    "description": "This is a fake task",
+    "name": "Yearly Routine",
+    "description": "This is a fake routine",
     "checks": [
         {
             "id": 6,
             "task": 6,
-            "prompt": "Did you Fake Task?",
+            "prompt": "Did you Fake routine?",
             "resultType": "BOOLEAN",
             "account": 1
         }

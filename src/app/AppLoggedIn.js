@@ -9,19 +9,19 @@ import MobileFooter from '../components/MobileFooter';
 import RoleDetail from '../features/roles/RoleDetail';
 import RoleEdit from '../features/roles/RoleEdit';
 import RoleList from '../features/roles/RoleList';
-import TaskInstance from '../features/taskInstances/TaskInstance';
-import Todo from '../features/taskInstances/Todo';
-import TaskAdd from '../features/tasks/TaskAdd';
-import TaskDetail from '../features/tasks/TaskDetail';
-import TaskEdit from '../features/tasks/TaskEdit';
+import Task from '../features/tasks/Task';
 import TaskList from '../features/tasks/TaskList';
+import RoutineAdd from '../features/routines/RoutineAdd';
+import RoutineDetail from '../features/routines/RoutineDetail';
+import RoutineEdit from '../features/routines/RoutineEdit';
+import RoutineList from '../features/routines/RoutineList';
 import UserAdd from '../features/users/UserAdd';
 import UserDetail from '../features/users/UserDetail';
 import UserEdit from '../features/users/UserEdit';
 import UserList from '../features/users/UserList';
 import { selectLoggedInUser } from '../features/auth/authSlice';
 import { selectUserAccount } from '../features/accounts/accountsSlice';
-import { ChatOption, Checkmark, Group, Task, User, Organization } from 'grommet-icons';
+import { ChatOption, Checkmark, Group, Notes, User, Organization } from 'grommet-icons';
 
 import { fetchAccount } from '../features/accounts/accountsSlice';
 
@@ -33,14 +33,14 @@ const AppLoggedIn = () => {
   const account = useSelector(selectUserAccount);
 
   const individualLinks = [
-    {label: 'Tasks', icon: <Checkmark />, href: '/tasks', active: (pathname.startsWith('/tasks'))},
-    {label: 'To do', icon: <Task />, href: '/', active: (pathname === '/' || pathname === '')},
+    {label: 'Tasks', icon: <Checkmark />, href: '/', active: (pathname === '/' || pathname === '')},
+    {label: 'Routines', icon: <Notes />, href: '/routines', active: (pathname.startsWith('/routines'))},
     {label: 'Account', icon: <User />, href: '/account', active: (pathname.startsWith('/account'))},
   ]
 
   const teamLinks = [
-    {label: 'Tasks', icon: <Checkmark />, href: '/tasks', active: (pathname.startsWith('/tasks'))},
-    {label: 'To do', icon: <Task />, href: '/', active: (pathname === '/')},
+    {label: 'Tasks', icon: <Checkmark />, href: '/', active: (pathname === '/')},
+    {label: 'Routines', icon: <Notes />, href: '/routines', active: (pathname.startsWith('/routines'))},
     {label: 'Team', icon: <Group />, href: '/roles', active: (pathname.startsWith('/roles'))},
     {label: 'Account', icon: <Organization />, href: '/account', active: (pathname.startsWith('/team'))},
   ]
@@ -55,15 +55,15 @@ const AppLoggedIn = () => {
   const mainSwitch = (
       <Switch>
         <Route path="/account" component={Account} />
-        <Route path="/" component={Todo} exact />
+        <Route path="/" component={TaskList} exact />
         <Route path="/roles" component={RoleList} exact />
         <Route path="/roles/:roleId" component={RoleDetail} exact />
         <Route path="/roles/:roleId/edit" component={RoleEdit} />
-        <Route path="/tasks/add" component={TaskAdd} exact />
-        <Route path="/tasks" component={TaskList} exact />
-        <Route path="/tasks/:taskId" component={TaskDetail} exact />
-        <Route path="/tasks/:taskId/edit" component={TaskEdit} exact />
-        <Route path="/taskInstance/:taskInstanceId" component={TaskInstance} exact />
+        <Route path="/routines/add" component={RoutineAdd} exact />
+        <Route path="/routines" component={RoutineList} exact />
+        <Route path="/routines/:routineId" component={RoutineDetail} exact />
+        <Route path="/routines/:routineId/edit" component={RoutineEdit} exact />
+        <Route path="/tasks/:taskId" component={Task} exact />
         <Route path="/users" component={UserList} exact />
         <Route path="/users/invite" component={UserAdd} exact />
         <Route path="/users/:userId" component={UserDetail} exact />

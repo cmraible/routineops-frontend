@@ -3,13 +3,11 @@
     "viewportWidth": 375,
     "viewportHeight": 812,
     "watchForFileChanges": true,
+    "sizes": ["iphone-6", "iphone-x", "macbook-13"],
     "env": {
         "REACT_APP_API_HOST": "http://localhost:8000"
     },
-    "sizes": ["iphone-6", "iphone-x", "macbook-13"],
     "defaultCommandTimeout": 4000,
     "videoCompression": false,
-    "chromeWebSecurity": false,
-    "experimentalComponentTesting": true,
-    "componentFolder": "cypress/components"
+    "chromeWebSecurity": false
 }

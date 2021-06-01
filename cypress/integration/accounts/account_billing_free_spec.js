@@ -19,12 +19,14 @@ describe('Account Billing Free Page', () => {
 
     it('links to upgrade Team page', () => {
         cy.intercept('GET', '**/api/accounts/1**', { fixture: 'accountFree.json'});
+        cy.intercept('GET', '**/prices/**', { fixture: 'fetchPrice.json'});
+        cy.intercept('POST', '**/upcoming_invoice**', { fixture: 'fetchUpcomingInvoice.json' });
         cy.login();
         cy.visit('/account/billing')
         // Check page title
         cy.title().should('eq', 'Account')
 
         cy.contains('Upgrade to Team').should('be.visible').click();
-        cy.location('pathname').should('eq', '/account/billing/upgradeTeam');
+        cy.location('pathname').should('contain', '/account/billing/upgradeTeam');
     });
 });

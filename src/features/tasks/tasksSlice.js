@@ -17,65 +17,38 @@ export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (data, { di
     return response.data
 });
 
-export const fetchTask = createAsyncThunk('tasks/fetchTask', async (taskId, { dispatch, getState, rejectWithValue }) => {
-    try {
-        const client = getClient(dispatch, getState);
-        const response = await client.get(`/tasks/${taskId}`);
-        return response.data
-    } catch (err) {
-        if (!err.response) {
-            throw err
-        }
-        return rejectWithValue(err.response.data)
-    }
+export const fetchTask = createAsyncThunk('tasks/fetchTask', async (taskId, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
+    const response = await client.get(`/tasks/${taskId}`);
+    return response.data
 });
 
-export const addNewTask = createAsyncThunk('tasks/addNewTask', async (taskData, { dispatch, getState, rejectWithValue }) => {
-    try {
-        const client = getClient(dispatch, getState);
-        const response = await client.post('/tasks/', taskData)
-        console.log(response)
-        window.analytics.track('Added a task.')
-        return response.data
-    } catch (err) {
-        console.log(err)
-        if (!err.response) {
-            throw err
-        }
-        return rejectWithValue(err.response.data)
-    }
-})
+export const addNewTask = createAsyncThunk('tasks/addNewTask', async (taskData, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
+    const response = await client.post('/tasks/', taskData)
+    return response.data
+});
 
-export const updateTask = createAsyncThunk('tasks/updateTask', async (taskData, { dispatch, getState, rejectWithValue }) => {
-    try {
-        const client = getClient(dispatch, getState);
-        const response = await client.patch(`/tasks/${taskData.id}/`, taskData)
-        window.analytics.track('Updated a task.')
-        return response.data
-    } catch (err) {
-        if (!err.response) {
-            throw err
-        }
-        return rejectWithValue(err.response.data)
-    }
-})
+export const updateTask = createAsyncThunk('tasks/updateTask', async (taskData, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
+    const response = await client.patch(`/tasks/${taskData.id}/`, taskData)
+    return response.data
+});
 
-export const deleteTask = createAsyncThunk('tasks/deleteTask', async (taskId, { dispatch, getState, rejectWithValue }) => {
-    try {
-        const client = getClient(dispatch, getState);
-        const response = await client.delete(`/tasks/${taskId}/`)
-        window.analytics.track('Deleted a task.')
-        if (response.status === 204) {
-            return taskId
-        }
-    } catch (err) {
-        if (!err.response) {
-            throw err
-        }
-        return rejectWithValue(err.response.data)
-    }
+export const deleteTask = createAsyncThunk('tasks/deleteTask', async (taskId, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
+    const response = await client.delete(`/tasks/${taskId}/`)
+    return response.data
+});
 
-})
+export const completeTask = createAsyncThunk('tasks/completeTask', async (data, { dispatch, getState }) => {
+    const client = getClient(dispatch, getState);
+    const task = data[0]
+    const results = data[1]
+    const response = await client.post(`/tasks/${task.id}/complete/`, results)
+    window.analytics.track('Completed a task.');
+    return response.data
+});
 
 // Create slice
 export const tasksSlice = createSlice({
@@ -83,11 +56,17 @@ export const tasksSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [fetchTasks.fulfilled]: tasksAdapter.setAll,
+        [fetchTasks.fulfilled]: (state, action) => {
+            tasksAdapter.setAll(state, action.payload)
+        },
         [fetchTask.fulfilled]: tasksAdapter.upsertOne,
         [addNewTask.fulfilled]: tasksAdapter.addOne,
-        [updateTask.fulfilled]: (state, { payload }) => {
-            const { id, ...changes} = payload
+        [updateTask.fulfilled]: (state, { payload}) => {
+            const { id, ...changes } = payload
+            tasksAdapter.updateOne(state, {id, changes});
+        },
+        [completeTask.fulfilled]: (state, { payload}) => {
+            const { id, ...changes } = payload
             tasksAdapter.updateOne(state, {id, changes});
         },
         [deleteTask.fulfilled]: tasksAdapter.removeOne,
@@ -104,5 +83,5 @@ export const {
     selectAll: selectAllTasks,
     selectById: selectTaskById,
     selectIds: selectTaskIds,
-    selectEntities: selectTaskEntities
+
   } = tasksAdapter.getSelectors(state => state.tasks)

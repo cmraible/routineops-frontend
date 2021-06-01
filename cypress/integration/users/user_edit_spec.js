@@ -8,6 +8,7 @@ describe('User Edit Page', () => {
     const sizes = Cypress.config('sizes')
     sizes.forEach((size) => {
         it(`renders properly on ${size} screen`, () => {
+            cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
             cy.intercept('GET', '**/api/users/1', {
                 fixture: 'user.json'
             });
@@ -34,6 +35,7 @@ describe('User Edit Page', () => {
     });
 
     it('successfully edits the user', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         var i = 0
         cy.intercept('GET', '**/api/users/1**', (req) => {
             if (i === 0) {
@@ -80,6 +82,7 @@ describe('User Edit Page', () => {
     });
 
     it('links back to the user page', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
         cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.intercept('GET', '**/api/userroles', {});
@@ -90,6 +93,7 @@ describe('User Edit Page', () => {
     })
 
     it('validates the email address', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
         cy.visit('users/1/edit');
 
@@ -102,6 +106,7 @@ describe('User Edit Page', () => {
     });
 
     it('displays field level API errors', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
         cy.intercept('PATCH', '**/api/users/1', {
             body: { first_name: ["Ensure this field has no more than 150 characters."]},
@@ -120,6 +125,7 @@ describe('User Edit Page', () => {
     });
 
     it('shows network error message if unable to reach server (update)', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
         cy.visit('users/1/edit');
         cy.intercept('**/api/users/**', req => req.destroy());
@@ -131,6 +137,7 @@ describe('User Edit Page', () => {
     });
 
     it('shows network error message if unable to reach server (fetch)', () => {
+        cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('**/api/users/**', req => req.destroy());
         cy.visit('/users/1/edit');
         cy.contains('Network Error')

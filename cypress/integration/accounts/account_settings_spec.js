@@ -6,6 +6,8 @@ describe('Account Settings Page', () => {
     sizes.forEach((size) => {
         it(`renders properly on ${size} screen`, () => {
             cy.login();
+            cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
+
             cy.visit('/account/settings');
             cy.viewport(size);
             // Check page title
@@ -25,6 +27,7 @@ describe('Account Settings Page', () => {
 
     it('successfully toggles dark mode', () => {
         cy.login();
+        cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
         cy.visit('/account/settings');
         cy.contains('Dark Mode').click();
         cy.window()
@@ -39,6 +42,7 @@ describe('Account Settings Page', () => {
         cy.intercept('PATCH', '**/api/accounts/1**', {
             fixture: 'accountWeekstartEdited.json'
         });
+        cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
         cy.login();
         cy.visit('/account/settings');
         cy.contains('Monday').click();
@@ -56,6 +60,7 @@ describe('Account Settings Page', () => {
     });
 
     it('shows api errors for updating weekstart', () => {
+        cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
         cy.intercept('PATCH', '**/api/accounts/1**', {
             statusCode: 400,
             body: {'wkst': ["Error updating weekstart."]}
@@ -71,6 +76,7 @@ describe('Account Settings Page', () => {
     });
 
     it('shows network errors for updating weekstart', () => {
+        cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
         cy.intercept('PATCH', '**/api/accounts/1**', req => req.destroy());
         cy.login();
         cy.visit('/account/settings');
@@ -83,6 +89,7 @@ describe('Account Settings Page', () => {
     });
 
     it('successfully updates the working days', () => {
+        cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
         cy.intercept('PATCH', '**/api/accounts/1**', {
             fixture: 'accountWorkingDaysEdited.json'
         });
@@ -103,6 +110,7 @@ describe('Account Settings Page', () => {
     });
 
     it('shows API errors from updating working days', () => {
+        cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
         cy.intercept('PATCH', '**/api/accounts/1**', {
             statusCode: 400,
             body: {'working_days': ["Error updating working days."]}
@@ -119,6 +127,7 @@ describe('Account Settings Page', () => {
     });
 
     it('shows network errors for updating working days', () => {
+        cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
         cy.intercept('PATCH', '**/api/accounts/1**', req => req.destroy());
         cy.login();
         cy.visit('/account/settings');

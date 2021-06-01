@@ -1,27 +1,27 @@
 {
-    "id": 2,
+    "id": 3,
     "account": 1,
-    "name": "Daily Task",
-    "description": "This is a fake task",
+    "name": "Weekly Routine",
+    "description": "This is a fake routine",
     "checks": [
         {
-            "id": 2,
-            "task": 2,
-            "prompt": "Did you Fake Task?",
+            "id": 3,
+            "task": 3,
+            "prompt": "Did you Fake routine?",
             "resultType": "BOOLEAN",
             "account": 1
         }
     ],
     "layers": [
         {
-            "id": 2,
+            "id": 3,
             "account": 1,
             "role": 1,
-            "task": 2,
-            "recurrence": "DTSTART;TZID=America/Los_Angeles:20201216T235959\nRRULE:FREQ=DAILY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",
-            "label": "Daily",
-            "time": "11:59 PM",
-            "frequency": 3,
+            "task": 3,
+            "recurrence": "DTSTART;TZID=America/Los_Angeles:20201214T000000\nRRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",
+            "label": "Weekly",
+            "time": null,
+            "frequency": 2,
             "interval": 1,
             "byhour": null,
             "byweekday": [
@@ -37,7 +37,7 @@
             "byyearday": null,
             "bysetpos": null,
             "bymonth": [],
-            "dtstart": "2020-12-16T23:59:59.999000Z"
+            "dtstart": "2020-12-14T00:00:00Z"
         }
     ]
 }
