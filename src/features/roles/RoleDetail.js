@@ -54,7 +54,7 @@ const RoleDetail = ({match}) => {
 
   return (
     <Page
-      title={role.name}
+      title={role ? `Role: ${role.name}` : 'Role'}
       pad="small"
       action={{
         icon: <Edit />,

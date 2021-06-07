@@ -11,10 +11,10 @@ describe('User List page', () => {
             cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
             cy.intercept('GET', '**/api/users**', { fixture: 'users.json' });
             cy.viewport(size)
-            cy.visit('/account/users');
+            cy.visit('/team');
 
             // Check browser page title
-            cy.title().should('eq', 'Account');
+            cy.title().should('eq', 'Team');
 
             // Check the displayed page title
             cy.contains('Users').should('be.visible');
@@ -31,7 +31,7 @@ describe('User List page', () => {
     it('links to the invite user page', () => {
         cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/users**', { fixture: 'users.json' });
-        cy.visit('/account/users')
+        cy.visit('/team')
         cy.get('[data-cy="action"]').click();
         cy.contains('Invite User').should('be.visible');
         cy.contains('Send Invitation').should('be.visible');
@@ -43,7 +43,7 @@ describe('User List page', () => {
         cy.intercept('GET', '**/api/users/1', { fixture: 'user.json' });
         cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.intercept('GET', '**/api/userroles', {});
-        cy.visit('/account/users')
+        cy.visit('/team')
         cy.contains('Chris Raible').click()
         cy.location('pathname').should('eq', '/users/1');
     });
@@ -51,7 +51,7 @@ describe('User List page', () => {
     it('shows error message if unable to fetch users', () => {
         cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('**/api/users', req => req.destroy());
-        cy.visit('/account/users');
+        cy.visit('/team');
         cy.contains('Network Error')
             .should('be.visible');
     });

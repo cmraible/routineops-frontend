@@ -9,6 +9,8 @@ import NotFound from '../components/NotFound';
 import Account from '../features/accounts/Account';
 import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSlice';
 import { selectLoggedInUser } from '../features/auth/authSlice';
+import RoleDetail from '../features/roles/RoleDetail';
+import RoleEdit from '../features/roles/RoleEdit';
 import RoutineAdd from '../features/routines/RoutineAdd';
 import RoutineDetail from '../features/routines/RoutineDetail';
 import RoutineEdit from '../features/routines/RoutineEdit';
@@ -16,8 +18,7 @@ import RoutineList from '../features/routines/RoutineList';
 import Task from '../features/tasks/Task';
 import TaskList from '../features/tasks/TaskList';
 import Team from '../features/team/Team';
-import RoleDetail from '../features/roles/RoleDetail';
-import RoleEdit from '../features/roles/RoleEdit';
+import UserAdd from '../features/users/UserAdd';
 import UserDetail from '../features/users/UserDetail';
 import UserEdit from '../features/users/UserEdit';
 
@@ -61,6 +62,7 @@ const AppLoggedIn = () => {
         <Route path="/routines/:routineId" component={RoutineDetail} exact />
         <Route path="/routines/:routineId/edit" component={RoutineEdit} exact />
         <Route path="/tasks/:taskId" component={Task} exact />
+        <Route path="/users/invite" component={UserAdd} exact />
         <Route path="/users/:userId" component={UserDetail} exact />
         <Route path="/users/:userId/edit" component={UserEdit} exact />
         <Route path="/login">

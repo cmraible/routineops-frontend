@@ -23,7 +23,7 @@ const UserAvatar = ({ user, size }) => {
     const [colorNum, setColorNum] = useState();
     useEffect(() => {
         setColorNum(Math.round(rng()*100,0))
-    }, [user.email]);
+    }, [user.email, rng]);
 
     
     const background = colors[colorNum];

@@ -12,10 +12,10 @@ describe('Role List Page', () => {
             cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
             cy.viewport(size);
 
-            cy.visit('/roles');
+            cy.visit('/team/roles');
 
             // Check browser page title
-            cy.title().should('eq', 'Roles');
+            cy.title().should('eq', 'Team');
 
             // Check the displayed page title
             cy.contains('Roles').should('be.visible');
@@ -38,7 +38,7 @@ describe('Role List Page', () => {
             fixture: 'role.json',
             statusCode: 200
         });
-        cy.visit('/roles');
+        cy.visit('/team/roles');
         cy.get('input[name="name"]').type('CEO').type('{enter}');
         cy.contains('CEO').should('be.visible');
     });
@@ -54,7 +54,7 @@ describe('Role List Page', () => {
             statusCode: 204
         });
         // Pre-populate a role
-        cy.visit('/roles');
+        cy.visit('/team/roles');
         // Delete the role
         cy.get('[data-cy="action-menu-4"]').click();
         cy.contains('Delete').should('be.visible').click();
@@ -73,7 +73,7 @@ describe('Role List Page', () => {
         // Pre-populate a role
         cy.intercept('GET', '**/api/roles', { fixture: 'roles.json' });
         cy.intercept('GET', '**/api/roles/1', { fixture: 'role.json' });
-        cy.visit('/roles');
+        cy.visit('/team/roles');
         // Delete the role
         cy.get('[data-cy="action-menu-1"]').click();
         cy.contains('Edit').should('be.visible').click();
@@ -86,7 +86,7 @@ describe('Role List Page', () => {
         cy.intercept('GET', '**/api/roles', {
             body: {}
         });
-        cy.visit('/roles');
+        cy.visit('/team/roles');
         // Check the "No Roles Found" message
         cy.contains('You don\'t have any roles yet.').should('be.visible');
     });
@@ -96,7 +96,7 @@ describe('Role List Page', () => {
         cy.intercept('GET', '**/api/roles', {
             body: {}
         });
-        cy.visit('/roles');
+        cy.visit('/team/roles');
         cy.get('input[name="name"]').clear().type('{enter}');
         cy.contains('required');
     });
@@ -107,7 +107,7 @@ describe('Role List Page', () => {
             statusCode: 200,
         })
         cy.intercept('POST', '**/api/roles', req => req.destroy())
-        cy.visit('/roles');
+        cy.visit('/team/roles');
         cy.get('input[name="name"]').type('Fake role number 2').type('{enter}');
         cy.contains('Network Error')
             .should('be.visible');
@@ -116,7 +116,7 @@ describe('Role List Page', () => {
     it('shows error message if unable to fetch roles', () => {
         cy.intercept('GET', '**/api/accounts/**', {fixture: 'accountTeam.json' });
         cy.intercept('GET', '**/api/roles', req => req.destroy());
-        cy.visit('/roles');
+        cy.visit('/team/roles');
         cy.contains('Unable to fetch roles.')
             .should('be.visible');
     });
