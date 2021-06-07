@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, List } from 'grommet';
+import { Box, Button, List, Heading } from 'grommet';
 import { Add } from 'grommet-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllUsers, fetchUsers } from '../users/usersSlice';
@@ -7,13 +7,16 @@ import { flattenErrors } from '../../utils';
 import Spinner from '../../components/Spinner';
 import Error from '../../components/Error';
 import UserItem from '../users/UserItem';
+import InvitationItem from '../invitations/InvitationItem';
 import { push } from 'connected-react-router';
 import UserAdd from '../users/UserAdd';
+import { fetchInvitations, selectAllInvitations } from '../invitations/invitationsSlice';
 
 
 const UserList = () => {
 
     const users = useSelector(selectAllUsers);
+    const invitations = useSelector(selectAllInvitations);
     const dispatch = useDispatch();
 
     const [requestStatus, setRequestStatus] = useState('idle');
@@ -24,15 +27,18 @@ const UserList = () => {
         const fetch = async () => {
             setRequestStatus('pending');
             setErrors({});
-            const resultAction = await dispatch(fetchUsers())
-            if (fetchUsers.fulfilled.match(resultAction)) {
+            const userAction = await dispatch(fetchUsers());
+            const invitationAction = await dispatch(fetchInvitations());
+            if (fetchUsers.fulfilled.match(userAction) && fetchInvitations.fulfilled.match(invitationAction)) {
               setRequestStatus('succeeded');
             } else {
               setRequestStatus('failed');
-              if (resultAction.payload) {
-                  setErrors(flattenErrors(resultAction.payload))
+              if (userAction.payload) {
+                setErrors(flattenErrors(userAction.payload))
+              } else if (invitationAction.payload) {
+                setErrors(flattenErrors(invitationAction.payload));
               } else {
-                  setErrors({'non_field_errors': resultAction.error.message})
+                  setErrors({'non_field_errors': userAction.error.message})
               }
             }
         }
@@ -49,11 +55,26 @@ const UserList = () => {
       )
     } else {
       content = (
-        <List
-          data={users}
-          children={(datum, index) => <UserItem user={datum} />}
-          onClickItem={(datum, index) => dispatch(push(`/users/${datum.item.id}`))}
-        />
+        <>
+        <Box gap="medium">
+          <Box gap="small">
+            <Heading margin={{vertical: "none", horizontal: "small"}} level={2} size="small">Active Users</Heading>
+            <List
+              data={users}
+              children={(datum, index) => <UserItem user={datum} />}
+              onClickItem={(datum, index) => dispatch(push(`/users/${datum.item.id}`))}
+            />
+          </Box>
+          <Box gap="small">
+            <Heading margin={{vertical: "none", horizontal: "small"}} level={2} size="small">Invited Users</Heading>
+            <List
+              data={invitations}
+              children={(datum, index) => <InvitationItem invitation={datum} />}
+            />
+          </Box>
+        </Box>
+          
+        </>
       )
     }
 

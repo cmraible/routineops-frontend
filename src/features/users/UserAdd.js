@@ -9,6 +9,7 @@ import Success from '../../components/Success';
 import { flattenErrors } from '../../utils';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { addNewInvitation } from '../invitations/invitationsSlice';
+import RoleSelect from '../roles/RoleSelect';
 
 const AddUser = ( { close } ) => {
   const dispatch = useDispatch()
@@ -46,6 +47,7 @@ const AddUser = ( { close } ) => {
       account: account,
       sender: user.id,
       email_address: value.email_address,
+      roles: value.roles
     }));
     if (resultAction.type === 'invitations/addNewInvitation/fulfilled') {
       setSuccess(resultAction.payload);
@@ -83,6 +85,7 @@ const AddUser = ( { close } ) => {
           errors={errors}
         >
           <EmailField name="email_address" required />
+          <RoleSelect multiple title="Roles" placeholder=" " name="roles" />
           <SubmitButton label="Send Invitation" loadingIndicator={requestStatus === 'pending'} />
         </Form>
       </Box>
