@@ -9,19 +9,17 @@ import NotFound from '../components/NotFound';
 import Account from '../features/accounts/Account';
 import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSlice';
 import { selectLoggedInUser } from '../features/auth/authSlice';
-import RoleDetail from '../features/roles/RoleDetail';
-import RoleEdit from '../features/roles/RoleEdit';
-import RoleList from '../features/roles/RoleList';
 import RoutineAdd from '../features/routines/RoutineAdd';
 import RoutineDetail from '../features/routines/RoutineDetail';
 import RoutineEdit from '../features/routines/RoutineEdit';
 import RoutineList from '../features/routines/RoutineList';
 import Task from '../features/tasks/Task';
 import TaskList from '../features/tasks/TaskList';
-import UserAdd from '../features/users/UserAdd';
+import Team from '../features/team/Team';
+import RoleDetail from '../features/roles/RoleDetail';
+import RoleEdit from '../features/roles/RoleEdit';
 import UserDetail from '../features/users/UserDetail';
 import UserEdit from '../features/users/UserEdit';
-import UserList from '../features/users/UserList';
 
 
 const AppLoggedIn = () => {
@@ -40,8 +38,8 @@ const AppLoggedIn = () => {
   const teamLinks = [
     {label: 'Tasks', icon: <Checkmark />, href: '/', active: (pathname === '/')},
     {label: 'Routines', icon: <Compliance />, href: '/routines', active: (pathname.startsWith('/routines'))},
-    {label: 'Team', icon: <Group />, href: '/roles', active: (pathname.startsWith('/roles'))},
-    {label: 'Account', icon: <Organization />, href: '/account', active: (pathname.startsWith('/team'))},
+    {label: 'Team', icon: <Group />, href: '/team', active: (pathname.startsWith('/team'))},
+    {label: 'Account', icon: <Organization />, href: '/account', active: (pathname.startsWith('/account'))},
   ]
 
   const links = (account && account.type === 'Team') ? teamLinks : individualLinks;
@@ -53,9 +51,9 @@ const AppLoggedIn = () => {
 
   const mainSwitch = (
       <Switch>
-        <Route path="/account" component={Account} />
         <Route path="/" component={TaskList} exact />
-        <Route path="/roles" component={RoleList} exact />
+        <Route path="/account" component={Account} />
+        <Route path="/team" component={Team} />
         <Route path="/roles/:roleId" component={RoleDetail} exact />
         <Route path="/roles/:roleId/edit" component={RoleEdit} />
         <Route path="/routines/add" component={RoutineAdd} exact />
@@ -63,8 +61,6 @@ const AppLoggedIn = () => {
         <Route path="/routines/:routineId" component={RoutineDetail} exact />
         <Route path="/routines/:routineId/edit" component={RoutineEdit} exact />
         <Route path="/tasks/:taskId" component={Task} exact />
-        <Route path="/users" component={UserList} exact />
-        <Route path="/users/invite" component={UserAdd} exact />
         <Route path="/users/:userId" component={UserDetail} exact />
         <Route path="/users/:userId/edit" component={UserEdit} exact />
         <Route path="/login">

@@ -54,7 +54,7 @@ const RoleDetail = ({match}) => {
 
   return (
     <Page
-      title="Role"
+      title={role.name}
       pad="small"
       action={{
         icon: <Edit />,
@@ -62,7 +62,7 @@ const RoleDetail = ({match}) => {
         onClick: () => dispatch(push(`/roles/${roleId}/edit`)),
         primary: true
       }}
-      previous={() => dispatch(push('/roles'))}
+      previous={() => dispatch(push('/team/roles'))}
     >
       {content}
     </Page>
