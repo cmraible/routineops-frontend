@@ -16,7 +16,7 @@ describe('Role Detail Page', () => {
             cy.visit('/roles/1');
 
             // Check the page title
-            cy.title().should('eq', 'Role');
+            cy.title().should('eq', 'Role: CEO');
 
             cy.contains('CEO').should('be.visible');
 
@@ -35,7 +35,7 @@ describe('Role Detail Page', () => {
         cy.intercept('**/api/roles/', { fixture: 'roles.json' });
         cy.visit('/roles/1')
         cy.get('[data-cy="previous"]').click();
-        cy.location('pathname').should('eq', '/roles');
+        cy.location('pathname').should('eq', '/team/roles');
     });
 
     it('links back to edit page', () => {
