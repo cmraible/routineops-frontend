@@ -12,6 +12,11 @@ const invitationsAdapter = createEntityAdapter({
 const initialState = invitationsAdapter.getInitialState({});
 
 // Async thunks to interact with API
+export const fetchInvitations = createAsyncThunk('invitations/fetchInvitations', async(data, {dispatch, getState}) => {
+    const client = getClient(dispatch, getState);
+    const response = await client.get('/invitations');
+    return response.data;
+});
 
 export const fetchInvitation = createAsyncThunk('invitations/fetchInvitation', async (invitationId, { dispatch, getState }) => {
     const client = getClient(dispatch, getState);
@@ -40,6 +45,9 @@ export const invitationsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
+        [fetchInvitations.fulfilled]: (state, action) => {
+            invitationsAdapter.setAll(state, action.payload);
+        },
         [fetchInvitation.fulfilled]: invitationsAdapter.upsertOne,
         [addNewInvitation.fulfilled]: invitationsAdapter.addOne,
         [logout.fulfilled]: invitationsAdapter.removeAll,
