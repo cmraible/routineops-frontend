@@ -140,7 +140,7 @@ const UserDetail = ({ match, onClose }) => {
   return (
     <Page
       title={user.first_name + ' ' + user.last_name}
-      previous={() => dispatch(push('/account/users'))}
+      previous={() => dispatch(push('/team'))}
       action={{
         icon: <Edit />,
         onClick: () => dispatch(push(`/users/${userId}/edit`)),

@@ -79,7 +79,7 @@ describe('User Detail Page', () => {
         cy.intercept('GET', '**/api/userroles', {});
         cy.visit('/users/1')
         cy.get('[data-cy="previous"]').click();
-        cy.location('pathname').should('eq', '/account/users');
+        cy.location('pathname').should('eq', '/team');
     });
 
     it('links back to edit page', () => {

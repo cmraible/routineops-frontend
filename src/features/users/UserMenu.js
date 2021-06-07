@@ -1,10 +1,10 @@
-import { Avatar, Box, Menu, Text } from 'grommet';
-import { User, Logout } from 'grommet-icons';
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectLoggedInUser } from '../auth/authSlice';
-import { logout } from '../auth/authSlice';
 import { push } from 'connected-react-router';
+import { Box, Menu, Text } from 'grommet';
+import { Logout } from 'grommet-icons';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectLoggedInUser } from '../auth/authSlice';
+import UserAvatar from './UserAvatar';
 
 const UserMenu = () => {
   const dispatch = useDispatch()
@@ -14,7 +14,6 @@ const UserMenu = () => {
     dispatch(push('/'));
     dispatch(logout())
   }
-
 
   return (
     <Menu
@@ -37,9 +36,7 @@ const UserMenu = () => {
           round="small"
           fill="horizontal"
         >
-          <Avatar size="36px" background="white">
-            <User />
-          </Avatar>
+          <UserAvatar user={user} />
           <Text size="large">{(user.first_name && user.last_name) ? user.first_name + ' ' + user.last_name : user.email}</Text>
         </Box>
       )

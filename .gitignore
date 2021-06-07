@@ -31,3 +31,5 @@ yarn-error.log*
 
 
 .vercel
+
+.nyc_output/*

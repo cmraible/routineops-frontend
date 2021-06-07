@@ -3,7 +3,6 @@ import { CircleInformation } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../../components/Message';
-import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
 import AddRoleForm from './AddRoleForm';
 import RoleItem from './RoleItem';
@@ -58,16 +57,14 @@ const RoleList = () => {
   }
 
   return (
-    <Page
-      title={"Roles"}
-    >
+    <Box>
       <Box gap="medium">
         {/* Header - Role Form */}
         <Box pad="small"><AddRoleForm /></Box>
         {/* Body - Role List */}
         {content}
       </Box>
-    </Page>
+    </Box>
   )
 };
 
