@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router';
-import { Box, Button, CheckBox, Collapsible, Form, FormField, Heading, Select, Text } from 'grommet';
+import { Box, Button, CheckBox, Collapsible, Form, FormField, Heading, InfiniteScroll, ResponsiveContext, Select, Text } from 'grommet';
 import { Add, CircleInformation, Filter } from 'grommet-icons';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ import { fetchRoutines } from '../routines/routinesSlice';
 import { selectAllUsers } from '../users/usersSlice';
 import TaskItem from './TaskItem';
 import { fetchTasks, selectAllTasks } from './tasksSlice';
+import { group } from 'd3-array';
 
 const TaskList = () => {
   const dispatch = useDispatch()
@@ -24,7 +25,7 @@ const TaskList = () => {
 
   const [requestStatus, setRequestStatus] = useState('idle');
   const [showFilters, setShowFilters] = useState(false);
-  const [headerValue, setHeaderValue] = useState('Today')
+  const [headerValue, setHeaderValue] = useState('All Tasks')
   const [filters, setFilters] = useState({
     users: [user.id],
     completed: true,
@@ -81,6 +82,25 @@ const TaskList = () => {
     fetch()
   }, [dispatch, user.account]);
 
+  const calculateGroup = (task) => {
+    const due = DateTime.fromISO(task.due)
+    if (DateTime.local() > due) {
+      return "Past Due"
+    } else if (DateTime.local().hasSame(due, 'day')) {
+      return "Today"
+    } else if (DateTime.local().plus({days: 1}).hasSame(due, 'day')) {
+      return "Tomorrow"
+    } else if (DateTime.local().endOf('week') > due) {
+      return due.weekdayLong
+    } else if (DateTime.local().endOf('week').plus({weeks: 1}) > due) {
+      return `Next week`
+    } else if (DateTime.local().endOf('month') > due) {
+      return "Later this month"
+    } else {
+      return `${due.monthLong} ${due.year}`
+    }
+  }
+
   let content
   if (requestStatus === 'pending') {
     // Display a spinner to indicate loading state
@@ -88,18 +108,47 @@ const TaskList = () => {
   } else if (requestStatus === 'succeeded') {
     if (tasks.length > 0) {
       // Display list of tasks
-      var items = []
-      tasks.forEach((task) => {
-        items.push(<TaskItem id={task.id} key={task.id} />)
-      });
-      content = <Box>{items}</Box>
+      content = (
+        <ResponsiveContext.Consumer>
+          {
+            size => {
+              return (
+                <InfiniteScroll items={Array.from(group(tasks, d => calculateGroup(d)))}>
+            { (group, index) => {
+              return (
+                <Box flex={false} key={index} >
+                  <Box 
+                      fill="horizontal" 
+                      background="background-contrast" 
+                      pad={{horizontal: "small"}}
+                      flex={false}
+                      style={{position: "sticky", top: (size === "small") ? 45 : 52}}
+                    >
+                      <Text weight="bold" size="large">{group[0]}</Text>
+                    </Box>
+                    {
+                      group[1].map((task) => {
+                        return <TaskItem id={task.id} key={task.id} />
+                      })
+                    }
+                </Box>
+              )
+            }}
+          </InfiniteScroll>
+              )
+            }
+          }
+          
+        </ResponsiveContext.Consumer>
+        
+      )
     } else {
       // Display empty message
       content = (
         <Box gap="medium" align="center" pad="medium">
           <CircleInformation />
-          <Text size="large">You don't have any tasks yet.</Text>
-          <Button size="large" icon={<Add/>} label="Add Task" onClick={() => dispatch(push('/tasks/add'))} />
+          <Text size="large">You don't have any routines yet.</Text>
+          <Button size="large" icon={<Add/>} label="Add Routine" onClick={() => dispatch(push('/routines/add'))} />
         </Box>
       )
     }
@@ -110,7 +159,7 @@ const TaskList = () => {
 
   const header = (
     <Select
-      options={["Today", "This Week", "This Month"]}
+      options={["All Tasks", "Today", "This Week", "This Month"]}
       plain
       value={headerValue}
       onChange={({option}) => setHeaderValue(option)}
@@ -134,11 +183,9 @@ const TaskList = () => {
         onClick: () => setShowFilters(!showFilters)
       }}
     >
-      <Box flex="grow" direction="row" style={{overflowY: "scroll"}} fill="vertical">
-        <Box fill="horizontal">
-          <Box flex={false}>
-            {content}
-          </Box>
+      <Box>
+        <Box overflow="visible">
+          {content}
         </Box>
         <Collapsible direction="horizontal" open={showFilters}>
           <Box width="medium" fill="vertical" background="background-contrast" style={{position: "sticky", top: 0}}>
