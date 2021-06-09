@@ -31,21 +31,16 @@ const Page = ({ title, header, children, action, previous, pad }) => {
           switch (size) {
             case 'small':
               return (
-                <Main>
+                <Main overflow="visible">
                   <MobileHeader action={action} title={title} header={header} previous={previous} />
-                  <Box pad={pad || "none"}>
+                  <Box pad={pad || "none"} flex={false}>
                     {children}
                   </Box>
-                  <Box pad="large" />
                 </Main>
               )
             default:
               return (
-                <Main
-                  direction="column"
-                  full
-                  style={{overflow: "hidden"}}
-                >
+                <Main>
                     <Box
                       style={{position: "sticky", top: 0, zIndex: 10}}
                       direction="row"
@@ -53,10 +48,10 @@ const Page = ({ title, header, children, action, previous, pad }) => {
                       justify="between"
                       gap="medium"
                       fill="horizontal"
-                      flex={false}
                       background="background-contrast"
+                      flex={false}
                     >
-                      <Box direction="row" align="center" gap="small">
+                      <Box direction="row" align="center" gap="small" flex={false}>
                         {(previous &&
                         <Box
                           round="full"
@@ -77,11 +72,10 @@ const Page = ({ title, header, children, action, previous, pad }) => {
                         )}
                       </Box>
                       <Box>
-                       {(action && <Button data-cy="action" {...action} /> )}
-
+                        {(action && <Button data-cy="action" {...action} /> )}
                       </Box>
                     </Box>
-                    <Box>
+                    <Box flex="shrink">
                       {children}
                     </Box>
                 </Main>

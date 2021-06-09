@@ -22,7 +22,7 @@ const UserAvatar = ({ user, size }) => {
 
     const [colorNum, setColorNum] = useState();
     useEffect(() => {
-        setColorNum(Math.round(rng()*100,0))
+        setColorNum(Math.round(rng()*10,0))
     }, [user.email, rng]);
 
     
