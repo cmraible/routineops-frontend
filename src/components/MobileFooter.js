@@ -27,7 +27,7 @@ const MobileFooter = ({links}) => {
 
                 }
             </Box>
-            <Box height="68px" />
+            <Box height={standalone ? "102px" : "68px"} />
 
         </>
     )
