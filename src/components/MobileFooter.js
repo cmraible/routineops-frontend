@@ -27,6 +27,7 @@ const MobileFooter = ({links}) => {
 
                 }
             </Box>
+            <Box height="68px" />
 
         </>
     )
