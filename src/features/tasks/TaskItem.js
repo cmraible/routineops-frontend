@@ -55,8 +55,8 @@ const TaskItem = ({id}) => {
                 direction="row"
                 align="center"
                 gap="medium"
+                fill="horizontal"
                 pad={{horizontal: "small"}}
-                fill
                 background={DateTime.fromISO(task.due) < DateTime.local() && !task.completed ? "status-critical" : "none" }
             >
                 <CheckBox
@@ -67,8 +67,8 @@ const TaskItem = ({id}) => {
                 <Box
                     direction="row"
                     justify="between"
-                    fill="horizontal"
                     pad="small"
+                    fill="horizontal"
                 >
                     <Text>{routine.name}</Text>
                     <Text style={{whiteSpace: 'noWrap'}}>{formattedDueDate}</Text>
@@ -81,7 +81,6 @@ const TaskItem = ({id}) => {
                 direction="row"
                 align="center"
                 gap="medium"
-                fill
             >
                 <Tasks />
                 <Box
@@ -103,9 +102,9 @@ const TaskItem = ({id}) => {
     return (
       <Box
             direction="row"
-            fill
             border="bottom"
             hoverIndicator
+            flex={false}
         >
             {content}
         </Box>

@@ -5,14 +5,14 @@ import React from 'react';
 const MobileHeader = ({ action, previous, title, header}) => {
 
     return (
-        <>
         <Box
-            style={{position: "fixed", top: 0, zIndex: 10}}
+            style={{position: "sticky", top: 0, zIndex: 10}}
             height="45px"
             pad={{horizontal: "small"}}
-            width="100%"
+            fill="horizontal"
             direction="row"
             background="black"
+            flex={false}
         >
             <Grid
                 fill
@@ -47,8 +47,7 @@ const MobileHeader = ({ action, previous, title, header}) => {
             )}
             </Grid>
         </Box>
-        <Box height="45px" />
-    </>
+        
     )
 }
 

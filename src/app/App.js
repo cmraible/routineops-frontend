@@ -6,9 +6,9 @@ import Spinner from '../components/Spinner';
 import defaultTheme from '../defaultTheme';
 import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSlice';
 import { selectIsLoggedIn, selectLoggedInUser } from '../features/auth/authSlice';
+import AppAccountOnboarding from './AppAccountOnboarding';
 import AppLoggedIn from './AppLoggedIn';
 import AppLoggedOut from './AppLoggedOut';
-import AppAccountOnboarding from './AppAccountOnboarding';
 import AppUserOnboarding from './AppUserOnboarding';
 
 
