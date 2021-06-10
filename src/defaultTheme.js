@@ -25,7 +25,7 @@ const routineopsTheme = {
         "light": "#DDDDDD"
       },
       "background-contrast": {
-        "dark": "#FFFFFF11",
+        "dark": "#212121",
         "light": "#efefef"
       },
       "text": {
