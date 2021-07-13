@@ -21,6 +21,7 @@ import Team from '../features/team/Team';
 import UserAdd from '../features/users/UserAdd';
 import UserDetail from '../features/users/UserDetail';
 import UserEdit from '../features/users/UserEdit';
+import Profile from '../features/profile/Profile';
 
 
 const AppLoggedIn = () => {
@@ -40,10 +41,25 @@ const AppLoggedIn = () => {
     {label: 'Tasks', icon: <Checkmark />, href: '/', active: (pathname === '/')},
     {label: 'Routines', icon: <Compliance />, href: '/routines', active: (pathname.startsWith('/routines'))},
     {label: 'Team', icon: <Group />, href: '/team', active: (pathname.startsWith('/team'))},
-    {label: 'Account', icon: <Organization />, href: '/account', active: (pathname.startsWith('/account'))},
   ]
 
-  const links = (account && account.type === 'Team') ? teamLinks : individualLinks;
+  const adminLinks = [
+      {label: 'Tasks', icon: <Checkmark />, href: '/', active: (pathname === '/')},
+      {label: 'Routines', icon: <Compliance />, href: '/routines', active: (pathname.startsWith('/routines'))},
+      {label: 'Team', icon: <Group />, href: '/team', active: (pathname.startsWith('/team'))},
+      {label: 'Account', icon: <Organization />, href: '/account', active: (pathname.startsWith('/account'))},
+  ]
+
+  let links;
+  if (account && account.type === 'Team') {
+    if (user.is_account_admin) {
+      links = adminLinks;
+    } else {
+      links = teamLinks;
+    }
+  } else {
+    links = individualLinks;
+  }
 
 
   useEffect(() => {
@@ -65,6 +81,7 @@ const AppLoggedIn = () => {
         <Route path="/users/invite" component={UserAdd} exact />
         <Route path="/users/:userId" component={UserDetail} exact />
         <Route path="/users/:userId/edit" component={UserEdit} exact />
+        <Route path="/profile" component={Profile} />
         <Route path="/login">
             <Redirect to="" />
         </Route>
