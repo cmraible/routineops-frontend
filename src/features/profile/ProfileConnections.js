@@ -69,11 +69,7 @@ const ProfileConnections = () => {
           />
         </Box>
         {content}
-        {(add && <AddSocialAccount close={() => {
-          setTimeout(() => {
-            setAdd(false)
-          }, 2000)
-          }} />)}
+        {(add && <AddSocialAccount close={() => { setAdd(false) }} />)}
       </Box>
 
 

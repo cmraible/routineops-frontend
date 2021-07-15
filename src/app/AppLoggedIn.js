@@ -9,6 +9,7 @@ import NotFound from '../components/NotFound';
 import Account from '../features/accounts/Account';
 import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSlice';
 import { selectLoggedInUser } from '../features/auth/authSlice';
+import Profile from '../features/profile/Profile';
 import RoleDetail from '../features/roles/RoleDetail';
 import RoleEdit from '../features/roles/RoleEdit';
 import RoutineAdd from '../features/routines/RoutineAdd';
@@ -21,7 +22,6 @@ import Team from '../features/team/Team';
 import UserAdd from '../features/users/UserAdd';
 import UserDetail from '../features/users/UserDetail';
 import UserEdit from '../features/users/UserEdit';
-import Profile from '../features/profile/Profile';
 
 
 const AppLoggedIn = () => {
