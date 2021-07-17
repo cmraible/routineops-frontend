@@ -17,24 +17,9 @@ describe('Account Settings Page', () => {
 
             cy.get('[data-cy="account-tabs"]').should('be.visible');
 
-            cy.contains('User Interface Settings').should('be.visible');
-            cy.contains('Dark Mode').should('be.visible');
             cy.contains('Calendar Settings').should('be.visible');
             cy.contains('Weekstart').should('be.visible');
             cy.contains('Working Days').should('be.visible');
-        });
-    });
-
-    it('successfully toggles dark mode', () => {
-        cy.login();
-        cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account/settings');
-        cy.contains('Dark Mode').click();
-        cy.window()
-            .its('store')
-            .invoke('getState')
-            .should((state) => {
-                expect(state.ui.darkMode).to.be.true
         });
     });
 

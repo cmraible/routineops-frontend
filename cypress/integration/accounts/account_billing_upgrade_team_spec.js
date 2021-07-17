@@ -33,7 +33,7 @@ describe('Upgrade to Team', () => {
         cy.intercept('POST', '**/api/accounts/1/create_subscription', {
             fixture: 'accountTeam.json'
         });
-        cy.intercept('GET', '**elements.event.load**').as('stripe');
+        cy.intercept('GET', '**elements.event.ready**').as('stripe');
         cy.visit('/account/billing/upgradeTeam/price_1IdVRJJaJXMgpjCHIyNe5LQU');
         cy.contains('Continue').click();
         cy.wait('@stripe');
@@ -55,7 +55,7 @@ describe('Upgrade to Team', () => {
             statusCode: 402,
             body: {'credit-card': ["Your card was declined."]}
         });
-        cy.intercept('GET', '**elements.event.load**').as('stripe');
+        cy.intercept('GET', '**elements.event.ready**').as('stripe');
         cy.visit('/account/billing/upgradeTeam/price_1IdVRJJaJXMgpjCHIyNe5LQU');
         cy.contains('Continue').click();
         cy.wait('@stripe');
@@ -75,7 +75,7 @@ describe('Upgrade to Team', () => {
         cy.intercept('POST', '**/api/accounts/1/create_subscription', {
             fixture: 'accountTeam.json'
         });
-        cy.intercept('GET', '**elements.event.load**').as('stripe');
+        cy.intercept('GET', '**elements.event.ready**').as('stripe');
         cy.visit('/account/billing/upgradeTeam/price_1IdVRJJaJXMgpjCHIyNe5LQU');
         cy.contains('Continue').click();
         cy.wait('@stripe');

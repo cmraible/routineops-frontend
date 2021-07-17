@@ -10,6 +10,7 @@ const AccountBilling = () => {
   return (
     <Box>
       <Switch>
+        <Route exact path="/account" component={AccountBillingCurrent} />
         <Route exact path="/account/billing" component={AccountBillingCurrent} />
         <Route exact path="/account/billing/upgradeTeam/:price" component={AccountBillingUpgradeTeam} />
       </Switch>

@@ -11,10 +11,10 @@ describe('Account Profile Page', () => {
         it(`renders properly on ${size} screen`, () => {
             cy.viewport(size);
             cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-            cy.visit('/account');
+            cy.visit('/profile');
 
             // Check page title
-            cy.title().should('eq', 'Account')
+            cy.title().should('eq', 'Profile')
 
             cy.get('[data-cy="site-navigation"]').should('be.visible');
 
@@ -33,7 +33,7 @@ describe('Account Profile Page', () => {
     it('successfully edits the users name', () => {
         cy.clock()
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         cy.intercept('PATCH', '**/api/users/1', { fixture: 'userNameEdited.json'})
         cy.contains('Chris Raible').click();
         cy.get('input[name="first_name"]').type('topher');
@@ -51,7 +51,7 @@ describe('Account Profile Page', () => {
             statusCode: 400
         });
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         cy.contains('Chris Raible').click();
         cy.get('input[name="first_name"]').type('topher');
         cy.get('input[name="last_name"]').type('eeee');
@@ -62,7 +62,7 @@ describe('Account Profile Page', () => {
     it('displays network error if unable to reach server on name change', () => {
         cy.intercept('PATCH', '**/api/users/1**', req => req.destroy());
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         cy.contains('Chris Raible').click();
         cy.get('input[name="first_name"]').type('topher');
         cy.get('input[name="last_name"]').type('eeee');
@@ -73,7 +73,7 @@ describe('Account Profile Page', () => {
     it('successfully changes the users password', () => {
         cy.clock();
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         cy.intercept('POST', '**/api/auth/password/change/', {
             body: {detail: "New password has been saved."},
             statusCode: 200
@@ -90,7 +90,7 @@ describe('Account Profile Page', () => {
     it('validates new passwords', () => {
         cy.intercept('POST', '**/api/auth/password/change/')
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         cy.contains('Change Password').click();
         cy.get('input[name="new_password1"]').click().type('passwo');
         cy.get('input[name="new_password2"]').click().type('passwo');
@@ -104,7 +104,7 @@ describe('Account Profile Page', () => {
             body: {"new_password2": ["The two password fields didn't match."]},
             statusCode: 400
         })
-        cy.visit('/account');
+        cy.visit('/profile');
         cy.contains('Change Password').click();
         cy.get('input[name="new_password1"]').click().type('password1234');
         cy.get('input[name="new_password2"]').click().type('password12345');
@@ -115,7 +115,7 @@ describe('Account Profile Page', () => {
     it('shows network error if unable to reach server on password change', () => {
         cy.intercept('POST', '**/api/auth/password/change/', req => req.destroy())
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         cy.contains('Change Password').click();
         cy.get('input[name="new_password1"]').click().type('password1234');
         cy.get('input[name="new_password2"]').click().type('password12345');
@@ -126,7 +126,7 @@ describe('Account Profile Page', () => {
     it('successfully edits the users phone number', () => {
         cy.clock();
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         // Stub API Responses
         cy.intercept('GET', '**/api/users/1/', { fixture: 'userPhoneVerified.json' });
         cy.intercept('PATCH', '**/api/users/1/phone/', { fixture: 'userPhoneEdited.json' });
@@ -145,7 +145,7 @@ describe('Account Profile Page', () => {
 
     it('shows errors for incorrect verification codes', () => {
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         // Stub API Responses
         cy.intercept('GET', '**/api/users/1/', { fixture: 'userPhoneVerified.json' });
         cy.intercept('PATCH', '**/api/users/1/phone/', { fixture: 'userPhoneEdited.json' });
@@ -162,7 +162,7 @@ describe('Account Profile Page', () => {
 
     it('shows errors for invalid verification codes', () => {
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         // Stub API Responses
         cy.intercept('GET', '**/api/users/1/', { fixture: 'userPhoneVerified.json' });
         cy.intercept('PATCH', '**/api/users/1/phone/', { fixture: 'userPhoneEdited.json' });
@@ -179,7 +179,7 @@ describe('Account Profile Page', () => {
 
     it('shows network error for phone number verification', () => {
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         // Stub API Responses
         cy.intercept('GET', '**/api/users/1/', { fixture: 'userPhoneVerified.json' });
         cy.intercept('PATCH', '**/api/users/1/phone/', { fixture: 'userPhoneEdited.json' });
@@ -196,7 +196,7 @@ describe('Account Profile Page', () => {
 
     it('shows network error for phone number update', () => {
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         // Stub API Responses
         cy.intercept('GET', '**/api/users/1/', { fixture: 'userPhoneVerified.json' });
         cy.intercept('PATCH', '**/api/users/1/phone/', req => req.destroy());
@@ -209,7 +209,7 @@ describe('Account Profile Page', () => {
 
     it('validates the phone number locally', () => {
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         // Stub API Responses
         cy.intercept('GET', '**/api/users/1/', { fixture: 'userPhoneVerified.json' });
         // Enter phone number and submit
@@ -221,7 +221,7 @@ describe('Account Profile Page', () => {
 
     it('displays server validation errors for phone number', () => {
         cy.intercept('GET', '**/accounts/**', { fixture: 'accountFree.json' });
-        cy.visit('/account');
+        cy.visit('/profile');
         // Stub API Responses
         cy.intercept('GET', '**/api/users/1/', { fixture: 'userPhoneVerified.json' });
         cy.intercept('PATCH', '**/api/users/1/phone/', {

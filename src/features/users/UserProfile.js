@@ -4,18 +4,20 @@ import { useSelector } from 'react-redux';
 import Description from '../../components/Description';
 import EditDescription from '../../components/EditDescription';
 import { selectLoggedInUser } from '../auth/authSlice';
-import ChangePasswordModal from './AccountChangePassword';
-import PhoneNumberModal from './AccountPhoneNumber';
-import EditNameModal from './AccountProfileName';
-import AccountTimezone from './AccountTimezone';
-import AccountMorningSummary from './AccountMorningSummary';
-import AccountEveningSummary from './AccountEveningSummary';
+import ChangePasswordModal from './ChangePassword';
+import PhoneNumberModal from './PhoneNumber';
+import EditNameModal from './ProfileName';
+import Timezone from './Timezone';
+import MorningSummary from './MorningSummary';
+import EveningSummary from './EveningSummary';
 import { formatTime } from '../../utils';
+import Page from '../../components/Page';
+
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 
-const AccountProfile = () => {
+const UserProfile = () => {
 
   const user = useSelector(selectLoggedInUser)
 
@@ -42,7 +44,7 @@ const AccountProfile = () => {
 
 
   return (
-    <>
+    <Page title="Profile">
       <Box pad="medium" gap="medium" flex={false}>
         <Card elevation="none" border="border">
           <CardHeader pad="small">
@@ -103,12 +105,12 @@ const AccountProfile = () => {
       {(password && <ChangePasswordModal close={() => setPassword(false)} />)}
       {(phone && <PhoneNumberModal close={() => setPhone(false)} />)}
       {(name && <EditNameModal close={() => setName(false)} />)}
-      {(timezone && <AccountTimezone close={() => setTimezone(false)} />)}
-      {(morningSummary && <AccountMorningSummary close={() => setMorningSummary(false)} />)}
-      {(eveningSummary && <AccountEveningSummary close={() => setEveningSummary(false)} />)}
+      {(timezone && <Timezone close={() => setTimezone(false)} />)}
+      {(morningSummary && <MorningSummary close={() => setMorningSummary(false)} />)}
+      {(eveningSummary && <EveningSummary close={() => setEveningSummary(false)} />)}
 
-    </>
+    </Page>
   )
 };
 
-export default AccountProfile;
+export default UserProfile;
