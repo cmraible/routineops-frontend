@@ -23,11 +23,11 @@ Cypress.Commands.add("login", () => {
     });
 });
 
-Cypress.Commands.add("loginStubbed", (accountFixture) => {
+Cypress.Commands.add("loginStubbed", (accountFixture, loginResponse) => {
     const account = accountFixture || 'accountFree.json'
     cy.clearLocalStorage();
     cy.intercept('GET', '**/api/accounts/1**', { fixture: account });
-    cy.intercept('POST', '**/api/auth/login/', { fixture: 'loginResponse.json' }).as('loginRequest');
+    cy.intercept('POST', '**/api/auth/login/', { fixture: loginResponse }).as('loginRequest');
     cy.visit('/');
     dispatch(login({
         email: 'chris@routineops.com',
@@ -38,7 +38,7 @@ Cypress.Commands.add("loginStubbed", (accountFixture) => {
         .its('store')
         .invoke('getState')
         .should((state) => {
-            expect(state.auth.token).to.eq('fake_auth_token');
+            expect(state.auth.token).to.eq('fe2bddaac5a451d182fd6d7fb91d48e9d23b2bd4');
             expect(state.auth.userId).to.eq(1);
     });
 })
