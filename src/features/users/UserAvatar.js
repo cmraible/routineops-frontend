@@ -28,7 +28,7 @@ const UserAvatar = ({ user, size }) => {
     
     const background = colors[colorNum];
     const color = 'white';
-    const body = (user.first_name && user.last_name) ? `${user.first_name[0]}${user.last_name[0]}` : <User color={color} />;
+    const body = (user.first_name && user.last_name) ? `${user.first_name[0].toUpperCase()}${user.last_name[0].toUpperCase()}` : <User color={color} />;
 
 
     return (
