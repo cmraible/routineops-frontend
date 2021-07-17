@@ -127,6 +127,7 @@ const RoutineEdit = ({ match, layers }) => {
   }
 
   const handleChange = (formValue) => {
+    console.log(formValue)
     if (formValue.label !== value.label) {
       // user changed the frequency label
       // get the default parameters, generate rrule
@@ -169,8 +170,24 @@ const RoutineEdit = ({ match, layers }) => {
           ...formValue,
           recurrence: rule.toString()
         });
+      } else {
+        const params = {
+          ...defaultParams,
+          dtstart: dtstart,
+          byweekday: formValue.byweekday,
+          byhour: formValue.byhour,
+          bymonth: formValue.bymonth,
+          bymonthday: formValue.bymonthday
+        }
+        const rule = new RRule(params)
+        setValue({
+          ...value,
+          ...formValue,
+          recurrence: rule.toString()
+        });
       }
     }
+    console.log(value)
   }
 
   let content
