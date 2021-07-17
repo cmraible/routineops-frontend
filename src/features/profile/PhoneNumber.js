@@ -9,7 +9,7 @@ import { fetchUser, updateUserPhone, verifyUserPhone } from '../users/usersSlice
 import { flattenErrors } from '../../utils';
 import CancelButton from '../../components/CancelButton';
 import Modal from '../../components/Modal';
-import './AccountPhoneNumber.css';
+import './PhoneNumber.css';
 import SubmitButton from '../../components/SubmitButton';
 import Error from '../../components/Error';
 

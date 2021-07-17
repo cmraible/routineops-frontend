@@ -66,7 +66,7 @@ const AccountBillingTeam = () => {
         )}
 
       </Box>
-      <Box direction="row" align="center" justify="between" pad="medium">
+      <Box direction="row" align="center" justify="between" pad="small">
         <Box align="center">
           <Meter
             size="small"

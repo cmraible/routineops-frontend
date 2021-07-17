@@ -1,0 +1,23 @@
+{
+    "key": "fe2bddaac5a451d182fd6d7fb91d48e9d23b2bd4",
+    "user": {
+        "id": 1,
+        "email": "chris@routineops.com",
+        "phone": null,
+        "phonenumber": null,
+        "first_name": "Chris",
+        "last_name": "Raible",
+        "account": 1,
+        "is_account_admin": true,
+        "is_account_owner": true,
+        "is_active": true,
+        "last_login": "2021-07-17T03:05:47.859572Z",
+        "date_joined": "2021-07-17T03:03:46Z",
+        "intercom_hash": "ca70bcf65d01fb8a7bf7f32f34f80731005b9d52fabe5ca2cc1e14c5a9141c85",
+        "password_bool": true,
+        "onboard_complete": null,
+        "send_morning_summary": "06:00:00",
+        "send_evening_summary": "18:00:00",
+        "timezone": "America/Los_Angeles"
+    }
+}
