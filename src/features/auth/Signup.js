@@ -19,14 +19,6 @@ const Signup = ({ location, match }) => {
   
   const q = queryString.parse(location.search)
   const { inviteId } = match.params
-  useEffect(() => {
-    if (inviteId) {
-      dispatch(fetchInvitation(inviteId))
-    }
-  }, [dispatch, inviteId]);
-
-  const invitation = useSelector(state => selectInvitationById(state, inviteId));
-  const email = (invitation) ? invitation.email_address : q.email;
 
   const [signupStatus, setSignupStatus] = useState('idle');
   const [errors, setErrors] = useState({})
