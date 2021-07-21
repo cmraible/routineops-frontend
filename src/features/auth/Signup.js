@@ -1,14 +1,12 @@
 import { Anchor, Box, CheckBox, Form, FormField, Text, TextInput } from 'grommet';
-import queryString from 'query-string';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import AccountPage from '../../components/AccountPage';
 import EmailField from '../../components/EmailField';
 import Message from '../../components/Error';
 import PasswordField from '../../components/PasswordField';
 import SubmitButton from '../../components/SubmitButton';
 import { flattenErrors } from '../../utils';
-import { fetchInvitation, selectInvitationById } from '../invitations/invitationsSlice';
 import { signup } from './authSlice';
 
 
@@ -16,24 +14,14 @@ const Signup = ({ location, match }) => {
   
   const dispatch = useDispatch();
 
-  
-  const q = queryString.parse(location.search)
   const { inviteId } = match.params
-  useEffect(() => {
-    if (inviteId) {
-      dispatch(fetchInvitation(inviteId))
-    }
-  }, [dispatch, inviteId]);
-
-  const invitation = useSelector(state => selectInvitationById(state, inviteId));
-  const email = (invitation) ? invitation.email_address : q.email;
 
   const [signupStatus, setSignupStatus] = useState('idle');
   const [errors, setErrors] = useState({})
   const [value, setValue] = useState({
     first_name: '',
     last_name: '',
-    email: (email) ? email : '',
+    email: '',
     password1: '',
     password2: '',
     invitation: inviteId,
