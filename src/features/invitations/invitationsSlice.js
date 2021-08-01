@@ -65,3 +65,10 @@ export const {
     selectIds: selectInvitationIds,
     selectEntities: selectInvitationEntities
   } = invitationsAdapter.getSelectors(state => state.invitations)
+
+
+export const selectIncompleteInvitations = (state) => state.invitations.ids.filter((invitationId) => {
+    return state.invitations.entities[invitationId].completed == null;
+}).map((invitationId) => {
+    return state.invitations.entities[invitationId]
+});
