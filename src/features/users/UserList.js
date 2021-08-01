@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Button, List, Heading } from 'grommet';
-import { Add } from 'grommet-icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAllUsers, fetchUsers } from '../users/usersSlice';
-import { flattenErrors } from '../../utils';
-import Spinner from '../../components/Spinner';
-import Error from '../../components/Error';
-import UserItem from '../users/UserItem';
-import InvitationItem from '../invitations/InvitationItem';
 import { push } from 'connected-react-router';
+import { Box, Button, Heading, List } from 'grommet';
+import { Add } from 'grommet-icons';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Error from '../../components/Error';
+import Spinner from '../../components/Spinner';
+import { flattenErrors } from '../../utils';
+import InvitationItem from '../invitations/InvitationItem';
+import { fetchInvitations, selectIncompleteInvitations } from '../invitations/invitationsSlice';
 import UserAdd from '../users/UserAdd';
-import { fetchInvitations, selectAllInvitations } from '../invitations/invitationsSlice';
+import UserItem from '../users/UserItem';
+import { fetchUsers, selectAllUsers } from '../users/usersSlice';
 
 
 const UserList = () => {
 
     const users = useSelector(selectAllUsers);
-    const invitations = useSelector(selectAllInvitations);
+    const invitations = useSelector(selectIncompleteInvitations);
     const dispatch = useDispatch();
 
     const [requestStatus, setRequestStatus] = useState('idle');
