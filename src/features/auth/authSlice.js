@@ -72,7 +72,8 @@ export const logout = createAsyncThunk('auth/logout', async (data, { dispatch, g
     window.localStorage.removeItem('routineops-token');
     window.localStorage.removeItem('routineopsState');
     window.analytics.track('Logged out.');
-    window.Intercom('shutdown');
+    // Commented out because Intercom was removed
+    // window.Intercom('shutdown');
     window.analytics.reset();
     dispatch(push('/'));
     const client = getClient(dispatch, getState);

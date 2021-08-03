@@ -8,17 +8,19 @@ const Page = ({ title, header, children, action, previous, pad }) => {
   useEffect(() => {
     document.title = title;
     window.analytics.page(title);
-    window.analytics.ready(() => {
-      if (window.innerWidth < 768) {
-        window.Intercom('update', {
-          "hide_default_launcher": true
-        })
-      } else {
-        window.Intercom('update', {
-          "hide_default_launcher": false
-        })
-      }
-    });
+
+    // Commented our when Intercom was removed. Code left in case we ever re-integrate
+    // window.analytics.ready(() => {
+    //   // if (window.innerWidth < 768) {
+    //   //   window.Intercom('update', {
+    //   //     "hide_default_launcher": true
+    //   //   })
+    //   // } else {
+    //   //   window.Intercom('update', {
+    //   //     "hide_default_launcher": false
+    //   //   })
+    //   // }
+    // });
   }, [title]);
 
 
