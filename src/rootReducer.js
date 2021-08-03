@@ -1,18 +1,20 @@
+import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
-import uiReducer from './features/ui/uiSlice';
-import routinesReducer from './features/routines/routinesSlice';
-import checksReducer from './features/checks/checksSlice';
-import rolesReducer from './features/roles/rolesSlice';
-import usersReducer from './features/users/usersSlice';
-import authReducer from './features/auth/authSlice';
-import tasksReducer from './features/tasks/tasksSlice';
-import layersReducer from './features/layers/layersSlice';
 import accountsReducer from './features/accounts/accountsSlice';
+import authReducer from './features/auth/authSlice';
+import checksReducer from './features/checks/checksSlice';
+import invitationsReducer from './features/invitations/invitationsSlice';
+import layersReducer from './features/layers/layersSlice';
+import rolesReducer from './features/roles/rolesSlice';
+import routinesReducer from './features/routines/routinesSlice';
 import socialAccountsReducer from './features/socialaccounts/socialAccountsSlice';
 import subscriptionReducer from './features/subscriptions/subscriptionsSlice';
-import invitationsReducer from './features/invitations/invitationsSlice';
+import tasksReducer from './features/tasks/tasksSlice';
+import uiReducer from './features/ui/uiSlice';
 import userRolesReducer from './features/userRoles/userRolesSlice';
-import { connectRouter } from 'connected-react-router';
+import usersReducer from './features/users/usersSlice';
+
+
 
 const createRootReducer = (history) => combineReducers({
     auth: authReducer,
