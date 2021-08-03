@@ -102,7 +102,7 @@ const AppLoggedIn = () => {
               return (
                 <Box>
                   {mainSwitch}
-                  <MobileFooter links={[...links, {label: "Help", icon: <ChatOption />, id: "help-chat", active: false}]} />
+                  <MobileFooter links={links} />
                 </Box>
 
               )

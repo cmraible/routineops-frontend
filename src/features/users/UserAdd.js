@@ -20,17 +20,18 @@ const AddUser = ( { close } ) => {
     const title = "Invite User"
     document.title = title;
     window.analytics.page(title);
-    window.analytics.ready(() => {
-      if (window.innerWidth < 768) {
-        window.Intercom('update', {
-          "hide_default_launcher": true
-        })
-      } else {
-        window.Intercom('update', {
-          "hide_default_launcher": false
-        })
-      }
-    });
+    // Code commented out when Intercom was removed
+    // window.analytics.ready(() => {
+    //   // if (window.innerWidth < 768) {
+    //   //   window.Intercom('update', {
+    //   //     "hide_default_launcher": true
+    //   //   })
+    //   // } else {
+    //   //   window.Intercom('update', {
+    //   //     "hide_default_launcher": false
+    //   //   })
+    //   // }
+    // });
   }, []);
 
   const [requestStatus, setRequestStatus] = useState('idle')
