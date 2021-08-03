@@ -7,7 +7,8 @@ export const loadState = () => {
         return undefined;
       }
       // Reset the state completely if the version number has changed
-      if (packageJson !== localStorage.getItem('routineopsVersion')) {
+      const currentVersion = localStorage.getItem('routineopsVersion')
+      if (packageJson.version !== currentVersion && currentVersion !== '' ) {
         return undefined
       }
       return JSON.parse(serializedState);
