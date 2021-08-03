@@ -1,5 +1,5 @@
 import { Box, Grid, ResponsiveContext } from 'grommet';
-import { ChatOption, Checkmark, Compliance, Group, Organization, User } from 'grommet-icons';
+import { Checkmark, Compliance, Group, Organization, User } from 'grommet-icons';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
