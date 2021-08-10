@@ -70,9 +70,13 @@ export const {
     selectEntities: selectUserRoleEntities
   } = userRolesAdapter.getSelectors(state => state.userRoles)
 
-  export const selectActiveUserRolesForUser = (state, userId) => {
-      const all = selectAllUserRoles(state);
-      return all.filter((userRole) => {
-          return userRole.user === userId && userRole.is_active === true
-      })
-  }
+export const selectActiveUserRolesForUser = (state, userId) => {
+    const all = selectAllUserRoles(state);
+    return all.filter((userRole) => {
+        return userRole.user === userId && userRole.is_active === true
+    })
+}
+
+export const selectUserRolesForRole = (state, roleId) => {
+    return selectAllUserRoles(state).filter((userRole) => parseInt(userRole.role) === parseInt(roleId));
+}

@@ -7,7 +7,7 @@ import RoutineDelete from './RoutineDelete';
 import { selectRoutineById } from './routinesSlice';
 
 
-const RoutineItem = ({id}) => {
+const RoutineItem = ({id, actions}) => {
     const dispatch = useDispatch();
     const routine = useSelector(state => selectRoutineById(state, id));
 
@@ -18,8 +18,6 @@ const RoutineItem = ({id}) => {
       <Box
             direction="row"
             fill
-            pad={{horizontal: "small"}}
-            border="bottom"
             hoverIndicator
         >
             <Box
@@ -32,17 +30,21 @@ const RoutineItem = ({id}) => {
             >
                 <Compliance /><Text>{routine.name}</Text>
             </Box>
-            <Menu
-                size="small"
-                data-cy={`action-menu-${id}`}
-                icon={<More />}
-                dropAlign={{"right": "right", "top": "bottom"}}
-                alignSelf="end"
-                items={[
-                    {label: "Edit", icon: <FormEdit />, gap: "small", onClick: () => dispatch(push(`/routines/${id}/edit`))},
-                    {label: "Delete", icon: <FormTrash />, gap: "small", size: "small", onClick: () => setShowDelete(true)}
-                ]}
-            />
+            {(actions && 
+                   ( <Menu
+                    size="small"
+                    data-cy={`action-menu-${id}`}
+                    icon={<More />}
+                    dropAlign={{"right": "right", "top": "bottom"}}
+                    alignSelf="end"
+                    items={[
+                        {label: "Edit", icon: <FormEdit />, gap: "small", onClick: () => dispatch(push(`/routines/${id}/edit`))},
+                        {label: "Delete", icon: <FormTrash />, gap: "small", size: "small", onClick: () => setShowDelete(true)}
+                    ]}
+                />
+                   )
+            )}
+            
             {(showDelete && <RoutineDelete id={id} close={() => setShowDelete(false)} />)}
 
         </Box>

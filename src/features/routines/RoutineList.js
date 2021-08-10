@@ -38,7 +38,7 @@ const RoutineList = () => {
       // Display list of routines
       var items = []
       routineIds.forEach((routineId) => {
-        items.push(<RoutineItem id={routineId} key={routineId} />)
+        items.push(<RoutineItem id={routineId} actions={true} key={routineId} />)
       })
       content = <Box>{items}</Box>
     } else {
