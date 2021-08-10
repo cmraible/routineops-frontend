@@ -39,6 +39,23 @@ export const addNewInvitation = createAsyncThunk('invitations/addNewInvitation',
 
 });
 
+export const deleteInvitation = createAsyncThunk('routines/deleteInvitation', async (invitationId, { dispatch, getState, rejectWithValue }) => {
+    try {
+        const client = getClient(dispatch, getState);
+        const response = await client.delete(`/invitations/${invitationId}/`)
+        window.analytics.track('Deleted an invitation.')
+        if (response.status === 204) {
+            return invitationId
+        }
+    } catch (err) {
+        if (!err.response) {
+            throw err
+        }
+        return rejectWithValue(err.response.data)
+    }
+
+})
+
 // Create slice
 export const invitationsSlice = createSlice({
     name: 'invitation',
@@ -50,6 +67,7 @@ export const invitationsSlice = createSlice({
         },
         [fetchInvitation.fulfilled]: invitationsAdapter.upsertOne,
         [addNewInvitation.fulfilled]: invitationsAdapter.addOne,
+        [deleteInvitation.fulfilled]: invitationsAdapter.removeOne,
         [logout.fulfilled]: invitationsAdapter.removeAll,
         [logout.rejected]: invitationsAdapter.removeAll
     }
