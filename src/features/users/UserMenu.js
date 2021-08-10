@@ -37,7 +37,7 @@ const UserMenu = () => {
           round="small"
           fill="horizontal"
         >
-          <UserAvatar user={user} />
+          <UserAvatar id={user.id} />
           <Text size="large">{(user.first_name && user.last_name) ? user.first_name + ' ' + user.last_name : user.email}</Text>
         </Box>
       )
