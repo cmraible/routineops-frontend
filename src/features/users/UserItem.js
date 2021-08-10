@@ -1,8 +1,14 @@
 import { Box, Text } from 'grommet';
 import React from 'react';
 import UserAvatar from './UserAvatar';
+import { useSelector } from 'react-redux';
+import { selectUserById } from './usersSlice';
 
-const UserItem = ({user}) => {
+const UserItem = ({id}) => {
+    console.log(id)
+
+    const user = useSelector(state => selectUserById(state, id));
+    console.log(user)
 
     return (
         <Box
@@ -11,8 +17,8 @@ const UserItem = ({user}) => {
             gap="medium"
             align="center"
         >
-            <UserAvatar user={user} />
-            <Text>{user.first_name + " " + user.last_name} </Text>
+            {<UserAvatar id={id} /> }
+            <Text>{`${user.first_name} ${user.last_name}`} </Text>
         </Box>
     )
 }

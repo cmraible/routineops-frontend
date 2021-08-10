@@ -81,3 +81,7 @@ export const {
 export const selectLayersForRoutine = (state, routineId) => {
     return selectAllLayers(state).filter((layer) => parseInt(layer.routine) === parseInt(routineId));
 }
+
+export const selectLayersForRole = (state, roleId) => {
+    return selectAllLayers(state).filter((layer) => parseInt(layer.role) === parseInt(roleId));
+}

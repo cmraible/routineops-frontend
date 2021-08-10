@@ -1,8 +1,17 @@
-import { Box, Text } from 'grommet';
+import { Box, Button, Text } from 'grommet';
+import { MailOption, Trash } from 'grommet-icons';
 import React from 'react';
-import { MailOption } from 'grommet-icons';
+import { useDispatch } from 'react-redux';
+import { deleteInvitation } from '../invitations/invitationsSlice';
 
 const InvitationItem = ({invitation}) => {
+
+    const dispatch = useDispatch();
+
+
+    const handleSubmit = async () => {
+        await dispatch(deleteInvitation(invitation.uuid));
+    }
 
     return (
         <Box
@@ -10,9 +19,14 @@ const InvitationItem = ({invitation}) => {
             direction="row"
             gap="medium"
             align="center"
+            justify="between"
         >
-            <MailOption />
-            <Text>{invitation.email_address}</Text>
+            <Box direction="row" gap="medium">
+                <MailOption />
+                <Text>{invitation.email_address}</Text>
+            </Box>
+            <Button icon={<Trash size="small" />} onClick={handleSubmit} />
+            
         </Box>
     )
 }
