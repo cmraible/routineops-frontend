@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router';
-import { Box, Heading } from 'grommet';
+import { Box, Heading, List } from 'grommet';
 import { Edit } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,12 +7,18 @@ import Error from '../../components/Error';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
 import { flattenErrors } from '../../utils';
+import { fetchLayers, selectLayersForRole } from '../layers/layersSlice';
+import { fetchUserRoles, selectUserRolesForRole } from '../userRoles/userRolesSlice';
 import { fetchRole, selectRoleById } from './rolesSlice';
+import UserItem from '../users/UserItem';
+import RoutineItem from '../routines/RoutineItem';
 
 const RoleDetail = ({match}) => {
   const dispatch = useDispatch();
   const { roleId } = match.params;
   const role = useSelector(state => selectRoleById(state, roleId))
+  const userRoles = useSelector(state => selectUserRolesForRole(state, roleId));
+  const layers = useSelector(state => selectLayersForRole(state, roleId));
 
   const [requestStatus, setRequestStatus] = useState('idle');
   const [errors, setErrors] = useState({});
@@ -22,7 +28,9 @@ const RoleDetail = ({match}) => {
         setRequestStatus('pending');
         setErrors({});
         const resultAction = await dispatch(fetchRole(roleId))
-        if (fetchRole.fulfilled.match(resultAction)) {
+        const userRolesAction = await dispatch(fetchUserRoles())
+        const layerAction = await dispatch(fetchLayers())
+        if (fetchRole.fulfilled.match(resultAction) && fetchUserRoles.fulfilled.match(userRolesAction) && fetchLayers.fulfilled.match(layerAction)) {
             setRequestStatus('succeeded');
         } else {
             setRequestStatus('failed');
@@ -43,7 +51,16 @@ const RoleDetail = ({match}) => {
   } else if (requestStatus === 'succeeded') {
       content = (
         <Box pad="medium">
-          <Heading>{role.name}</Heading>
+          <Heading level={3}>Users</Heading>
+          <List 
+            data={userRoles}
+            children={(datum, index) => <UserItem id={datum.user} />}
+          />
+          <Heading level={3}>Routines</Heading>
+          <List 
+            data={layers}
+            children={(datum, index) => <RoutineItem id={datum.routine} />}
+          />
         </Box>
       )
   } else if (requestStatus === 'failed') {

@@ -45,6 +45,8 @@ const UserList = () => {
         fetch()
     }, [dispatch])
 
+    console.log(users)
+
     let content
 
     if (requestStatus === 'pending') {
@@ -61,7 +63,10 @@ const UserList = () => {
             <Heading margin={{vertical: "none", horizontal: "small"}} level={2} size="small">Active Users</Heading>
             <List
               data={users}
-              children={(datum, index) => <UserItem user={datum} />}
+              children={(datum, index) => {
+                console.log(datum.id)
+                return  (<UserItem id={datum.id} />)
+              }}
               onClickItem={(datum, index) => dispatch(push(`/users/${datum.item.id}`))}
             />
           </Box>

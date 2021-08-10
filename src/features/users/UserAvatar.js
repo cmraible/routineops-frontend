@@ -1,4 +1,6 @@
 import React, { useEffect, useState} from 'react';
+import { useSelector } from 'react-redux';
+import { selectUserById } from './usersSlice';
 import { Avatar } from 'grommet';
 import { User } from 'grommet-icons';
 
@@ -16,20 +18,23 @@ const colors = [
     '#FF7043'
 ]
 
-const UserAvatar = ({ user, size }) => {
+const UserAvatar = ({ id, size }) => {
 
-    var rng = seedrandom(user.email);
+    const user = useSelector(state => selectUserById(state, id))
+    var rng = seedrandom(id);
 
     const [colorNum, setColorNum] = useState();
     useEffect(() => {
         setColorNum(Math.round(rng()*10,0))
-    }, [user.email, rng]);
+    }, [user, rng]);
 
     
     const background = colors[colorNum];
     const color = 'white';
-    const body = (user.first_name && user.last_name) ? `${user.first_name[0].toUpperCase()}${user.last_name[0].toUpperCase()}` : <User color={color} />;
-
+    let body;
+    if (user) {
+        body = (user.first_name && user.last_name) ? `${user.first_name[0].toUpperCase()}${user.last_name[0].toUpperCase()}` : <User color={color} />
+    }
 
     return (
         <Avatar background={background} size={size || '36px'}>
