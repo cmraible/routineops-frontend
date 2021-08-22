@@ -1,7 +1,9 @@
+import { Anchor, Box, List } from 'grommet';
 import React from 'react';
-import { Anchor, Box, Heading, List } from 'grommet';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectAllAuthorizedUsers, chooseAccount } from './authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import AccountPage from '../../components/AccountPage';
+import UserAvatar from '../users/UserAvatar';
+import { chooseAccount, selectAllAuthorizedUsers } from './authSlice';
 
 const SwitchAccounts = () => {
 
@@ -9,9 +11,8 @@ const SwitchAccounts = () => {
 
     const users = useSelector(selectAllAuthorizedUsers)
     return (
-        <Box height="100vh" align="center" justify="center">
-            <Box align="center" width="720px" gap="medium">
-                <Heading>Switch Accounts</Heading>
+        <AccountPage title="Accounts">
+            <Box flex={false} gap="large" fill="horizontal">
                 <List 
                     data={users}
                     onClickItem={({item, index}) => {
@@ -19,12 +20,21 @@ const SwitchAccounts = () => {
                         dispatch(chooseAccount(item.user.id));
                     }}
                     children={(item, index) => {
-                        return <Box width="512px" align="center">{item.user.email}</Box>
+                        return (
+                            <Box gap="medium" width="512px" align="center" direction="row">
+                                <UserAvatar id={item.user.id} />{item.user.email}
+                            </Box>
+                        )
+                            
                     }}
                 />
-                <Anchor href="/login">Add Account</Anchor>
+                <Box direction="row" justify="center" gap="small">
+                    <Anchor href="/login">Add account</Anchor>
+                </Box>
             </Box>
-        </Box>
+
+        </AccountPage>
+        
         
     )
 }
