@@ -11,6 +11,7 @@ import MonthDayMultipleSelect from '../../components/MonthDayMultipleSelect';
 import MonthMultipleSelect from '../../components/MonthMultipleSelect';
 import Page from '../../components/Page';
 import SubmitButton from '../../components/SubmitButton';
+import IndividualOrShared from '../../components/IndividualOrShared';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
 import { flattenErrors, defaultLayerParams } from '../../utils';
@@ -39,6 +40,7 @@ const AddRoutine = () => {
 
   const [requestStatus, setRequestStatus] = useState('idle');
   const [errors, setErrors] = useState({})
+  const [type, setType] = useState('Individual');
   const [value, setValue] = useState({
     name: '',
     description: '',
@@ -58,6 +60,7 @@ const AddRoutine = () => {
         layers: [
           {
             account: user.account,
+            type: type,
             role: value.role || defaultRole,
             label: value.label,
             frequency: value.frequency,
@@ -112,15 +115,11 @@ const AddRoutine = () => {
       // generate rrule from user provided inputs
       const defaultParams = defaultLayerParams(formValue.label, account)
       let { dtstart } = defaultParams || {dtstart: null}
-      console.log(dtstart)
       if (['Daily', 'Weekly', 'Bi-Weekly'].includes(formValue.label)) {
         // Time is an input. Calcuate the proper dtstart based on input
         const hours = parseInt(formValue.time.split(':')[0])
         const minutes = parseInt(formValue.time.split(':')[1])
         dtstart = DateTime.local().set({hour: hours, minute: minutes, seconds: 0}).setZone('utc', {keepLocalTime: true}).toJSDate()
-        console.log(hours)
-        console.log(minutes)
-        console.log(DateTime.local().set({hour: hours, minute: minutes, seconds: 0}).toJSDate())
       }
       const params = {
         ...defaultParams,
@@ -180,9 +179,12 @@ const AddRoutine = () => {
             </Box>
             { // Only display the Role select if the account has a team subscription
               account.type === 'Team' && (
-                <Box flex={false}>
+                <Box flex={false} gap="small">
                   <Box align="center" justify="stretch" gap="small" direction="row">
                     <Text style={{'whiteSpace': 'nowrap'}}>Assigned to</Text><RoleSelect placeholder="Select Role" required />
+                  </Box>
+                  <Box align="end">
+                    <IndividualOrShared value={type} setValue={(newValue) => setType(newValue) } />
                   </Box>
                 </Box>
               )

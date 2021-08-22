@@ -23,6 +23,7 @@ import { fetchRoutine, updateRoutine } from './routinesSlice';
 import { push } from 'connected-react-router';
 import RRule from 'rrule';
 import { DateTime } from 'luxon';
+import IndividualOrShared from '../../components/IndividualOrShared';
 
 
 const RoutineEdit = ({ match, layers }) => {
@@ -31,6 +32,7 @@ const RoutineEdit = ({ match, layers }) => {
   const user = useSelector(selectLoggedInUser)
   const account = useSelector(selectUserAccount);
 
+  const [type, setType] = useState();
   const [value, setValue] = useState({});
 
   const [fetchStatus, setFetchStatus] = useState('idle');
@@ -41,7 +43,7 @@ const RoutineEdit = ({ match, layers }) => {
   useEffect(() => {
     dispatch(fetchAccount(user.account))
     const setRoutineValue = (value) => {
-      console.log(value)
+      setType(value.layers[0].type)
       setValue({
         id: value.id,
         name: value.name,
@@ -97,6 +99,7 @@ const RoutineEdit = ({ match, layers }) => {
           id: value.layers[0].id,
           account: user.account,
           role: value.role,
+          type: type,
           label: value.label,
           frequency: value.frequency,
           recurrence: value.recurrence,
@@ -112,6 +115,7 @@ const RoutineEdit = ({ match, layers }) => {
     }
     setUpdateStatus('pending');
     setUpdateErrors({});
+    console.log(routineData)
     const resultAction = await dispatch(updateRoutine(routineData))
     if (updateRoutine.fulfilled.match(resultAction)) {
       setUpdateStatus('succeeded');
@@ -127,7 +131,6 @@ const RoutineEdit = ({ match, layers }) => {
   }
 
   const handleChange = (formValue) => {
-    console.log(formValue)
     if (formValue.label !== value.label) {
       // user changed the frequency label
       // get the default parameters, generate rrule
@@ -187,7 +190,6 @@ const RoutineEdit = ({ match, layers }) => {
         });
       }
     }
-    console.log(value)
   }
 
   let content
@@ -214,6 +216,9 @@ const RoutineEdit = ({ match, layers }) => {
                 <Box flex={false}>
                   <Box align="center" justify="stretch" gap="small" direction="row">
                     <Text style={{'whiteSpace': 'nowrap'}}>Assigned to</Text><RoleSelect placeholder="Select Role" name="role" required plain />
+                  </Box>
+                  <Box align="end">
+                    <IndividualOrShared value={type} setValue={(newValue) => setType(newValue) } />
                   </Box>
                 </Box>
               )
