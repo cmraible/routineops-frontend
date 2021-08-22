@@ -6,8 +6,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLayerById } from '../layers/layersSlice';
 import { selectRoutineById } from '../routines/routinesSlice';
-import { selectLoggedInUser } from '../auth/authSlice';
-import { selectTaskById, completeTask, updateTask } from './tasksSlice';
+import { completeTask, selectTaskById, updateTask } from './tasksSlice';
 
 
 const TaskItem = ({id}) => {
@@ -15,7 +14,6 @@ const TaskItem = ({id}) => {
     const task = useSelector(state => selectTaskById(state, id));
     const layer = useSelector(state => selectLayerById(state, task.layer))
     const routine = useSelector(state => selectRoutineById(state, layer.routine));
-    const user = useSelector(selectLoggedInUser);
 
     const formattedDueDate = DateTime.fromISO(task.due).toLocaleString(DateTime.DATETIME_SHORT);
 
@@ -62,7 +60,7 @@ const TaskItem = ({id}) => {
                 <CheckBox
                     checked={checked}
                     onChange={onChange}
-                    disabled={requestStatus === 'pending' || user.id !== task.assignee}
+                    disabled={requestStatus === 'pending'}
                 />
                 <Box
                     direction="row"

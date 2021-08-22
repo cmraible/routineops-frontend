@@ -20,7 +20,6 @@ const RoutineDetail = ({ match }) => {
   const account = useSelector(selectUserAccount)
   const routine = useSelector(state => selectRoutineById(state, routineId));
   const layers = useSelector(state => selectLayersForRoutine(state, routineId))
-  console.log(layers)
   const roles = useSelector(selectRoleEntities);
 
   const [status, setStatus] = useState('idle');
@@ -64,7 +63,6 @@ const RoutineDetail = ({ match }) => {
   } else if (status === 'succeeded') {
     var layerComponents = []
     layers.forEach((layer) => {
-      console.log(layer)
       const role = roles[layer.role]
       layerComponents.push(
           <Box gap="medium" pad={{vertical: "medium"}} key={layer.id}>
