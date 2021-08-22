@@ -1,9 +1,9 @@
 import { push } from 'connected-react-router';
 import { Box, Menu, Text } from 'grommet';
-import { Logout, ContactInfo } from 'grommet-icons';
+import { ContactInfo, Logout, Transaction } from 'grommet-icons';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, selectLoggedInUser } from '../auth/authSlice';
+import { logout, selectLoggedInUser, switchAccounts } from '../auth/authSlice';
 import UserAvatar from './UserAvatar';
 
 const UserMenu = () => {
@@ -19,6 +19,10 @@ const UserMenu = () => {
     <Menu
       items={[
         {label: 'My Profile', icon: <ContactInfo />, gap: "large", round: "medium", onClick: () => dispatch(push('/profile'))},
+        {label: 'Switch Accounts', icon: <Transaction />, gap: "large", round: "medium", onClick: () => {
+          dispatch(switchAccounts());
+          dispatch(push('/'));
+        }},
         {label: 'Logout', icon: <Logout />, gap: "large", round: "medium", onClick: () => logoutAction()}
       ]}
       plain

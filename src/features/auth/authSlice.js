@@ -1,15 +1,18 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice, createAction } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
 import { push } from 'connected-react-router';
 import { loginUser } from '../../utils';
 
-
+// Adapter to normalize and sort response data
+const credentialsAdapter = createEntityAdapter({
+    selectId: (entity) => entity.user.id
+});
 
 // Adapter creates default 'entities' and 'ids' entries. Add additional params to state here.
-const initialState = {
-    token: undefined,
-    userId: undefined
-};
+const initialState =
+    credentialsAdapter.getInitialState({
+        loggedInUser: false
+    });
 
 // Async thunks to interact with API
 export const login = createAsyncThunk('auth/login', async (credentials, { dispatch, getState, rejectWithValue }) => {
@@ -26,6 +29,10 @@ export const login = createAsyncThunk('auth/login', async (credentials, { dispat
         return rejectWithValue(err.response.data)
     }
 });
+
+export const switchAccounts = createAction('SWITCH_ACCOUNTS');
+
+export const chooseAccount = createAction('CHOOSE_ACCOUNT');
 
 export const changePassword = createAsyncThunk('auth/changePassword', async (passwords, { dispatch, getState, rejectWithValue }) => {
     try {
@@ -141,32 +148,56 @@ export const authSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [signup.fulfilled]: (state, action) => {
-            state.token = action.payload.key
-            state.userId = action.payload.user.id
+        [switchAccounts]: (state, {payload}) => {
+            state.loggedInUser = false;
         },
-        [login.fulfilled]: (state, action) => {
-            state.token = action.payload.key
-            state.userId = action.payload.user.id
+        [chooseAccount]: (state, {payload}) => {
+            console.log(payload)
+            state.loggedInUser = payload;
         },
-        [loginWithGoogle.fulfilled]: (state, action) => {
-            state.token = action.payload.key
-            state.userId = action.payload.user.id
+        [signup.fulfilled]: (state, {payload}) => {
+            credentialsAdapter.upsertOne(state, payload);
+            state.loggedInUser = payload.user.id
         },
+        [login.fulfilled]: (state, { payload }) => {
+           credentialsAdapter.upsertOne(state, payload)
+           state.loggedInUser = payload.user.id
+        },
+        [loginWithGoogle.fulfilled]: (state, { payload }) => {
+            credentialsAdapter.upsertOne(state, payload)
+            state.loggedInUser = payload.user.id
+         },
         [logout.rejected]: (state, action) => {
-            state.token = undefined
-            state.userId = undefined
+            credentialsAdapter.removeAll(state);
+            state.loggedInUser = false;
         },
         [logout.fulfilled]: (state, action) => {
-            state.token = undefined
-            state.userId = undefined
+            credentialsAdapter.removeAll(state);
+            state.loggedInUser = false;
         }
     }
 });
 
 // Export the check reducer
-export default authSlice.reducer
+export default authSlice.reducer;
 
-export const selectLoggedInUser = (state) => state.users.entities[state.auth.userId];
-export const selectIsLoggedIn = (state) => (state.auth.token) ? true : false;
-export const selectToken = (state) => state.auth.token;
+export const {
+    selectAll: selectAllAuthorizedUsers
+} = credentialsAdapter.getSelectors(state => state.auth)
+
+export const selectIsLoggedIn = (state) => (state.auth.loggedInUser);
+export const selectNumberLoggedInUsers = (state) => (state.auth.ids.length);
+export const selectLoggedInUser = (state) => {
+    if (selectIsLoggedIn(state)) {
+        return state.users.entities[state.auth.loggedInUser];
+    } else {
+        return false
+    }
+}
+export const selectToken = (state) => {
+    if (selectIsLoggedIn(state)) {
+        return state.auth.entities[selectLoggedInUser(state).id].key;
+    } else {
+        return false
+    }
+}
