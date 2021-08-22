@@ -19,7 +19,10 @@ const UserMenu = () => {
     <Menu
       items={[
         {label: 'My Profile', icon: <ContactInfo />, gap: "large", round: "medium", onClick: () => dispatch(push('/profile'))},
-        {label: 'Switch Accounts', icon: <Transaction />, gap: "large", round: "medium", onClick: () => dispatch(switchAccounts())},
+        {label: 'Switch Accounts', icon: <Transaction />, gap: "large", round: "medium", onClick: () => {
+          dispatch(switchAccounts());
+          dispatch(push('/'));
+        }},
         {label: 'Logout', icon: <Logout />, gap: "large", round: "medium", onClick: () => logoutAction()}
       ]}
       plain
