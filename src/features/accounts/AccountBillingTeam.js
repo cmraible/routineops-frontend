@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import EditDescription from '../../components/EditDescription';
 import SubscriptionPlan from '../../components/SubscriptionPlan';
 import { getPrice } from '../subscriptions/subscriptionsSlice';
-import { selectAllUsers } from '../users/usersSlice';
+import { selectActiveUsers } from '../users/usersSlice';
 import AccountBillingModify from './AccountBillingModify';
 import AccountCancel from './AccountCancel';
 import AccountCreditCard from './AccountCreditCard';
@@ -17,7 +17,7 @@ const AccountBillingTeam = () => {
 
   const dispatch = useDispatch();
   const account = useSelector(selectUserAccount);
-  const users = useSelector(selectAllUsers);
+  const users = useSelector(selectActiveUsers);
 
   const usage = Math.round(users.length / account.subscription.quantity * 100)
   const usageColor = usage < 90 ? "status-ok" : "status-warning"

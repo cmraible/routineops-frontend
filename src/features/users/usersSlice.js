@@ -102,3 +102,11 @@ export const {
     selectIds: selectUserIds,
     selectEntities: selectUserEntities
   } = usersAdapter.getSelectors(state => state.users)
+
+export const selectActiveUsers = (state) => {
+    return selectAllUsers(state).filter((user) => user.is_active === true)
+}
+
+export const selectInActiveUsers = (state) => {
+    return selectAllUsers(state).filter((user) => user.is_active === false)
+}

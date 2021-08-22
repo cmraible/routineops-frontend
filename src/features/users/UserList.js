@@ -1,4 +1,3 @@
-import { push } from 'connected-react-router';
 import { Box, Button, Heading, List } from 'grommet';
 import { Add } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
@@ -6,16 +5,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import Error from '../../components/Error';
 import Spinner from '../../components/Spinner';
 import { flattenErrors } from '../../utils';
+import { selectLoggedInUser } from '../auth/authSlice';
 import InvitationItem from '../invitations/InvitationItem';
 import { fetchInvitations, selectIncompleteInvitations } from '../invitations/invitationsSlice';
 import UserAdd from '../users/UserAdd';
 import UserItem from '../users/UserItem';
-import { fetchUsers, selectAllUsers } from '../users/usersSlice';
+import { fetchUsers, selectActiveUsers, selectInActiveUsers } from '../users/usersSlice';
 
 
 const UserList = () => {
 
-    const users = useSelector(selectAllUsers);
+    const activeUsers = useSelector(selectActiveUsers);
+    const inactiveUsers = useSelector(selectInActiveUsers);
+    const loggedInUser = useSelector(selectLoggedInUser)
     const invitations = useSelector(selectIncompleteInvitations);
     const dispatch = useDispatch();
 
@@ -45,8 +47,6 @@ const UserList = () => {
         fetch()
     }, [dispatch])
 
-    console.log(users)
-
     let content
 
     if (requestStatus === 'pending') {
@@ -62,21 +62,32 @@ const UserList = () => {
           <Box gap="small">
             <Heading margin={{vertical: "none", horizontal: "small"}} level={2} size="small">Active Users</Heading>
             <List
-              data={users}
+              data={activeUsers}
               children={(datum, index) => {
-                console.log(datum.id)
                 return  (<UserItem id={datum.id} />)
               }}
-              onClickItem={(datum, index) => dispatch(push(`/users/${datum.item.id}`))}
             />
           </Box>
-          <Box gap="small">
-            <Heading margin={{vertical: "none", horizontal: "small"}} level={2} size="small">Invited Users</Heading>
-            <List
-              data={invitations}
-              children={(datum, index) => <InvitationItem invitation={datum} />}
-            />
-          </Box>
+          {loggedInUser.is_account_admin && invitations.length > 0 && (
+            <Box gap="small">
+              <Heading margin={{vertical: "none", horizontal: "small"}} level={2} size="small">Invited Users</Heading>
+              <List
+                data={invitations}
+                children={(datum, index) => <InvitationItem invitation={datum} />}
+              />
+            </Box>
+          )}
+          {loggedInUser.is_account_admin && inactiveUsers.length > 0 && (
+            <Box gap="small">
+              <Heading margin={{vertical: "none", horizontal: "small"}} level={2} size="small">Inactive Users</Heading>
+              <List
+                data={inactiveUsers}
+                children={(datum, index) => <UserItem id={datum.id} />}
+              />
+            </Box>
+          )}
+
+          
         </Box>
           
         </>
@@ -85,17 +96,20 @@ const UserList = () => {
 
     return (
         <Box>
-          <Box align="end" pad="medium">
-            <Button
-              fill={false}
-              data-cy="action"
-              primary
-              size="large"
-              icon={<Add />}
-              label="Invite a user"
-              onClick={() => setAdd(true)}
-            />
-          </Box>
+          {loggedInUser.is_account_admin === true && (
+            <Box align="end" pad="medium">
+              <Button
+                fill={false}
+                data-cy="action"
+                primary
+                size="large"
+                icon={<Add />}
+                label="Invite a user"
+                onClick={() => setAdd(true)}
+              />
+            </Box>
+          )}
+          
           {content}
           {(add && <UserAdd close={() => setAdd(false)} />)}
       </Box>
