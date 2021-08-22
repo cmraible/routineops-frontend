@@ -76,7 +76,6 @@ export const usersSlice = createSlice({
         [fetchUser.fulfilled]: usersAdapter.upsertOne,
         [updateUser.fulfilled]: (state, { payload }) => {
             const { id, ...changes } = payload
-            console.log(changes);
             usersAdapter.updateOne(state, {id, changes});
         },
         [login.fulfilled]: (state, action) => {

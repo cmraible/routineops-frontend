@@ -1,4 +1,4 @@
-import { logout } from './features/auth/authSlice';
+import { logout, selectToken } from './features/auth/authSlice';
 
 const axios = require('axios').default;
 
@@ -26,7 +26,7 @@ const getClient = (dispatch, getState) => {
   const instance = axios.create(baseConfig)
 
   instance.interceptors.request.use((config) => {
-    const token = getState().auth.token
+    const token = selectToken(getState())
     if (token) {
       config.headers.Authorization = `Token ${token}`
     }
