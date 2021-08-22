@@ -26,7 +26,7 @@ import UserEdit from '../features/users/UserEdit';
 
 const AppLoggedIn = () => {
   const dispatch = useDispatch()
-  const user = useSelector(selectLoggedInUser)
+  const user = useSelector(selectLoggedInUser);
 
   const pathname = window.location.pathname
   const account = useSelector(selectUserAccount);

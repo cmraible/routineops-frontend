@@ -16,7 +16,7 @@ const App = () => {
 
   const dispatch = useDispatch()
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const user = useSelector(selectLoggedInUser)
+  const user = useSelector(selectLoggedInUser);
   const theme = defaultTheme
   const darkMode = useSelector(state => state.ui.darkMode)
   const account = useSelector(selectUserAccount);
