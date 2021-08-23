@@ -1,6 +1,8 @@
-import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import getClient from '../../apiClient';
-import { logout } from '../auth/authSlice';
+import { logout, selectLoggedInUser } from '../auth/authSlice';
+import { selectLayerById } from '../layers/layersSlice';
+import { selectActiveUserRolesForUser } from '../userRoles/userRolesSlice';
 
 // Adapter to normalize and sort response data
 const tasksAdapter = createEntityAdapter({
@@ -85,3 +87,16 @@ export const {
     selectIds: selectTaskIds,
 
   } = tasksAdapter.getSelectors(state => state.tasks)
+
+
+export const selectUserTasks = (state) => {
+    const user = selectLoggedInUser(state);
+    const roles = selectActiveUserRolesForUser(state, user.id).map((item) =>  item.role);
+    return selectAllTasks(state).filter((task) => {
+        const layer = selectLayerById(state, task.layer);
+        if (layer.type === 'Shared' && roles.some((role) => role === layer.role)) {
+            return true
+        }
+        return task.assignee === user.id
+    });
+}

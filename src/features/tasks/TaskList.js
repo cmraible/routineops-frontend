@@ -1,53 +1,33 @@
 import { push } from 'connected-react-router';
-import { Box, Button, CheckBox, Collapsible, Form, FormField, Heading, InfiniteScroll, ResponsiveContext, Select, Text } from 'grommet';
-import { Add, CircleInformation, Filter } from 'grommet-icons';
+import { group } from 'd3-array';
+import { Box, Button, Heading, InfiniteScroll, ResponsiveContext, Select, Text } from 'grommet';
+import { Add, CircleInformation } from 'grommet-icons';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../../components/Message';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
-import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
+import { fetchAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { fetchLayers } from '../layers/layersSlice';
 import { fetchRoutines } from '../routines/routinesSlice';
-import { selectAllUsers } from '../users/usersSlice';
 import TaskItem from './TaskItem';
-import { fetchTasks, selectAllTasks } from './tasksSlice';
-import { group } from 'd3-array';
+import { fetchTasks, selectUserTasks } from './tasksSlice';
 
 const TaskList = () => {
   const dispatch = useDispatch()
 
   const user = useSelector(selectLoggedInUser);
-  const account = useSelector(selectUserAccount);
-  const allUsers = useSelector(selectAllUsers);
 
   const [requestStatus, setRequestStatus] = useState('idle');
-  const [showFilters, setShowFilters] = useState(false);
   const [headerValue, setHeaderValue] = useState('All Tasks')
-  const [filters, setFilters] = useState({
-    users: [user.id],
-    completed: true,
-    past_due: true
-  });
 
-  const tasks = useSelector(selectAllTasks)
+  const tasks = useSelector(selectUserTasks)
     .filter((task) => {
       const now = DateTime.local()
-      if (!filters.completed && task.completed) {
-        return false;
-      }
       if (task.completed && DateTime.fromISO(task.due) < now) {
         return false;
-      }
-      if (!filters.past_due && !task.completed && DateTime.fromISO(task.due) < now) {
-        return false;
-      }
-      if (filters.users.length > 0) {
-        if (!filters.users.includes(task.assignee)) {
-          return false;
-        }
       }
       if (headerValue === 'Today' && DateTime.fromISO(task.due) > DateTime.local().endOf('day')) {
         return false;
@@ -177,17 +157,17 @@ const TaskList = () => {
     <Page
       title="Todo"
       header={header}
-      action={{
-        icon: <Filter />,
-        primary: false,
-        onClick: () => setShowFilters(!showFilters)
-      }}
+      // action={{
+      //   icon: <Filter />,
+      //   primary: false,
+      //   onClick: () => setShowFilters(!showFilters)
+      // }}
     >
       <Box>
         <Box overflow="visible">
           {content}
         </Box>
-        <Collapsible direction="horizontal" open={showFilters}>
+        {/* <Collapsible direction="horizontal" open={showFilters}>
           <Box width="medium" fill="vertical" background="background-contrast" style={{position: "sticky", top: 0}}>
             <Box border={{bottom: "small"}} pad="small">
               <Heading size="xsmall" margin="xsmall" level={3}>Filters</Heading>
@@ -217,7 +197,7 @@ const TaskList = () => {
             </Form>
 
           </Box>
-        </Collapsible>
+        </Collapsible> */}
       </Box>
     </Page>
   )
