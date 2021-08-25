@@ -24,29 +24,6 @@ const TaskList = () => {
   const [requestStatus, setRequestStatus] = useState('idle');
   const [headerValue, setHeaderValue] = useState('All Tasks')
 
-  const tasks = useSelector(selectUserTasks)
-    .filter((task) => {
-      const now = DateTime.local()
-      if (task.completed && DateTime.fromISO(task.due) < now) {
-        return false;
-      }
-      if (headerValue === 'Today' && DateTime.fromISO(task.due) > DateTime.local().endOf('day')) {
-        return false;
-      }
-      if (headerValue === 'This Week' && DateTime.fromISO(task.due) > DateTime.local().endOf('week')) {
-        return false;
-      }
-      if (headerValue === 'This Month' && DateTime.fromISO(task.due) > DateTime.local().endOf('month')) {
-        return false;
-      }
-      return true;
-    })
-    .sort((a, b) => {
-    const aDue = DateTime.fromISO(a.due)
-    const bDue = DateTime.fromISO(b.due)
-    return aDue < bDue ? -1 : aDue > bDue ? 1 : 0;
-  });
-
   useEffect(() => {
     const fetch = async () => {
       setRequestStatus('pending');
@@ -82,6 +59,29 @@ const TaskList = () => {
       return `${due.monthLong} ${due.year}`
     }
   }
+
+  const tasks = useSelector(selectUserTasks)
+    .filter((task) => {
+      const now = DateTime.local()
+      if (task.completed && DateTime.fromISO(task.due) < now) {
+        return false;
+      }
+      if (headerValue === 'Today' && DateTime.fromISO(task.due) > DateTime.local().endOf('day')) {
+        return false;
+      }
+      if (headerValue === 'This Week' && DateTime.fromISO(task.due) > DateTime.local().endOf('week')) {
+        return false;
+      }
+      if (headerValue === 'This Month' && DateTime.fromISO(task.due) > DateTime.local().endOf('month')) {
+        return false;
+      }
+      return true;
+    })
+    .sort((a, b) => {
+    const aDue = DateTime.fromISO(a.due)
+    const bDue = DateTime.fromISO(b.due)
+    return aDue < bDue ? -1 : aDue > bDue ? 1 : 0;
+  });
 
   let content
   if (requestStatus === 'pending') {
