@@ -8,6 +8,9 @@ import MobileFooter from '../components/MobileFooter';
 import NotFound from '../components/NotFound';
 import Account from '../features/accounts/Account';
 import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSlice';
+import { fetchRoles } from '../features/roles/rolesSlice';
+import { fetchTasks } from '../features/tasks/tasksSlice';
+import { fetchUserRoles } from '../features/userRoles/userRolesSlice';
 import { selectLoggedInUser } from '../features/auth/authSlice';
 import Profile from '../features/profile/Profile';
 import RoleDetail from '../features/roles/RoleDetail';
@@ -63,7 +66,10 @@ const AppLoggedIn = () => {
 
 
   useEffect(() => {
-    dispatch(fetchAccount(user.account))
+    dispatch(fetchAccount(user.account));
+    dispatch(fetchRoles());
+    dispatch(fetchUserRoles());
+    dispatch(fetchTasks());
   }, [dispatch, user.account]);
 
   const mainSwitch = (
