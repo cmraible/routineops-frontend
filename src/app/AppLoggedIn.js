@@ -10,6 +10,7 @@ import Account from '../features/accounts/Account';
 import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSlice';
 import { fetchRoles } from '../features/roles/rolesSlice';
 import { fetchTasks } from '../features/tasks/tasksSlice';
+import { fetchLayers } from '../features/layers/layersSlice';
 import { fetchUserRoles } from '../features/userRoles/userRolesSlice';
 import { selectLoggedInUser } from '../features/auth/authSlice';
 import Profile from '../features/profile/Profile';
@@ -70,6 +71,7 @@ const AppLoggedIn = () => {
     dispatch(fetchRoles());
     dispatch(fetchUserRoles());
     dispatch(fetchTasks());
+    dispatch(fetchLayers());
   }, [dispatch, user.account]);
 
   const mainSwitch = (
