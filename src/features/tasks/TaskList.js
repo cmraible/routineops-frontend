@@ -12,6 +12,7 @@ import { fetchAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { fetchLayers } from '../layers/layersSlice';
 import { fetchRoutines } from '../routines/routinesSlice';
+import { fetchRoles } from '../roles/rolesSlice';
 import TaskItem from './TaskItem';
 import { fetchTasks, selectUserTasks } from './tasksSlice';
 
@@ -53,7 +54,8 @@ const TaskList = () => {
       const routineAction = await dispatch(fetchRoutines());
       const layerAction = await dispatch(fetchLayers());
       const taskAction = await dispatch(fetchTasks());
-      if (fetchRoutines.fulfilled.match(routineAction) && fetchLayers.fulfilled.match(layerAction) && fetchTasks.fulfilled.match(taskAction) && fetchAccount.fulfilled.match(accountAction)) {
+      const roleAction = await dispatch(fetchRoles());
+      if (fetchRoutines.fulfilled.match(routineAction) && fetchLayers.fulfilled.match(layerAction) && fetchTasks.fulfilled.match(taskAction) && fetchAccount.fulfilled.match(accountAction) && fetchRoles.fulfilled.match(roleAction)) {
         setRequestStatus('succeeded')
       } else {
         setRequestStatus('failed');
