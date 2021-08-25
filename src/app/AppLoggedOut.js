@@ -19,10 +19,11 @@ const AppLoggedOut = () => {
     return (
       <Switch>         
         <Route exact path="/login" component={LoginOptions} />
-        <Route exact path="/" component={SwitchAccounts} />
         <Route exact path="/login/email" component={Login} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/forgot" component={Forgot} />
+        <Route path="/" component={SwitchAccounts} />
+
       </Switch>
     )
   } else {
