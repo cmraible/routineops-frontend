@@ -62,8 +62,7 @@ const TaskList = () => {
 
   const tasks = useSelector(selectUserTasks)
     .filter((task) => {
-      const now = DateTime.local()
-      if (task.completed && DateTime.fromISO(task.due) < now) {
+      if (task.completed) {
         return false;
       }
       if (headerValue === 'Today' && DateTime.fromISO(task.due) > DateTime.local().endOf('day')) {
