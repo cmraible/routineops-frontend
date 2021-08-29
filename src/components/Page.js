@@ -43,7 +43,7 @@ const Page = ({ title, header, children, action, previous, pad, userMenu }) => {
               )
             default:
               return (
-                <Main>
+                <Main fill>
                     <Box
                       style={{position: "sticky", top: 0, zIndex: 10}}
                       direction="row"
@@ -78,7 +78,7 @@ const Page = ({ title, header, children, action, previous, pad, userMenu }) => {
                         {(action && <Button data-cy="action" {...action} /> )}
                       </Box>
                     </Box>
-                    <Box flex="shrink">
+                    <Box flex>
                       {children}
                     </Box>
                 </Main>

@@ -23,6 +23,7 @@ import TaskList from '../features/tasks/TaskList';
 import { fetchTasks } from '../features/tasks/tasksSlice';
 import Team from '../features/team/Team';
 import { fetchUserRoles } from '../features/userRoles/userRolesSlice';
+import { fetchUsers } from '../features/users/usersSlice';
 import UserAdd from '../features/users/UserAdd';
 import UserDetail from '../features/users/UserDetail';
 import UserEdit from '../features/users/UserEdit';
@@ -72,6 +73,7 @@ const AppLoggedIn = () => {
       setStatus('pending')
       await dispatch(fetchAccount(user.account));
       await dispatch(fetchRoles());
+      await dispatch(fetchUsers());
       await dispatch(fetchUserRoles());
       await dispatch(fetchTasks());
       await dispatch(fetchLayers());

@@ -77,6 +77,10 @@ export const selectActiveUserRolesForUser = (state, userId) => {
     })
 }
 
+export const selectActiveUserRoles = (state) => {
+    return selectAllUserRoles(state).filter((userRole) => userRole.is_active)
+}
+
 export const selectUserRolesForRole = (state, roleId) => {
     return selectAllUserRoles(state).filter((userRole) => parseInt(userRole.role) === parseInt(roleId));
 }
