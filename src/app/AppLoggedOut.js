@@ -16,7 +16,7 @@ const AppLoggedOut = () => {
   if (num_accounts > 0) {
     // show switch accounts
     return (
-      <Switch>         
+      <Switch>
         <Route exact path="/login" component={LoginOptions} />
         <Route exact path="/login/email" component={Login} />
         <Route exact path="/signup" component={Signup} />

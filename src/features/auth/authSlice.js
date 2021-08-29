@@ -148,11 +148,10 @@ export const authSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [switchAccounts]: (state, {payload}) => {
+        [switchAccounts]: (state) => {
             state.loggedInUser = false;
         },
         [chooseAccount]: (state, {payload}) => {
-            console.log(payload)
             state.loggedInUser = payload;
         },
         [signup.fulfilled]: (state, {payload}) => {
@@ -167,11 +166,11 @@ export const authSlice = createSlice({
             credentialsAdapter.upsertOne(state, payload)
             state.loggedInUser = payload.user.id
          },
-        [logout.rejected]: (state, action) => {
+        [logout.rejected]: (state) => {
             credentialsAdapter.removeAll(state);
             state.loggedInUser = false;
         },
-        [logout.fulfilled]: (state, action) => {
+        [logout.fulfilled]: (state) => {
             credentialsAdapter.removeAll(state);
             state.loggedInUser = false;
         }
@@ -189,7 +188,11 @@ export const selectIsLoggedIn = (state) => (state.auth.loggedInUser);
 export const selectNumberLoggedInUsers = (state) => (state.auth.ids.length);
 export const selectLoggedInUser = (state) => {
     if (selectIsLoggedIn(state)) {
-        return state.users.entities[state.auth.loggedInUser];
+        if (state.users.entities[state.auth.loggedInUser]) {
+            return state.users.entities[state.auth.loggedInUser]
+        } else {
+            return state.auth.entities[state.auth.loggedInUser].user;
+        }
     } else {
         return false
     }
