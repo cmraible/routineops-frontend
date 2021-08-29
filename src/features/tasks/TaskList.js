@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router';
 import { group } from 'd3-array';
-import { Box, Button, Collapsible, Form, FormField, Heading, InfiniteScroll, ResponsiveContext, Select, Text } from 'grommet';
+import { Box, Button, CheckBox, Collapsible, Form, FormField, Heading, InfiniteScroll, ResponsiveContext, Select, Text } from 'grommet';
 import { Add, CircleInformation, Filter } from 'grommet-icons';
 import { DateTime } from 'luxon';
 import React, { useState } from 'react';
@@ -23,7 +23,8 @@ const TaskList = () => {
   const [headerValue, setHeaderValue] = useState('All Tasks');
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
-    users: [user.id]
+    users: [user.id],
+    completed: false
   });
 
   const calculateGroup = (task) => {
@@ -150,7 +151,9 @@ const TaskList = () => {
                           />
                         </FormField>
                       ))
+                      
                     }
+                        <CheckBox name="completed" label="Show completed tasks" />
                 </Box>
               </Form>
             </Box>

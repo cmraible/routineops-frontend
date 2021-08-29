@@ -52,7 +52,14 @@ const TaskItem = ({id}) => {
         }
     }
 
-
+    let background
+    if (task.completed) {
+        background = "selected"
+    } else if (DateTime.fromISO(task.due) < DateTime.local()) {
+        background = "status-critical"
+    } else {
+        background = "none"
+    }
     let content
     if (routine.type === 'TODO') {
         content = (
@@ -60,7 +67,7 @@ const TaskItem = ({id}) => {
                 direction="row"
                 fill="horizontal"
                 pad="small"
-                background={DateTime.fromISO(task.due) < DateTime.local() && !task.completed ? "status-critical" : "none" }
+                background={background}
             >
                 <Box direction="column" flex="grow">
                     <Box direction="row" gap="medium" fill="horizontal" align="center">
