@@ -187,6 +187,13 @@ export const defaultLayerParams = (label, account) => {
                 byhour: byhour,
                 tzid: tz
             }
+        case 'Once':
+            return {
+                freq: 'ONCE',
+                interval: 1,
+                dtstart: DateTime.local().endOf('day').setZone('utc', { keepLocalTime: true}).toJSDate(),
+                tzid: tz
+            }
         case 'Daily':
             return {
                 freq: RRule.DAILY,

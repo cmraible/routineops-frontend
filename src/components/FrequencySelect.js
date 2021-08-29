@@ -5,7 +5,7 @@ import React from 'react';
 const FrequencySelect = ({ onChange }) => {
 
   const frequency_options = [
-    'Hourly',
+    'Once',
     'Daily',
     'Weekly',
     'Bi-Weekly',
