@@ -58,13 +58,11 @@ const TaskItem = ({id}) => {
         content = (
             <Box
                 direction="row"
-                align="center"
-                gap="medium"
                 fill="horizontal"
                 pad="small"
                 background={DateTime.fromISO(task.due) < DateTime.local() && !task.completed ? "status-critical" : "none" }
             >
-                <Box direction="column" fill="horizontal">
+                <Box direction="column" flex="grow">
                     <Box direction="row" gap="medium" fill="horizontal" align="center">
                         <CheckBox
                             checked={checked}
@@ -75,7 +73,7 @@ const TaskItem = ({id}) => {
                                 (layer.type === 'Shared' && !assignedUsers.some(u => u === user.id))
                             }
                         />
-                        <Box align="start">
+                        <Box align="start" fill="horizontal">
                             <Text style={{lineHeight: '20px'}} size="medium" weight="bold" margin="none">{routine.name}</Text>
                             <Text margin="none" style={{whiteSpace: 'noWrap', lineHeight: '10px'}} size="xsmall" color="text-xweak">{formattedDueDate}</Text>
                         </Box>
@@ -84,11 +82,11 @@ const TaskItem = ({id}) => {
                 
                 <Box
                     direction="row"
-                    justify="between"
+                    justify="end"
                     fill="horizontal"
+                    width="small"
+                    flex="shrink"
                 >
-                    <Box>
-                    </Box>
                     <Box direction="row" gap="medium" justify="center" align="center">
                         {layer.type === 'Individual' && <UserAvatar size="small" id={task.assignee} tip link />}
                         {layer.type === 'Shared' && <UserAvatars size="small" ids={assignedUsers} tip="Shared" link />}
@@ -125,6 +123,7 @@ const TaskItem = ({id}) => {
       <Box
             direction="row"
             border="bottom"
+            fill="horizontal"
             hoverIndicator
             flex={false}
         >
