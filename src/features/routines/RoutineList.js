@@ -5,14 +5,17 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../../components/Message';
 import Page from '../../components/Page';
+import UserMenu from '../users/UserMenu';
 import Spinner from '../../components/Spinner';
 import RoutineItem from './RoutineItem';
 import { fetchRoutines, selectRoutineIds } from './routinesSlice';
+import { selectLoggedInUser } from '../auth/authSlice';
 
 const RoutineList = () => {
 
   const dispatch = useDispatch();
   const routineIds = useSelector(selectRoutineIds);
+  const user = useSelector(selectLoggedInUser);
 
   const [requestStatus, setRequestStatus] = useState('idle');
 
@@ -64,6 +67,8 @@ const RoutineList = () => {
         onClick: () => dispatch(push('routines/add')),
         primary: true
       }}
+      userMenu={<UserMenu mobile user={user} />}
+
     >
       <Box>
         {content}

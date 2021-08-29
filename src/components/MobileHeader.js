@@ -2,7 +2,7 @@ import { Box, Button, Grid, Text } from 'grommet';
 import { Previous } from 'grommet-icons';
 import React from 'react';
 
-const MobileHeader = ({ action, previous, title, header}) => {
+const MobileHeader = ({ action, previous, title, header, userMenu}) => {
 
     return (
         <Box
@@ -20,6 +20,7 @@ const MobileHeader = ({ action, previous, title, header}) => {
                 columns={['1/4', '1/2', '1/4']}
                 areas={[['previous', 'title', 'action']]}
             >
+            {(userMenu)}
             {(previous &&
                 <Box gridArea="previous" justify="center" align="start">
                     <Box
