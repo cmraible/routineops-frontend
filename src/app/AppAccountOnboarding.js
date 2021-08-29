@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUserAccount, updateAccount } from '../features/accounts/accountsSlice';
+import { selectUserAccount, updateAccount, fetchAccount } from '../features/accounts/accountsSlice';
+import { fetchUsers } from '../features/users/usersSlice';
+import { selectLoggedInUser } from '../features/auth/authSlice';
 import ConfirmSubscription from '../features/onboarding/ConfirmSubscription';
 import SelectPlan from '../features/onboarding/SelectPlan';
 import SelectQuantity from '../features/onboarding/SelectQuantity';
@@ -10,10 +12,19 @@ const AppOnboarding = () => {
 
     const dispatch = useDispatch();
     const account = useSelector(selectUserAccount);
+    const user = useSelector(selectLoggedInUser);
 
     const [plan, setPlan] = useState(null);
     const [price, setPrice] = useState(null);
     const [quantity, setQuantity] = useState(null);
+
+    useEffect(() => {
+        const fetch = async () => {
+            await dispatch(fetchAccount(user.account));
+            await dispatch(fetchUsers());
+        }
+        fetch();
+    }, [dispatch, user.account]);
 
     const selectFreePlan = async () => {
         setPlan('Free');
