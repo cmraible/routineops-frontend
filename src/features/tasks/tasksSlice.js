@@ -104,10 +104,16 @@ export const selectUserTasks = (state) => {
 
 export const selectFilteredTasks = (state, filters) => {
     return selectAllTasks(state).filter((task) => {
+        if (filters.completed === false) {
+            if (task.completed) {
+                return false
+            }
+        }
         const layer = selectLayerById(state, task.layer)
         if (layer.type === 'Shared') {
             // Layer type is shared -- check if any valid user is included
             // Check if any user in filters has a role which matches the layer
+            
             if (filters.users.length > 0) {
                 if (filters.users.some((user) => {
                     // Get all roles for user
