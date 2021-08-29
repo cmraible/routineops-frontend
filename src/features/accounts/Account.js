@@ -11,11 +11,14 @@ import AccountCreditCard from './AccountCreditCard';
 import AccountContactInfo from './AccountContactInfo';
 import AccountSettings from './AccountSettings';
 import { selectUserAccount } from './accountsSlice';
+import UserMenu from '../users/UserMenu';
+import { selectLoggedInUser } from '../auth/authSlice';
 
 const AccountDetail = () => {
 
   const pathname = window.location.pathname
   const account = useSelector(selectUserAccount)
+  const user = useSelector(selectLoggedInUser);
 
   const individualTabs = [
       {icon: <CreditCard />, title: 'Billing', href: '/account/billing', active: (pathname.startsWith('/account/billing'))},
@@ -31,7 +34,11 @@ const AccountDetail = () => {
   const tabs = account.type === 'Free' ? individualTabs : teamTabs;
 
   return (
-    <Page title="Account" pad="none">
+    <Page 
+      title="Account" 
+      pad="none"
+      userMenu={<UserMenu mobile user={user} />}  
+    >
         <Tabs tabs={tabs} />
         <Box style={{overflowY: "scroll"}}>
           <Switch>
