@@ -7,13 +7,16 @@ import Tabs from '../../components/Tabs';
 import RoleList from '../roles/RoleList';
 import UserAdd from '../users/UserAdd';
 import UserList from '../users/UserList';
-
-
+import { useSelector } from 'react-redux';
+import { selectLoggedInUser } from '../auth/authSlice';
+import UserMenu from '../users/UserMenu';
 
 
 const Team = () => {
 
     const pathname = window.location.pathname
+    const user = useSelector(selectLoggedInUser);
+
 
     const tabs = [
         {icon: <User />, title: 'Users', href: '/team', active: (pathname === '/team' || pathname.startsWith('/team/users'))},
@@ -21,7 +24,11 @@ const Team = () => {
     ]
 
     return (
-        <Page title="Team" pad="none">
+        <Page 
+            title="Team" 
+            pad="none"
+            userMenu={<UserMenu mobile user={user} />}  
+        >
             <Tabs tabs={tabs} />
             <Box>
                 <Switch>
