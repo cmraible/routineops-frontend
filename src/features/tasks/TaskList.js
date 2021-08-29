@@ -29,7 +29,9 @@ const TaskList = () => {
 
   const calculateGroup = (task) => {
     const due = DateTime.fromISO(task.due)
-    if (DateTime.local() > due) {
+    if (task.completed) {
+      return "Completed"
+    } else if (DateTime.local() > due) {
       return "Past Due"
     } else if (DateTime.local().hasSame(due, 'day')) {
       return "Today"
