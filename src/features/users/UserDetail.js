@@ -28,7 +28,7 @@ const UserRoleExcerpt = ({ id }) => {
   return (
       <Box align="center" direction="row" justify="between">
         {role.name}
-        <Button className="delete-userrole" id={`delete-userrole-${id}`} icon={(requestStatus === 'pending') ? <Spinner isFetching={true} size="small" /> : <Trash size="small" />} onClick={handleDeleteUserRole} />
+        <Button className="delete-userrole" id={`delete-userrole-${id}`} icon={(requestStatus === 'pending') ? <Spinner /> : <Trash size="small" />} onClick={handleDeleteUserRole} />
       </Box>
   )
 }
@@ -99,7 +99,7 @@ const UserDetail = ({ match, onClose }) => {
   let content;
 
   if (fetchStatus === 'pending') {
-    content = (<Spinner pad="large" size="large" color="status-unknown" />)
+    content = (<Spinner />)
   } else if (fetchStatus === 'succeeded') {
     content = (
       <Box pad="medium">

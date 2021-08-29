@@ -3,7 +3,7 @@ import { group } from 'd3-array';
 import { Box, Button, CheckBox, Collapsible, Form, FormField, Heading, InfiniteScroll, ResponsiveContext, Select, Text } from 'grommet';
 import { Add, CircleInformation, Filter } from 'grommet-icons';
 import { DateTime } from 'luxon';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Page from '../../components/Page';
 import { selectUserAccount } from '../accounts/accountsSlice';
@@ -11,7 +11,8 @@ import { selectLoggedInUser } from '../auth/authSlice';
 import UserMenu from '../users/UserMenu';
 import { selectAllUsers } from '../users/usersSlice';
 import TaskItem from './TaskItem';
-import { selectFilteredTasks } from './tasksSlice';
+import { fetchTasks, selectFilteredTasks } from './tasksSlice';
+import Spinner from '../../components/Spinner';
 
 const TaskList = () => {
   const dispatch = useDispatch()
@@ -20,12 +21,22 @@ const TaskList = () => {
   const account = useSelector(selectUserAccount);
   const allUsers = useSelector(selectAllUsers);
 
+  const [status, setStatus] = useState('idle')
   const [headerValue, setHeaderValue] = useState('All Tasks');
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     users: [user.id],
     completed: false
   });
+
+  useEffect(() => {
+    const fetch = async () => {
+      setStatus('pending');
+      await dispatch(fetchTasks);
+      setStatus('idle');
+    }
+    fetch();
+  }, [dispatch]);
  
   const calculateGroup = (task) => {
     const due = DateTime.fromISO(task.due)
@@ -74,7 +85,9 @@ const TaskList = () => {
   });
 
   let content
-  if (tasks.length > 0) {
+  if (status === 'pending') {
+    content = <Spinner />
+  } else if (tasks.length > 0) {
     // Display list of tasks
     content = (
       <ResponsiveContext.Consumer>
@@ -148,8 +161,8 @@ const TaskList = () => {
         onClick: () => setShowFilters(!showFilters)
       }}
     >
-      <Box direction="row" flex={false}>
-        <Box overflow="visible" flex>
+      <Box direction="row" flex={false} fill="vertical">
+        <Box overflow="visible" flex fill="vertical">
           {content}
         </Box>
         <Collapsible direction="horizontal" open={showFilters}>

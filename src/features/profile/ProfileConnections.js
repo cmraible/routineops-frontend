@@ -42,7 +42,7 @@ const ProfileConnections = () => {
   let content
 
   if (requestStatus === 'pending') {
-    content = (<Spinner pad="large" size="large" color="status-unknown" />)
+    content = (<Spinner />)
   } else if (requestStatus === 'failed') {
     content = (
       <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined} />

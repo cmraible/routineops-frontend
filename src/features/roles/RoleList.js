@@ -30,7 +30,7 @@ const RoleList = () => {
   let content
   if (requestStatus === 'pending') {
     // Display a spinner to indicate loading state
-    content = (<Spinner pad="large" size="large" color="status-unknown" />)
+    content = (<Spinner />)
   } else if (requestStatus === 'succeeded') {
     if (roleIds.length > 0) {
       // Display list of roles
@@ -57,8 +57,8 @@ const RoleList = () => {
   }
 
   return (
-    <Box>
-      <Box gap="medium">
+    <Box fill>
+      <Box gap="medium" fill>
         {/* Header - Role Form */}
         <Box pad="small"><AddRoleForm /></Box>
         {/* Body - Role List */}

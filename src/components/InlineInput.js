@@ -1,8 +1,7 @@
 import { TextInput, FormField } from 'grommet';
 import React from 'react';
-import Spinner from './Spinner';
 
-const InlineInput = ({ name, autoFocus, icon, onBlur, label, placeholder, size, value, isFetching, required }) => {
+const InlineInput = ({ name, autoFocus, onBlur, label, placeholder, size, value, isFetching, required }) => {
 
   return (
     <FormField
@@ -18,7 +17,6 @@ const InlineInput = ({ name, autoFocus, icon, onBlur, label, placeholder, size, 
         size={size}
         value={value}
         onBlur={onBlur}
-        icon={<Spinner color="status-unknown" isFetching={isFetching} />}
         reverse
         />
     </FormField>

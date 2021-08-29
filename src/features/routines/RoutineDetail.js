@@ -60,7 +60,7 @@ const RoutineDetail = ({ match }) => {
   let content
 
   if (status === 'pending') {
-    content = (<Spinner pad="large" size="large" color="status-unknown" />)
+    content = (<Spinner />)
   } else if (status === 'succeeded') {
     var layerComponents = []
     layers.forEach((layer) => {

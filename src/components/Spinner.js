@@ -1,26 +1,15 @@
-import { Box } from 'grommet';
-import { Close, PowerCycle } from 'grommet-icons';
+import { Box, Spinner } from 'grommet';
 import React from 'react';
 
 
-const Spinner = ({isFetching, error, color, pad, size}) => {
-  if (isFetching) {
-    return (
-      <Box animation="rotateRight" align="center" pad={pad || "none"}>
-        <PowerCycle color={color} size={size || "medium" } />
-      </Box>
-    )
-  }
+const AppSpinner = () => {
 
-  if (error) {
-    return (
-      <Box align="center" animation="fadeOut">
-        <Close />
-      </Box>
-    )
-  }
-  return null
+  return (
+    <Box fill align="center" justify="center">
+      <Spinner />
+    </Box>
+  )
 
 };
 
-export default Spinner;
+export default AppSpinner;
