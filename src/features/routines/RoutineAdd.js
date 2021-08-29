@@ -1,28 +1,27 @@
-import { Box, Button, Form, Text } from 'grommet';
+import { goBack, push } from 'connected-react-router';
+import { Box, Button, DateInput, Form, FormField, Text } from 'grommet';
 import { Checkmark } from 'grommet-icons';
+import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { RRule } from 'rrule';
 import Error from '../../components/Error';
 import FrequencySelect from '../../components/FrequencySelect';
-import HourMultipleSelect from '../../components/HourMultipleSelect';
+import IndividualOrShared from '../../components/IndividualOrShared';
 import InlineInput from '../../components/InlineInput';
 import InlineTextArea from '../../components/InlineTextArea';
 import MonthDayMultipleSelect from '../../components/MonthDayMultipleSelect';
 import MonthMultipleSelect from '../../components/MonthMultipleSelect';
 import Page from '../../components/Page';
 import SubmitButton from '../../components/SubmitButton';
-import IndividualOrShared from '../../components/IndividualOrShared';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
-import { flattenErrors, defaultLayerParams } from '../../utils';
+import { defaultLayerParams, flattenErrors } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
 import { fetchRoles, selectRoleIds } from '../roles/rolesSlice';
 import { addNewRoutine } from './routinesSlice';
-import { push, goBack } from 'connected-react-router';
-import { RRule } from 'rrule';
-import { DateTime } from 'luxon';
 
 
 const AddRoutine = () => {
@@ -49,6 +48,7 @@ const AddRoutine = () => {
     bymonth: [],
     byweekday: [],
     byhour: [],
+    due: (new Date()).toISOString(),
     role: defaultRole
   });
 
@@ -63,6 +63,7 @@ const AddRoutine = () => {
             type: type,
             role: value.role || defaultRole,
             label: value.label,
+            due: value.due,
             frequency: value.frequency,
             recurrence: value.recurrence,
             interval: value.interval,
@@ -92,7 +93,7 @@ const AddRoutine = () => {
   }
 
   const handleChange = (formValue) => {
-    if (formValue.label !== value.label) {
+    if (formValue.label !== value.label && formValue.label !== 'Once') {
       // user changed the frequency label
       // get the default parameters, generate rrule
       const params = defaultLayerParams(formValue.label, account)
@@ -102,6 +103,7 @@ const AddRoutine = () => {
         name: formValue.name,
         description: formValue.description,
         label: formValue.label,
+        due: DateTime.fromISO(formValue.due).endOf('day').toISO(),
         bymonth: [],
         byweekday: [],
         byhour: [],
@@ -129,23 +131,23 @@ const AddRoutine = () => {
         bymonth: formValue.bymonth,
         bymonthday: formValue.bymonthday
       }
-      const rule = new RRule(params)
-      setValue({
-        ...formValue,
-        recurrence: rule.toString()
-      });
+      if (formValue.label !== 'Once') {
+        const rule = new RRule(params)
+        setValue({
+          ...formValue,
+          recurrence: rule.toString()
+        });
+      } else {
+        setValue({
+          role: formValue.role,
+          name: formValue.name,
+          description: formValue.description,
+          label: formValue.label,
+          due: DateTime.fromISO(formValue.due).endOf('day').toISO()         
+        })
+      }
     }
   }
-
-  useEffect(() => {
-    if (value.recurrence) {
-      console.groupCollapsed()
-      RRule.fromString(value.recurrence).all((d, l) => l < 40).forEach((date) => {
-        console.log(DateTime.fromJSDate(date).toUTC().setZone('local', {keepLocalTime: true}).toJSDate())
-      })
-      console.groupEnd()
-    }
-  }, [value.recurrence]);
 
   return (
     <Page
@@ -194,15 +196,25 @@ const AddRoutine = () => {
                 <Text>Repeats</Text><FrequencySelect />
               </Box>
 
-              { // Display the hour multiple select only if the frequency is Hourly
+              {/* { // Display the hour multiple select only if the frequency is Hourly
                 value.label === 'Hourly' && (
                   <Box align="center" justify="between" gap="small" direction="row">
                     <Text>from</Text><HourMultipleSelect value={value.byhour} />
                   </Box>
                 )
+              } */}
+              { // Display the due date only if the frequency is once
+                value.label === 'Once' && (
+                  <Box align="center" justify="between" gap="small" direction="row">
+                    <Text>Due</Text>
+                    <FormField name="due">
+                      <DateInput format="mm/dd/yyyy" name="due" />
+                    </FormField>
+                  </Box>
+                )
               }
               { // Display the Weekday select for hourly, daily, weekly, bi-weekly
-                ['Hourly', 'Daily', 'Weekly', 'Bi-Weekly'].some((frequency) => value.label === frequency) && (
+                ['Daily', 'Weekly', 'Bi-Weekly'].some((frequency) => value.label === frequency) && (
                   <Box align="center" justify="between" gap="small" direction="row">
                     <Text>on</Text><WeekdayMultipleSelect value={value.byweekday} />
                   </Box>

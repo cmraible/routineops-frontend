@@ -1,10 +1,13 @@
-import { Box, Form, Text } from 'grommet';
+import { push } from 'connected-react-router';
+import { Box, Form, FormField, DateInput, Text } from 'grommet';
 import { Checkmark } from 'grommet-icons';
+import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import RRule from 'rrule';
 import Error from '../../components/Error';
 import FrequencySelect from '../../components/FrequencySelect';
-import HourMultipleSelect from '../../components/HourMultipleSelect';
+import IndividualOrShared from '../../components/IndividualOrShared';
 import InlineInput from '../../components/InlineInput';
 import InlineTextArea from '../../components/InlineTextArea';
 import MonthDayMultipleSelect from '../../components/MonthDayMultipleSelect';
@@ -14,16 +17,12 @@ import Spinner from '../../components/Spinner';
 import SubmitButton from '../../components/SubmitButton';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
-import { flattenErrors, defaultLayerParams } from '../../utils';
+import { defaultLayerParams, flattenErrors } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import RoleSelect from '../roles/RoleSelect';
 import { fetchRoles } from '../roles/rolesSlice';
 import { fetchRoutine, updateRoutine } from './routinesSlice';
-import { push } from 'connected-react-router';
-import RRule from 'rrule';
-import { DateTime } from 'luxon';
-import IndividualOrShared from '../../components/IndividualOrShared';
 
 
 const RoutineEdit = ({ match, layers }) => {
@@ -50,6 +49,7 @@ const RoutineEdit = ({ match, layers }) => {
         description: value.description,
         role: value.layers[0].role,
         label: value.layers[0].label,
+        due: value.layers[0].due,
         bymonthday: value.layers[0].bymonthday,
         bymonth: value.layers[0].bymonth,
         byweekday: value.layers[0].byweekday,
@@ -88,6 +88,7 @@ const RoutineEdit = ({ match, layers }) => {
   }, [dispatch, routineId, setValue, user.account]);
 
   const handleSubmit = async () => {
+    console.log(value);
     const routineData = {
       id: value.id,
       name: value.name,
@@ -101,6 +102,7 @@ const RoutineEdit = ({ match, layers }) => {
           role: value.role,
           type: type,
           label: value.label,
+          due: value.due,
           frequency: value.frequency,
           recurrence: value.recurrence,
           interval: value.interval,
@@ -113,9 +115,9 @@ const RoutineEdit = ({ match, layers }) => {
         }
       ]
     }
+    console.log(routineData)
     setUpdateStatus('pending');
     setUpdateErrors({});
-    console.log(routineData)
     const resultAction = await dispatch(updateRoutine(routineData))
     if (updateRoutine.fulfilled.match(resultAction)) {
       setUpdateStatus('succeeded');
@@ -131,7 +133,7 @@ const RoutineEdit = ({ match, layers }) => {
   }
 
   const handleChange = (formValue) => {
-    if (formValue.label !== value.label) {
+    if (formValue.label !== value.label && formValue.label !== 'Once') {
       // user changed the frequency label
       // get the default parameters, generate rrule
       const params = defaultLayerParams(formValue.label, account)
@@ -141,6 +143,7 @@ const RoutineEdit = ({ match, layers }) => {
         name: formValue.name,
         description: formValue.description,
         label: formValue.label,
+        due: DateTime.fromISO(formValue.due).endOf('day').toISO(),
         bymonth: [],
         byweekday: [],
         byhour: [],
@@ -182,16 +185,27 @@ const RoutineEdit = ({ match, layers }) => {
           bymonth: formValue.bymonth,
           bymonthday: formValue.bymonthday
         }
-        const rule = new RRule(params)
-        setValue({
-          ...value,
-          ...formValue,
-          recurrence: rule.toString()
-        });
+        if (formValue.label !== 'Once') {
+          const rule = new RRule(params)
+          setValue({
+            ...value,
+            ...formValue,
+            recurrence: rule.toString()
+          });
+        } else {
+          setValue({
+            ...value,
+            role: formValue.role,
+            name: formValue.name,
+            description: formValue.description,
+            label: formValue.label,
+            due: DateTime.fromISO(formValue.due).endOf('day').toISO(),
+          })
+        }
+        
       }
     }
   }
-
   let content
 
   if (fetchStatus === 'pending') {
@@ -228,15 +242,25 @@ const RoutineEdit = ({ match, layers }) => {
               <Box align="center" justify="between" gap="small" direction="row">
                 <Text>Repeats</Text><FrequencySelect />
               </Box>
-              { // Display the hour multiple select only if the frequency is Hourly
+              {/* { // Display the hour multiple select only if the frequency is Hourly
                 value.label === 'Hourly' && (
                   <Box align="center" justify="between" gap="small" direction="row">
                     <Text>from</Text><HourMultipleSelect value={value.byhour} />
                   </Box>
                 )
+              } */}
+              { // Display the due date only if the frequency is once
+                value.label === 'Once' && (
+                  <Box align="center" justify="between" gap="small" direction="row">
+                    <Text>Due</Text>
+                    <FormField name="due">
+                      <DateInput format="mm/dd/yyyy" name="due" />
+                    </FormField>
+                  </Box>
+                )
               }
               { // Display the Weekday select for hourly, daily, weekly, bi-weekly
-                ['Hourly', 'Daily', 'Weekly', 'Bi-Weekly'].some((frequency) => value.label === frequency) && (
+                ['Daily', 'Weekly', 'Bi-Weekly'].some((frequency) => value.label === frequency) && (
                   <Box align="center" justify="between" gap="small" direction="row">
                     <Text>on</Text><WeekdayMultipleSelect value={value.byweekday} />
                   </Box>
