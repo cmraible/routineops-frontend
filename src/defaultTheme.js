@@ -41,8 +41,8 @@ const routineopsTheme = {
         "light": "#555555"
       },
       "text-xweak": {
-        "dark": "#999999",
-        "light": "#666666"
+        "dark": "#EEEEEE",
+        "light": "#AAAAAA"
       },
       "border": {
         "dark": "#333333",
@@ -159,6 +159,9 @@ const routineopsTheme = {
     }
   },
   "text": {
+    "xsmall": {
+      "size": "10px"
+    },
     "medium": {
       "size": "14px"
     },

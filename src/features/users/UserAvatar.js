@@ -1,8 +1,10 @@
-import React, { useEffect, useState} from 'react';
-import { useSelector } from 'react-redux';
-import { selectUserById } from './usersSlice';
-import { Avatar } from 'grommet';
+import { Avatar, Box, Text, Tip } from 'grommet';
 import { User } from 'grommet-icons';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectUserById } from './usersSlice';
+import { push } from 'connected-react-router';
+
 
 var seedrandom = require('seedrandom');
 const colors = [
@@ -18,7 +20,9 @@ const colors = [
     '#FF7043'
 ]
 
-const UserAvatar = ({ id, size }) => {
+const UserAvatar = ({ id, size, tip, link }) => {
+
+    const dispatch = useDispatch();
 
     const user = useSelector(state => selectUserById(state, id))
     var rng = seedrandom(id);
@@ -36,10 +40,29 @@ const UserAvatar = ({ id, size }) => {
         body = (user.first_name && user.last_name) ? `${user.first_name[0].toUpperCase()}${user.last_name[0].toUpperCase()}` : <User color={color} />
     }
 
+    let content;
+    if (tip) {
+        content = (
+        <Tip content={tip ? <Text>{user.first_name} {user.last_name}</Text> : ''}>
+            <Box style={{cursor: 'default'}} onClick={link ? () => dispatch(push(`/users/${id}`)) : ''}>
+                <Avatar background={background} size={size || '36px'}>
+                    {body}
+                </Avatar>
+            </Box>
+        </Tip>
+        )
+    } else {
+        content = (
+            <Box style={{cursor: 'default'}} onClick={link ? () => dispatch(push(`/users/${id}`)) : ''}>
+                <Avatar background={background} size={size || '36px'}>
+                    {body}
+                </Avatar>
+            </Box>
+        )
+    }
+
     return (
-        <Avatar background={background} size={size || '36px'}>
-            {body}
-        </Avatar>
+        content
     )
 }
 

@@ -3,6 +3,7 @@ import getClient from '../../apiClient';
 import { logout, selectLoggedInUser } from '../auth/authSlice';
 import { selectLayerById } from '../layers/layersSlice';
 import { selectActiveUserRolesForUser } from '../userRoles/userRolesSlice';
+import { DateTime } from 'luxon'; 
 
 // Adapter to normalize and sort response data
 const tasksAdapter = createEntityAdapter({
@@ -99,4 +100,54 @@ export const selectUserTasks = (state) => {
         }
         return task.assignee === user.id
     });
+}
+
+export const selectFilteredTasks = (state, filters) => {
+    return selectAllTasks(state).filter((task) => {
+        if (filters.completed === false) {
+            if (task.completed) {
+                return false
+            }
+        }
+        const layer = selectLayerById(state, task.layer)
+        if (layer.type === 'Shared') {
+            // Layer type is shared -- check if any valid user is included
+            // Check if any user in filters has a role which matches the layer
+            
+            if (filters.users.length > 0) {
+                if (filters.users.some((user) => {
+                    // Get all roles for user
+                    const roles = selectActiveUserRolesForUser(state, user).map(item => item.role)
+                    // If any of the user's roles match the layer, return true
+                    if (roles.some(role => role === layer.role)) {
+                        return true;
+                    } else {
+                        return false
+                    }
+                })) {
+                    // At least one user has a role that matches the layer
+                    return true
+                } else {
+                    // No users have a role that matches the layer
+                    return false
+                }
+            } else {
+                return true
+            }
+        } else {
+            // Layer Type is individual -- just check the assignee
+            if (filters.users.length > 0) {
+                if (!filters.users.some(user => user === task.assignee)) {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        }
+        return true
+    }).sort((a, b) => {
+        const aDue = DateTime.fromISO(a.due)
+        const bDue = DateTime.fromISO(b.due)
+        return aDue < bDue ? -1 : aDue > bDue ? 1 : 0;
+    })
 }
