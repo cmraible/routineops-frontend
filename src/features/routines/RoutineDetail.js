@@ -11,6 +11,7 @@ import { selectUserAccount } from '../accounts/accountsSlice';
 import { fetchRoles, selectRoleEntities } from '../roles/rolesSlice';
 import { fetchLayers, selectLayersForRoutine } from '../layers/layersSlice';
 import { fetchRoutine, selectRoutineById } from './routinesSlice';
+import { DateTime } from 'luxon';
 
 
 const RoutineDetail = ({ match }) => {
@@ -66,8 +67,11 @@ const RoutineDetail = ({ match }) => {
       const role = roles[layer.role]
       layerComponents.push(
           <Box gap="medium" pad={{vertical: "medium"}} key={layer.id}>
-            {account.type === 'Team' && (<Text>Assigned to {role.name}</Text>)}
-            <Text>Repeats {routine.layers[0].label}</Text>
+            {account.type === 'Team' && (<Text>Assigned to {role.name} role ({layer.type}).</Text>)}
+            <Text>Repeats {layer.label}
+            {layer.label === 'Once' && ` on ${DateTime.fromISO(layer.due).toLocaleString()}`}
+            .
+            </Text>
           </Box>
       )
     })
