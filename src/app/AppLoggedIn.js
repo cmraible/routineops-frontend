@@ -8,6 +8,7 @@ import MobileFooter from '../components/MobileFooter';
 import NotFound from '../components/NotFound';
 import Account from '../features/accounts/Account';
 import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSlice';
+import { fetchRoutines } from '../features/routines/routinesSlice';
 import { selectLoggedInUser } from '../features/auth/authSlice';
 import { fetchLayers } from '../features/layers/layersSlice';
 import Profile from '../features/profile/Profile';
@@ -77,6 +78,7 @@ const AppLoggedIn = () => {
       await dispatch(fetchUserRoles());
       await dispatch(fetchTasks());
       await dispatch(fetchLayers());
+      await dispatch(fetchRoutines());
       setStatus('idle')
     }
     fetch()
