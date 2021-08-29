@@ -34,7 +34,7 @@ const Page = ({ title, header, children, action, previous, pad, userMenu }) => {
           switch (size) {
             case 'small':
               return (
-                <Main overflow="visible" fill>
+                <Main overflow="visible">
                   <MobileHeader userMenu={userMenu} action={action} title={title} header={header} previous={previous} />
                   <Box pad={pad || "none"} fill>
                     {children}
@@ -43,7 +43,7 @@ const Page = ({ title, header, children, action, previous, pad, userMenu }) => {
               )
             default:
               return (
-                <Main fill>
+                <Main>
                     <Box
                       style={{position: "sticky", top: 0, zIndex: 10}}
                       direction="row"
