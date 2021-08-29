@@ -3,7 +3,7 @@ import { LinkPrevious } from 'grommet-icons';
 import React, { useEffect } from 'react';
 import MobileHeader from './MobileHeader';
 
-const Page = ({ title, header, children, action, previous, pad }) => {
+const Page = ({ title, header, children, action, previous, pad, userMenu }) => {
 
   useEffect(() => {
     document.title = title;
@@ -21,6 +21,7 @@ const Page = ({ title, header, children, action, previous, pad }) => {
     //   //   })
     //   // }
     // });
+
   }, [title]);
 
 
@@ -34,7 +35,7 @@ const Page = ({ title, header, children, action, previous, pad }) => {
             case 'small':
               return (
                 <Main overflow="visible">
-                  <MobileHeader action={action} title={title} header={header} previous={previous} />
+                  <MobileHeader userMenu={userMenu} action={action} title={title} header={header} previous={previous} />
                   <Box pad={pad || "none"} flex={false}>
                     {children}
                   </Box>

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../../components/Message';
 import Page from '../../components/Page';
 import Spinner from '../../components/Spinner';
+import UserMenu from '../users/UserMenu';
 import { fetchAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import { fetchLayers } from '../layers/layersSlice';
@@ -158,6 +159,7 @@ const TaskList = () => {
     <Page
       title="Todo"
       header={header}
+      userMenu={<UserMenu mobile user={user} />}
       // action={{
       //   icon: <Filter />,
       //   primary: false,
