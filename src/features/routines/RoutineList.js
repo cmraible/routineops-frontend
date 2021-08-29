@@ -35,7 +35,7 @@ const RoutineList = () => {
   let content
   if (requestStatus === 'pending') {
     // Display a spinner to indicate loading state
-    content = <Spinner pad="large" size="large" color="status-unknown" />
+    content = <Spinner />
   } else if (requestStatus === 'succeeded') {
     if (routineIds.length > 0) {
       // Display list of routines
@@ -68,9 +68,8 @@ const RoutineList = () => {
         primary: true
       }}
       userMenu={<UserMenu mobile user={user} />}
-
     >
-      <Box>
+      <Box fill>
         {content}
       </Box>
     </Page>

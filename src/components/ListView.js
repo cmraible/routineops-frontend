@@ -35,7 +35,7 @@ const ListView = ({ title, action, previous, pad, itemSelector, onClickItem, fet
     let content
 
     if (requestStatus === 'pending') {
-        content = (<Spinner pad="large" size="large" color="status-unknown" />)
+        content = (<Spinner />)
     } else if (requestStatus === 'succeeded') {
         if (itemIds.length > 0) {
             content = (

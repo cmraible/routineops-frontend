@@ -47,7 +47,7 @@ const RoleDetail = ({match}) => {
   let content
 
   if (requestStatus === 'pending') {
-      content = (<Spinner pad="large" size="large" color="status-unknown" />)
+      content = (<Spinner />)
   } else if (requestStatus === 'succeeded') {
       content = (
         <Box pad="medium">

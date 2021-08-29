@@ -11,6 +11,7 @@ import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSl
 import { fetchRoutines } from '../features/routines/routinesSlice';
 import { selectLoggedInUser } from '../features/auth/authSlice';
 import { fetchLayers } from '../features/layers/layersSlice';
+import Spinner from '../components/Spinner';
 import Profile from '../features/profile/Profile';
 import RoleDetail from '../features/roles/RoleDetail';
 import RoleEdit from '../features/roles/RoleEdit';
@@ -112,6 +113,8 @@ const AppLoggedIn = () => {
         />
       </Switch>
     )
+  } else {
+    return <Spinner />
   }
 
   return (

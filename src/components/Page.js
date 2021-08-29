@@ -36,14 +36,14 @@ const Page = ({ title, header, children, action, previous, pad, userMenu }) => {
               return (
                 <Main overflow="visible">
                   <MobileHeader userMenu={userMenu} action={action} title={title} header={header} previous={previous} />
-                  <Box pad={pad || "none"} flex={false}>
+                  <Box pad={pad || "none"} fill>
                     {children}
                   </Box>
                 </Main>
               )
             default:
               return (
-                <Main fill>
+                <Main>
                     <Box
                       style={{position: "sticky", top: 0, zIndex: 10}}
                       direction="row"

@@ -1,8 +1,7 @@
 import { TextArea, FormField } from 'grommet';
 import React from 'react';
-import Spinner from './Spinner';
 
-const InlineTextArea = ({ name, icon, label, onBlur, placeholder, size, value, isFetching, required }) => {
+const InlineTextArea = ({ name, label, onBlur, placeholder, size, value, isFetching, required }) => {
 
   return (
     <FormField
@@ -16,7 +15,6 @@ const InlineTextArea = ({ name, icon, label, onBlur, placeholder, size, value, i
         size={size}
         value={value}
         onBlur={onBlur}
-        icon={<Spinner color="status-unknown" isFetching={isFetching} />}
         reverse
         resize={false}
         />

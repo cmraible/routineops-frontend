@@ -209,7 +209,7 @@ const RoutineEdit = ({ match, layers }) => {
   let content
 
   if (fetchStatus === 'pending') {
-    content = (<Spinner isFetching={true} pad="large" size="large" color="status-unknown" />)
+    content = (<Spinner />)
   } else if (fetchStatus === 'succeeded') {
     content = (
       <Box pad="medium">
