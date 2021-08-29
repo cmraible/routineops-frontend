@@ -97,7 +97,7 @@ const TaskItem = ({id}) => {
                     <Box direction="row" gap="xsmall" justify="center" align="center">
                         {layer.type === 'Individual' && !task.completed && <UserAvatar size="small" id={task.assignee} tip link />}
                         {layer.type === 'Shared' && !task.completed && <UserAvatars size="small" ids={assignedUsers} tip="Shared" link />}
-                        {task.completed && <Text size="xsmall" color="text-xweak">Completed {DateTime.fromISO(task.completed).toLocaleString()}</Text>}
+                        {task.completed && <Text size="xsmall" color="text-xweak">Completed {DateTime.fromISO(task.completed).toLocaleString(DateTime.DATETIME_SHORT)}</Text>}
                         {task.completed_by && <Box align="center" direction="row" gap="xsmall"><Text size="xsmall" color="text-xweak">by </Text><UserAvatar size="small" id={task.completed_by} tip link /> </Box> }
                     </Box>
                     
