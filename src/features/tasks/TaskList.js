@@ -48,7 +48,30 @@ const TaskList = () => {
     }
   }
 
-  const tasks = useSelector((state) => selectFilteredTasks(state, filters))
+  const tasks = useSelector((state) => selectFilteredTasks(state, filters)).filter((task) => {
+    const due = DateTime.fromISO(task.due);
+    if(headerValue === 'Today') {
+      if (DateTime.local().hasSame(due, 'day')) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (headerValue === 'This Week') {
+      if (DateTime.local().endOf('week') > due) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (headerValue === 'This Month') {
+      if (DateTime.local().endOf('month') > due) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true
+    }
+  });
 
   let content
   if (tasks.length > 0) {
