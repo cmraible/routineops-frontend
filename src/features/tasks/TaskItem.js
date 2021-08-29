@@ -82,7 +82,7 @@ const TaskItem = ({id}) => {
                         />
                         <Box align="start" fill="horizontal">
                             <Text style={{lineHeight: '20px'}} size="medium" weight="bold" margin="none">{routine.name}</Text>
-                            <Text margin="none" style={{whiteSpace: 'noWrap', lineHeight: '10px'}} size="xsmall" color="text-xweak">{formattedDueDate}</Text>
+                            <Text margin="none" style={{whiteSpace: 'noWrap', lineHeight: '10px'}} size="xsmall" color="text-xweak">Due {formattedDueDate}</Text>
                         </Box>
                     </Box>
                 </Box>
@@ -119,7 +119,7 @@ const TaskItem = ({id}) => {
                     onClick={() => routine.type !== 'TODO' ? dispatch(push(`/tasks/${id}`)) : void(0)}
                 >
                     <Text>{routine.name}</Text>
-                    <Text style={{whiteSpace: 'noWrap'}}>{formattedDueDate}</Text>
+                    <Text style={{whiteSpace: 'noWrap'}}>Due {formattedDueDate}</Text>
                 </Box>
             </Box>
         )

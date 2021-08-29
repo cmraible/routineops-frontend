@@ -41,8 +41,8 @@ const routineopsTheme = {
         "light": "#555555"
       },
       "text-xweak": {
-        "dark": "#999999",
-        "light": "#999999"
+        "dark": "#EEEEEE",
+        "light": "#AAAAAA"
       },
       "border": {
         "dark": "#333333",

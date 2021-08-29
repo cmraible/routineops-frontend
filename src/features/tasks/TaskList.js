@@ -26,7 +26,7 @@ const TaskList = () => {
     users: [user.id],
     completed: false
   });
-
+ 
   const calculateGroup = (task) => {
     const due = DateTime.fromISO(task.due)
     if (task.completed) {
