@@ -20,31 +20,33 @@ const colors = [
     '#FF7043'
 ]
 
-const UserAvatar = ({ id, size, tip, link }) => {
+const UserAvatar = ({ id, user, size, tip, link }) => {
 
     const dispatch = useDispatch();
 
-    const user = useSelector(state => selectUserById(state, id))
+    const userById = useSelector(state => selectUserById(state, id))
+
+    const selectedUser = user ? user : userById;
     var rng = seedrandom(id);
 
     const [colorNum, setColorNum] = useState();
     useEffect(() => {
         setColorNum(Math.round(rng()*10,0))
-    }, [user, rng]);
+    }, [selectedUser, rng]);
 
     
     const background = colors[colorNum];
     const color = 'white';
     let body;
-    if (user) {
-        body = (user.first_name && user.last_name) ? `${user.first_name[0].toUpperCase()}${user.last_name[0].toUpperCase()}` : <User color={color} />
+    if (selectedUser) {
+        body = (selectedUser.first_name && selectedUser.last_name) ? `${selectedUser.first_name[0].toUpperCase()}${selectedUser.last_name[0].toUpperCase()}` : <User color={color} />
     }
 
     let content;
     if (tip) {
         content = (
-        <Tip content={tip ? <Text>{user.first_name} {user.last_name}</Text> : ''}>
-            <Box style={{cursor: 'default'}} onClick={link ? () => dispatch(push(`/users/${id}`)) : ''}>
+        <Tip content={tip ? <Text>{selectedUser.first_name} {selectedUser.last_name}</Text> : ''}>
+            <Box style={{cursor: 'default'}} onClick={link ? () => dispatch(push(`/users/${id}`)) : null}>
                 <Avatar background={background} size={size || '36px'}>
                     {body}
                 </Avatar>
@@ -53,7 +55,7 @@ const UserAvatar = ({ id, size, tip, link }) => {
         )
     } else {
         content = (
-            <Box style={{cursor: 'default'}} onClick={link ? () => dispatch(push(`/users/${id}`)) : ''}>
+            <Box style={{cursor: 'default'}} onClick={link ? () => dispatch(push(`/users/${id}`)) : null}>
                 <Avatar background={background} size={size || '36px'}>
                     {body}
                 </Avatar>
