@@ -13,7 +13,6 @@ const LoginOptions = () => {
 
   const dispatch = useDispatch();
   const pathname = useSelector(state => state.router.location.pathname);
-  console.log(pathname)
   if (pathname !== '/') {
     dispatch(push('/'));
   }

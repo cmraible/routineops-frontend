@@ -1,6 +1,6 @@
 import { Box, Grid, ResponsiveContext } from 'grommet';
 import { Checkmark, Compliance, Group, Organization, User } from 'grommet-icons';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import DesktopSidebar from '../components/DesktopSidebar';
@@ -8,21 +8,21 @@ import MobileFooter from '../components/MobileFooter';
 import NotFound from '../components/NotFound';
 import Account from '../features/accounts/Account';
 import { fetchAccount, selectUserAccount } from '../features/accounts/accountsSlice';
-import { fetchRoles } from '../features/roles/rolesSlice';
-import { fetchTasks } from '../features/tasks/tasksSlice';
-import { fetchLayers } from '../features/layers/layersSlice';
-import { fetchUserRoles } from '../features/userRoles/userRolesSlice';
 import { selectLoggedInUser } from '../features/auth/authSlice';
+import { fetchLayers } from '../features/layers/layersSlice';
 import Profile from '../features/profile/Profile';
 import RoleDetail from '../features/roles/RoleDetail';
 import RoleEdit from '../features/roles/RoleEdit';
+import { fetchRoles } from '../features/roles/rolesSlice';
 import RoutineAdd from '../features/routines/RoutineAdd';
 import RoutineDetail from '../features/routines/RoutineDetail';
 import RoutineEdit from '../features/routines/RoutineEdit';
 import RoutineList from '../features/routines/RoutineList';
 import Task from '../features/tasks/Task';
 import TaskList from '../features/tasks/TaskList';
+import { fetchTasks } from '../features/tasks/tasksSlice';
 import Team from '../features/team/Team';
+import { fetchUserRoles } from '../features/userRoles/userRolesSlice';
 import UserAdd from '../features/users/UserAdd';
 import UserDetail from '../features/users/UserDetail';
 import UserEdit from '../features/users/UserEdit';
@@ -64,17 +64,25 @@ const AppLoggedIn = () => {
   } else {
     links = individualLinks;
   }
+  const [status, setStatus] = useState('pending')
 
 
   useEffect(() => {
-    dispatch(fetchAccount(user.account));
-    dispatch(fetchRoles());
-    dispatch(fetchUserRoles());
-    dispatch(fetchTasks());
-    dispatch(fetchLayers());
+    const fetch = async () => {
+      setStatus('pending')
+      await dispatch(fetchAccount(user.account));
+      await dispatch(fetchRoles());
+      await dispatch(fetchUserRoles());
+      await dispatch(fetchTasks());
+      await dispatch(fetchLayers());
+      setStatus('idle')
+    }
+    fetch()
   }, [dispatch, user.account]);
 
-  const mainSwitch = (
+  let content
+  if (status === 'idle') {
+    content =(
       <Switch>
         <Route path="/" component={TaskList} exact />
         <Route path="/account" component={Account} />
@@ -99,7 +107,8 @@ const AppLoggedIn = () => {
           )}
         />
       </Switch>
-  )
+    )
+  }
 
   return (
     <ResponsiveContext.Consumer>
@@ -109,7 +118,7 @@ const AppLoggedIn = () => {
             case 'small':
               return (
                 <Box>
-                  {mainSwitch}
+                  {content}
                   <MobileFooter links={links} />
                 </Box>
 
@@ -129,7 +138,7 @@ const AppLoggedIn = () => {
                       <DesktopSidebar links={links} />
                     </Box>
                   <Box overflow="auto" gridArea='main'>
-                    {mainSwitch}
+                    {content}
                   </Box>
                 </Grid>
 

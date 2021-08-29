@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 
 const AppLoggedOut = () => {
   const num_accounts = useSelector(selectNumberLoggedInUsers)
-  console.log(num_accounts)
 
   if (num_accounts > 0) {
     // show switch accounts
