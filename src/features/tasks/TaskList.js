@@ -127,7 +127,7 @@ const TaskList = () => {
           {content}
         </Box>
         <Collapsible direction="horizontal" open={showFilters}>
-          <Box width="medium" fill="vertical" elevation="small" flex background="background-contrast" style={{position: "sticky", top: 0}}>
+          <Box width="medium" fill="vertical" elevation="small" flex background="background-contrast" style={{position: "sticky", top: 0, zIndex: 5}}>
             <Box style={{position: 'fixed'}} width="medium">
               <Box border={{bottom: "small"}} pad="small">
                 <Heading size="xsmall" margin="xsmall" level={3}>Filters</Heading>
