@@ -13,7 +13,7 @@ const SubmitButton = ({ label, loadingIndicator, size, color, disabled, ...rest 
             primary
             color={color || "brand"}
             label={(loadingIndicator) ? '' : label}
-            icon={<Spinner isFetching={loadingIndicator} />}
+            icon={loadingIndicator && <Spinner />}
             type="submit"
             disabled={loadingIndicator || disabled}
             size={size || "large"}

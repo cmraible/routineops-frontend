@@ -41,7 +41,7 @@ const App = () => {
         app = <AppAccountOnboarding />
       }
     } else {
-      app = <Spinner isFetching={true} />
+      app = <Spinner />
     }
   } else {
     app = <AppLoggedOut />

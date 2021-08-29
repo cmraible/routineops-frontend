@@ -129,7 +129,7 @@ const ConfirmSubscription = ({ quantity, price }) => {
             </Form>
         )
     } else {
-        content = <Spinner isFetching={true} />
+        content = <Spinner />
     }
 
 

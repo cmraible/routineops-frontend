@@ -30,7 +30,7 @@ const Team = () => {
             userMenu={<UserMenu mobile user={user} />}  
         >
             <Tabs tabs={tabs} />
-            <Box>
+            <Box fill>
                 <Switch>
                     <Route path="/team" component={UserList} exact />
                     <Route path="/team/roles" component={RoleList} exact />

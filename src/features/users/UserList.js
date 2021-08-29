@@ -50,7 +50,7 @@ const UserList = () => {
     let content
 
     if (requestStatus === 'pending') {
-      content = (<Spinner pad="large" size="large" color="status-unknown" />)
+      content = (<Spinner />)
     } else if (requestStatus === 'failed') {
       content = (
         <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined} />
@@ -95,7 +95,7 @@ const UserList = () => {
     }
 
     return (
-        <Box>
+        <Box fill>
           {loggedInUser.is_account_admin === true && (
             <Box align="end" pad="medium">
               <Button
@@ -109,7 +109,6 @@ const UserList = () => {
               />
             </Box>
           )}
-          
           {content}
           {(add && <UserAdd close={() => setAdd(false)} />)}
       </Box>

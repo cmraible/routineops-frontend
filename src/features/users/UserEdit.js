@@ -63,7 +63,7 @@ const UserEdit = ({ match, onClose }) => {
   let content;
 
   if (fetchStatus === 'pending') {
-    content = (<Spinner pad="large" size="large" color="status-unknown" />)
+    content = (<Spinner />)
   } else if (fetchStatus === 'succeeded') {
     content = (
       <Box pad="medium">
