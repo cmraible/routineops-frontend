@@ -42,7 +42,7 @@ const routineopsTheme = {
       },
       "text-xweak": {
         "dark": "#EEEEEE",
-        "light": "#AAAAAA"
+        "light": "#BBBBBB"
       },
       "border": {
         "dark": "#333333",
@@ -51,7 +51,7 @@ const routineopsTheme = {
       "placeholder": "#AAAAAA",
       "selected": {
         "light": "#4065FF",
-        "dark": "#3b93FF"
+        "dark": "#4065FF"
       },
       "focus": "selected",
       "control": "brand",
@@ -121,7 +121,7 @@ const routineopsTheme = {
     },
   },
   "checkBox": {
-    "color": "selected"
+    "color": "brand"
   },
   "heading": {
     "font": {

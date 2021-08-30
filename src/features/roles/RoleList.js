@@ -1,4 +1,4 @@
-import { Box, Text } from 'grommet';
+import { Box, List, Text } from 'grommet';
 import { CircleInformation } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,11 +34,12 @@ const RoleList = () => {
   } else if (requestStatus === 'succeeded') {
     if (roleIds.length > 0) {
       // Display list of roles
-      var items = []
-      roleIds.forEach((roleId) => {
-        items.push(<RoleItem id={roleId} />)
-      });
-      content = <Box>{items}</Box>
+      content = (
+        <List 
+          data={roleIds}
+          pad="none"
+          children={(datum , index) => <RoleItem id={datum} />}
+        />)
     } else {
       // Display a message saying there are no roles
       content = (

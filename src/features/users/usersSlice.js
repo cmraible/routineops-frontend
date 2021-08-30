@@ -70,9 +70,7 @@ export const usersSlice = createSlice({
 
     },
     extraReducers: {
-        [fetchUsers.fulfilled]: (state, action) => {
-            usersAdapter.setAll(state, action.payload)
-        },
+        [fetchUsers.fulfilled]: usersAdapter.setAll,
         [fetchUser.fulfilled]: usersAdapter.upsertOne,
         [updateUser.fulfilled]: (state, { payload }) => {
             const { id, ...changes } = payload

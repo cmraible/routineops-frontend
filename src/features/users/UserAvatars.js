@@ -10,7 +10,7 @@ const UserAvatars = ({ ids, size, tip, link }) => {
                 ids.map((id, index) => {
                     if (index < 3) {
                         return (
-                            <Box style={{position: 'relative', right: index*15,}}>
+                            <Box style={{position: 'relative', right: index*15,}} key={index}>
                                 <UserAvatar id={id} size={size} tip link />
                             </Box>
                         )

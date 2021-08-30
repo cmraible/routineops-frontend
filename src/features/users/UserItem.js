@@ -1,6 +1,7 @@
 import { push } from 'connected-react-router';
 import { Box, Button, Text } from 'grommet';
-import { Trash, Share, Revert } from 'grommet-icons';
+import { Revert, Trash } from 'grommet-icons';
+import { DateTime } from 'luxon';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLoggedInUser } from '../auth/authSlice';
@@ -16,14 +17,23 @@ const UserItem = ({id}) => {
 
     return (
         <Box
-            fill="horizontal"
+            fill
             direction="row"
             align="center"
             justify="between"
         >
-            <Box direction="row" gap="medium" align="center">
-                {<UserAvatar id={id} /> }
-                <Text>{`${user.first_name} ${user.last_name}`} </Text>
+            <Box 
+                fill
+                onClick={() => dispatch(push(`/users/${user.id}`))}
+                pad="small"
+            >
+                <Box direction="row" gap="medium" align="center">
+                    {<UserAvatar id={id} /> }
+                    <Box>
+                        <Text>{`${user.first_name} ${user.last_name}`} </Text>
+                        <Text size="xsmall" color="text-xweak">Joined {DateTime.fromISO(user.date_joined).toLocaleString()}</Text>
+                    </Box>
+                </Box>
             </Box>
             <Box direction="row" gap="medium">
                 {loggedInUser.id !== user.id && loggedInUser.is_account_admin && user.is_active && (
@@ -44,11 +54,6 @@ const UserItem = ({id}) => {
                             }}
                         />
                 )}
-                <Button 
-                    icon={<Share size="small" />} 
-                    onClick={() => dispatch(push(`/users/${id}`))}                             
-                    tip={{content: <Text>Go to user</Text>}}
-                />
             </Box>
         </Box>
     )
