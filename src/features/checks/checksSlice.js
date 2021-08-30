@@ -51,10 +51,7 @@ export const checksSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [fetchChecks.fulfilled]: (state, action) => {
-            state.status = 'succeeded'
-            checksAdapter.upsertMany(state, action.payload)
-        },
+        [fetchChecks.fulfilled]: checksAdapter.setAll,
         [fetchRoutines.fulfilled]: (state, action) => {
             const checks = action.payload.reduce((acc, cur) => {
                 cur.checks.forEach(check => acc.push(check));

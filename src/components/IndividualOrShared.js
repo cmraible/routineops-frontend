@@ -19,7 +19,7 @@ const IndividualOrShared = ({ value, setValue }) => {
             const text = option === 'Shared' ? 'Shared' : 'Individual';
             const tooltip = option === 'Shared' ? 'A shared task only needs to be done once by anyone in the role.' : 'An individual task has to be done by each person in the role.';
             let background;
-            if (checked) background = 'brand';
+            if (checked) background = 'selected';
             else if (hover) background = 'light-4';
             else if (focus) background = 'light-4';
             else background = 'light-2';

@@ -1,14 +1,16 @@
 import { push } from 'connected-react-router';
 import { Box, Menu, Text } from 'grommet';
-import { ContactInfo, Logout, Transaction } from 'grommet-icons';
+import { ContactInfo, Logout, Transaction, Moon, Sun } from 'grommet-icons';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, selectLoggedInUser, switchAccounts } from '../auth/authSlice';
+import { toggleDarkMode } from '../ui/uiSlice';
 import UserAvatar from './UserAvatar';
 
 const UserMenu = ({ mobile }) => {
   const dispatch = useDispatch()
   const user = useSelector(selectLoggedInUser);
+  const darkMode = useSelector(state => state.ui.darkMode)
 
   const logoutAction = () => {
     dispatch(push('/'));
@@ -17,6 +19,7 @@ const UserMenu = ({ mobile }) => {
 
   const items = [
     {label: 'My Profile', icon: <ContactInfo />, gap: "large", round: "medium", onClick: () => dispatch(push('/profile'))},
+    {label: darkMode ? "Light Mode" : "Dark Mode", icon: darkMode ? <Sun /> : <Moon />, gap: "large", round: "medium", onClick: () => dispatch(toggleDarkMode())},
     {label: 'Switch Accounts', icon: <Transaction />, gap: "large", round: "medium", onClick: () => {
       dispatch(switchAccounts());
       dispatch(push('/'));

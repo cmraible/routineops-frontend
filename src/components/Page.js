@@ -1,9 +1,8 @@
 import { Box, Button, Heading, Main, ResponsiveContext } from 'grommet';
-import { LinkPrevious } from 'grommet-icons';
 import React, { useEffect } from 'react';
 import MobileHeader from './MobileHeader';
 
-const Page = ({ title, header, children, action, previous, pad, userMenu }) => {
+const Page = ({ title, header, children, action, pad, userMenu }) => {
 
   useEffect(() => {
     document.title = title;
@@ -35,7 +34,7 @@ const Page = ({ title, header, children, action, previous, pad, userMenu }) => {
             case 'small':
               return (
                 <Main overflow="visible">
-                  <MobileHeader userMenu={userMenu} action={action} title={title} header={header} previous={previous} />
+                  <MobileHeader userMenu={userMenu} action={action} title={title} header={header} />
                   <Box pad={pad || "none"} fill>
                     {children}
                   </Box>
@@ -55,18 +54,6 @@ const Page = ({ title, header, children, action, previous, pad, userMenu }) => {
                       flex={false}
                     >
                       <Box direction="row" align="center" gap="small" flex={false}>
-                        {(previous &&
-                        <Box
-                          round="full"
-                          pad="small"
-                          animation="slideRight"
-                          hoverIndicator
-                          onClick={previous}
-                          data-cy="previous"
-                        >
-                          <LinkPrevious />
-                        </Box>
-                        )}
                         {!header && (
                           <Heading size="small" margin={{vertical: "none"}}>{ title }</Heading>
                         )}
