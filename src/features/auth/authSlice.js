@@ -153,6 +153,7 @@ export const authSlice = createSlice({
         },
         [chooseAccount]: (state, {payload}) => {
             state.loggedInUser = payload;
+            loginUser(state.auth.entities[payload].user)
         },
         [signup.fulfilled]: (state, {payload}) => {
             credentialsAdapter.upsertOne(state, payload);
