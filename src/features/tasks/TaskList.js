@@ -4,16 +4,16 @@ import { Box, Button, CheckBox, Collapsible, Form, FormField, Heading, InfiniteS
 import { Add, CircleInformation, Filter } from 'grommet-icons';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
-import Confetti from 'react-confetti';
 import { useDispatch, useSelector } from 'react-redux';
 import Page from '../../components/Page';
-import Spinner from '../../components/Spinner';
 import { selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
 import UserMenu from '../users/UserMenu';
 import { selectAllUsers } from '../users/usersSlice';
 import TaskItem from './TaskItem';
 import { fetchTasks, selectFilteredTasks } from './tasksSlice';
+import Spinner from '../../components/Spinner';
+import Confetti from 'react-confetti'
 
 const TaskList = () => {
   const dispatch = useDispatch()
@@ -125,15 +125,15 @@ const TaskList = () => {
       
     )
   } else {
-    // Display empty message, with some confetti
+    // Display empty message
     content = (
       <>
-        <Confetti style={{zIndex: 99}}/>
-        <Box gap="medium" align="center" pad="medium">
-          <CircleInformation />
-          <Text size="large">Congratulations, you're all done!</Text>
-          <Button size="large" icon={<Add/>} label="Add Routine" onClick={() => dispatch(push('/routines/add'))} />
-        </Box>
+      <Confetti style={{zIndex: 99}}/>
+      <Box gap="medium" align="center" pad="medium">
+        <CircleInformation />
+        <Text size="large">Congratulations, you're all done!</Text>
+        <Button size="large" icon={<Add/>} label="Add Routine" onClick={() => dispatch(push('/routines/add'))} />
+      </Box>
       </>
     )
   }
