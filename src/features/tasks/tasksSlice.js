@@ -59,9 +59,7 @@ export const tasksSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [fetchTasks.fulfilled]: (state, action) => {
-            tasksAdapter.setAll(state, action.payload)
-        },
+        [fetchTasks.fulfilled]: tasksAdapter.setAll,
         [fetchTask.fulfilled]: tasksAdapter.upsertOne,
         [addNewTask.fulfilled]: tasksAdapter.addOne,
         [updateTask.fulfilled]: (state, { payload}) => {

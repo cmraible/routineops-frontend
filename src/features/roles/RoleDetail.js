@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router';
-import { Box, Heading, List } from 'grommet';
+import { Box, Text, List } from 'grommet';
 import { Edit } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,9 @@ import { fetchLayers, selectLayersForRole } from '../layers/layersSlice';
 import { fetchUserRoles, selectUserRolesForRole } from '../userRoles/userRolesSlice';
 import { fetchRole, selectRoleById } from './rolesSlice';
 import UserItem from '../users/UserItem';
+import Description from '../../components/Description';
 import RoutineItem from '../routines/RoutineItem';
+import { DateTime } from 'luxon';
 
 const RoleDetail = ({match}) => {
   const dispatch = useDispatch();
@@ -50,15 +52,18 @@ const RoleDetail = ({match}) => {
       content = (<Spinner />)
   } else if (requestStatus === 'succeeded') {
       content = (
-        <Box pad="medium">
-          <Heading level={3}>Users</Heading>
+        <Box gap="small">
+          <Description title="Created on" description={DateTime.fromISO(role.created).toLocaleString()} />
+          <Text margin={{horizontal: "small", vertical: "none"}} weight="bold">Users</Text>
           <List 
+            pad="none"
             data={userRoles}
             children={(datum, index) => <UserItem id={datum.user} />}
           />
-          <Heading level={3}>Routines</Heading>
+          <Text weight="bold" margin={{horizontal: "small", vertical: "none"}} level={3}>Routines</Text>
           <List 
             data={layers}
+            pad="none"
             children={(datum, index) => <RoutineItem id={datum.routine} />}
           />
         </Box>
@@ -79,7 +84,6 @@ const RoleDetail = ({match}) => {
         onClick: () => dispatch(push(`/roles/${roleId}/edit`)),
         primary: true
       }}
-      previous={() => dispatch(push('/team/roles'))}
     >
       {content}
     </Page>

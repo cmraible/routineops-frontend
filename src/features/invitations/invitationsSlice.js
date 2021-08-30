@@ -62,9 +62,7 @@ export const invitationsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [fetchInvitations.fulfilled]: (state, action) => {
-            invitationsAdapter.setAll(state, action.payload);
-        },
+        [fetchInvitations.fulfilled]: invitationsAdapter.setAll,
         [fetchInvitation.fulfilled]: invitationsAdapter.upsertOne,
         [addNewInvitation.fulfilled]: invitationsAdapter.addOne,
         [deleteInvitation.fulfilled]: invitationsAdapter.removeOne,

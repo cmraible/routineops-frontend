@@ -8,10 +8,7 @@ const layersAdapter = createEntityAdapter({
 });
 
 // Adapter creates default 'entities' and 'ids' entries. Add additional params to state here.
-const initialState = layersAdapter.getInitialState({
-    status: 'idle',
-    error: null
-});
+const initialState = layersAdapter.getInitialState({});
 
 // Async thunks to interact with API
 export const fetchLayers = createAsyncThunk('layers/fetchLayers', async (data, { dispatch, getState }) => {
@@ -54,10 +51,7 @@ export const layersSlice = createSlice({
 
     },
     extraReducers: {
-        [fetchLayers.fulfilled]: (state, action) => {
-            state.status = 'succeeded'
-            layersAdapter.upsertMany(state, action.payload)
-        },
+        [fetchLayers.fulfilled]: layersAdapter.setAll,
         [fetchLayer.fulfilled]: layersAdapter.upsertOne,
         [addNewLayer.fulfilled]: layersAdapter.addOne,
         [updateLayer.fulfilled]: layersAdapter.updateOne,

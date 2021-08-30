@@ -48,10 +48,7 @@ export const userRolesSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [fetchUserRoles.fulfilled]: (state, action) => {
-            state.status = 'succeeded'
-            userRolesAdapter.setAll(state, action.payload)
-        },
+        [fetchUserRoles.fulfilled]: userRolesAdapter.setAll,
         [addNewUserRole.fulfilled]: userRolesAdapter.addOne,
         [deleteUserRole.fulfilled]: userRolesAdapter.removeOne,
         [logout.fulfilled]: userRolesAdapter.removeAll,

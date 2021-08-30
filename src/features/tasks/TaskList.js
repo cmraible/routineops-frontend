@@ -13,6 +13,7 @@ import { selectAllUsers } from '../users/usersSlice';
 import TaskItem from './TaskItem';
 import { fetchTasks, selectFilteredTasks } from './tasksSlice';
 import Spinner from '../../components/Spinner';
+import Confetti from 'react-confetti'
 
 const TaskList = () => {
   const dispatch = useDispatch()
@@ -126,11 +127,14 @@ const TaskList = () => {
   } else {
     // Display empty message
     content = (
+      <>
+      <Confetti style={{zIndex: 99}}/>
       <Box gap="medium" align="center" pad="medium">
         <CircleInformation />
-        <Text size="large">You don't have any routines yet.</Text>
+        <Text size="large">Congratulations, you're all done!</Text>
         <Button size="large" icon={<Add/>} label="Add Routine" onClick={() => dispatch(push('/routines/add'))} />
       </Box>
+      </>
     )
   }
 

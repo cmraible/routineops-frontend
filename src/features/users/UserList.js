@@ -63,6 +63,7 @@ const UserList = () => {
             <Heading margin={{vertical: "none", horizontal: "small"}} level={2} size="small">Active Users</Heading>
             <List
               data={activeUsers}
+              pad="none"
               children={(datum, index) => {
                 return  (<UserItem id={datum.id} />)
               }}
@@ -72,6 +73,7 @@ const UserList = () => {
             <Box gap="small">
               <Heading margin={{vertical: "none", horizontal: "small"}} level={2} size="small">Invited Users</Heading>
               <List
+                pad="none"
                 data={invitations}
                 children={(datum, index) => <InvitationItem invitation={datum} />}
               />
@@ -81,6 +83,7 @@ const UserList = () => {
             <Box gap="small">
               <Heading margin={{vertical: "none", horizontal: "small"}} level={2} size="small">Inactive Users</Heading>
               <List
+                pad="none"
                 data={inactiveUsers}
                 children={(datum, index) => <UserItem id={datum.id} />}
               />

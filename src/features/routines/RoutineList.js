@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router';
-import { Box, Button, Text } from 'grommet';
+import { Box, Button, List, Text } from 'grommet';
 import { Add, CircleInformation } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,11 +39,13 @@ const RoutineList = () => {
   } else if (requestStatus === 'succeeded') {
     if (routineIds.length > 0) {
       // Display list of routines
-      var items = []
-      routineIds.forEach((routineId) => {
-        items.push(<RoutineItem id={routineId} actions={true} key={routineId} />)
-      })
-      content = <Box>{items}</Box>
+      content = (
+        <List 
+          data={routineIds} 
+          pad="none"
+          children={(datum, index) => <RoutineItem id={datum} actions={true} key={datum} />}
+        />
+      )
     } else {
       // Display a message saying there are no routines
       content = (
