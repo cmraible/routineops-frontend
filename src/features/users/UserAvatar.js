@@ -47,7 +47,7 @@ const UserAvatar = ({ id, user, size, tip, link }) => {
         content = (
         <Tip content={tip ? <Text>{selectedUser.first_name} {selectedUser.last_name}</Text> : ''}>
             <Box style={{cursor: 'default'}} onClick={link ? () => dispatch(push(`/users/${id}`)) : null}>
-                <Avatar background={background} size={size || '36px'}>
+                <Avatar border background={background} size={size || '36px'}>
                     {body}
                 </Avatar>
             </Box>

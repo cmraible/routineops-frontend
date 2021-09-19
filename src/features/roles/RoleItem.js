@@ -26,8 +26,8 @@ const RoleItem = ({id}) => {
                 direction="row"
                 align="center"
                 gap="medium"
-                fill
                 onClick={() => dispatch(push(`/roles/${id}`))}
+                flex="grow"
             >
                 <User />
                 <Box>
@@ -35,7 +35,7 @@ const RoleItem = ({id}) => {
                     <Text style={{ lineHeight: '10px' }} size="xsmall" color="text-xweak">Created {DateTime.fromISO(role.created).toLocaleString()}</Text>
                 </Box>
             </Box>
-            <Box align="center" justify="center">
+            <Box justify="center">
                 <UserAvatars ids={userRoles.map(userRole => userRole.user)} size="small" tip />
             </Box>
             <Menu

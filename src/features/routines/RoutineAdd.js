@@ -1,6 +1,5 @@
 import { goBack, push } from 'connected-react-router';
 import { Box, Button, DateInput, Form, FormField, Text } from 'grommet';
-import { Checkmark } from 'grommet-icons';
 import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +14,9 @@ import MonthMultipleSelect from '../../components/MonthMultipleSelect';
 import Page from '../../components/Page';
 import SubmitButton from '../../components/SubmitButton';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
+import TodoOrChecklist from '../../components/TodoOrChecklist';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
+import CheckForm from '../checks/CheckForm';
 import { defaultLayerParams, flattenErrors } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
@@ -39,7 +40,9 @@ const AddRoutine = () => {
 
   const [requestStatus, setRequestStatus] = useState('idle');
   const [errors, setErrors] = useState({})
-  const [type, setType] = useState('Individual');
+  const [multiplicity, setMultiplicity] = useState('Individual');
+  const [type, setType] = useState('Todo');
+  const [checks, setChecks] = useState({'check-0': 'Do the dishes'})
   const [value, setValue] = useState({
     name: '',
     description: '',
@@ -149,21 +152,16 @@ const AddRoutine = () => {
     }
   }
 
+  console.log(checks)
   return (
     <Page
       title="Add Routine"
       previous={() => dispatch(push(`/routines`))}
-      action={{
-        icon: <Checkmark />,
-        type: "submit",
-        form: "routine-form"
-      }}
     >
       <Box
         width="large"
         pad="medium"
-        margin="medium"
-        round="small"
+        round={{ size: "small", corner: "bottom"}}
         alignSelf="center"
         background="background-contrast"
         animation={{type: "slideUp", size: "small", duration: 200}}>
@@ -186,12 +184,12 @@ const AddRoutine = () => {
                     <Text style={{'whiteSpace': 'nowrap'}}>Assigned to</Text><RoleSelect placeholder="Select Role" required />
                   </Box>
                   <Box align="end">
-                    <IndividualOrShared value={type} setValue={(newValue) => setType(newValue) } />
+                    <IndividualOrShared value={multiplicity} setValue={(newValue) => setMultiplicity(newValue) } />
                   </Box>
                 </Box>
               )
             }
-            <Box flex={false} gap="medium">
+            <Box flex={false} gap="medium" margin={{"bottom": "medium"}}>
               <Box align="center" justify="between" gap="small" direction="row">
                 <Text>Repeats</Text><FrequencySelect />
               </Box>
@@ -241,7 +239,35 @@ const AddRoutine = () => {
                   </Box>
                 )
               }
+              <Box flex={false} gap="small">
+                  <Box align="center" justify="stretch" gap="small" direction="row">
+                    <Text style={{'whiteSpace': 'nowrap'}}>Assigned to</Text><RoleSelect placeholder="Select Role" required />
+                  </Box>
+                  <Box align="end">
+                    <TodoOrChecklist value={type} setValue={(newValue) => setType(newValue) } />
+                  </Box>
+                </Box>
             </Box>
+            
+            {
+              type === "Checklist"  && (
+                <>
+                <Form
+                  onChange={nextValue => setChecks(nextValue)}
+                >
+                  {
+                    Object.keys(checks).map((item, index) => {
+                      return <CheckForm number={index+1} name={`check-${index}`} value={checks[item]} />
+                    })
+                  }
+                </Form>
+                <Form>
+                  <CheckForm number={Object.keys(checks).length+1} name="check" value={{}} />
+                </Form>
+                </>
+              )
+            }
+            
             <Box direction="row" justify="end" gap="large">
               <Button plain label="Cancel" onClick={() => dispatch(goBack())} />
               <SubmitButton label="Save" loadingIndicator={requestStatus === 'pending'} />
