@@ -23,6 +23,7 @@ const TaskList = () => {
   const allUsers = useSelector(selectAllUsers);
 
   const [status, setStatus] = useState('idle')
+  const [confetti, setConfetti] = useState(false)
   const [headerValue, setHeaderValue] = useState('All Tasks');
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
@@ -85,6 +86,15 @@ const TaskList = () => {
     }
   });
 
+  useEffect(() => {
+    if (tasks.length === 0) {
+      setConfetti(true)
+      setTimeout(() => {
+        setConfetti(false)
+      }, 5000);
+    }
+  }, [tasks.length])
+
   let content
   if (status === 'pending') {
     content = <Spinner />
@@ -128,12 +138,12 @@ const TaskList = () => {
     // Display empty message
     content = (
       <>
-      <Confetti style={{zIndex: 99}}/>
-      <Box gap="medium" align="center" pad="medium">
-        <CircleInformation />
-        <Text size="large">Congratulations, you're all done!</Text>
-        <Button size="large" icon={<Add/>} label="Add Routine" onClick={() => dispatch(push('/routines/add'))} />
-      </Box>
+        {confetti && <Confetti style={{zIndex: 99}} />}
+        <Box gap="medium" align="center" pad="medium">
+          <CircleInformation />
+          <Text size="large">Congratulations, you're all done!</Text>
+          <Button size="large" icon={<Add/>} label="Add Routine" onClick={() => dispatch(push('/routines/add'))} />
+        </Box>
       </>
     )
   }
