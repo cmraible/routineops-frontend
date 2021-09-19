@@ -109,7 +109,7 @@ const UserDetail = ({ match, onClose }) => {
     content = (
       <Box>
         <Error message={(errors && errors['non_field_errors']) ? errors['non_field_errors'] : undefined} />
-        <Description title="Email Address" description="cmraible1@gmail.com" />
+        <Description title="Email Address" description={user.email} />
         <Description title="Date Joined" description={DateTime.fromISO(user.date_joined).toLocaleString() } />
         <Description title="Admin" description={user.is_account_admin ? <Checkmark /> : <Close color="status-critical" />} />
         <Description title="Active" description={user.is_active ? <Checkmark /> : <Close color="status-critical" />} />
