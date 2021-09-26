@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import EditDescription from '../../components/EditDescription';
 import SubscriptionPlan from '../../components/SubscriptionPlan';
-import { getPrice } from '../subscriptions/subscriptionsSlice';
+import { previewUpcomingInvoice, getPrice } from '../subscriptions/subscriptionsSlice';
 import { selectActiveUsers } from '../users/usersSlice';
 import AccountBillingModify from './AccountBillingModify';
 import AccountCancel from './AccountCancel';
@@ -38,6 +38,9 @@ const AccountBillingTeam = () => {
   const [cancel, setCancel] = useState(false)
   const [modifySubscription, setModifySubscription] = useState(false)
   const [priceDetails, setPriceDetails] = useState(null);
+  const [previewInvoice, setPreviewInvoice] = useState(false);
+
+
 
   useEffect(() => {
       const fetchPrice = async () => {
@@ -48,6 +51,17 @@ const AccountBillingTeam = () => {
       fetchPrice()
   }, [dispatch, account.subscription.price_id]);
 
+  useEffect(() => {
+    const fetchInvoice = async () => {
+        const actionResult = await dispatch(previewUpcomingInvoice({
+            account: account.id
+        }))
+        unwrapResult(actionResult);
+        setPreviewInvoice(actionResult.payload.invoice);
+    }
+    fetchInvoice()
+}, [dispatch, account.id]);
+
   return (
     <Box gap="large" width="large" pad="medium">
       <Box gap="medium">
@@ -57,10 +71,7 @@ const AccountBillingTeam = () => {
             title="Team"
             selected
             subtitle="Pro features for everyone"
-            price={priceDetails.unit_amount/100}
-            quantity={account.subscription.quantity}
-            permonth={priceDetails.recurring.interval === 'month'}
-            peryear={priceDetails.recurring.interval === 'year'}
+            invoice={previewInvoice}
             peruser
           />
         )}
