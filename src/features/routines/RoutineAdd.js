@@ -14,9 +14,7 @@ import MonthMultipleSelect from '../../components/MonthMultipleSelect';
 import Page from '../../components/Page';
 import SubmitButton from '../../components/SubmitButton';
 import TimeMaskedInput from '../../components/TimeMaskedInput';
-import TodoOrChecklist from '../../components/TodoOrChecklist';
 import WeekdayMultipleSelect from '../../components/WeekdayMultipleSelect';
-import CheckForm from '../checks/CheckForm';
 import { defaultLayerParams, flattenErrors } from '../../utils';
 import { fetchAccount, selectUserAccount } from '../accounts/accountsSlice';
 import { selectLoggedInUser } from '../auth/authSlice';
@@ -41,8 +39,6 @@ const AddRoutine = () => {
   const [requestStatus, setRequestStatus] = useState('idle');
   const [errors, setErrors] = useState({})
   const [multiplicity, setMultiplicity] = useState('Individual');
-  const [type, setType] = useState('Todo');
-  const [checks, setChecks] = useState({'check-0': 'Do the dishes'})
   const [value, setValue] = useState({
     name: '',
     description: '',
@@ -63,7 +59,6 @@ const AddRoutine = () => {
         layers: [
           {
             account: user.account,
-            type: type,
             role: value.role || defaultRole,
             label: value.label,
             due: value.due,
@@ -152,7 +147,6 @@ const AddRoutine = () => {
     }
   }
 
-  console.log(checks)
   return (
     <Page
       title="Add Routine"
@@ -243,13 +237,13 @@ const AddRoutine = () => {
                   <Box align="center" justify="stretch" gap="small" direction="row">
                     <Text style={{'whiteSpace': 'nowrap'}}>Assigned to</Text><RoleSelect placeholder="Select Role" required />
                   </Box>
-                  <Box align="end">
+                  {/* <Box align="end">
                     <TodoOrChecklist value={type} setValue={(newValue) => setType(newValue) } />
-                  </Box>
+                  </Box> */}
                 </Box>
             </Box>
             
-            {
+            {/* {
               type === "Checklist"  && (
                 <>
                 <Form
@@ -266,7 +260,7 @@ const AddRoutine = () => {
                 </Form>
                 </>
               )
-            }
+            } */}
             
             <Box direction="row" justify="end" gap="large">
               <Button plain label="Cancel" onClick={() => dispatch(goBack())} />
