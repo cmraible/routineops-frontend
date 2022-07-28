@@ -31,14 +31,10 @@ const App = () => {
 
   if (isLoggedIn) {
     if (account) {
-      if (account.onboard_complete) {
-        if (user.onboard_complete) {
-          app = <AppLoggedIn />
-        } else {
-          app = <AppUserOnboarding />
-        }
+      if (user.onboard_complete) {
+        app = <AppLoggedIn />
       } else {
-        app = <AppAccountOnboarding />
+        app = <AppUserOnboarding />
       }
     } else {
       app = <Spinner />
