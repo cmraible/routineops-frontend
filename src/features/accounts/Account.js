@@ -24,7 +24,7 @@ const AccountDetail = () => {
 
   const teamTabs = [
       {icon: <ContactInfo />, title: 'Contact Info', href: '/account/contact', active: (pathname.startsWith('/account/contact'))},
-      {icon: <CreditCard />, title: 'Billing', href: '/account/billing', active: (pathname.startsWith('/account/billing'))},
+      // {icon: <CreditCard />, title: 'Billing', href: '/account/billing', active: (pathname.startsWith('/account/billing'))},
       {icon: <SettingsOption />, title: 'Account Settings', href: '/account/settings', active: (pathname === '/account/settings')},
   ]
 
