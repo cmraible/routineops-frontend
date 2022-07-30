@@ -5,14 +5,11 @@ import { useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import Page from '../../components/Page';
 import Tabs from '../../components/Tabs';
-import AccountBilling from './AccountBilling';
-import AccountCancel from './AccountCancel';
-import AccountCreditCard from './AccountCreditCard';
+import { selectLoggedInUser } from '../auth/authSlice';
+import UserMenu from '../users/UserMenu';
 import AccountContactInfo from './AccountContactInfo';
 import AccountSettings from './AccountSettings';
 import { selectUserAccount } from './accountsSlice';
-import UserMenu from '../users/UserMenu';
-import { selectLoggedInUser } from '../auth/authSlice';
 
 const AccountDetail = () => {
 
@@ -21,7 +18,7 @@ const AccountDetail = () => {
   const user = useSelector(selectLoggedInUser);
 
   const individualTabs = [
-      {icon: <CreditCard />, title: 'Billing', href: '/account/billing', active: (pathname.startsWith('/account/billing'))},
+      // {icon: <CreditCard />, title: 'Billing', href: '/account/billing', active: (pathname.startsWith('/account/billing'))},
       {icon: <SettingsOption />, title: 'Account Settings', href: '/account/settings', active: (pathname === '/account/settings')},
   ]
 
@@ -42,11 +39,11 @@ const AccountDetail = () => {
         <Tabs tabs={tabs} />
         <Box style={{overflowY: "scroll"}}>
           <Switch>
-            <Route exact path="/account" component={AccountBilling} />
+            <Route exact path="/account" component={AccountSettings} />
             <Route exact path="/account/settings" component={AccountSettings} />
-            <Route path="/account/billing" component={AccountBilling} />
-            <Route exact path="/account/billing/creditcard" component={AccountCreditCard} />
-            <Route exact path="/account/billing/cancel" component={AccountCancel} />
+            {/* <Route path="/account/billing" component={AccountBilling} /> */}
+            {/* <Route exact path="/account/billing/creditcard" component={AccountCreditCard} /> */}
+            {/* <Route exact path="/account/billing/cancel" component={AccountCancel} /> */}
             <Route exact path="/account/contact" component={AccountContactInfo} />
           </Switch>
         </Box>
